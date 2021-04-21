@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-songpactauth-dev-00900-authRole",
+      "UnauthRoleArn": "arn:aws:iam::970816905424:role/amplify-songpactauth-dev-00900-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::970816905424:role/amplify-songpactauth-dev-00900-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-songpactauth-dev-00900-deployment",
+      "UnauthRoleName": "amplify-songpactauth-dev-00900-unauthRole",
+      "StackName": "amplify-songpactauth-dev-00900",
+      "StackId": "arn:aws:cloudformation:us-west-2:970816905424:stack/amplify-songpactauth-dev-00900/4f5929b0-a257-11eb-9abc-0240eccd6055",
+      "AmplifyAppId": "dnpz4xlh1izay"
+    },
+    "categories": {
+      "auth": {
+        "songpactauth91f00ba9": {}
+      }
+    }
+  }
+}

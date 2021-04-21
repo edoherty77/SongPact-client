@@ -6,14 +6,14 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 // import { getUser, listUsers } from './app/src/graphql/Queries'
 
 // AMPLIFY & AUTH
-// import Amplify, { API, Auth, graphqlOperation } from 'aws-amplify'
-// import awsconfig from './src/aws-exports'
-// Amplify.configure({
-//   ...awsconfig,
-//   Analytics: {
-//     disabled: true, // kills unhandled promise warning
-//   },
-// })
+import Amplify, { Auth } from 'aws-amplify'
+import awsconfig from './src/aws-exports'
+Amplify.configure({
+  ...awsconfig,
+  Analytics: {
+    disabled: true, // kills unhandled promise warning
+  },
+})
 
 // NAV
 import AuthNavigator from './app/navigation/AuthNavigator'
