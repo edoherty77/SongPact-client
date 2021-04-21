@@ -24,9 +24,9 @@ export default class UserModel {
       console.log(error)
     }
   }
-  static show = async (googleId) => {
+  static show = async (id) => {
     try {
-      const result = await axios.get(`${url}/users/${googleId}`)
+      const result = await axios.get(`${url}/users/${id}`)
       return result.data
     } catch (error) {
       console.log(error)
