@@ -7,13 +7,10 @@ import AppTextInput from '../../components/AppTextInput'
 import ContactButton from '../../components/ContactButton'
 import { observer } from 'mobx-react'
 
-// import { getUser, listUsers } from '../../../src/graphql/queries'
-// import { deleteFriend, updateUser } from '../../../src/graphql/mutations'
-// import { onCreateFriend } from '../../../src/graphql/subscriptions'
 import { API, Auth, graphqlOperation } from 'aws-amplify'
 import AppButton from '../../components/AppButton'
-import User from '../../stores/UserStore'
-
+import currentUser from '../../stores/UserStore'
+import UserModel from '../../api/users'
 const Contacts = ({ navigation }) => {
   const [friends, setFriends] = useState([])
   // const onMenuPress = async (person) => {
@@ -47,10 +44,21 @@ const Contacts = ({ navigation }) => {
   //   // console.log('MENUPRESS', person)
   // }
 
+  // const fetchFriends = async () => {
+  //   const userFriends = User.friends.items
+  //   setFriends(userFriends)
+  // }
+
   const fetchFriends = async () => {
-    const userFriends = User.friends.items
-    setFriends(userFriends)
+    const response = await UserModel.all()
+    const users = response.data
+    // console.log('users', users)
+    console.log('currentUser', currentUser)
   }
+
+  useEffect(() => {
+    fetchFriends()
+  }, [])
 
   // useEffect(() => {
   //   fetchFriends()
@@ -72,48 +80,44 @@ const Contacts = ({ navigation }) => {
   // }, [navigation])
 
   return (
-    // <Screen>
-    //   <Head title="Contacts" />
-    //   <Header
-    //     transparent={true}
-    //     searchBar
-    //     noshadow
-    //     rounded
-    //     width={300}
-    //     alignSelf="center"
-    //   >
-    //     <Item>
-    //       <Icon name="ios-search" />
-    //       <Input placeholder="Search" />
-    //       <Icon name="ios-people" />
-    //     </Item>
-    //     {/* <Button transparent>
-    //       <Text>Search</Text>
-    //     </Button> */}
-    //   </Header>
+    <Screen>
+      <Head title="Contacts" />
+      {/* <Header
+        transparent={true}
+        searchBar
+        noshadow
+        rounded
+        width={300}
+        alignSelf="center"
+      >
+        <Item>
+          <Icon name="ios-search" />
+          <Input placeholder="Search" />
+          <Icon name="ios-people" />
+        </Item>
+      </Header> */}
 
-    //   <View>
-    //     <FlatList
-    //       data={User.friends.items}
-    //       keyExtractor={(user) => user.id}
-    //       renderItem={({ item, index }) => (
-    //         <ContactButton
-    //           name={item.firstName + ' ' + item.lastName}
-    //           menuPress={() => onMenuPress(item)}
-    //           onPress={() => {
-    //             // setModalVisible(true)
-    //             // setFriendInfo(item)
-    //           }}
-    //         />
-    //       )}
-    //     />
-    //   </View>
-    //   <AppButton
-    //     title="Find an artist"
-    //     onPress={() => navigation.navigate('Find')}
-    //   />
-    // </Screen>
-    <Screen></Screen>
+      <View>
+        {/* <FlatList
+          data={User.friends.items}
+          keyExtractor={(user) => user.id}
+          renderItem={({ item, index }) => (
+            <ContactButton
+              name={item.firstName + ' ' + item.lastName}
+              menuPress={() => onMenuPress(item)}
+              onPress={() => {
+                // setModalVisible(true)
+                // setFriendInfo(item)
+              }}
+            />
+          )}
+        /> */}
+      </View>
+      <AppButton
+        title="Find an artist"
+        onPress={() => navigation.navigate('Find')}
+      />
+    </Screen>
   )
 }
 
