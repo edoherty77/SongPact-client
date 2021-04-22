@@ -2,14 +2,14 @@ const axios = require('axios')
 const url = 'http://192.168.1.8:4000/api/v1'
 
 export default class FriendRequestModel {
-  // static all = async () => {
-  //   try {
-  //     const allUsers = await axios.get(`${url}/users`)
-  //     return allUsers
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  static all = async (id) => {
+    try {
+      const allUsers = await axios.get(`${url}/friendRequests/${id}`)
+      return allUsers
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   static create = async (requestData) => {
     console.log('requestData', requestData)
@@ -22,6 +22,19 @@ export default class FriendRequestModel {
         body: JSON.stringify(requestData),
       })
       return newUser
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  static update = async (data) => {
+    console.log(data)
+    try {
+      const updatedRequest = await axios.put(
+        `${url}/friendRequests/${data.id}`,
+        data.values,
+      )
+      return updatedRequest
     } catch (error) {
       console.log(error)
     }

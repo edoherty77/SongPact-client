@@ -1,18 +1,74 @@
 import { observer } from 'mobx-react'
-import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, StyleSheet, FlatList } from 'react-native'
 import AppText from '../../components/AppText'
 import AppTextInput from '../../components/AppTextInput'
-
+import Screen from '../../components/Screen'
 import Header from '../../components/Header'
+import ContactButton from '../../components/ContactButton'
+import FriendRequestModel from '../../api/friendRequests'
+import UserModel from '../../api/users'
 import colors from '../../config/colors'
 import store from '../../stores/UserStore'
 
 const NotificationsScreen = observer(() => {
+  const [requesters, setRequesters] = useState('')
+  const [friendRequests, setFriendRequests] = useState('')
+
+  const fetchRequests = async () => {
+    let arr = []
+    try {
+      const response = await FriendRequestModel.all(store.id)
+      const requests = await response.data.friendRequests
+
+      requests.map(async (request) => {
+        let obj = {}
+        let requester = await UserModel.show(request.requester)
+        let requesterInfo = requester.user
+        obj['friendRequestId'] = request._id
+        obj['requesterInfo'] = requesterInfo
+        arr.push(obj)
+        await setFriendRequests([...arr])
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const answerRequest = async (id, requesterId) => {
+    let values = {
+      status: 2,
+      requester: requesterId,
+      recipient: store.id,
+    }
+    let data = { id, values }
+    await FriendRequestModel.update(data)
+  }
+
+  useEffect(() => {
+    fetchRequests()
+  }, [])
+
   return (
-    <View style={styles.notifications}>
+    <Screen>
       <Header title="Notifications" />
-    </View>
+      <FlatList
+        data={Object.values(friendRequests)}
+        keyExtractor={(user) => user.friendRequestId}
+        renderItem={({ item, index }) => (
+          <ContactButton
+            name={
+              item.requesterInfo.firstName + ' ' + item.requesterInfo.lastName
+            }
+            onPress={() => {
+              answerRequest(item.friendRequestId, item.requesterInfo._id)
+              // setModalVisible(true)
+              // setFriendInfo(item)
+            }}
+          />
+        )}
+      />
+    </Screen>
   )
 })
 
