@@ -17,35 +17,51 @@ import Amplify, { API, Auth, graphqlOperation } from 'aws-amplify'
 import config from '../../../src/aws-exports'
 Amplify.configure(config)
 import store from '../../stores/CreatePactStore'
-import user from '../../stores/UserStore'
+import currentUser from '../../stores/UserStore'
 import AppText from '../../components/AppText'
-
+import UserModel from '../../api/users'
 function ChooseCollabs({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false)
   const [foundUser, setFoundUser] = useState('')
+  const [friends, setFriends] = useState([])
+  console.log('current', currentUser)
+  // const setStoreUser = () => {
+  //   currentUser = {
+  //     firstName: user.firstName,
+  //     lastName: user.lastName,
+  //     userId: user.id,
+  //     artistName: user.artistName,
+  //   }
+  //   setFoundUser(currentUser)
+  // }
 
-  const setStoreUser = () => {
-    let currentUser = {
-      firstName: user.firstName,
-      lastName: user.lastName,
-      userId: user.id,
-      artistName: user.artistName,
-    }
-    setFoundUser(currentUser)
+  // useEffect(() => {
+  //   setStoreUser()
+  // }, [])
+
+  const fetchFriends = () => {
+    let arr = []
+    currentUser.friends.map(async (id) => {
+      const response = await UserModel.show(id)
+      const user = await response.user
+      arr.push(user)
+      await setFriends([...arr])
+      console.log('arr', arr)
+    })
   }
 
   useEffect(() => {
-    setStoreUser()
+    fetchFriends()
   }, [])
 
   const nextScreen = (values) => {
     try {
-      values.collabs.push(foundUser)
+      values.collabs.push(currentUser)
     } catch (err) {
       console.log(err)
     }
     // store.initBy(foundUser)
-    store.setCollabInfo(values, foundUser)
+    store.setCollabInfo(values, currentUser)
     navigation.navigate('Producer')
   }
 
@@ -65,7 +81,7 @@ function ChooseCollabs({ navigation }) {
 
   return (
     <Screen>
-      {/* <Head
+      <Head
         title="Collaborators"
         // icon="arrow-left-bold"
         // back={() => navigation.navigate('First')}
@@ -79,7 +95,7 @@ function ChooseCollabs({ navigation }) {
           {({ values, errors, handleSubmit }) => (
             <View style={styles.formView}>
               <View style={styles.inputView}>
-                <Header
+                {/* <Header
                   transparent={true}
                   searchBar
                   noshadow
@@ -92,7 +108,7 @@ function ChooseCollabs({ navigation }) {
                     <Input placeholder="Search" />
                     <Icon name="ios-people" />
                   </Item>
-                </Header>
+                </Header> */}
               </View>
               <View style={styles.addedCollabView}>
                 {values.collabs.length === 0 ? (
@@ -114,7 +130,7 @@ function ChooseCollabs({ navigation }) {
                       }}
                       style={styles.addedCollabsList}
                       data={values.collabs}
-                      keyExtractor={(collab) => collab.id}
+                      keyExtractor={(collab) => collab._id}
                       renderItem={({ item, index }) => (
                         <UserIcon
                           name={`collabs.${index}`}
@@ -131,8 +147,8 @@ function ChooseCollabs({ navigation }) {
                   {({ remove, push }) => (
                     <FlatList
                       style={styles.contactsList}
-                      data={user.friends.items}
-                      keyExtractor={(item) => item.userId}
+                      data={friends}
+                      keyExtractor={(item) => item._id}
                       renderItem={({ item }) => (
                         <ContactCheckBox
                           name={`collabs.${item.id}`}
@@ -178,7 +194,7 @@ function ChooseCollabs({ navigation }) {
           confirm={trashConfirm}
           deny={trashDeny}
         />
-      </View> */}
+      </View>
     </Screen>
   )
 }

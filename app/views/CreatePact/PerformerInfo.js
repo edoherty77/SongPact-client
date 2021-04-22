@@ -79,7 +79,7 @@ export default function PerformerInfo({ navigation }) {
                       // }}
                       style={styles.addedCollabsList}
                       data={values}
-                      keyExtractor={(performer) => performer.id}
+                      keyExtractor={(performer) => performer._id}
                       renderItem={({ item, index }) => (
                         <AppFormPercent
                           name={`${index}.publisherPercent`}

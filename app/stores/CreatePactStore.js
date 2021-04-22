@@ -13,7 +13,7 @@ class CreatePactStore {
   producer = {
     firstName: '',
     lastName: '',
-    userId: '',
+    _id: '',
     artistName: '',
     advancePercent: '',
     publisherPercent: '',
@@ -37,9 +37,9 @@ class CreatePactStore {
   setProducer(values) {
     //Find the one producer and add to object
     let foundProducer = this.collaborators.find(
-      (x) => x.userId === values.producer,
+      (x) => x._id === values.producer,
     )
-    this.producer.userId = foundProducer.userId
+    this.producer._id = foundProducer._id
     this.producer.artistName = foundProducer.artistName
     this.producer.firstName = foundProducer.firstName
     this.producer.lastName = foundProducer.lastName

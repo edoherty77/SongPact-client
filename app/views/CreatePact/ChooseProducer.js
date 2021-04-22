@@ -13,7 +13,7 @@ import { RadioButton } from 'react-native-paper'
 
 import { Formik, FieldArray } from 'formik'
 import store from '../../stores/CreatePactStore'
-import CurrentUser from '../../stores/UserStore'
+import currentUser from '../../stores/UserStore'
 
 import { SubmitButton } from '../../components/forms'
 import * as Yup from 'yup'
@@ -28,7 +28,7 @@ export default function ChooseProducer({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false)
   const [data, setData] = useState(null)
   const [value, setValue] = React.useState('')
-  console.log('CURRENT NIG', CurrentUser)
+  console.log('CURRENT NIG', currentUser)
   function setStoreData() {
     setData(store.collaborators)
   }
@@ -94,12 +94,12 @@ export default function ChooseProducer({ navigation }) {
                         // backgroundColor: 'red',
                         flex: 1,
                       }}
-                      keyExtractor={(data) => data.id}
+                      keyExtractor={(data) => data._id}
                       renderItem={({ item, index }) => (
                         <View style={styles.checkView}>
                           <RadioButton.Item
                             label={
-                              item.userId === CurrentUser.id
+                              item._id === currentUser._id
                                 ? 'Me'
                                 : `${item.firstName} ${item.lastName}`
                             }
@@ -107,7 +107,7 @@ export default function ChooseProducer({ navigation }) {
                             uncheckedColor="red"
                             color="brown"
                             name="producer"
-                            value={`${item.userId}`}
+                            value={`${item._id}`}
                           />
                         </View>
                       )}

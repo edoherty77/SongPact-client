@@ -12,6 +12,7 @@ import AppButton from '../../components/AppButton'
 import currentUser from '../../stores/UserStore'
 import UserModel from '../../api/users'
 const Contacts = ({ navigation }) => {
+  // console.log('friends', currentUser.friends)
   const [friends, setFriends] = useState([])
   // const onMenuPress = async (person) => {
   //   const foundFriend = await API.graphql(
@@ -44,16 +45,14 @@ const Contacts = ({ navigation }) => {
   //   // console.log('MENUPRESS', person)
   // }
 
-  // const fetchFriends = async () => {
-  //   const userFriends = User.friends.items
-  //   setFriends(userFriends)
-  // }
-
-  const fetchFriends = async () => {
-    const response = await UserModel.all()
-    const users = response.data
-    // console.log('users', users)
-    console.log('currentUser', currentUser)
+  const fetchFriends = () => {
+    let arr = []
+    currentUser.friends.map(async (id) => {
+      const response = await UserModel.show(id)
+      const user = await response.user
+      arr.push(user)
+      await setFriends([...arr])
+    })
   }
 
   useEffect(() => {
@@ -98,11 +97,12 @@ const Contacts = ({ navigation }) => {
       </Header> */}
 
       <View>
-        {/* <FlatList
-          data={User.friends.items}
+        <FlatList
+          data={friends}
           keyExtractor={(user) => user.id}
           renderItem={({ item, index }) => (
             <ContactButton
+              // name={item}
               name={item.firstName + ' ' + item.lastName}
               menuPress={() => onMenuPress(item)}
               onPress={() => {
@@ -111,7 +111,7 @@ const Contacts = ({ navigation }) => {
               }}
             />
           )}
-        /> */}
+        />
       </View>
       <AppButton
         title="Find an artist"

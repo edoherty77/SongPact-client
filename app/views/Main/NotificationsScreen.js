@@ -12,7 +12,6 @@ import colors from '../../config/colors'
 import store from '../../stores/UserStore'
 
 const NotificationsScreen = observer(() => {
-  const [requesters, setRequesters] = useState('')
   const [friendRequests, setFriendRequests] = useState('')
 
   const fetchRequests = async () => {

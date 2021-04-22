@@ -10,7 +10,7 @@ import UserModel from '../../api/users'
 import FriendRequestModel from '../../api/friendRequests'
 import AppButton from '../../components/AppButton'
 
-import store from '../../stores/UserStore'
+import currentUser from '../../stores/UserStore'
 import { observer } from 'mobx-react'
 import { get } from 'mobx'
 
@@ -26,7 +26,7 @@ const FindArtist = observer(({ navigation }) => {
       // console.log('GETUSERS', getUsers)
       const arr = getUsers.data.users
       let notCurrentUser = arr.filter(function (user) {
-        return user._id !== store.id
+        return user._id !== currentUser._id
       })
       setUsers(notCurrentUser)
       // console.log('NOT CURRENT', notCurrentUser)
@@ -53,7 +53,7 @@ const FindArtist = observer(({ navigation }) => {
   const addFriend = async (recipientId) => {
     console.log('id', recipientId)
     const obj = {
-      requester: store.id,
+      requester: currentUser._id,
       recipient: recipientId,
       status: 1,
     }

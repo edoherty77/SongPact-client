@@ -26,6 +26,7 @@ import * as Yup from 'yup'
 
 export default function ReviewAndSign({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false)
+  console.log('pact store', store)
 
   // const handleAddPact = async () => {
   // try {
@@ -223,7 +224,7 @@ export default function ReviewAndSign({ navigation }) {
           <View style={styles.data}>
             <FlatList
               data={store.performers}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item._id}
               renderItem={({ item, index }) => (
                 <View style={styles.dataBlock}>
                   <AppText style={styles.artistNameText}>

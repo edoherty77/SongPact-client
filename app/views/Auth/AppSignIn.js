@@ -30,7 +30,7 @@ const AppSignIn = observer(({ navigation, updateAuthState }) => {
       console.log('Success - Signed In!')
       console.log('auth username', data.username)
       store.setID(data.username)
-      console.log('store id', store.id)
+      console.log('store id', store._id)
       const currentUser = await UserModel.show(data.username)
 
       store.setUser(currentUser.user)

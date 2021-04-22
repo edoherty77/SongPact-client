@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 
 class UserStore {
-  id = ''
+  _id = ''
   firstName = ''
   lastName = ''
   artistName = ''
@@ -17,7 +17,7 @@ class UserStore {
 
   setID(id) {
     console.log('storing authenticated user ID')
-    this.id = id
+    this._id = id
     console.log('ID', id, 'stored!')
   }
 
@@ -55,7 +55,7 @@ class UserStore {
 
   resetUser() {
     console.log('resetting User in UserStore...')
-    this.id = ''
+    this._id = ''
     this.firstName = ''
     this.lastName = ''
     this.artistName = ''
