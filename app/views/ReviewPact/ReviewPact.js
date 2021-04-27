@@ -24,14 +24,23 @@ export default function ReviewAndSign({ route, navigation }) {
 
   useEffect(() => {
     if (pact !== undefined) {
-      console.log(pact)
+      console.log('currentPact', pact)
     }
   }, [])
+
+  const deletePact = async () => {
+    const obj = {
+      id: pact._id,
+      users: pact.users,
+    }
+    await PactModel.delete(obj)
+    console.log('trash')
+  }
 
   return (
     <Screen>
       <Header
-        back={() => navigation.navigate('RecordInfo')}
+        back={() => navigation.navigate('Dashboard')}
         icon="arrow-left-bold"
         title="Review"
       />
@@ -121,6 +130,14 @@ export default function ReviewAndSign({ route, navigation }) {
             title="Sign"
             style={styles.nextButton}
             onPress={signPact}
+          />
+        </View>
+        <View style={styles.iconView}>
+          <ButtonIcon
+            onPress={deletePact}
+            name="delete"
+            backgroundColor="transparent"
+            iconColor={colors.red}
           />
         </View>
       </ScrollView>

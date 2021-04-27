@@ -37,4 +37,17 @@ export default class PactModel {
       console.log(error)
     }
   }
+
+  static delete = async (pactData) => {
+    console.log('pactdata', pactData)
+    try {
+      const deletedPact = await axios.delete(
+        `${url}/pacts/${pactData.id}`,
+        pactData,
+      )
+      return deletedPact
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }

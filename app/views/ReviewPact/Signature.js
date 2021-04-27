@@ -21,7 +21,7 @@ export default function ReviewAndSign({ route, navigation }) {
 
   useEffect(() => {
     if (pact !== undefined) {
-      console.log(pact)
+      console.log('currentPact', pact.performers)
     }
   }, [])
 
@@ -38,6 +38,7 @@ export default function ReviewAndSign({ route, navigation }) {
     } catch (error) {
       console.log(error)
     }
+    await navigation.navigate('Dashboard')
   }
 
   const handleEmpty = () => {
