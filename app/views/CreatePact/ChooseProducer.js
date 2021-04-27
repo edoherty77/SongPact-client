@@ -30,7 +30,7 @@ export default function ChooseProducer({ navigation }) {
   const [value, setValue] = React.useState('')
   console.log('CURRENT NIG', currentUser)
   function setStoreData() {
-    setData(store.collaborators)
+    setData(store.users)
   }
 
   useEffect(() => {

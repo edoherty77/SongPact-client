@@ -16,8 +16,6 @@ const AppFormRadio = ({
 }) => {
   const { setFieldValue, handleChange, errors, touched } = useFormikContext()
   const [value, setValue] = useState('first')
-  const dick = { user }
-  console.log(value)
   return (
     <View>
       <RadioButton.Group

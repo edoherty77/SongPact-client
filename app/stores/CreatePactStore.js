@@ -7,14 +7,19 @@ class CreatePactStore {
   recordLabel = false
   labelName = ''
   collaborators = []
+  users = []
   recordTitle = ''
-  initBy = ''
+  initBy = {
+    userId: '',
+    status: 1,
+    firstName: '',
+    lastName: '',
+  }
   performers = []
   producer = {
     firstName: '',
     lastName: '',
     _id: '',
-    artistName: '',
     advancePercent: '',
     publisherPercent: '',
     royaltyPercent: '',
@@ -22,30 +27,36 @@ class CreatePactStore {
   }
 
   setCollabInfo(values, foundUser) {
-    console.log('fuck', values)
     //Set initBy value with foundUser
-    this.initBy = foundUser.artistName
+    this.initBy.userId = foundUser._id
+    this.initBy.firstName = foundUser.firstName
+    this.initBy.lastName = foundUser.lastName
+    this.users.push(foundUser)
     // console.log(this.collaborators, this.initBy)
 
-    //Find everyone involved in agreement and push in to collaborator array
+    //Find everyone else involved in agreement and push in to collaborator array
     const collabsArr = values.collabs
-    for (let i = 0; i < collabsArr.length; i++) {
-      this.collaborators.push(collabsArr[i])
-    }
+    collabsArr.map((collab) => {
+      let obj = {}
+      obj['status'] = 1
+      obj['user'] = collab._id
+      obj['firstName'] = collab.firstName
+      obj['lastName'] = collab.lastName
+      this.collaborators.push(obj)
+      this.users.push(collab)
+    })
   }
 
   setProducer(values) {
     //Find the one producer and add to object
-    let foundProducer = this.collaborators.find(
-      (x) => x._id === values.producer,
-    )
+    let foundProducer = this.users.find((x) => x._id === values.producer)
     this.producer._id = foundProducer._id
     this.producer.artistName = foundProducer.artistName
     this.producer.firstName = foundProducer.firstName
     this.producer.lastName = foundProducer.lastName
 
     //The rest must be performers. find and push into array
-    let foundPerformers = this.collaborators.filter(function (x) {
+    let foundPerformers = this.users.filter(function (x) {
       return x !== foundProducer
     })
 
@@ -91,18 +102,25 @@ class CreatePactStore {
   }
 
   resetPact() {
+    this.users = []
     this.recordTitle = ''
     this.pactId = ''
-    this.initBy = ''
+    this.initBy = {
+      userId: '',
+      status: 1,
+      firstName: '',
+      lastName: '',
+    }
     this.collaborators = []
     this.performers = []
     this.producer = {
-      userId: '',
-      artistName: '',
+      _id: '',
       advancePercent: '',
       publisherPercent: '',
       royaltyPercent: '',
       credit: '',
+      firstName: '',
+      lastName: '',
     }
   }
 }

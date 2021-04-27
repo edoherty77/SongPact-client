@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, FlatList } from 'react-native'
-// import { Header, Item, Icon, Input } from 'native-base'
+import { Header, Item, Icon, Input } from 'native-base'
 import Head from '../../components/Header'
 import Screen from '../../components/Screen'
 import colors from '../../config/colors'
@@ -22,22 +22,7 @@ import AppText from '../../components/AppText'
 import UserModel from '../../api/users'
 function ChooseCollabs({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false)
-  const [foundUser, setFoundUser] = useState('')
   const [friends, setFriends] = useState([])
-  console.log('current', currentUser)
-  // const setStoreUser = () => {
-  //   currentUser = {
-  //     firstName: user.firstName,
-  //     lastName: user.lastName,
-  //     userId: user.id,
-  //     artistName: user.artistName,
-  //   }
-  //   setFoundUser(currentUser)
-  // }
-
-  // useEffect(() => {
-  //   setStoreUser()
-  // }, [])
 
   const fetchFriends = () => {
     let arr = []
@@ -55,12 +40,6 @@ function ChooseCollabs({ navigation }) {
   }, [])
 
   const nextScreen = (values) => {
-    try {
-      values.collabs.push(currentUser)
-    } catch (err) {
-      console.log(err)
-    }
-    // store.initBy(foundUser)
     store.setCollabInfo(values, currentUser)
     navigation.navigate('Producer')
   }
@@ -95,7 +74,7 @@ function ChooseCollabs({ navigation }) {
           {({ values, errors, handleSubmit }) => (
             <View style={styles.formView}>
               <View style={styles.inputView}>
-                {/* <Header
+                <Header
                   transparent={true}
                   searchBar
                   noshadow
@@ -108,7 +87,7 @@ function ChooseCollabs({ navigation }) {
                     <Input placeholder="Search" />
                     <Icon name="ios-people" />
                   </Item>
-                </Header> */}
+                </Header>
               </View>
               <View style={styles.addedCollabView}>
                 {values.collabs.length === 0 ? (

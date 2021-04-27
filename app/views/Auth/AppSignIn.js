@@ -27,15 +27,10 @@ const AppSignIn = observer(({ navigation, updateAuthState }) => {
   async function signIn() {
     try {
       const data = await Auth.signIn(username, password)
-      console.log('Success - Signed In!')
-      console.log('auth username', data.username)
       store.setID(data.username)
-      console.log('store id', store._id)
       const currentUser = await UserModel.show(data.username)
 
       store.setUser(currentUser.user)
-      console.log('current user FROM Mongo', currentUser)
-      console.log('store', store)
       updateAuthState('loggedIn')
     } catch (err) {
       console.log('Error signing in...', err)

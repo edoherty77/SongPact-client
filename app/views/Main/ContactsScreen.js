@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, FlatList } from 'react-native'
-// import { Header, Item, Input, Icon } from 'native-base'
+import { Header, Item, Input, Icon } from 'native-base'
 import Head from '../../components/Header'
 import Screen from '../../components/Screen'
 import AppTextInput from '../../components/AppTextInput'
@@ -81,7 +81,7 @@ const Contacts = ({ navigation }) => {
   return (
     <Screen>
       <Head title="Contacts" />
-      {/* <Header
+      <Header
         transparent={true}
         searchBar
         noshadow
@@ -94,12 +94,12 @@ const Contacts = ({ navigation }) => {
           <Input placeholder="Search" />
           <Icon name="ios-people" />
         </Item>
-      </Header> */}
+      </Header>
 
       <View>
         <FlatList
           data={friends}
-          keyExtractor={(user) => user.id}
+          keyExtractor={(user) => user._id}
           renderItem={({ item, index }) => (
             <ContactButton
               // name={item}

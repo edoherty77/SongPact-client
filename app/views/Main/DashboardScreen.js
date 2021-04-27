@@ -9,33 +9,37 @@ import PactButton from '../../components/PactButton'
 import Pending from '../../components/UserPacts/Pending'
 import NeedsAction from '../../components/UserPacts/NeedsAction'
 import Closed from '../../components/UserPacts/Closed'
-// import { listPacts } from '../../../src/graphql/queries'
-// import { API, Auth, graphqlOperation } from 'aws-amplify'
-import AppText from '../../components/AppText'
 
+import AppText from '../../components/AppText'
+import currentUser from '../../stores/UserStore'
 import { observer } from 'mobx-react'
-// import { Tab, Tabs, TabHeading } from 'native-base'
+import { Tab, Tabs, TabHeading, DefaultTabBar } from 'native-base'
 
 const DashboardScreen = observer(() => {
   const [pacts, setPacts] = useState([])
 
-  // const findPacts = async () => {
-  //   const foundPacts = await API.graphql(graphqlOperation(listPacts))
-  //   console.log('PACTS', foundPacts)
-  // }
+  const findPacts = async () => {
+    // console.log('PACTS', currentUser.pacts)
+  }
+
+  const renderTabBar = (props) => {
+    props.tabStyle = Object.create(props.tabStyle)
+    return <DefaultTabBar {...props} />
+  }
 
   useEffect(() => {
-    // findPacts()
+    findPacts()
   }, [])
   return (
     <Screen>
-      {/* <Header
+      <Header
         title="Your Pacts"
         borderBottomColor="transparent"
         borderBottomWidth={0}
       />
       <View style={styles.tabView}>
         <Tabs
+          renderTabBar={renderTabBar}
           locked={true}
           initialPage={1}
           tabBarUnderlineStyle={{ backgroundColor: 'red' }}
@@ -123,7 +127,7 @@ const DashboardScreen = observer(() => {
             </AppText>
           </View>
         </View>
-      </View> */}
+      </View>
     </Screen>
   )
 })

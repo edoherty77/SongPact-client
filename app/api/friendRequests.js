@@ -12,7 +12,7 @@ export default class FriendRequestModel {
   }
 
   static create = async (requestData) => {
-    console.log('requestData', requestData)
+    // console.log('requestData', requestData)
     try {
       const newUser = await axios.post(`${url}/friendRequests`, {
         method: 'POST',

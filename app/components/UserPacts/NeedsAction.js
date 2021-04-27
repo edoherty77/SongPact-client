@@ -1,22 +1,24 @@
 import React from 'react'
 import { StyleSheet, View, FlatList } from 'react-native'
 import PactButton from '../PactButton'
-import CurrentUser from '../../stores/UserStore'
+import currentUser from '../../stores/UserStore'
 
 import AppText from '../AppText'
 
 const NeedsAction = () => {
-  // console.log('CURRENT USER FROM STORE', CurrentUser.pacts.items)
+  const pacts = currentUser.pacts
+  // console.log('CURRENT USER FROM STORE', currentUser.pacts)
   return (
     <View style={styles.mainView}>
       <FlatList
-        data={CurrentUser.pacts.items}
-        keyExtractor={(item) => item.id}
+        data={pacts}
+        keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => (
           <PactButton
-            type={item.id}
+            type={item.type}
             title={item.recordTitle}
-            name={item.initBy === CurrentUser.artistName ? 'Me' : item.initBy}
+            name={item.initBy.firstName}
+            status={item.status === 1 && 'Pending'}
           />
         )}
       />

@@ -9,9 +9,7 @@ import {
   Keyboard,
 } from 'react-native'
 import AppText from '../../../components/AppText'
-// import { API, graphqlOperation } from 'aws-amplify'
-
-// import { updateUser } from '../../../../src/graphql/mutations'
+import UserModel from '../../../api/users'
 import * as Yup from 'yup'
 import AppButton from '../../../components/AppButton'
 import { AppForm, AppFormField, SubmitButton } from '../../../components/forms'
@@ -32,16 +30,16 @@ const zip = store.zipCode.toString()
 
 const Edit = ({ navigation }) => {
   //Submit function to update item
-  // const handleEdit = async (values) => {
-  //   parseInt(values.zipCode)
-  //   values.id = store.id
-  //   values.firstName = store.firstName
-  //   values.lastName = store.lastName
-  //   values.email = store.email
-  //   store.setUser(values)
-  //   await API.graphql(graphqlOperation(updateUser, { input: values }))
-  //   navigation.navigate('Profile')
-  // }
+  const handleEdit = async (values) => {
+    parseInt(values.zipCode)
+    values.id = store._id
+    values.firstName = store.firstName
+    values.lastName = store.lastName
+    values.email = store.email
+    store.setUser(values)
+    await UserModel.update(values)
+    navigation.navigate('Profile')
+  }
   return (
     <Screen>
       <Header
@@ -66,7 +64,7 @@ const Edit = ({ navigation }) => {
                   artistName: store.artistName,
                   companyName: store.companyName,
                 }}
-                // onSubmit={(values) => handleEdit(values)}
+                onSubmit={(values) => handleEdit(values)}
                 validationSchema={validationSchema}
               >
                 <AppText style={styles.label}>Address</AppText>

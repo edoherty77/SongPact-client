@@ -16,14 +16,10 @@ class UserStore {
   notFriends = []
 
   setID(id) {
-    console.log('storing authenticated user ID')
     this._id = id
-    console.log('ID', id, 'stored!')
   }
 
   setUser(values) {
-    console.log('setting User in UserStore...')
-    console.log(values)
     this.firstName = values.firstName
     this.lastName = values.lastName
     this.artistName = values.artistName

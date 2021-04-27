@@ -5,130 +5,61 @@ import colors from '../../config/colors'
 import Screen from '../../components/Screen'
 import AppText from '../../components/AppText'
 import Header from '../../components/Header'
-import { Formik } from 'formik'
 import AppButton from '../../components/AppButton'
 import ButtonIcon from '../../components/ButtonIcon'
 import ConfirmModal from '../../components/ConfirmModal'
-// import { useFormState, useFormDispatch } from '../../context/form-context'
-import Amplify, { API, Auth, graphqlOperation } from 'aws-amplify'
-// import {
-//   createPact,
-//   createProducer,
-//   createPerformer,
-//   createUserPact,
-// } from '../../../src/graphql/mutations'
+import PactModel from '../../api/pacts'
 import config from '../../../src/aws-exports'
-Amplify.configure(config)
 import store from '../../stores/CreatePactStore'
 
 import { SubmitButton } from '../../components/forms'
-import * as Yup from 'yup'
 
 export default function ReviewAndSign({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false)
   console.log('pact store', store)
 
-  // const handleAddPact = async () => {
-  // try {
-  //   const newPact = await API.graphql(
-  //     graphqlOperation(createPact, {
-  //       input: {
-  //         type: store.type,
-  //         recordTitle: store.recordTitle,
-  //         initBy: store.initBy,
-  //         sample: store.sample,
-  //         labelName: store.labelName,
-  //         recordLabel: store.recordLabel,
-  //         createdAt: new Date().toISOString(),
-  //       },
-  //     }),
-  //   )
-  //   store.setPactId(newPact.data.createPact.id)
-  // } catch (error) {
-  //   console.log(error)
-  // }
+  const createPact = async () => {
+    let performArr = []
+    let usersArr = [store.producer._id]
+    try {
+      store.performers.map((performer) => {
+        let obj = {}
+        obj['userId'] = performer._id
+        obj['publisherPercent'] = parseInt(performer.publisherPercent)
+        obj['firstName'] = performer.firstName
+        obj['lastName'] = performer.lastName
+        performArr.push(obj)
+        usersArr.push(performer._id)
+      })
+      let obj = {
+        status: 1,
+        users: usersArr,
+        producer: {
+          userId: store.producer._id,
+          advancePercent: parseInt(store.producer.advancePercent),
+          royaltyPercent: parseInt(store.producer.royaltyPercent),
+          publisherPercent: parseInt(store.producer.publisherPercent),
+          credit: store.producer.credit,
+        },
+        type: store.type,
+        sample: store.sample,
+        recordLabel: store.recordLabel,
+        labelName: store.labelName,
+        recordTitle: store.recordTitle,
+        initBy: store.initBy,
+        collaborators: store.collaborators,
+        performers: performArr,
+      }
+      console.log('obj', obj)
+      await PactModel.create(obj)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-  // try {
-  //   for (let i = 0; i < store.performers.length; i++) {
-  //     console.log('performersID', store.performers[i].userId)
-  //     await API.graphql(
-  //       graphqlOperation(createPerformer, {
-  //         input: {
-  //           performerUserId: store.performers[i].userId,
-  //           performerPactId: store.pactId,
-  //           userId: store.performers[i].userId,
-  //           firstName: store.performers[i].firstName,
-  //           lastName: store.performers[i].lastName,
-  //           artistName: store.performers[i].artistName,
-  //           publisherPercent: parseInt(store.performers[i].publisherPercent),
-  //         },
-  //       }),
-  //     )
-  //   }
-  // } catch (error) {
-  //   console.log(error)
-  // }
-
-  // try {
-  //   for (let i = 0; i < store.performers.length; i++) {
-  //     console.log('USERPACTPERF', store.performers[i].userId)
-  //     await API.graphql(
-  //       graphqlOperation(createUserPact, {
-  //         input: {
-  //           userId: store.performers[i].userId,
-  //           userPactPactId: store.pactId,
-  //           userPactUserId: store.performers[i].userId,
-  //           pactId: store.pactId,
-  //           confirmed: false,
-  //         },
-  //       }),
-  //     )
-  //   }
-  // } catch (error) {
-  //   console.log(error)
-  // }
-
-  // try {
-  //   console.log('CREATEPROD', store.producer.userId)
-  //   await API.graphql(
-  //     graphqlOperation(createProducer, {
-  //       input: {
-  //         producerPactId: store.pactId,
-  //         producerUserId: store.producer.userId,
-  //         advancePercent: parseInt(store.producer.advancePercent),
-  //         royaltyPercent: parseInt(store.producer.royaltyPercent),
-  //         publisherPercent: parseInt(store.producer.publisherPercent),
-  //         credit: store.producer.credit,
-  //         userId: store.producer.userId,
-  //         artistName: store.producer.artistName,
-  //         firstName: store.producer.firstName,
-  //         lastName: store.producer.lastName,
-  //       },
-  //     }),
-  //   )
-  // } catch (error) {
-  //   console.log(error)
-  // }
-
-  // try {
-  //   await API.graphql(
-  //     graphqlOperation(createUserPact, {
-  //       input: {
-  //         userId: store.producer.userId,
-  //         userPactPactId: store.pactId,
-  //         userPactUserId: store.producer.userId,
-  //         pactId: store.pactId,
-  //         confirmed: false,
-  //       },
-  //     }),
-  //   )
-  // } catch (error) {
-  //   console.log(error)
-  // }
-
-  //   store.resetPact()
-  //   navigation.navigate('New')
-  // }
+  // useEffect(() => {
+  //   createPact()
+  // }, [])
 
   function trash() {
     setModalVisible(true)
@@ -143,15 +74,6 @@ export default function ReviewAndSign({ navigation }) {
     setModalVisible(false)
     navigation.navigate('New')
   }
-
-  // async function addPact(values) {
-  //   try {
-  //     await API.graphql(graphqlOperation(createPact, values))
-  //     console.log('pact successfully created.')
-  //   } catch (err) {
-  //     console.log('error creating pact...', err)
-  //   }
-  // }
 
   return (
     <Screen>
@@ -245,11 +167,11 @@ export default function ReviewAndSign({ navigation }) {
           <AppButton
             title="Sign and Send"
             style={styles.nextButton}
-            // onPress={handleAddPact}
+            onPress={createPact}
           />
           <View style={styles.iconView}>
             <ButtonIcon
-              // onPress={trash}
+              onPress={trash}
               name="delete"
               backgroundColor="transparent"
               iconColor={colors.red}
@@ -260,10 +182,10 @@ export default function ReviewAndSign({ navigation }) {
 
       <ConfirmModal
         text="Are you sure you'd like to delete?"
-        // onBackdropPress={() => setModalVisible(false)}
-        // isVisible={isModalVisible}
-        // confirm={trashConfirm}
-        // deny={trashDeny}
+        onBackdropPress={() => setModalVisible(false)}
+        isVisible={isModalVisible}
+        confirm={trashConfirm}
+        deny={trashDeny}
       />
     </Screen>
   )

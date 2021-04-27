@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, FlatList } from 'react-native'
-// import { Header, Item, Input, Icon } from 'native-base'
+import { Header, Item, Input, Icon } from 'native-base'
 import Head from '../../components/Header'
 import Screen from '../../components/Screen'
 import AppTextInput from '../../components/AppTextInput'
@@ -18,9 +18,10 @@ const FindArtist = observer(({ navigation }) => {
   const [users, setUsers] = useState('')
   const [friendInfo, setFriendInfo] = useState('')
   const [isModalVisible, setModalVisible] = useState(false)
-  // const currentUserFriends = store.friends.items
+  const currentUserFriends = currentUser.friends
 
   const findUsers = async () => {
+    console.log('ccurentFriends', currentUser.friends)
     try {
       const getUsers = await UserModel.all()
       // console.log('GETUSERS', getUsers)
@@ -28,14 +29,14 @@ const FindArtist = observer(({ navigation }) => {
       let notCurrentUser = arr.filter(function (user) {
         return user._id !== currentUser._id
       })
-      setUsers(notCurrentUser)
-      // console.log('NOT CURRENT', notCurrentUser)
+      // setUsers(notCurrentUser)
+      console.log('NOT CURRENT', notCurrentUser)
       // console.log('FRIENDS', currentUserFriends)
-      // const notFriends = notCurrentUser.filter(
-      //   (user) => !currentUserFriends.find(({ userId }) => user.id === userId),
-      // )
+      const notFriends = notCurrentUser.filter((user) =>
+        currentUserFriends.find(({ userId }) => user._id !== userId),
+      )
 
-      // setUsers(notFriends)
+      setUsers(notFriends)
     } catch (error) {
       console.log(error)
     }
@@ -66,7 +67,7 @@ const FindArtist = observer(({ navigation }) => {
   return (
     <Screen>
       <Head title="Find an Artist" />
-      {/* <Header
+      <Header
         transparent={true}
         searchBar
         noshadow
@@ -79,7 +80,7 @@ const FindArtist = observer(({ navigation }) => {
           <Input placeholder="Search" />
           <Icon name="ios-people" />
         </Item>
-      </Header> */}
+      </Header>
 
       <View>
         <FlatList

@@ -32,4 +32,14 @@ export default class UserModel {
       console.log(error)
     }
   }
+
+  static update = async (data) => {
+    console.log(data)
+    try {
+      const updatedUser = await axios.put(`${url}/users/${data.id}`, data)
+      return updatedUser
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
