@@ -15,16 +15,17 @@ import { SubmitButton } from '../../components/forms'
 
 export default function ReviewAndSign({ route, navigation }) {
   const [isModalVisible, setModalVisible] = useState(false)
+  const [pactObj, setPactObj] = useState('')
   const { pact } = route.params
-  const signPact = async () => {
-    navigation.navigate('Signature', {
+  const acceptPact = async () => {
+    navigation.navigate('ViewContract', {
       pact: pact,
     })
   }
 
   useEffect(() => {
     if (pact !== undefined) {
-      console.log('currentPact', pact)
+      console.log('currentPactStore', store.producer)
     }
   }, [])
 
@@ -35,6 +36,7 @@ export default function ReviewAndSign({ route, navigation }) {
     }
     await PactModel.delete(obj)
     console.log('trash')
+    navigation.navigate('Dashboard')
   }
 
   return (
@@ -127,14 +129,14 @@ export default function ReviewAndSign({ route, navigation }) {
         </View>
         <View style={styles.footer}>
           <AppButton
-            title="Sign"
+            title="Accept"
             style={styles.nextButton}
-            onPress={signPact}
+            onPress={acceptPact}
           />
         </View>
         <View style={styles.iconView}>
           <ButtonIcon
-            onPress={deletePact}
+            // onPress={deletePact}
             name="delete"
             backgroundColor="transparent"
             iconColor={colors.red}

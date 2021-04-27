@@ -36,6 +36,7 @@ function ChooseCollabs({ navigation }) {
   }
 
   useEffect(() => {
+    store.resetPact()
     fetchFriends()
   }, [])
 

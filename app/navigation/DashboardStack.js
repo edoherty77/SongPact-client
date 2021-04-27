@@ -2,7 +2,8 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import BottomTabs from './BottomTabs'
 import ReviewPact from '../views/ReviewPact/ReviewPact'
-import Signature from '../views/ReviewPact/Signature'
+import SignContract from '../views/ReviewPact/SignContract'
+import ViewContract from '../views/ReviewPact/ViewContract'
 
 const Stack = createStackNavigator()
 
@@ -18,7 +19,8 @@ export default function DashboardStack({ updateAuthState }) {
         )}
       </Stack.Screen>
       <Stack.Screen name="ReviewPact" component={ReviewPact} />
-      <Stack.Screen name="Signature" component={Signature} />
+      <Stack.Screen name="ViewContract" component={ViewContract} />
+      <Stack.Screen name="SignContract" component={SignContract} />
       {/* component={BottomTabs} /> */}
     </Stack.Navigator>
   )

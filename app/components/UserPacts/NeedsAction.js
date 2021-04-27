@@ -1,15 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, View, FlatList } from 'react-native'
 import PactButton from '../PactButton'
 import currentUser from '../../stores/UserStore'
+import PactStore from '../../stores/CreatePactStore'
 
 const NeedsAction = ({ navigation }) => {
   const pacts = currentUser.pacts
   const reviewPact = (pact) => {
+    PactStore.setPact(pact)
     navigation.navigate('ReviewPact', {
       pact: pact,
     })
   }
+
+  useEffect(() => {
+    PactStore.resetPact()
+  }, [])
+
   return (
     <View style={styles.mainView}>
       <FlatList

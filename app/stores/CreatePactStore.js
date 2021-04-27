@@ -10,7 +10,7 @@ class CreatePactStore {
   users = []
   recordTitle = ''
   initBy = {
-    userId: '',
+    user: '',
     status: 1,
     firstName: '',
     lastName: '',
@@ -19,16 +19,40 @@ class CreatePactStore {
   producer = {
     firstName: '',
     lastName: '',
-    _id: '',
+    user: '',
     advancePercent: '',
     publisherPercent: '',
     royaltyPercent: '',
     credit: '',
+    artistName: '',
+    companyName: '',
+    signatureImg: '',
+    address: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    email: '',
+  }
+
+  setPact(pact) {
+    console.log('pact', pact)
+    this.pactId = pact._id
+    this.labelName = pact.labelName
+    this.recordLabel = pact.recordLabel
+    this.sample = pact.sample
+    this.recordTitle = pact.recordTitle
+    this.initBy = pact.initBy
+    this.performers = pact.performers
+    this.producer = pact.producer
+  }
+
+  setSignature(sig) {
+    this.producer.signatureImg = sig
   }
 
   setCollabInfo(values, foundUser) {
     //Set initBy value with foundUser
-    this.initBy.userId = foundUser._id
+    this.initBy.user = foundUser._id
     this.initBy.firstName = foundUser.firstName
     this.initBy.lastName = foundUser.lastName
     this.users.push(foundUser)
@@ -42,6 +66,13 @@ class CreatePactStore {
       obj['user'] = collab._id
       obj['firstName'] = collab.firstName
       obj['lastName'] = collab.lastName
+      obj['artistName'] = collab.artistName
+      obj['companyName'] = collab.companyName
+      obj['address'] = collab.address
+      obj['city'] = collab.city
+      obj['state'] = collab.state
+      obj['zipCode'] = collab.zipCode
+      obj['email'] = collab.email
       this.collaborators.push(obj)
       this.users.push(collab)
     })
@@ -50,10 +81,16 @@ class CreatePactStore {
   setProducer(values) {
     //Find the one producer and add to object
     let foundProducer = this.users.find((x) => x._id === values.producer)
-    this.producer._id = foundProducer._id
+    this.producer.user = foundProducer._id
     this.producer.artistName = foundProducer.artistName
     this.producer.firstName = foundProducer.firstName
     this.producer.lastName = foundProducer.lastName
+    this.producer.companyName = foundProducer.companyName
+    this.producer.address = foundProducer.address
+    this.producer.city = foundProducer.city
+    this.producer.state = foundProducer.state
+    this.producer.zipCode = foundProducer.zipCode
+    this.producer.email = foundProducer.email
 
     //The rest must be performers. find and push into array
     let foundPerformers = this.users.filter(function (x) {
@@ -63,7 +100,6 @@ class CreatePactStore {
     for (let i = 0; i < foundPerformers.length; i++) {
       this.performers.push(foundPerformers[i])
     }
-    console.log('FOUNDPERFOM', this.performers)
   }
 
   setProducerInfo(values) {
@@ -71,19 +107,13 @@ class CreatePactStore {
     this.producer.royaltyPercent = parseInt(values.royaltyPercent)
     this.producer.publisherPercent = parseInt(values.publisherPercent)
     this.producer.credit = values.credit
-
-    console.log('producer', this.producer)
-    // console.log('performers', this.performers)
   }
 
   setPerformerInfo(values) {
     this.performers = []
-    // console.log('old', this.performers)
-
     for (let i = 0; i < values.length; i++) {
       this.performers.push(values[i])
     }
-    console.log('performers', this.performers)
   }
 
   setRecordInfo(values) {
@@ -106,7 +136,7 @@ class CreatePactStore {
     this.recordTitle = ''
     this.pactId = ''
     this.initBy = {
-      userId: '',
+      user: '',
       status: 1,
       firstName: '',
       lastName: '',
@@ -114,14 +144,24 @@ class CreatePactStore {
     this.collaborators = []
     this.performers = []
     this.producer = {
-      _id: '',
+      firstName: '',
+      lastName: '',
+      user: '',
       advancePercent: '',
       publisherPercent: '',
       royaltyPercent: '',
       credit: '',
-      firstName: '',
-      lastName: '',
+      artistName: '',
+      companyName: '',
+      address: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      email: '',
     }
+    sample = false
+    recordLabel = false
+    labelName = ''
   }
 }
 

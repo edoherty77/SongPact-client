@@ -20,27 +20,28 @@ export default function ReviewAndSign({ navigation }) {
 
   const createPact = async () => {
     let performArr = []
-    let usersArr = [store.producer._id]
+    let usersArr = [store.producer.user]
     try {
       store.performers.map((performer) => {
         let obj = {}
-        obj['userId'] = performer._id
+        obj['user'] = performer._id
         obj['publisherPercent'] = parseInt(performer.publisherPercent)
         obj['firstName'] = performer.firstName
         obj['lastName'] = performer.lastName
+        obj['companyName'] = performer.companyName
+        obj['artistName'] = performer.artistName
+        obj['address'] = performer.address
+        obj['city'] = performer.city
+        obj['state'] = performer.state
+        obj['zipCode'] = performer.zipCode
+        obj['email'] = performer.email
         performArr.push(obj)
         usersArr.push(performer._id)
       })
       let obj = {
         status: 1,
         users: usersArr,
-        producer: {
-          userId: store.producer._id,
-          advancePercent: parseInt(store.producer.advancePercent),
-          royaltyPercent: parseInt(store.producer.royaltyPercent),
-          publisherPercent: parseInt(store.producer.publisherPercent),
-          credit: store.producer.credit,
-        },
+        producer: store.producer,
         type: store.type,
         sample: store.sample,
         recordLabel: store.recordLabel,
@@ -50,8 +51,9 @@ export default function ReviewAndSign({ navigation }) {
         collaborators: store.collaborators,
         performers: performArr,
       }
-      console.log('obj', obj)
       await PactModel.create(obj)
+      store.resetPact()
+      navigation.navigate('New')
     } catch (error) {
       console.log(error)
     }

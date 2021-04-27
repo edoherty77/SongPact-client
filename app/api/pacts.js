@@ -29,7 +29,6 @@ export default class PactModel {
   }
 
   static update = async (data) => {
-    // console.log(data)
     try {
       const updatedPact = await axios.put(`${url}/pacts/${data.id}`, data)
       return updatedPact
