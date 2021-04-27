@@ -3,13 +3,10 @@ const axios = require('axios')
 
 export default class PactModel {
   static all = async () => {
-    // console.log('url', url)
-    // console.log('yo')
     try {
       const response = await fetch(`${url}/`)
       console.log('response', response)
       const pacts = await response.json()
-      console.log('pacts', pacts)
       return pacts
     } catch (error) {
       console.log(error)
@@ -17,7 +14,6 @@ export default class PactModel {
   }
 
   static create = async (pactData) => {
-    // console.log('pactData', pactData)
     try {
       const newPact = await axios.post(`${url}/pacts`, {
         method: 'POST',
@@ -27,6 +23,16 @@ export default class PactModel {
         body: JSON.stringify(pactData),
       })
       return newPact
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  static update = async (data) => {
+    // console.log(data)
+    try {
+      const updatedPact = await axios.put(`${url}/pacts/${data.id}`, data)
+      return updatedPact
     } catch (error) {
       console.log(error)
     }

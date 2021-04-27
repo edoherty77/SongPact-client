@@ -15,7 +15,7 @@ import currentUser from '../../stores/UserStore'
 import { observer } from 'mobx-react'
 import { Tab, Tabs, TabHeading, DefaultTabBar } from 'native-base'
 
-const DashboardScreen = observer(() => {
+const DashboardScreen = observer(({ navigation }) => {
   const [pacts, setPacts] = useState([])
 
   const findPacts = async () => {
@@ -65,7 +65,7 @@ const DashboardScreen = observer(() => {
               </TabHeading>
             }
           >
-            <NeedsAction />
+            <NeedsAction navigation={navigation} />
           </Tab>
           <Tab
             heading={

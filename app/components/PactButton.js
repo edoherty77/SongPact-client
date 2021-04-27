@@ -4,9 +4,9 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import AppText from './AppText'
 import colors from '../config/colors'
 
-const PactButton = ({ type, title, name, status }) => {
+const PactButton = ({ type, title, name, status, onPress }) => {
   return (
-    <TouchableOpacity style={styles.pactButton}>
+    <TouchableOpacity style={styles.pactButton} onPress={onPress}>
       <View style={styles.top}>
         <AppText
           style={[

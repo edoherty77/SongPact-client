@@ -3,11 +3,13 @@ import { StyleSheet, View, FlatList } from 'react-native'
 import PactButton from '../PactButton'
 import currentUser from '../../stores/UserStore'
 
-import AppText from '../AppText'
-
-const NeedsAction = () => {
+const NeedsAction = ({ navigation }) => {
   const pacts = currentUser.pacts
-  // console.log('CURRENT USER FROM STORE', currentUser.pacts)
+  const reviewPact = (pact) => {
+    navigation.navigate('ReviewPact', {
+      pact: pact,
+    })
+  }
   return (
     <View style={styles.mainView}>
       <FlatList
@@ -15,6 +17,7 @@ const NeedsAction = () => {
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => (
           <PactButton
+            onPress={() => reviewPact(item)}
             type={item.type}
             title={item.recordTitle}
             name={item.initBy.firstName}
@@ -32,9 +35,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     padding: 10,
     margin: 30,
-    // alignItems: 'center',
-    // justifyContent: 'flex-end',
-    // backgroundColor: 'red',
   },
   card: {
     backgroundColor: 'blue',
