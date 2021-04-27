@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 
 import colors from '../../config/colors'
 import Screen from '../../components/Screen'
@@ -10,7 +10,6 @@ import ButtonIcon from '../../components/ButtonIcon'
 import ConfirmModal from '../../components/ConfirmModal'
 import PactModel from '../../api/pacts'
 import pact from '../../stores/CreatePactStore'
-import Signature from 'react-native-signature-canvas'
 import currentUser from '../../stores/UserStore'
 import * as Print from 'expo-print'
 import * as MailComposer from 'expo-mail-composer'
@@ -18,82 +17,43 @@ import { WebView } from 'react-native-webview'
 import PDF from './PDF'
 import moment from 'moment'
 
-export default function ReviewAndSign({ route, navigation }) {
+export default function ReviewAndSign({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false)
-  const [newSignature, setSign] = useState(null)
-  // const { pact } = route.params
-
-  const date = moment().format('MMMM Do YYYY')
-  const performerHtml = []
-  const regardPpl = []
-  const sigStatement1 = []
-  const sigStatement2 = []
-  const perfNameHtml = []
-  const perfSignHtml = []
-  const perfSignature = []
-  const prodSignature = []
-  const firstBody = []
+  const htmlObj = {
+    date: moment().format('MMMM Do YYYY'),
+    perfAddress: [],
+    perfInfoSpan: [],
+    perfCompany: [],
+    perfNameDiv: [],
+    perfSignDiv: [],
+    perfSignature: [],
+    prodSignature: [],
+  }
 
   pact.performers.map((performer) => {
-    console.log('perf', performer)
-    let body1 = /*html*/ `
-      <div class="body">
-        The following, when duly signed by the parties hereto, sets forth the
-        agreement (the “Agreement”) between ${performer.companyName} f/so
-        ${pact.producer.firstName} ${pact.producer.lastName} p/k/a ${pact.producer.artistName} (hereinafter
-        referred to collectively as the “Producer”) and ${performer.companyName} f/s/o ${performer.firstName} ${performer.lastName}  p/k/a “${performer.artistName}” (hereinafter referred to collectively as the “Artist”) regarding
-        Producer’s non-exclusive services in connection with producing and
-        mixing one (1) master recording (the “Master”) embodying the
-        performances of Artist of the musical composition (“Composition”)
-        tentatively entitled “${pact.recordTitle}” . The Master is intended for
-        potential inclusion on Artist’s forthcoming album (the “Album”) to be
-        delivered by Artist to ${pact.labelName} or their successor (“Record
-        Company”) pursuant to the recording agreement between Artist and Record
-        Company dated as of ${date}, as amended
-        (the “Recording Agreement”). The parties acknowledge that only those
-        versions of the Master featuring the production or mixing, as
-        applicable, services of Producer shall constitute the Master hereunder.
-      </div>
-    `
-
-    let html = /*html*/ `
+    let performerAddress = /*html*/ `
       <div>${performer.companyName} f/s/o</div>
       <div>${performer.firstName} ${performer.lastName} p/k/a ${performer.artistName}</div>
       <div>${performer.address}</div>
       <div>${performer.city}, ${performer.state} ${performer.zipCode}</div>
       `
-    let regard = /*html*/ `
-      <div class='regard-ppl'>
-        ${performer.companyName} f/s/o ${performer.firstName} ${performer.lastName} p/k/a
-        "${performer.artistName}" / ${pact.producer.companyName}
-        f/s/o ${pact.producer.firstName} ${pact.producer.lastName}  p/k/a “${pact.producer.artistName}” - Producer Agreement
-      </div>
+    let performerInfo = /*html*/ `
+        <span>
+          ${performer.companyName} f/s/o ${performer.firstName} ${performer.lastName} p/k/a
+          "${performer.artistName}" /
+        </span>
       `
-    let statement1 = /*html*/ `
-      <div>
-        The undersigned: (a) agrees and accepts the above terms and
-        conditions for a producer agreement with ${pact.producer.companyName} f/s/o ${pact.producer.firstName} ${pact.producer.lastName} p/k/a “${pact.producer.artistName}” (b) assents to the execution of the agreement and agrees to
-        be bound by all of the terms and conditions thereof, and (c)
-        represents and warrants that ${performer.companyName} is in a
-        position to offer the services of the undersigned.
-      </div>
-      `
-
-    let statement2 = /*html*/ `
-        <div>
-          The undersigned: (a) agrees and accepts the above terms and
-          conditions for a producer agreement with ${performer.companyName} f/s/o ${performer.firstName} ${performer.lastName} p/k/a “${performer.artistName}”. (b) assents to the execution of the agreement and agrees to
-          be bound by all of the terms and conditions thereof, and (c)
-          represents and warrants that ${pact.producer.companyName} is in a
-          position to offer the services of the undersigned.
-        </div>
+    let performerCompany = /*html*/ `
+        <span>
+          ${performer.companyName}
+        </span>
       `
 
     let perfName = /*html*/ `
-        <div class="performer-name">${performer.firstName} ${performer.lastName} </div>
+        <div class="legal-name">${performer.firstName} ${performer.lastName} </div>
       `
 
-    let perfSign = /*html*/ `
+    let perfSigHeader = /*html*/ `
         <div>${performer.companyName} f/s/o</div>
         <div>${performer.firstName} ${performer.lastName} p/k/a</div>
         <div>“${performer.artistName}”</div>
@@ -106,29 +66,16 @@ export default function ReviewAndSign({ route, navigation }) {
       <img class='signature-img' src="${pact.producer.signatureImg}"/>
     `
 
-    firstBody.push(body1)
-    performerHtml.push(html)
-    regardPpl.push(regard)
-    sigStatement1.push(statement1)
-    sigStatement2.push(statement2)
-    perfNameHtml.push(perfName)
-    perfSignHtml.push(perfSign)
-    perfSignature.push(perfSig)
-    prodSignature.push(prodSig)
+    htmlObj.perfAddress.push(performerAddress)
+    htmlObj.perfInfoSpan.push(performerInfo)
+    htmlObj.perfCompany.push(performerCompany)
+    htmlObj.perfNameDiv.push(perfName)
+    htmlObj.perfSignDiv.push(perfSigHeader)
+    htmlObj.perfSignature.push(perfSig)
+    htmlObj.prodSignature.push(prodSig)
   })
 
-  const generateHTML = (
-    date,
-    firstBody,
-    performerHtml,
-    regardPpl,
-    sigStatement1,
-    sigStatement2,
-    perfNameHtml,
-    perfSignHtml,
-    prodSignature,
-    perfSignature,
-  ) => {
+  const generateHTML = (htmlObj) => {
     return /*html*/ `
     <!DOCTYPE html>
     <html lang="en">
@@ -145,54 +92,29 @@ export default function ReviewAndSign({ route, navigation }) {
             padding: 20px;
           }
   
-          .perf-header {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-          }
-  
-          .date {
-            display: flex;
-            justify-content: flex-end;
-            margin: 10px 0;
-          }
-  
-          .prod-header {
-            font-weight: normal;
-          }
-  
-          .regard-to {
-            /* background-color: red; */
+          .regard-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 10px 0;
-          }
-  
-          .regard-content {
-            /* background-color: seashell; */
-            display: flex;
-            justify-content: space-between;
-            width: 80%;
+            margin: 20px 0;
             font-weight: bold;
           }
   
-          .regard-ppl {
-            margin-left: 100px;
+          .re {
+            padding-left: 15px; 
+          }
+
+          .regard-content {
+            display: flex;
           }
   
-          .greeting {
-            margin: 15px 0;
+          .regard-ppl {
+            margin-left: 30px;
           }
   
           .body {
             text-indent: 30px;
             margin: 10px 0;
-          }
-  
-          .body-header {
-            /* font-weight: bold; */
           }
   
           .body-title {
@@ -210,40 +132,18 @@ export default function ReviewAndSign({ route, navigation }) {
             margin-right: 20px;
           }
   
-          .body-sub-info {
-            display: flex;
-            justify-content: center;
-            margin-top: 10px;
-          }
   
           table,
           th,
           td {
             border: 1px solid black;
             border-collapse: collapse;
-            padding: 5px;
-            /* margin: 20px; */
-          }
-  
-          .signature-page {
-            display: flex;
-            flex-direction: column;
           }
   
           .signature-header {
             text-indent: 30px;
             margin: 10px 0;
           }
-  
-          .signature-closing {
-            display: flex;
-            justify-content: center;
-            margin: 15px;
-          }
-  
-          /* .signature-img {
-            display: none;
-          } */
   
           .signature-img {
             display: block;
@@ -253,68 +153,88 @@ export default function ReviewAndSign({ route, navigation }) {
             outline: none;
             text-decoration: none;
           }
-  
-          .performer-section {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            /* justify-content: flex-end; */
-            margin: 10px 0;
+
+          .div {
+            margin: 15px 0;
           }
-  
-          .performer-name-div {
+
+          .flex {
+            display: flex;
+          }
+
+          .flex-start {
+            display: flex;
+            justify-content: flex-start;
+            margin: 35px 0;
+          }
+
+          .flex-center {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+          }
+
+          .flex-center {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+          }
+
+          .flex-end {
             display: flex;
             margin: 10px 0;
             justify-content: flex-end;
           }
   
-          .performer-name {
+          .legal-name {
             width: fit-content;
-            border-top: 1px solid #000;
-            margin-top: 50px;
-          }
-  
-          .agreed {
-            margin: 15px 0;
-          }
-  
-          .signature {
-            display: flex;
-            justify-content: flex-start;
-            margin: 35px 0;
-          }
-  
-          .producer-name {
-            width: fit-content;
-            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
             margin-top: 50px;
           }
         </style>
       </head>
   
       <body>
-        <div class="perf-header">
-          ${performerHtml}
+        <div class="flex-center" style='flex-direction:column; align-items:center'>
+          ${htmlObj.perfAddress}
         </div>
-        <div class="date">
-          <div>Date as of: ${date}</div>
+        <div class="flex-end">
+          <div>Date as of: ${htmlObj.date}</div>
         </div>
-        <div class="prod-header">
+        <div class="div">
           <div>${pact.producer.companyName} f/s/o</div>
           <div>${pact.producer.firstName} ${pact.producer.lastName} p/k/a ${pact.producer.artistName}</div>
           <div>${pact.producer.address}</div>
           <div>${pact.producer.city}, ${pact.producer.state} ${pact.producer.zipCode} </div>
         </div>
-        <div class="regard-to">
+        <div class="regard-container">
           <div class="regard-content">
-            <div>Re:</div>
-              ${regardPpl}
+            <div class='re'>Re:</div>
+            <div class='regard-ppl'>
+                ${htmlObj.perfInfoSpan} ${pact.producer.companyName} f/s/o ${pact.producer.firstName} ${pact.producer.lastName}  p/k/a “${pact.producer.artistName}” - Producer Agreement
+            </div>
           </div>
         </div>
-        <div class="greeting">
+        <div class="div">
           <div>Gentlepersons:</div>
         </div>
-        ${firstBody}
+        <div class="body">
+        The following, when duly signed by the parties hereto, sets forth the
+        agreement (the “Agreement”) between ${pact.producer.companyName} f/so
+        ${pact.producer.firstName} ${pact.producer.lastName} p/k/a ${pact.producer.artistName} (hereinafter
+        referred to collectively as the “Producer”) and ${htmlObj.perfInfoSpan} (hereinafter referred to collectively as the “Artist”) regarding
+        Producer’s non-exclusive services in connection with producing and
+        mixing one (1) master recording (the “Master”) embodying the
+        performances of Artist of the musical composition (“Composition”)
+        tentatively entitled “${pact.recordTitle}” . The Master is intended for
+        potential inclusion on Artist’s forthcoming album (the “Album”) to be
+        delivered by Artist to ${pact.labelName} or their successor (“Record
+        Company”) pursuant to the recording agreement between Artist and Record
+        Company dated as of ${htmlObj.date}, as amended
+        (the “Recording Agreement”). The parties acknowledge that only those
+        versions of the Master featuring the production or mixing, as
+        applicable, services of Producer shall constitute the Master hereunder.
+      </div>
         <div class="body">
           1. <span class="body-title">Recording Procedure. </span> All recording
           and mixing shall be conducted according to the mutually agreed upon
@@ -372,7 +292,7 @@ export default function ReviewAndSign({ route, navigation }) {
           release the Master on the Album or any other phonograph records.
         </div>
         <div class="body">
-          <div class="body-header">
+          <div class="flex">
             3. <span class="body-title">Royalties</span>
           </div>
           <div class="body-sub">
@@ -432,7 +352,7 @@ export default function ReviewAndSign({ route, navigation }) {
           </div>
         </div>
         <div class="body">
-          <div class="body-header">
+          <div class="flex">
             4. <span class="body-title">Accounting</span>
           </div>
           <div class="body-sub">
@@ -514,7 +434,7 @@ export default function ReviewAndSign({ route, navigation }) {
           the Master.
         </div>
         <div class="body">
-          <div class="body-header">
+          <div class="flex">
             6. <span class="body-title">Name & Likeness / Credit.</span>
           </div>
           <div class="body-sub">
@@ -541,7 +461,7 @@ export default function ReviewAndSign({ route, navigation }) {
             credit policies and practices, to accord credit with respect to the
             Master produced and delivered in accordance with the material terms
             and provisions hereof substantially in the form:
-            <div class="body-sub-info">
+            <div class="flex-center">
               <div>“Produced by: ${pact.producer.artistName}.”</div>
             </div>
           </div>
@@ -574,14 +494,14 @@ export default function ReviewAndSign({ route, navigation }) {
           </div>
         </div>
         <div class="body">
-          <div class="body-header">
+          <div class="flex">
             7. <span class="body-title">Songwriting/Music Publishing.</span>
           </div>
           <div class="body-sub">
             <span class="sub-letter">(a)</span> The parties hereby acknowledge and
             agree that the copyright interests and authorship of the Composition
             shall be allocated as follows:
-            <div class="body-sub-info">
+            <div class="flex-center">
               <table>
                 <thead>
                   <th>Writer</th>
@@ -641,7 +561,7 @@ export default function ReviewAndSign({ route, navigation }) {
           hereunder.
         </div>
         <div class="body">
-          <div class="body-header">
+          <div class="flex">
             9.
             <span class="body-title"
               >Representations & Warranties / Indemnity.</span
@@ -717,7 +637,7 @@ export default function ReviewAndSign({ route, navigation }) {
           </div>
         </div>
         <div class="body">
-          <div class="body-header">
+          <div class="flex">
             10. <span class="body-title">Miscellaneous</span>.
           </div>
           <div class="body-sub">
@@ -817,30 +737,36 @@ export default function ReviewAndSign({ route, navigation }) {
             one and the same fully binding Agreement.
           </div>
         </div>
-        <div class="signature-page">
+        <div class="flex" style='flex-direction:column'>
           <div class="signature-header">
             If the foregoing accurately sets forth your and our agreement, then
             please sign this letter in the space provided below.
           </div>
-          <div class="signature-closing">Sincerely,</div>
-          <div class="performer-section">
+          <div class="flex-center">Sincerely,</div>
+          <div class="flex-end" style='flex-direction:column'>
             <div class="perf-info">
-             ${perfSignHtml}
+             ${htmlObj.perfSignDiv}
             </div>
             <div class="signature">
               <div>By:</div>
-              <div>${perfSignature}</div>
+              <div>${htmlObj.perfSignature}</div>
             </div>
           </div>
           <div class="signature-statement">
-            ${sigStatement1}
+          <div>
+            The undersigned: (a) agrees and accepts the above terms and
+            conditions for a producer agreement with ${pact.producer.companyName} f/s/o ${pact.producer.firstName} ${pact.producer.lastName} p/k/a “${pact.producer.artistName}” (b) assents to the execution of the agreement and agrees to
+            be bound by all of the terms and conditions thereof, and (c)
+            represents and warrants that ${htmlObj.perfCompany} is in a
+            position to offer the services of the undersigned.
+        </div>
           </div>
-          <div class="performer-name-div">
-            ${perfNameHtml}
+          <div class="flex-end">
+            ${htmlObj.perfNameDiv}
           </div>
         </div>
           </div>
-          <div class="agreed">
+          <div class="div">
             <div>AGREED TO AND ACCEPTED:</div>
           </div>
           <div class="producer-section">
@@ -849,16 +775,22 @@ export default function ReviewAndSign({ route, navigation }) {
               <div>
               ${pact.producer.firstName} ${pact.producer.lastName} p/k/a “${pact.producer.artistName}”
               </div>
-              <div class="signature">
+              <div class="flex-start">
                 <div>By: </div>
-                <div>${prodSignature}</div>
+                <div>${htmlObj.prodSignature}</div>
               </div>
             </div>
           </div>
           <div class="signature-statement">
-            ${sigStatement2}
+          <div>
+            The undersigned: (a) agrees and accepts the above terms and
+            conditions for a producer agreement with ${htmlObj.perfInfoSpan}. (b) assents to the execution of the agreement and agrees to
+            be bound by all of the terms and conditions thereof, and (c)
+            represents and warrants that ${pact.producer.companyName} is in a
+            position to offer the services of the undersigned.
+        </div>
           </div>
-          <div class="producer-name">${pact.producer.firstName} ${pact.producer.lastName}</div>
+          <div class="legal-name">${pact.producer.firstName} ${pact.producer.lastName}</div>
         </div>
       </body>
     </html>
@@ -888,33 +820,22 @@ export default function ReviewAndSign({ route, navigation }) {
 
   const generateEmail = async (signature) => {
     if (currentUser._id === pact.producer.user) {
-      prodSignature.length = 0
+      htmlObj.prodSignature.length = 0
       let newProd = /*html*/ `
         <img class='signature-img' src="${signature}"/>
       `
-      prodSignature.push(newProd)
+      htmlObj.prodSignature.push(newProd)
     } else {
-      perfSignature.length = 0
+      htmlObj.perfSignature.length = 0
       let newPerf = /*html*/ `
         <img class='signature-img' src="${signature}"/>
       `
-      perfSignature.push(newPerf)
+      htmlObj.perfSignature.push(newPerf)
     }
 
     try {
       const { uri } = await Print.printToFileAsync({
-        html: generateHTML(
-          date,
-          firstBody,
-          performerHtml,
-          regardPpl,
-          sigStatement1,
-          sigStatement2,
-          perfNameHtml,
-          perfSignHtml,
-          prodSignature,
-          perfSignature,
-        ),
+        html: generateHTML(htmlObj),
       })
       await MailComposer.composeAsync({
         attachments: [uri],
@@ -944,18 +865,7 @@ export default function ReviewAndSign({ route, navigation }) {
       <WebView
         originWhitelist={['*']}
         source={{
-          html: generateHTML(
-            date,
-            firstBody,
-            performerHtml,
-            regardPpl,
-            sigStatement1,
-            sigStatement2,
-            perfNameHtml,
-            perfSignHtml,
-            prodSignature,
-            perfSignature,
-          ),
+          html: generateHTML(htmlObj),
         }}
       />
       <View style={styles.footer}>
