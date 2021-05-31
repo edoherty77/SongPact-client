@@ -33,7 +33,7 @@ const DashboardScreen = observer(({ navigation }) => {
   return (
     <Screen>
       <Header
-        title="Your Pacts"
+        title="Your pacts"
         borderBottomColor="transparent"
         borderBottomWidth={0}
       />
@@ -48,13 +48,7 @@ const DashboardScreen = observer(({ navigation }) => {
         >
           <Tab
             heading={
-              <TabHeading
-                style={{ backgroundColor: colors.background }}
-                activeTextStyle={{
-                  fontWeight: 'bold',
-                  fontSize: 40,
-                }}
-              >
+              <TabHeading style={{ backgroundColor: colors.background }}>
                 <AppText>Drafts</AppText>
               </TabHeading>
             }
@@ -62,8 +56,16 @@ const DashboardScreen = observer(({ navigation }) => {
             <Pending />
           </Tab>
           <Tab
+            activeTextStyle={{
+              fontWeight: 'bold',
+              fontSize: 80,
+              color: colors.green,
+            }}
             heading={
-              <TabHeading style={{ backgroundColor: colors.background }}>
+              <TabHeading
+                style={{ backgroundColor: colors.background }}
+                textStyle={{ fontSize: 80 }}
+              >
                 <AppText>Needs Action</AppText>
               </TabHeading>
             }

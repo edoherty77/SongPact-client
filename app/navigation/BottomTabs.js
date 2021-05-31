@@ -109,7 +109,7 @@ export default function BottomTabs({ updateAuthState }) {
       <Tab.Screen
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="menu" color={color} size={30} />
+            <MaterialCommunityIcons name="message" color={color} size={30} />
           ),
 
           // tabBarLabel: 'Menu',

@@ -19,12 +19,9 @@ const Header = ({
   ...otherProps
 }) => {
   return (
-    <SafeAreaView
-      style={[styles.screenContainer, { borderBottomColor, borderBottomWidth }]}
-      // onPress={onPress}
-    >
+    <SafeAreaView>
       <View style={styles.appHeader}>
-        <View
+        {/* <View
           style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}
         >
           {icon && (
@@ -35,8 +32,8 @@ const Header = ({
               color="#42C1FC"
             />
           )}
-        </View>
-        <View style={{ alignItems: 'center', flex: 5 }}>
+        </View> */}
+        <View style={styles.titleContainer}>
           <AppText style={styles.screenName}>{title}</AppText>
         </View>
 
@@ -44,9 +41,9 @@ const Header = ({
           <ButtonIcon
             onPress={iconPress}
             style={styles.messageBtn}
-            iconColor={colors.red}
+            iconColor={colors.black}
             size={45}
-            name={name}
+            name="menu"
             backgroundColor="transparent"
             {...otherProps}
           />
@@ -57,19 +54,18 @@ const Header = ({
 }
 
 const styles = StyleSheet.create({
-  screenContainer: {
-    backgroundColor: colors.background,
-    // borderBottomColor: 'black',
-    elevation: 1,
-    borderBottomWidth: 0.4,
-  },
   appHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 20,
+    paddingLeft: 25,
+    paddingRight: 25,
+  },
+  titleContainer: {
+    display: 'flex',
+    justifyContent: 'center',
   },
   screenName: {
-    fontSize: 40,
+    fontSize: 22,
     color: colors.black,
     // fontWeight: "bold",
   },

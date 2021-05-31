@@ -65,9 +65,11 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: 'bold',
     fontSize: 18,
+    marginBottom: 4,
   },
   text: {
     fontSize: 14,
+    marginBottom: 4,
   },
   right: {
     display: 'flex',
