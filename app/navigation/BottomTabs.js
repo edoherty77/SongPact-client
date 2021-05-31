@@ -27,9 +27,10 @@ export default function BottomTabs({ updateAuthState }) {
           marginTop: 0,
           borderTopColor: 'black',
           display: 'flex',
+          backgroundColor: colors.black,
         },
-        activeTintColor: colors.red,
-        inactiveTintColor: colors.black,
+        activeTintColor: colors.green,
+        inactiveTintColor: colors.white,
         labelStyle: {
           display: 'flex',
           fontSize: 10,
@@ -78,8 +79,15 @@ export default function BottomTabs({ updateAuthState }) {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="plus-circle"
-              color={color}
-              size={30}
+              color={colors.green}
+              size={55}
+              style={{
+                position: 'absolute',
+                top: -30,
+                // backgroundColor: 'white',
+                borderRadius: 300,
+                backgroundColor: 'transparent',
+              }}
             />
           ),
           // tabBarLabel: '',

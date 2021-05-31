@@ -3,6 +3,7 @@ import { StyleSheet, View, FlatList } from 'react-native'
 import PactButton from '../PactButton'
 import currentUser from '../../stores/UserStore'
 import PactStore from '../../stores/CreatePactStore'
+import colors from '../../config/colors'
 
 const NeedsAction = ({ navigation }) => {
   const pacts = currentUser.pacts
@@ -40,8 +41,9 @@ const styles = StyleSheet.create({
   mainView: {
     flex: 1,
     display: 'flex',
-    padding: 10,
-    margin: 30,
+    padding: 20,
+    // margin: 30,
+    backgroundColor: colors.background,
   },
   card: {
     backgroundColor: 'blue',

@@ -42,17 +42,20 @@ const DashboardScreen = observer(({ navigation }) => {
           renderTabBar={renderTabBar}
           locked={true}
           initialPage={1}
-          tabBarUnderlineStyle={{ backgroundColor: 'red' }}
-          tabContainerStyle={{ borderColor: 'black' }}
+          tabBarUnderlineStyle={{
+            backgroundColor: colors.green,
+          }}
         >
           <Tab
-            // tabStyle={{ backgroundColor: 'blue' }}
             heading={
               <TabHeading
-                style={{ backgroundColor: colors.gray }}
-                activeTextStyle={{ fontWeight: 'bold', fontSize: 40 }}
+                style={{ backgroundColor: colors.background }}
+                activeTextStyle={{
+                  fontWeight: 'bold',
+                  fontSize: 40,
+                }}
               >
-                <AppText>Pending</AppText>
+                <AppText>Drafts</AppText>
               </TabHeading>
             }
           >
@@ -60,7 +63,7 @@ const DashboardScreen = observer(({ navigation }) => {
           </Tab>
           <Tab
             heading={
-              <TabHeading style={{ backgroundColor: colors.gray }}>
+              <TabHeading style={{ backgroundColor: colors.background }}>
                 <AppText>Needs Action</AppText>
               </TabHeading>
             }
@@ -69,8 +72,17 @@ const DashboardScreen = observer(({ navigation }) => {
           </Tab>
           <Tab
             heading={
-              <TabHeading style={{ backgroundColor: colors.gray }}>
-                <AppText>Closed</AppText>
+              <TabHeading style={{ backgroundColor: colors.background }}>
+                <AppText>Pending</AppText>
+              </TabHeading>
+            }
+          >
+            <Closed />
+          </Tab>
+          <Tab
+            heading={
+              <TabHeading style={{ backgroundColor: colors.background }}>
+                <AppText>Archived</AppText>
               </TabHeading>
             }
           >
@@ -78,79 +90,16 @@ const DashboardScreen = observer(({ navigation }) => {
           </Tab>
         </Tabs>
       </View>
-      <View style={styles.contactsView}>
-        <View style={styles.contactText}>
-          <AppText
-            style={{ marginBottom: 5 }}
-            fontWeight={'bold'}
-            fontSize={20}
-            color={colors.black}
-          >
-            Recent Contacts:
-          </AppText>
-          <AppText
-            onPress={() => navigation.navigate('Contacts')}
-            color={colors.red}
-          >
-            See All
-          </AppText>
-        </View>
-        <View style={styles.contactList}>
-          <View style={styles.circle}>
-            <AppText
-              fontWeight="bold"
-              fontSize={25}
-              color={colors.red}
-              style={styles.initials}
-            >
-              ED
-            </AppText>
-          </View>
-          <View style={styles.circle}>
-            <AppText
-              fontWeight="bold"
-              fontSize={25}
-              color={colors.red}
-              style={styles.initials}
-            >
-              KT
-            </AppText>
-          </View>
-          <View style={styles.circle}>
-            <AppText
-              fontWeight="bold"
-              fontSize={25}
-              color={colors.red}
-              style={styles.initials}
-            >
-              RJ
-            </AppText>
-          </View>
-        </View>
-      </View>
     </Screen>
   )
 })
 
 const styles = StyleSheet.create({
-  options: {
-    flex: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  optionsText: {
-    fontWeight: 'bold',
-    color: colors.red,
-    // fontFamily: 'Courier',
-  },
   tabView: {
     flex: 6,
   },
   pactList: {
     padding: 10,
-    // backgroundColor: 'black',
     marginLeft: 10,
     marginRight: 10,
     elevation: 1,

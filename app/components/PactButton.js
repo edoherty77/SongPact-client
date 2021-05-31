@@ -7,41 +7,18 @@ import colors from '../config/colors'
 const PactButton = ({ type, title, name, status, onPress }) => {
   return (
     <TouchableOpacity style={styles.pactButton} onPress={onPress}>
-      <View style={styles.top}>
-        <AppText
-          style={[
-            styles.text,
-            { fontWeight: 'bold', color: colors.red, fontSize: 25 },
-          ]}
-        >
-          {title}
-        </AppText>
-        <AppText style={styles.text}>
-          Type:{' '}
-          <AppText
-            style={[styles.text, { fontWeight: 'bold', color: colors.red }]}
-          >
-            {type}
-          </AppText>
-        </AppText>
+      <View style={styles.left}>
+        <View style={styles.status}></View>
       </View>
-      <View style={styles.bottom}>
+      <View style={styles.middle}>
+        <AppText style={styles.title}>{title}</AppText>
         <AppText style={styles.text}>
-          Started By:{' '}
-          <AppText
-            style={[styles.text, { fontWeight: 'bold', color: colors.red }]}
-          >
-            {name}
-          </AppText>
+          Started By: <AppText style={styles.name}>{name}</AppText>
         </AppText>
-        <AppText style={styles.text}>
-          Status:{' '}
-          <AppText
-            style={[styles.text, { fontWeight: 'bold', color: colors.red }]}
-          >
-            {status}
-          </AppText>
-        </AppText>
+        <AppText style={styles.text}>Type: {type}</AppText>
+      </View>
+      <View style={styles.right}>
+        <AppText style={styles.updated}>Last updated: 05/02/2021</AppText>
       </View>
     </TouchableOpacity>
   )
@@ -50,28 +27,48 @@ const PactButton = ({ type, title, name, status, onPress }) => {
 export default PactButton
 
 const styles = StyleSheet.create({
-  bottom: {
-    margin: 5,
-    flex: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
   pactButton: {
-    backgroundColor: colors.tan,
+    backgroundColor: '#FFFFFF',
     // marginLeft: 10,
     // marginRight: 10,
     marginBottom: 10,
-    padding: 5,
+    padding: 15,
     borderRadius: 5,
+    display: 'flex',
+    flexDirection: 'row',
+    position: 'relative',
+  },
+  left: {
+    backgroundColor: '#F2C94C',
+    height: 10,
+    width: 10,
+    borderRadius: 20,
+    marginRight: 15,
+  },
+  middel: {
+    margin: 0,
+  },
+  name: {
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 18,
   },
   text: {
-    color: colors.black,
-    fontWeight: 'bold',
+    fontSize: 14,
   },
-  top: {
-    margin: 5,
-    flex: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  right: {
+    display: 'flex',
+    position: 'absolute',
+    right: 10,
+    top: 10,
+    // backgroundColor: 'blue',
+    // width: '100%',
+  },
+  updated: {
+    color: 'rgba(34, 34, 34, 0.8)',
+    fontSize: 10,
   },
 })

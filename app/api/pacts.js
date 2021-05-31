@@ -1,4 +1,7 @@
+//home
 const url = `http://192.168.1.8:4000/api/v1`
+//queensroom
+// const url = 'http://192.168.1.203:4000/api/v1'
 const axios = require('axios')
 
 export default class PactModel {

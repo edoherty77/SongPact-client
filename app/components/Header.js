@@ -58,8 +58,8 @@ const Header = ({
 
 const styles = StyleSheet.create({
   screenContainer: {
-    backgroundColor: colors.gray,
-    borderBottomColor: 'black',
+    backgroundColor: colors.background,
+    // borderBottomColor: 'black',
     elevation: 1,
     borderBottomWidth: 0.4,
   },

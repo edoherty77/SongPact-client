@@ -46,8 +46,16 @@ class CreatePactStore {
     this.producer = pact.producer
   }
 
-  setSignature(sig) {
-    this.producer.signatureImg = sig
+  setSignature(sig, currentUser) {
+    console.log('current', currentUser)
+    if (currentUser._id === this.producer.user) {
+      this.producer.signatureImg = sig
+    } else {
+      const foundPerformer = this.performers.find((performer) => {
+        return performer.user === currentUser._id
+      })
+      foundPerformer['signatureImg'] = sig
+    }
   }
 
   setCollabInfo(values, foundUser) {

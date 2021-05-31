@@ -1,5 +1,8 @@
 const axios = require('axios')
+//home
 const url = 'http://192.168.1.8:4000/api/v1'
+//queensroom
+// const url = 'http://192.168.1.203:4000/api/v1'
 
 export default class FriendRequestModel {
   static all = async (id) => {
