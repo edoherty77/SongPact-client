@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     // marginLeft: 10,
     // marginRight: 10,
-    marginBottom: 10,
+    marginBottom: 15,
     padding: 15,
     borderRadius: 5,
     display: 'flex',
@@ -60,15 +60,15 @@ const styles = StyleSheet.create({
   },
   name: {
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 18,
   },
   title: {
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 22,
     marginBottom: 4,
   },
   text: {
-    fontSize: 14,
+    fontSize: 18,
     marginBottom: 4,
   },
   right: {
@@ -79,6 +79,6 @@ const styles = StyleSheet.create({
   },
   updated: {
     color: 'rgba(34, 34, 34, 0.8)',
-    fontSize: 10,
+    fontSize: 12,
   },
 })

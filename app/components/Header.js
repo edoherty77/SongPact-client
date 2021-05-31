@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, View, SafeAreaView } from 'react-native'
 
 import ButtonIcon from './ButtonIcon'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
 import AppText from '../components/AppText'
 import colors from '../config/colors'
 
@@ -21,18 +21,16 @@ const Header = ({
   return (
     <SafeAreaView>
       <View style={styles.appHeader}>
-        {/* <View
-          style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}
-        >
+        <View style={{ justifyContent: 'center', flex: 1 }}>
           {icon && (
-            <MaterialCommunityIcons
+            <Ionicons
               onPress={back}
               name={icon}
               size={35}
-              color="#42C1FC"
+              color={colors.black}
             />
           )}
-        </View> */}
+        </View>
         <View style={styles.titleContainer}>
           <AppText style={styles.screenName}>{title}</AppText>
         </View>
@@ -65,7 +63,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   screenName: {
-    fontSize: 22,
+    fontSize: 30,
     color: colors.black,
     // fontWeight: "bold",
   },

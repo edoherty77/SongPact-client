@@ -3,6 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
 
 import AppSignIn from '../views/Auth/AppSignIn'
+import SignIn from '../views/Auth/SignIn'
+import SignUp from '../views/Auth/SignUp'
 import AppSignUp1 from '../views/Auth/AppSignUp1'
 import AppSignUp2 from '../views/Auth/AppSignUp2'
 import AppSignUp3 from '../views/Auth/AppSignUp3'
@@ -14,7 +16,7 @@ const AuthNavigator = (props) => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="SignIn">
+        <Stack.Screen name="AppSignIn">
           {(screenProps) => (
             <AppSignIn
               {...screenProps}

@@ -94,7 +94,7 @@ const AppSignIn = observer(({ navigation, updateAuthState }) => {
                   textContentType="password"
                 />
                 <AppButton
-                  title="Login"
+                  title="Sign In"
                   onPress={signIn}
                   style={styles.loginButton}
                 />
@@ -141,19 +141,20 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingLeft: 20,
     height: 45,
-    borderRadius: 25,
+    borderRadius: 7,
   },
   loginButton: {
     marginTop: 10,
-    borderRadius: 50,
+    borderRadius: 7,
     height: 45,
-    backgroundColor: colors.red,
+    backgroundColor: colors.green,
     width: '80%',
   },
   footerButtonContainer: {
     marginVertical: 15,
     justifyContent: 'center',
     alignItems: 'center',
+    // flexDirection: 'row',
   },
   forgotPasswordButtonText: {
     color: colors.black,
