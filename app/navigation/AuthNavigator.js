@@ -16,9 +16,12 @@ const AuthNavigator = (props) => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="SignIn">
+        <Stack.Screen name="AppSignIn">
           {(screenProps) => (
-            <SignIn {...screenProps} updateAuthState={props.updateAuthState} />
+            <AppSignIn
+              {...screenProps}
+              updateAuthState={props.updateAuthState}
+            />
           )}
         </Stack.Screen>
         <Stack.Screen name="SignUp1" component={AppSignUp1} />

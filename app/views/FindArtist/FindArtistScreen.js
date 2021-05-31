@@ -66,7 +66,7 @@ const FindArtist = observer(({ navigation }) => {
 
   return (
     <Screen>
-      <Head title="Find an Artist" />
+      <Head noBack />
       <Header
         transparent={true}
         searchBar
