@@ -80,7 +80,7 @@ const Contacts = ({ navigation }) => {
 
   return (
     <Screen>
-      <Head title="Contacts" />
+      <Head title="Contacts" noBack />
       <Header
         transparent={true}
         searchBar

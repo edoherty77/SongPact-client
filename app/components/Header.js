@@ -12,6 +12,7 @@ const Header = ({
   noIcon,
   back,
   icon,
+  noBack,
   name = 'message-text',
   iconPress,
   borderBottomColor,
@@ -21,16 +22,11 @@ const Header = ({
   return (
     <SafeAreaView>
       <View style={styles.appHeader}>
-        <View style={{ justifyContent: 'center', flex: 1 }}>
-          {icon && (
-            <Ionicons
-              onPress={back}
-              name={icon}
-              size={35}
-              color={colors.black}
-            />
-          )}
-        </View>
+        {/* <View style={{ justifyContent: 'center', flex: 1 }}> */}
+        {!noBack && (
+          <Ionicons onPress={back} name={icon} size={35} color={colors.black} />
+        )}
+        {/* </View> */}
         <View style={styles.titleContainer}>
           <AppText style={styles.screenName}>{title}</AppText>
         </View>

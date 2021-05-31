@@ -63,6 +63,7 @@ function ChooseCollabs({ navigation }) {
     <Screen>
       <Head
         title="Collaborators"
+        noBack
         // icon="arrow-left-bold"
         // back={() => navigation.navigate('First')}
       />

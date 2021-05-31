@@ -49,7 +49,7 @@ export default function Main({ updateAuthState, navigation }) {
 
   return (
     <Screen>
-      <Header title="Menu" />
+      <Header title="Menu" noBack />
       <View style={styles.menuContainer}>
         <FlatList
           data={menuItems}

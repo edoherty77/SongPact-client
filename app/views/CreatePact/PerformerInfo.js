@@ -56,7 +56,7 @@ export default function PerformerInfo({ navigation }) {
     <Screen>
       <Header
         title="Performer Info"
-        icon="arrow-left-bold"
+        icon="chevron-back"
         back={() => navigation.navigate('ProducerInfo')}
       />
       <Formik

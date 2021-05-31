@@ -59,6 +59,7 @@ const SignIn = ({ navigation }) => {
           <AppButton
             title="Sign In"
             // onPress={signIn}
+            textColor={colors.white}
             style={styles.loginButton}
           />
           <View style={styles.socialContainer}>
@@ -80,7 +81,9 @@ const SignIn = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.footer}>
-          <AppText>Don't have an accout? Sign Up</AppText>
+          <AppText style={styles.footertext}>
+            Don't have an accout? Sign Up
+          </AppText>
         </View>
       </View>
     </Screen>
@@ -109,7 +112,9 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
-    backgroundColor: 'rgba(250, 250, 250, 0.8)',
+    backgroundColor: colors.white,
+    borderColor: colors.black,
+    borderWidth: 1,
     fontSize: 18,
     paddingLeft: 20,
     height: 45,
@@ -132,7 +137,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   socialText: {
-    marginTop: 60,
+    marginTop: 40,
     marginBottom: 20,
     fontSize: 18,
   },
@@ -150,8 +155,11 @@ const styles = StyleSheet.create({
   footer: {
     display: 'flex',
     justifyContent: 'flex-end',
-    marginBottom: 20,
+    marginBottom: 40,
     alignItems: 'center',
     flex: 1,
+  },
+  footertext: {
+    fontSize: 16,
   },
 })

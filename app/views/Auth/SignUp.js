@@ -29,7 +29,8 @@ const SignUp = ({ navigation }) => {
         <View style={styles.messageContainer}>
           <AppText style={styles.messageTitle}>Create your account</AppText>
           <AppText style={styles.message}>
-            Aleady have an account? Log in
+            Aleady have an account?{' '}
+            <AppText style={{ fontWeight: 'bold' }}>Log in</AppText>
           </AppText>
         </View>
         <View style={styles.signInContainer}>
@@ -68,7 +69,8 @@ const SignUp = ({ navigation }) => {
           />
           <AppText style={styles.forgot}>Forgot password?</AppText>
           <AppButton
-            title="Sign In"
+            title="Create Account"
+            textColor={colors.white}
             // onPress={signIn}
             style={styles.loginButton}
           />
@@ -92,7 +94,7 @@ const SignUp = ({ navigation }) => {
         </View>
         <View style={styles.footer}>
           <AppText style={styles.footertext}>
-            By clicking "Sign Up" you agree to our Terms & Conditions and
+            By clicking "Create Account" you agree to our Terms & Conditions and
             Privacy Policy
           </AppText>
         </View>
@@ -123,7 +125,9 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
-    backgroundColor: 'rgba(250, 250, 250, 0.8)',
+    backgroundColor: colors.white,
+    borderColor: colors.black,
+    borderWidth: 1,
     fontSize: 18,
     paddingLeft: 20,
     height: 45,
@@ -146,7 +150,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   socialText: {
-    marginTop: 40,
+    marginTop: 30,
     fontSize: 18,
     marginBottom: 20,
   },
@@ -157,7 +161,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   socialBtn: {
-    width: '30%',
+    width: '40%',
     backgroundColor: colors.black,
     borderRadius: 7,
   },

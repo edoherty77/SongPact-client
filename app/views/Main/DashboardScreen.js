@@ -36,6 +36,7 @@ const DashboardScreen = observer(({ navigation }) => {
         title="Your pacts"
         borderBottomColor="transparent"
         borderBottomWidth={0}
+        noBack
       />
       <View style={styles.tabView}>
         <Tabs

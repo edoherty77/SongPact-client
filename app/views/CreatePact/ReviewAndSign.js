@@ -81,7 +81,7 @@ export default function ReviewAndSign({ navigation }) {
     <Screen>
       <Header
         back={() => navigation.navigate('RecordInfo')}
-        icon="arrow-left-bold"
+        icon="chevron-back"
         title="Review"
       />
       <ScrollView style={styles.mainView}>

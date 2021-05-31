@@ -58,7 +58,7 @@ export default function ProducerInfo({ navigation }) {
     <Screen>
       <Header
         title={producer.artistName}
-        icon="arrow-left-bold"
+        icon="chevron-back"
         back={() => navigation.navigate('Producer')}
       />
       <Formik

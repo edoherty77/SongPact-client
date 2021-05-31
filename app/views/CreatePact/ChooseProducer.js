@@ -60,7 +60,7 @@ export default function ChooseProducer({ navigation }) {
     <Screen>
       <Header
         // title="Producer?"
-        icon="arrow-left-bold"
+        icon="chevron-back"
         back={() => navigation.navigate('Collabs')}
       />
       <Formik

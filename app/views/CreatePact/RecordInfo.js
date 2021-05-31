@@ -74,7 +74,7 @@ export default function RecordInfo({ navigation }) {
     <Screen>
       <Header
         back={() => navigation.navigate('PerformerInfo')}
-        icon="arrow-left-bold"
+        icon="chevron-back"
       />
       <Formik
         initialValues={{

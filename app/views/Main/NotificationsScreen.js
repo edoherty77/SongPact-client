@@ -50,7 +50,7 @@ const NotificationsScreen = observer(() => {
 
   return (
     <Screen>
-      <Header title="Notifications" />
+      <Header title="Notifications" noBack />
       <FlatList
         data={Object.values(friendRequests)}
         keyExtractor={(user) => user.friendRequestId}
