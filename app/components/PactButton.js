@@ -37,16 +37,26 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     position: 'relative',
+    borderStyle: 'solid',
+    borderColor: 'black',
+    borderWidth: 1,
   },
   left: {
+    // backgroundColor: 'blue',
+    // position: 'relative',
+  },
+  status: {
     backgroundColor: '#F2C94C',
+    // position: 'absolute',
+    top: 5,
     height: 10,
     width: 10,
     borderRadius: 20,
     marginRight: 15,
   },
-  middel: {
+  middle: {
     margin: 0,
+    // backgroundColor: 'red',
   },
   name: {
     fontWeight: 'bold',
@@ -62,10 +72,8 @@ const styles = StyleSheet.create({
   right: {
     display: 'flex',
     position: 'absolute',
-    right: 10,
-    top: 10,
-    // backgroundColor: 'blue',
-    // width: '100%',
+    top: 20,
+    right: 20,
   },
   updated: {
     color: 'rgba(34, 34, 34, 0.8)',
