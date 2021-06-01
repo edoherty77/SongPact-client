@@ -87,6 +87,7 @@ const SignUp = ({ navigation }) => {
               <AppFormField
                 style={styles.input}
                 name="email"
+                height={50}
                 autoCapitalize="none"
                 autoCorrect={false}
                 textContentType="emailAddress"
@@ -96,6 +97,7 @@ const SignUp = ({ navigation }) => {
               <AppFormField
                 style={styles.input}
                 name="password"
+                height={50}
                 autoCapitalize="none"
                 autoCorrect={false}
                 // textContentType="password" // TODO uncomment!!!
@@ -159,10 +161,10 @@ const styles = StyleSheet.create({
     padding: 30,
     flex: 1,
     display: 'flex',
-    marginTop: 30,
+    // marginTop: 30,
   },
   messageContainer: {
-    marginBottom: 30,
+    marginBottom: 50,
   },
   messageTitle: {
     fontSize: 22,
@@ -174,12 +176,12 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
+    height: 100,
     backgroundColor: colors.white,
     borderColor: colors.black,
     borderWidth: 1,
     fontSize: 18,
     paddingLeft: 20,
-    height: 45,
     borderRadius: 7,
     marginBottom: 5,
   },
@@ -189,7 +191,7 @@ const styles = StyleSheet.create({
   loginButton: {
     marginTop: 30,
     borderRadius: 7,
-    height: 45,
+    height: 50,
     color: 'white',
     backgroundColor: colors.green,
     width: '100%',
@@ -197,11 +199,12 @@ const styles = StyleSheet.create({
   socialContainer: {
     display: 'flex',
     alignItems: 'center',
+    marginTop: 40,
   },
   socialText: {
-    marginTop: 30,
+    marginTop: 20,
     fontSize: 18,
-    marginBottom: 20,
+    marginBottom: 30,
   },
   socialBtns: {
     display: 'flex',
@@ -214,7 +217,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     flex: 1,
-    marginBottom: 30,
+    marginBottom: 50,
   },
   footertext: {
     textAlign: 'center',

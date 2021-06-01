@@ -8,6 +8,7 @@ import {
   Keyboard,
 } from 'react-native'
 
+import UserModel from '../../api/users'
 import AuthModel from '../../api/auth'
 import AsyncStorage from '@react-native-community/async-storage'
 import Screen from '../../components/Screen'
@@ -18,6 +19,7 @@ import AppText from '../../components/AppText'
 import Header from '../../components/Header'
 import colors from '../../config/colors'
 import CurrentUser from '../../stores/UserStore'
+import * as Google from 'expo-google-app-auth'
 
 const SignIn = ({ navigation, updateAuthState }) => {
   const [username, setUsername] = useState('')
@@ -35,6 +37,37 @@ const SignIn = ({ navigation, updateAuthState }) => {
       console.log('current', CurrentUser)
     } catch (err) {
       console.log('Error signing in...', err)
+    }
+  }
+
+  const googleSignIn = async () => {
+    try {
+      const result = await Google.logInAsync({
+        androidClientId:
+          '350040199389-gjbgtaas95ofd5hd9ojotcfht73gj407.apps.googleusercontent.com',
+        iosClientId:
+          '350040199389-e8iqt2rlahdmgeslat7eq51944dcbb7c.apps.googleusercontent.com',
+        scopes: ['profile', 'email'],
+      })
+      console.log('result', result)
+
+      // if (result.type === 'success') {
+      //   const foundUser = await UserModel.show(result.user.id)
+      //   if (foundUser) {
+      //     await AsyncStorage.setItem('username', foundUser.name)
+      //     await AsyncStorage.setItem('userId', foundUser.googleId)
+      //     setUser({ username: foundUser.name, userId: foundUser.googleId })
+      //   } else {
+      //     const newUser = await UserModel.create(result.user)
+      //     await AsyncStorage.setItem('username', newUser.name)
+      //     await AsyncStorage.setItem('userId', newUser.googleId)
+      //     setUser({ username: newUser.name, userId: newUser.googleId })
+      //   }
+      // } else {
+      //   return { cancelled: true }
+      // }
+    } catch (error) {
+      console.log(error)
     }
   }
   return (
@@ -90,6 +123,7 @@ const SignIn = ({ navigation, updateAuthState }) => {
                     color="white"
                     backgroundColor="black"
                     title="Google"
+                    onPress={googleSignIn}
                   />
                   <SocialMediaBtn
                     name="facebook-square"
@@ -144,8 +178,8 @@ const styles = StyleSheet.create({
     borderColor: colors.black,
     borderWidth: 1,
     fontSize: 18,
+    height: 50,
     paddingLeft: 20,
-    height: 45,
     borderRadius: 7,
     marginBottom: 5,
   },
@@ -155,7 +189,7 @@ const styles = StyleSheet.create({
   loginButton: {
     marginTop: 40,
     borderRadius: 7,
-    height: 45,
+    height: 50,
     color: 'white',
     backgroundColor: colors.green,
     width: '100%',

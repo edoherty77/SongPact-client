@@ -29,10 +29,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.black,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 10,
     width: 150,
+    height: 50,
   },
   title: {
     marginLeft: 15,
