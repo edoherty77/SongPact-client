@@ -8,10 +8,11 @@ import {
   Platform,
   Keyboard,
 } from 'react-native'
-
+import { AppForm, AppFormField, SubmitButton } from '../../components/forms'
 import { Auth } from 'aws-amplify'
 import UserModel from '../../api/users'
-
+import AuthModel from '../../api/auth'
+import * as Yup from 'yup'
 import Screen from '../../components/Screen'
 import AppTextInput from '../../components/AppTextInput'
 import AppButton from '../../components/AppButton'
@@ -21,7 +22,38 @@ import colors from '../../config/colors'
 import store from '../../stores/UserStore'
 import { observer } from 'mobx-react'
 
+const validationSchema = Yup.object().shape({
+  firstName: Yup.string().required().label('First name'),
+  lastName: Yup.string().required().label('Last name'),
+  email: Yup.string().required().email().label('Email'),
+  password: Yup.string().required().label('Password'),
+  password2: Yup.string().oneOf(
+    [Yup.ref('password'), null],
+    'Passwords must match',
+  ),
+})
+
 const SignUp = ({ navigation }) => {
+  const register = async (values) => {
+    console.log(values)
+    try {
+      await AuthModel.register(values)
+      // sign up with Amplify
+      // const data = await Auth.signUp({
+      //   username: store.email,
+      //   password: store.password,
+      //   attributes: {
+      //     email: store.email,
+      //   },
+      // })
+      // console.log('✅ Sign-up Confirmed')
+      // await addUserToAPIByID(data.userSub)
+      // // go to confirmation screen
+      // navigation.navigate('ConfirmSignUp')
+    } catch (error) {
+      console.log('❌ Error signing up...', error)
+    }
+  }
   return (
     <Screen>
       <Header icon="chevron-back" noIcon />
@@ -30,72 +62,102 @@ const SignUp = ({ navigation }) => {
           <AppText style={styles.messageTitle}>Create your account</AppText>
           <AppText style={styles.message}>
             Aleady have an account?{' '}
-            <AppText style={{ fontWeight: 'bold' }}>Log in</AppText>
+            <AppText
+              style={styles.textBtn}
+              onPress={() => navigation.navigate('SignIn')}
+            >
+              Log in
+            </AppText>
           </AppText>
         </View>
-        <View style={styles.signInContainer}>
-          <AppText style={styles.inputTitle}>Full Name</AppText>
-          <AppTextInput
-            style={styles.input}
-            // value={username}
-            // onChangeText={(text) => setUsername(text)}
-            // icon="email"
-            // placeholder="Email"
-            autoCapitalize="none"
-            keyboardType="email-address"
-            textContentType="username"
-            autoCorrect={false}
-          />
-          <AppText style={styles.inputTitle}>Email</AppText>
-          <AppTextInput
-            style={styles.input}
-            // value={username}
-            // onChangeText={(text) => setUsername(text)}
-            // icon="email"
-            // placeholder="Email"
-            autoCapitalize="none"
-            keyboardType="email-address"
-            textContentType="username"
-            autoCorrect={false}
-          />
-          <AppText style={styles.inputTitle}>Password</AppText>
-          <AppTextInput
-            style={styles.input}
-            // value={password}
-            // onChangeText={(text) => setUsername(text)}
-            autoCapitalize="none"
-            textContentType="password"
-            autoCorrect={false}
-          />
-          <AppText style={styles.forgot}>Forgot password?</AppText>
-          <AppButton
-            title="Create Account"
-            textColor={colors.white}
-            // onPress={signIn}
-            style={styles.loginButton}
-          />
-          <View style={styles.socialContainer}>
-            <AppText style={styles.socialText}>
-              or sign in with your social account
-            </AppText>
-            <View style={styles.socialBtns}>
-              <AppButton
-                style={styles.socialBtn}
-                textColor={colors.white}
-                title="Google"
+        <KeyboardAvoidingView
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          style={styles.mainView}
+        >
+          <View>
+            <AppForm
+              initialValues={{
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: '',
+              }}
+              onSubmit={(values) => register(values)}
+              // validationSchema={validationSchema}
+            >
+              <AppText style={styles.inputTitle}>First Name</AppText>
+              <AppFormField
+                style={styles.input}
+                name="firstName"
+                autoCorrect={false}
+                textContentType="givenName"
               />
-              <AppButton
-                style={styles.socialBtn}
-                textColor={colors.white}
-                title="Facebook"
+              <AppText style={styles.inputTitle}>Last Name</AppText>
+              <AppFormField
+                style={styles.input}
+                name="lastName"
+                autoCorrect={false}
+                textContentType="familyName"
               />
+              <AppText style={styles.inputTitle}>Email</AppText>
+              <AppFormField
+                style={styles.input}
+                name="email"
+                autoCapitalize="none"
+                autoCorrect={false}
+                textContentType="emailAddress"
+                keyboardType="email-address"
+              />
+              <AppText style={styles.inputTitle}>Password</AppText>
+              <AppFormField
+                style={styles.input}
+                name="password"
+                autoCapitalize="none"
+                autoCorrect={false}
+                // textContentType="password" // TODO uncomment!!!
+                // secureTextEntry // TODO uncomment!!!
+              />
+              <SubmitButton
+                title="Create Account"
+                textColor={colors.white}
+                style={styles.loginButton}
+              />
+            </AppForm>
+            <View style={styles.socialContainer}>
+              <AppText style={styles.socialText}>
+                or sign in with your social account
+              </AppText>
+              <View style={styles.socialBtns}>
+                <AppButton
+                  style={styles.socialBtn}
+                  textColor={colors.white}
+                  title="Google"
+                />
+                <AppButton
+                  style={styles.socialBtn}
+                  textColor={colors.white}
+                  title="Facebook"
+                />
+              </View>
             </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
         <View style={styles.footer}>
           <AppText style={styles.footertext}>
-            By clicking "Create Account" you agree to our Terms & Conditions and
-            Privacy Policy
+            By clicking "Create Account" you agree to our{' '}
+            <AppText
+              style={styles.textBtn}
+              onPress={() => navigation.navigate('SignIn')}
+            >
+              Terms & Conditions
+            </AppText>{' '}
+            and{' '}
+            <AppText
+              style={styles.textBtn}
+              onPress={() => navigation.navigate('SignIn')}
+            >
+              Privacy Policy
+            </AppText>
           </AppText>
         </View>
       </View>
@@ -113,7 +175,6 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     marginBottom: 30,
-    marginTop: 20,
   },
   messageTitle: {
     fontSize: 22,
@@ -138,7 +199,7 @@ const styles = StyleSheet.create({
     color: 'rgba(0, 0, 0, 0.54)',
   },
   loginButton: {
-    marginTop: 40,
+    marginTop: 30,
     borderRadius: 7,
     height: 45,
     color: 'white',
@@ -170,9 +231,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     flex: 1,
-    marginBottom: 20,
+    // marginBottom: 20,
   },
   footertext: {
     textAlign: 'center',
+  },
+  textBtn: {
+    fontWeight: 'bold',
   },
 })

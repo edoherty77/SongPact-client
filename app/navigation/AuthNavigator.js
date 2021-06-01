@@ -16,14 +16,12 @@ const AuthNavigator = (props) => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="AppSignIn">
+        <Stack.Screen name="SignIn">
           {(screenProps) => (
-            <AppSignIn
-              {...screenProps}
-              updateAuthState={props.updateAuthState}
-            />
+            <SignIn {...screenProps} updateAuthState={props.updateAuthState} />
           )}
         </Stack.Screen>
+        <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="SignUp1" component={AppSignUp1} />
         <Stack.Screen name="SignUp2" component={AppSignUp2} />
         <Stack.Screen name="SignUp3" component={AppSignUp3} />

@@ -11,6 +11,7 @@ import {
 
 import { Auth } from 'aws-amplify'
 import UserModel from '../../api/users'
+import AuthModel from '../../api/auth'
 
 import Screen from '../../components/Screen'
 import AppTextInput from '../../components/AppTextInput'
@@ -21,7 +22,27 @@ import colors from '../../config/colors'
 import store from '../../stores/UserStore'
 import { observer } from 'mobx-react'
 
-const SignIn = ({ navigation }) => {
+const SignIn = ({ navigation, updateAuthState }) => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  async function signIn() {
+    try {
+      const userData = { email: username, password: password }
+      console.log('userdata', userData)
+      // const data = await Auth.signIn(username, password)
+      // store.setID(data.username)
+      // const currentUser = await UserModel.show(data.username)
+
+      // store.setUser(currentUser.user)
+      // updateAuthState('loggedIn')
+      const data = await AuthModel.login(userData)
+      console.log('signedin userdata', data)
+      // console.log(username, password)
+    } catch (err) {
+      console.log('Error signing in...', err)
+    }
+  }
   return (
     <Screen>
       <Header icon="chevron-back" noIcon />
@@ -33,56 +54,67 @@ const SignIn = ({ navigation }) => {
             place.
           </AppText>
         </View>
-        <View style={styles.signInContainer}>
-          <AppText style={styles.inputTitle}>Email</AppText>
-          <AppTextInput
-            style={styles.input}
-            // value={username}
-            // onChangeText={(text) => setUsername(text)}
-            // icon="email"
-            // placeholder="Email"
-            autoCapitalize="none"
-            keyboardType="email-address"
-            textContentType="username"
-            autoCorrect={false}
-          />
-          <AppText style={styles.inputTitle}>Password</AppText>
-          <AppTextInput
-            style={styles.input}
-            // value={password}
-            // onChangeText={(text) => setUsername(text)}
-            autoCapitalize="none"
-            textContentType="password"
-            autoCorrect={false}
-          />
-          <AppText style={styles.forgot}>Forgot password?</AppText>
-          <AppButton
-            title="Sign In"
-            // onPress={signIn}
-            textColor={colors.white}
-            style={styles.loginButton}
-          />
-          <View style={styles.socialContainer}>
-            <AppText style={styles.socialText}>
-              or sign in with your social account
-            </AppText>
-            <View style={styles.socialBtns}>
-              <AppButton
-                style={styles.socialBtn}
-                textColor={colors.white}
-                title="Google"
+        <KeyboardAvoidingView
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          style={styles.container}
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.signInContainer}>
+              <AppText style={styles.inputTitle}>Email</AppText>
+              <AppTextInput
+                style={styles.input}
+                value={username}
+                onChangeText={(text) => setUsername(text)}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                textContentType="username"
+                autoCorrect={false}
               />
-              <AppButton
-                style={styles.socialBtn}
-                textColor={colors.white}
-                title="Facebook"
+              <AppText style={styles.inputTitle}>Password</AppText>
+              <AppTextInput
+                style={styles.input}
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                autoCapitalize="none"
+                textContentType="password"
+                autoCorrect={false}
               />
+              <AppText style={styles.forgot}>Forgot password?</AppText>
+              <AppButton
+                title="Sign In"
+                onPress={signIn}
+                textColor={colors.white}
+                style={styles.loginButton}
+              />
+              <View style={styles.socialContainer}>
+                <AppText style={styles.socialText}>
+                  or sign in with your social account
+                </AppText>
+                <View style={styles.socialBtns}>
+                  <AppButton
+                    style={styles.socialBtn}
+                    textColor={colors.white}
+                    title="Google"
+                  />
+                  <AppButton
+                    style={styles.socialBtn}
+                    textColor={colors.white}
+                    title="Facebook"
+                  />
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
         <View style={styles.footer}>
           <AppText style={styles.footertext}>
-            Don't have an accout? Sign Up
+            Don't have an accout?{' '}
+            <AppText
+              style={styles.textBtn}
+              onPress={() => navigation.navigate('SignUp')}
+            >
+              Sign Up
+            </AppText>
           </AppText>
         </View>
       </View>
@@ -161,5 +193,8 @@ const styles = StyleSheet.create({
   },
   footertext: {
     fontSize: 16,
+  },
+  textBtn: {
+    fontWeight: 'bold',
   },
 })
