@@ -49,7 +49,7 @@ const SignUp = ({ navigation }) => {
       // console.log('✅ Sign-up Confirmed')
       // await addUserToAPIByID(data.userSub)
       // // go to confirmation screen
-      // navigation.navigate('ConfirmSignUp')
+      navigation.navigate('SignIn')
     } catch (error) {
       console.log('❌ Error signing up...', error)
     }
