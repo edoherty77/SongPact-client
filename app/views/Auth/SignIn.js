@@ -13,11 +13,11 @@ import AsyncStorage from '@react-native-community/async-storage'
 import Screen from '../../components/Screen'
 import AppTextInput from '../../components/AppTextInput'
 import AppButton from '../../components/AppButton'
+import SocialMediaBtn from '../../components/SocialMediaBtn'
 import AppText from '../../components/AppText'
 import Header from '../../components/Header'
 import colors from '../../config/colors'
 import CurrentUser from '../../stores/UserStore'
-import { observer } from 'mobx-react'
 
 const SignIn = ({ navigation, updateAuthState }) => {
   const [username, setUsername] = useState('')
@@ -85,14 +85,16 @@ const SignIn = ({ navigation, updateAuthState }) => {
                   or sign in with your social account
                 </AppText>
                 <View style={styles.socialBtns}>
-                  <AppButton
-                    style={styles.socialBtn}
-                    textColor={colors.white}
+                  <SocialMediaBtn
+                    name="google"
+                    color="white"
+                    backgroundColor="black"
                     title="Google"
                   />
-                  <AppButton
-                    style={styles.socialBtn}
-                    textColor={colors.white}
+                  <SocialMediaBtn
+                    name="facebook-square"
+                    color="white"
+                    backgroundColor="black"
                     title="Facebook"
                   />
                 </View>
@@ -161,6 +163,7 @@ const styles = StyleSheet.create({
   socialContainer: {
     display: 'flex',
     alignItems: 'center',
+    width: '100%',
   },
   socialText: {
     marginTop: 40,
@@ -170,14 +173,10 @@ const styles = StyleSheet.create({
   socialBtns: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     width: '100%',
   },
-  socialBtn: {
-    width: '30%',
-    backgroundColor: colors.black,
-    borderRadius: 7,
-  },
+
   footer: {
     display: 'flex',
     justifyContent: 'flex-end',

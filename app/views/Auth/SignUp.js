@@ -1,26 +1,21 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
-  ImageBackground,
   StyleSheet,
   View,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
-  Platform,
   Keyboard,
 } from 'react-native'
 import { AppForm, AppFormField, SubmitButton } from '../../components/forms'
-import { Auth } from 'aws-amplify'
-import UserModel from '../../api/users'
+
 import AuthModel from '../../api/auth'
 import * as Yup from 'yup'
 import Screen from '../../components/Screen'
-import AppTextInput from '../../components/AppTextInput'
-import AppButton from '../../components/AppButton'
+
 import AppText from '../../components/AppText'
 import Header from '../../components/Header'
+import SocialMediaBtn from '../../components/SocialMediaBtn'
 import colors from '../../config/colors'
-import store from '../../stores/UserStore'
-import { observer } from 'mobx-react'
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required().label('First name'),
@@ -35,20 +30,8 @@ const validationSchema = Yup.object().shape({
 
 const SignUp = ({ navigation }) => {
   const register = async (values) => {
-    console.log(values)
     try {
       await AuthModel.register(values)
-      // sign up with Amplify
-      // const data = await Auth.signUp({
-      //   username: store.email,
-      //   password: store.password,
-      //   attributes: {
-      //     email: store.email,
-      //   },
-      // })
-      // console.log('✅ Sign-up Confirmed')
-      // await addUserToAPIByID(data.userSub)
-      // // go to confirmation screen
       navigation.navigate('SignIn')
     } catch (error) {
       console.log('❌ Error signing up...', error)
@@ -70,10 +53,11 @@ const SignUp = ({ navigation }) => {
             </AppText>
           </AppText>
         </View>
-        <KeyboardAvoidingView
+        {/* <KeyboardAvoidingView
           behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
           style={styles.mainView}
-        >
+        > */}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View>
             <AppForm
               initialValues={{
@@ -85,7 +69,7 @@ const SignUp = ({ navigation }) => {
               onSubmit={(values) => register(values)}
               // validationSchema={validationSchema}
             >
-              <AppText style={styles.inputTitle}>First Name</AppText>
+              {/* <AppText style={styles.inputTitle}>First Name</AppText>
               <AppFormField
                 style={styles.input}
                 name="firstName"
@@ -98,7 +82,7 @@ const SignUp = ({ navigation }) => {
                 name="lastName"
                 autoCorrect={false}
                 textContentType="familyName"
-              />
+              /> */}
               <AppText style={styles.inputTitle}>Email</AppText>
               <AppFormField
                 style={styles.input}
@@ -128,20 +112,23 @@ const SignUp = ({ navigation }) => {
                 or sign in with your social account
               </AppText>
               <View style={styles.socialBtns}>
-                <AppButton
-                  style={styles.socialBtn}
-                  textColor={colors.white}
+                <SocialMediaBtn
+                  name="google"
+                  color="white"
+                  backgroundColor="black"
                   title="Google"
                 />
-                <AppButton
-                  style={styles.socialBtn}
-                  textColor={colors.white}
+                <SocialMediaBtn
+                  name="facebook-square"
+                  color="white"
+                  backgroundColor="black"
                   title="Facebook"
                 />
               </View>
             </View>
           </View>
-        </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+        {/* </KeyboardAvoidingView> */}
         <View style={styles.footer}>
           <AppText style={styles.footertext}>
             By clicking "Create Account" you agree to our{' '}
@@ -172,6 +159,7 @@ const styles = StyleSheet.create({
     padding: 30,
     flex: 1,
     display: 'flex',
+    marginTop: 30,
   },
   messageContainer: {
     marginBottom: 30,
@@ -218,20 +206,15 @@ const styles = StyleSheet.create({
   socialBtns: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     width: '100%',
-  },
-  socialBtn: {
-    width: '40%',
-    backgroundColor: colors.black,
-    borderRadius: 7,
   },
   footer: {
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
     flex: 1,
-    // marginBottom: 20,
+    marginBottom: 30,
   },
   footertext: {
     textAlign: 'center',
