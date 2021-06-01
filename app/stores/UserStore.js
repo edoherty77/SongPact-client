@@ -31,6 +31,7 @@ class UserStore {
     this.email = values.email
     this.pacts = values.pacts
     this.friends = values.friends
+    this._id = values._id
     // console.log(this.firstName, this.lastName, 'set')
   }
 

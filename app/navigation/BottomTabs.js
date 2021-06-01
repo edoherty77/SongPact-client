@@ -15,7 +15,7 @@ import MenuNavigator from './MenuNavigator'
 
 const Tab = createBottomTabNavigator()
 
-export default function BottomTabs({ updateAuthState }) {
+export default function BottomTabs({ updateAuthState, logout }) {
   return (
     <Tab.Navigator
       initialRouteName="Dashboard"
@@ -117,7 +117,11 @@ export default function BottomTabs({ updateAuthState }) {
         name="Menu"
       >
         {(screenProps) => (
-          <MenuNavigator {...screenProps} updateAuthState={updateAuthState} />
+          <MenuNavigator
+            {...screenProps}
+            updateAuthState={updateAuthState}
+            logout={logout}
+          />
         )}
       </Tab.Screen>
     </Tab.Navigator>

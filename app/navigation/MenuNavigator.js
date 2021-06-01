@@ -17,7 +17,11 @@ const MenuNavigator = (props) => {
     <Stack.Navigator screenOptions={{ headerShown: false }} headerMode="screen">
       <Stack.Screen name="Main">
         {(screenprops) => (
-          <Main {...screenprops} updateAuthState={props.updateAuthState} />
+          <Main
+            {...screenprops}
+            updateAuthState={props.updateAuthState}
+            logout={props.logout}
+          />
         )}
       </Stack.Screen>
       <Stack.Screen name="Profile" component={Profile} />

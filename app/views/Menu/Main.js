@@ -4,11 +4,12 @@ import { StyleSheet, FlatList, View, TouchableOpacity } from 'react-native'
 import Header from '../../components/Header'
 import AppText from '../../components/AppText'
 import Screen from '../../components/Screen'
-import store from '../../stores/UserStore'
+import CurrentUser from '../../stores/UserStore'
 import MenuButton from '../../components/Menu/MenuButton'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import colors from '../../config/colors'
-
+import AsyncStorage from '@react-native-community/async-storage'
+import AuthModel from '../../api/auth'
 const menuItems = [
   {
     title: 'Profile',
@@ -36,16 +37,16 @@ const menuItems = [
   },
 ]
 
-export default function Main({ updateAuthState, navigation }) {
-  const signOut = async () => {
-    try {
-      await Auth.signOut()
-      store.resetUser()
-      updateAuthState('loggedOut')
-    } catch (error) {
-      console.log('error signing out: ', error)
-    }
-  }
+export default function Main({ updateAuthState, navigation, logout }) {
+  // const signOut = async () => {
+  //   try {
+  //     await Auth.signOut()
+  //     store.resetUser()
+  //     updateAuthState('loggedOut')
+  //   } catch (error) {
+  //     console.log('error signing out: ', error)
+  //   }
+  // }
 
   return (
     <Screen>
@@ -64,7 +65,7 @@ export default function Main({ updateAuthState, navigation }) {
             />
           )}
         />
-        <TouchableOpacity style={styles.signoutContainer} onPress={signOut}>
+        <TouchableOpacity style={styles.signoutContainer} onPress={logout}>
           <View style={styles.iconContainer}>
             <MaterialCommunityIcons size={20} name="logout-variant" />
           </View>

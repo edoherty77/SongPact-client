@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {
-  ImageBackground,
   StyleSheet,
   View,
   KeyboardAvoidingView,
@@ -9,17 +8,15 @@ import {
   Keyboard,
 } from 'react-native'
 
-import { Auth } from 'aws-amplify'
-import UserModel from '../../api/users'
 import AuthModel from '../../api/auth'
-
+import AsyncStorage from '@react-native-community/async-storage'
 import Screen from '../../components/Screen'
 import AppTextInput from '../../components/AppTextInput'
 import AppButton from '../../components/AppButton'
 import AppText from '../../components/AppText'
 import Header from '../../components/Header'
 import colors from '../../config/colors'
-import store from '../../stores/UserStore'
+import CurrentUser from '../../stores/UserStore'
 import { observer } from 'mobx-react'
 
 const SignIn = ({ navigation, updateAuthState }) => {
@@ -29,16 +26,13 @@ const SignIn = ({ navigation, updateAuthState }) => {
   async function signIn() {
     try {
       const userData = { email: username, password: password }
-      console.log('userdata', userData)
-      // const data = await Auth.signIn(username, password)
-      // store.setID(data.username)
-      // const currentUser = await UserModel.show(data.username)
-
-      // store.setUser(currentUser.user)
-      // updateAuthState('loggedIn')
-      const data = await AuthModel.login(userData)
-      console.log('signedin userdata', data)
-      // console.log(username, password)
+      const foundUser = await AuthModel.login(userData)
+      if (foundUser) {
+        await AsyncStorage.setItem('email', foundUser.user.email)
+        await AsyncStorage.setItem('userId', foundUser.user._id)
+        await CurrentUser.setUser(foundUser.user)
+      }
+      console.log('current', CurrentUser)
     } catch (err) {
       console.log('Error signing in...', err)
     }

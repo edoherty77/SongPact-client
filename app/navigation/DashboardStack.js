@@ -7,7 +7,7 @@ import ViewContract from '../views/ReviewPact/ViewContract'
 
 const Stack = createStackNavigator()
 
-export default function DashboardStack({ updateAuthState }) {
+export default function DashboardStack({ updateAuthState, logout }) {
   return (
     <Stack.Navigator
       initialRouteName="Dashboard"
@@ -15,7 +15,11 @@ export default function DashboardStack({ updateAuthState }) {
     >
       <Stack.Screen name="Dashboard">
         {(screenProps) => (
-          <BottomTabs {...screenProps} updateAuthState={updateAuthState} />
+          <BottomTabs
+            {...screenProps}
+            updateAuthState={updateAuthState}
+            logout={logout}
+          />
         )}
       </Stack.Screen>
       <Stack.Screen name="ReviewPact" component={ReviewPact} />

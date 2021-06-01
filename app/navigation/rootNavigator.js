@@ -6,7 +6,7 @@ import DashboardStack from './DashboardStack'
 
 const Drawer = createDrawerNavigator()
 
-export const RootNavigator = ({ updateAuthState }) => {
+export const RootNavigator = ({ updateAuthState, logout }) => {
   return (
     <NavigationContainer>
       {/* <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}> */}
@@ -17,6 +17,7 @@ export const RootNavigator = ({ updateAuthState }) => {
             <DashboardStack
               {...screenProps}
               updateAuthState={updateAuthState}
+              logout={logout}
             />
           )}
         </Drawer.Screen>
