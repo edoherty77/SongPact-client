@@ -49,7 +49,6 @@ const SignIn = ({ navigation, updateAuthState }) => {
           '350040199389-e8iqt2rlahdmgeslat7eq51944dcbb7c.apps.googleusercontent.com',
         scopes: ['profile', 'email'],
       })
-      console.log('result', result)
 
       if (result.type === 'success') {
         const user = {
@@ -58,15 +57,13 @@ const SignIn = ({ navigation, updateAuthState }) => {
           email: result.user.email,
           googleId: result.user.id,
         }
-        console.log('user', user)
+
         const foundUser = await UserModel.show(result.user.id)
         if (foundUser.user !== null && foundUser.user !== undefined) {
-          console.log('foundUser', foundUser)
           await AsyncStorage.setItem('email', foundUser.email)
           await AsyncStorage.setItem('userId', foundUser.googleId)
         } else {
           const newUser = await UserModel.create(user)
-          console.log('newUser', newUser)
 
           await AsyncStorage.setItem('email', newUser.data.user.email)
           await AsyncStorage.setItem('userId', newUser.data.user._id)
