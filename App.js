@@ -37,26 +37,6 @@ const App = observer(() => {
     userId: '',
   })
 
-  // async function checkAuthState() {
-  //   try {
-  //     const user = await Auth.currentAuthenticatedUser()
-  //     console.log('✅ User is signed in')
-  //     console.log(user.username)
-  //     setUserLoggedIn('loggedIn')
-  //   } catch (error) {
-  //     console.log('❌ User is not signed in')
-  //     store.resetUser()
-  //     setUserLoggedIn('loggedOut')
-  //   }
-  // }
-
-  // const updateAuthState = (isUserLoggedIn) => {
-  //   setUserLoggedIn(isUserLoggedIn)
-  // }
-
-  // useEffect(() => {
-  //   checkAuthState()
-  // }, [])
   const checkForUser = async () => {
     try {
       const localUser = await AsyncStorage.getItem('email')

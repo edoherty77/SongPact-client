@@ -60,13 +60,14 @@ const SignIn = ({ navigation, updateAuthState }) => {
 
         const foundUser = await UserModel.show(result.user.id)
         if (foundUser.user !== null && foundUser.user !== undefined) {
-          await AsyncStorage.setItem('email', foundUser.email)
-          await AsyncStorage.setItem('userId', foundUser.googleId)
+          await AsyncStorage.setItem('email', foundUser.user.email)
+          await AsyncStorage.setItem('userId', foundUser.user.googleId)
+          await CurrentUser.setUser(foundUser.user)
         } else {
           const newUser = await UserModel.create(user)
-
           await AsyncStorage.setItem('email', newUser.data.user.email)
           await AsyncStorage.setItem('userId', newUser.data.user._id)
+          await CurrentUser.setUser(foundUser.user)
         }
       } else {
         return { cancelled: true }
