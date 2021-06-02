@@ -7,7 +7,8 @@ import {
   Keyboard,
 } from 'react-native'
 import { AppForm, AppFormField, SubmitButton } from '../../components/forms'
-
+import AsyncStorage from '@react-native-community/async-storage'
+import UserModel from '../../api/users'
 import AuthModel from '../../api/auth'
 import * as Yup from 'yup'
 import Screen from '../../components/Screen'
@@ -16,6 +17,9 @@ import AppText from '../../components/AppText'
 import Header from '../../components/Header'
 import SocialMediaBtn from '../../components/SocialMediaBtn'
 import colors from '../../config/colors'
+import * as Google from 'expo-google-app-auth'
+import * as Facebook from 'expo-facebook'
+import CurrentUser from '../../stores/UserStore'
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required().label('First name'),
@@ -35,6 +39,95 @@ const SignUp = ({ navigation }) => {
       navigation.navigate('SignIn')
     } catch (error) {
       console.log('❌ Error signing up...', error)
+    }
+  }
+
+  const googleSignIn = async () => {
+    try {
+      const result = await Google.logInAsync({
+        androidClientId:
+          '350040199389-gjbgtaas95ofd5hd9ojotcfht73gj407.apps.googleusercontent.com',
+        iosClientId:
+          '350040199389-e8iqt2rlahdmgeslat7eq51944dcbb7c.apps.googleusercontent.com',
+        scopes: ['profile', 'email'],
+      })
+
+      if (result.type === 'success') {
+        const user = {
+          _id: result.user.email,
+          name: result.user.name,
+          email: result.user.email,
+          googleId: result.user.id,
+        }
+
+        const foundUser = await UserModel.show(result.user.email)
+
+        if (foundUser.user !== null && foundUser.user !== undefined) {
+          await AsyncStorage.setItem('email', foundUser.user.email)
+          await AsyncStorage.setItem('userId', foundUser.user.googleId)
+          await CurrentUser.setUser(foundUser.user)
+        } else {
+          const newUser = await UserModel.create(user)
+          await AsyncStorage.setItem('email', newUser.data.user.email)
+          await AsyncStorage.setItem('userId', newUser.data.user._id)
+          await CurrentUser.setUser(newUser.data.user)
+        }
+      } else {
+        return { cancelled: true }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const facebookSignIn = async () => {
+    try {
+      await Facebook.initializeAsync({
+        appId: '976030243163813',
+      })
+      const {
+        type,
+        token,
+        expirationDate,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ['public_profile', 'email'],
+      })
+
+      if (type === 'success') {
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(
+          `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`,
+        )
+        const result = await response.json()
+        console.log
+        const user = {
+          // firstName: result.user.givenName,
+          // lastName: result.user.familyName,
+          _id: result.email,
+          name: result.name,
+          email: result.email,
+          facebookId: result.id,
+        }
+
+        const foundUser = await UserModel.show(result.email)
+        console.log('fb found user', foundUser)
+        if (foundUser.user !== null && foundUser.user !== undefined) {
+          await AsyncStorage.setItem('email', foundUser.user.email)
+          await AsyncStorage.setItem('userId', foundUser.user.facebookId)
+          await CurrentUser.setUser(foundUser.user)
+        } else {
+          const newUser = await UserModel.create(user)
+          await AsyncStorage.setItem('email', newUser.data.user.email)
+          await AsyncStorage.setItem('userId', newUser.data.user._id)
+          await CurrentUser.setUser(newUser.data.user)
+        }
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`)
     }
   }
   return (
@@ -62,7 +155,7 @@ const SignUp = ({ navigation }) => {
             <AppForm
               initialValues={{
                 // firstName: '',
-                nsame: '',
+                name: '',
                 email: '',
                 password: '',
               }}
@@ -77,13 +170,6 @@ const SignUp = ({ navigation }) => {
                 autoCorrect={false}
                 textContentType="givenName"
               />
-              {/* <AppText style={styles.inputTitle}>Last Name</AppText>
-              <AppFormField
-                style={styles.input}
-                name="lastName"
-                autoCorrect={false}
-                textContentType="familyName"
-              /> */}
               <AppText style={styles.inputTitle}>Email</AppText>
               <AppFormField
                 style={styles.input}
@@ -120,12 +206,14 @@ const SignUp = ({ navigation }) => {
                   color="white"
                   backgroundColor="black"
                   title="Google"
+                  onPress={googleSignIn}
                 />
                 <SocialMediaBtn
                   name="facebook-square"
                   color="white"
                   backgroundColor="black"
                   title="Facebook"
+                  onPress={facebookSignIn}
                 />
               </View>
             </View>

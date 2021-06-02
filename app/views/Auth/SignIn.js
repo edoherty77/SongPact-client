@@ -52,8 +52,6 @@ const SignIn = ({ navigation, updateAuthState }) => {
 
       if (result.type === 'success') {
         const user = {
-          // firstName: result.user.givenName,
-          // lastName: result.user.familyName,
           _id: result.user.email,
           name: result.user.name,
           email: result.user.email,
