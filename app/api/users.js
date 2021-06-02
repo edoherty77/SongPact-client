@@ -14,6 +14,7 @@ export default class UserModel {
     }
   }
   static create = async (userData) => {
+    console.log('create route', userData)
     try {
       const newUser = await axios.post(`${url}/users`, {
         method: 'POST',
@@ -28,6 +29,7 @@ export default class UserModel {
     }
   }
   static show = async (id) => {
+    console.log('sho9w route', id)
     try {
       const result = await axios.get(`${url}/users/${id}`)
       return result.data
