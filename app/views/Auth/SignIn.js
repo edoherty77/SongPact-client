@@ -101,6 +101,7 @@ const SignIn = ({ navigation, updateAuthState }) => {
           `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`,
         )
         const result = await response.json()
+        console.log
         const user = {
           // firstName: result.user.givenName,
           // lastName: result.user.familyName,
@@ -111,10 +112,10 @@ const SignIn = ({ navigation, updateAuthState }) => {
         }
 
         const foundUser = await UserModel.show(result.email)
-
+        console.log('fb found user', foundUser)
         if (foundUser.user !== null && foundUser.user !== undefined) {
           await AsyncStorage.setItem('email', foundUser.user.email)
-          await AsyncStorage.setItem('userId', foundUser.user.googleId)
+          await AsyncStorage.setItem('userId', foundUser.user.facebookId)
           await CurrentUser.setUser(foundUser.user)
         } else {
           const newUser = await UserModel.create(user)
