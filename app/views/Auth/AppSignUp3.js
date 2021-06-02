@@ -10,10 +10,15 @@ import {
 
 import * as Yup from 'yup'
 import { observer } from 'mobx-react'
-// import { API, Auth, graphqlOperation } from 'aws-amplify'
-// import { createUser } from '../../../src/graphql/mutations'
-// import { listUsers } from '../../../src/graphql/queries'
-
+import Amplify, { Auth } from 'aws-amplify'
+import awsconfig from '../../../src/aws-exports'
+Amplify.configure({
+  ...awsconfig,
+  Analytics: {
+    disabled: true, // kills unhandled promise warning
+  },
+})
+import UserModel from '../../api/users'
 import AppButton from '../../components/AppButton'
 import { AppForm, AppFormField, SubmitButton } from '../../components/forms'
 import AppText from '../../components/AppText'
@@ -28,57 +33,50 @@ const validationSchema = Yup.object().shape({
 })
 
 const AppSignUp3 = observer(({ navigation }) => {
-  // async function finishSignUp(values) {
-  //   store.setArtistCompany(values)
+  async function finishSignUp(values) {
+    store.setArtistCompany(values)
 
-  //   try {
-  //     // sign up with Amplify
-  //     const data = await Auth.signUp({
-  //       username: store.email,
-  //       password: store.password,
-  //       attributes: {
-  //         email: store.email,
-  //       },
-  //     })
-  //     console.log('✅ Sign-up Confirmed')
+    try {
+      // sign up with Amplify
+      const data = await Auth.signUp({
+        username: store.email,
+        password: store.password,
+        attributes: {
+          email: store.email,
+        },
+      })
+      console.log('✅ Sign-up Confirmed')
+      await addUserToAPIByID(data.userSub)
 
-  //     await addUserToAPIByID(data.userSub)
+      // go to confirmation screen
+      navigation.navigate('ConfirmSignUp')
+    } catch (error) {
+      console.log('❌ Error signing up...', error)
+    }
+  }
 
-  //     // go to confirmation screen
-  //     navigation.navigate('ConfirmSignUp')
-  //   } catch (error) {
-  //     console.log('❌ Error signing up...', error)
-  //   }
-  // }
+  const addUserToAPIByID = async (id) => {
+    try {
+      const userObj = {
+        _id: id,
+        firstName: store.firstName,
+        lastName: store.lastName,
+        artistName: store.artistName,
+        companyName: store.companyName,
+        email: store.email,
+        address: store.address,
+        city: store.city,
+        state: store.state,
+        zipCode: store.zipCode,
+      }
 
-  // const addUserToAPIByID = async (id) => {
-  //   try {
-  //     // create userObj
-  //     const userObj = {
-  //       id: id,
-  //       firstName: store.firstName,
-  //       lastName: store.lastName,
-  //       artistName: store.artistName,
-  //       companyName: store.companyName,
-  //       email: store.email,
-  //       address: store.address,
-  //       city: store.city,
-  //       state: store.state,
-  //       zipCode: store.zipCode,
-  //     }
-
-  //     // create user in db with userObj
-  //     await API.graphql(graphqlOperation(createUser, { input: userObj }))
-  //     console.log('user successfully created')
-
-  //     // call listUsers to confirm new user created
-  //     const allUsers = await API.graphql(graphqlOperation(listUsers))
-  //     console.log('////ALL USERS////')
-  //     console.log(allUsers)
-  //   } catch (error) {
-  //     console.log('Error adding user: ', error)
-  //   }
-  // }
+      // create user in db with userObj
+      await UserModel.create(userObj)
+      console.log('user successfully created')
+    } catch (error) {
+      console.log('Error adding user: ', error)
+    }
+  }
 
   return (
     <Screen>
@@ -95,7 +93,7 @@ const AppSignUp3 = observer(({ navigation }) => {
                   artistName: '',
                   companyName: '',
                 }}
-                // onSubmit={(values) => finishSignUp(values)}
+                onSubmit={(values) => finishSignUp(values)}
                 validationSchema={validationSchema}
               >
                 <AppFormField

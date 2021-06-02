@@ -9,8 +9,8 @@ import {
   Keyboard,
 } from 'react-native'
 
-// import { API, Auth, graphqlOperation } from 'aws-amplify'
-// import { getUser } from '../../../src/graphql/queries'
+import { Auth } from 'aws-amplify'
+import UserModel from '../../api/users'
 
 import Screen from '../../components/Screen'
 import AppTextInput from '../../components/AppTextInput'
@@ -24,25 +24,18 @@ const AppSignIn = observer(({ navigation, updateAuthState }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  // async function signIn() {
-  //   try {
-  //     const data = await Auth.signIn(username, password)
-  //     console.log('Success - Signed In!')
-  //     console.log('auth username', data.username)
-  //     store.setID(data.username)
-  //     console.log('store id', store.id)
-  //     const currentUser = await API.graphql(
-  //       graphqlOperation(getUser, { id: data.username }),
-  //     )
+  async function signIn() {
+    try {
+      const data = await Auth.signIn(username, password)
+      store.setID(data.username)
+      const currentUser = await UserModel.show(data.username)
 
-  //     store.setUser(currentUser.data.getUser)
-  //     console.log('current user FROM GRAPHQL', currentUser)
-
-  //     updateAuthState('loggedIn')
-  //   } catch (err) {
-  //     console.log('Error signing in...', err)
-  //   }
-  // }
+      store.setUser(currentUser.user)
+      updateAuthState('loggedIn')
+    } catch (err) {
+      console.log('Error signing in...', err)
+    }
+  }
 
   return (
     <Screen>
@@ -101,8 +94,8 @@ const AppSignIn = observer(({ navigation, updateAuthState }) => {
                   textContentType="password"
                 />
                 <AppButton
-                  title="Login"
-                  // onPress={signIn}
+                  title="Sign In"
+                  onPress={signIn}
                   style={styles.loginButton}
                 />
               </View>
@@ -148,19 +141,20 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingLeft: 20,
     height: 45,
-    borderRadius: 25,
+    borderRadius: 7,
   },
   loginButton: {
     marginTop: 10,
-    borderRadius: 50,
+    borderRadius: 7,
     height: 45,
-    backgroundColor: colors.red,
+    backgroundColor: colors.green,
     width: '80%',
   },
   footerButtonContainer: {
     marginVertical: 15,
     justifyContent: 'center',
     alignItems: 'center',
+    // flexDirection: 'row',
   },
   forgotPasswordButtonText: {
     color: colors.black,

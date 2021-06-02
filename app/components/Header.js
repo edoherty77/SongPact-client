@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, View, SafeAreaView } from 'react-native'
 
 import ButtonIcon from './ButtonIcon'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
 import AppText from '../components/AppText'
 import colors from '../config/colors'
 
@@ -12,6 +12,7 @@ const Header = ({
   noIcon,
   back,
   icon,
+  noBack,
   name = 'message-text',
   iconPress,
   borderBottomColor,
@@ -19,24 +20,14 @@ const Header = ({
   ...otherProps
 }) => {
   return (
-    <SafeAreaView
-      style={[styles.screenContainer, { borderBottomColor, borderBottomWidth }]}
-      // onPress={onPress}
-    >
+    <SafeAreaView>
       <View style={styles.appHeader}>
-        <View
-          style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}
-        >
-          {icon && (
-            <MaterialCommunityIcons
-              onPress={back}
-              name={icon}
-              size={35}
-              color="#42C1FC"
-            />
-          )}
-        </View>
-        <View style={{ alignItems: 'center', flex: 5 }}>
+        {/* <View style={{ justifyContent: 'center', flex: 1 }}> */}
+        {!noBack && (
+          <Ionicons onPress={back} name={icon} size={35} color={colors.black} />
+        )}
+        {/* </View> */}
+        <View style={styles.titleContainer}>
           <AppText style={styles.screenName}>{title}</AppText>
         </View>
 
@@ -44,9 +35,9 @@ const Header = ({
           <ButtonIcon
             onPress={iconPress}
             style={styles.messageBtn}
-            iconColor={colors.red}
+            iconColor={colors.black}
             size={45}
-            name={name}
+            name="menu"
             backgroundColor="transparent"
             {...otherProps}
           />
@@ -57,19 +48,18 @@ const Header = ({
 }
 
 const styles = StyleSheet.create({
-  screenContainer: {
-    backgroundColor: colors.gray,
-    borderBottomColor: 'black',
-    elevation: 1,
-    borderBottomWidth: 0.4,
-  },
   appHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 20,
+    paddingLeft: 25,
+    paddingRight: 25,
+  },
+  titleContainer: {
+    display: 'flex',
+    justifyContent: 'center',
   },
   screenName: {
-    fontSize: 40,
+    fontSize: 30,
     color: colors.black,
     // fontWeight: "bold",
   },

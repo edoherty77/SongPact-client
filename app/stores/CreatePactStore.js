@@ -7,52 +7,107 @@ class CreatePactStore {
   recordLabel = false
   labelName = ''
   collaborators = []
+  users = []
   recordTitle = ''
-  initBy = ''
+  initBy = {
+    user: '',
+    status: 1,
+    firstName: '',
+    lastName: '',
+  }
   performers = []
   producer = {
     firstName: '',
     lastName: '',
-    userId: '',
-    artistName: '',
+    user: '',
     advancePercent: '',
     publisherPercent: '',
     royaltyPercent: '',
     credit: '',
+    artistName: '',
+    companyName: '',
+    signatureImg: '',
+    address: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    email: '',
+  }
+
+  setPact(pact) {
+    console.log('pact', pact)
+    this.pactId = pact._id
+    this.labelName = pact.labelName
+    this.recordLabel = pact.recordLabel
+    this.sample = pact.sample
+    this.recordTitle = pact.recordTitle
+    this.initBy = pact.initBy
+    this.performers = pact.performers
+    this.producer = pact.producer
+  }
+
+  setSignature(sig, currentUser) {
+    console.log('current', currentUser)
+    if (currentUser._id === this.producer.user) {
+      this.producer.signatureImg = sig
+    } else {
+      const foundPerformer = this.performers.find((performer) => {
+        return performer.user === currentUser._id
+      })
+      foundPerformer['signatureImg'] = sig
+    }
   }
 
   setCollabInfo(values, foundUser) {
-    console.log('fuck', values)
     //Set initBy value with foundUser
-    this.initBy = foundUser.artistName
+    this.initBy.user = foundUser._id
+    this.initBy.firstName = foundUser.firstName
+    this.initBy.lastName = foundUser.lastName
+    this.users.push(foundUser)
     // console.log(this.collaborators, this.initBy)
 
-    //Find everyone involved in agreement and push in to collaborator array
+    //Find everyone else involved in agreement and push in to collaborator array
     const collabsArr = values.collabs
-    for (let i = 0; i < collabsArr.length; i++) {
-      this.collaborators.push(collabsArr[i])
-    }
+    collabsArr.map((collab) => {
+      let obj = {}
+      obj['status'] = 1
+      obj['user'] = collab._id
+      obj['firstName'] = collab.firstName
+      obj['lastName'] = collab.lastName
+      obj['artistName'] = collab.artistName
+      obj['companyName'] = collab.companyName
+      obj['address'] = collab.address
+      obj['city'] = collab.city
+      obj['state'] = collab.state
+      obj['zipCode'] = collab.zipCode
+      obj['email'] = collab.email
+      this.collaborators.push(obj)
+      this.users.push(collab)
+    })
   }
 
   setProducer(values) {
     //Find the one producer and add to object
-    let foundProducer = this.collaborators.find(
-      (x) => x.userId === values.producer,
-    )
-    this.producer.userId = foundProducer.userId
+    let foundProducer = this.users.find((x) => x._id === values.producer)
+    this.producer.user = foundProducer._id
     this.producer.artistName = foundProducer.artistName
     this.producer.firstName = foundProducer.firstName
     this.producer.lastName = foundProducer.lastName
+    this.producer.companyName = foundProducer.companyName
+    this.producer.address = foundProducer.address
+    this.producer.city = foundProducer.city
+    this.producer.state = foundProducer.state
+    this.producer.zipCode = foundProducer.zipCode
+    this.producer.email = foundProducer.email
 
     //The rest must be performers. find and push into array
-    let foundPerformers = this.collaborators.filter(function (x) {
+    let foundPerformers = this.users.filter(function (x) {
       return x !== foundProducer
     })
 
     for (let i = 0; i < foundPerformers.length; i++) {
       this.performers.push(foundPerformers[i])
     }
-    console.log('FOUNDPERFOM', this.performers)
   }
 
   setProducerInfo(values) {
@@ -60,19 +115,13 @@ class CreatePactStore {
     this.producer.royaltyPercent = parseInt(values.royaltyPercent)
     this.producer.publisherPercent = parseInt(values.publisherPercent)
     this.producer.credit = values.credit
-
-    console.log('producer', this.producer)
-    // console.log('performers', this.performers)
   }
 
   setPerformerInfo(values) {
     this.performers = []
-    // console.log('old', this.performers)
-
     for (let i = 0; i < values.length; i++) {
       this.performers.push(values[i])
     }
-    console.log('performers', this.performers)
   }
 
   setRecordInfo(values) {
@@ -91,19 +140,36 @@ class CreatePactStore {
   }
 
   resetPact() {
+    this.users = []
     this.recordTitle = ''
     this.pactId = ''
-    this.initBy = ''
+    this.initBy = {
+      user: '',
+      status: 1,
+      firstName: '',
+      lastName: '',
+    }
     this.collaborators = []
     this.performers = []
     this.producer = {
-      userId: '',
-      artistName: '',
+      firstName: '',
+      lastName: '',
+      user: '',
       advancePercent: '',
       publisherPercent: '',
       royaltyPercent: '',
       credit: '',
+      artistName: '',
+      companyName: '',
+      address: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      email: '',
     }
+    sample = false
+    recordLabel = false
+    labelName = ''
   }
 }
 

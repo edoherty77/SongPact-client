@@ -8,7 +8,7 @@ import {
   Keyboard,
 } from 'react-native'
 
-// import { Auth } from 'aws-amplify'
+import { Auth } from 'aws-amplify'
 
 import AppButton from '../../components/AppButton'
 import AppText from '../../components/AppText'
@@ -21,18 +21,18 @@ export default function ConfirmSignUp({ navigation }) {
   const [username, setUsername] = useState('')
   const [authCode, setAuthCode] = useState('')
 
-  // async function confirmSignUp() {
-  //   try {
-  //     await Auth.confirmSignUp(username, authCode)
-  //     console.log('✅ Code confirmed')
-  //     navigation.navigate('SignIn')
-  //   } catch (error) {
-  //     console.log(
-  //       '❌ Verification code does not match. Please enter a valid verification code.',
-  //       error.code,
-  //     )
-  //   }
-  // }
+  async function confirmSignUp() {
+    try {
+      await Auth.confirmSignUp(username, authCode)
+      console.log('✅ Code confirmed')
+      navigation.navigate('SignIn')
+    } catch (error) {
+      console.log(
+        '❌ Verification code does not match. Please enter a valid verification code.',
+        error.code,
+      )
+    }
+  }
   return (
     <Screen>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
