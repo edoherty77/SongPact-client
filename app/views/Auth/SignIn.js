@@ -20,6 +20,7 @@ import Header from '../../components/Header'
 import colors from '../../config/colors'
 import CurrentUser from '../../stores/UserStore'
 import * as Google from 'expo-google-app-auth'
+import * as Facebook from 'expo-facebook'
 
 const SignIn = ({ navigation, updateAuthState }) => {
   const [username, setUsername] = useState('')
@@ -34,7 +35,6 @@ const SignIn = ({ navigation, updateAuthState }) => {
         await AsyncStorage.setItem('userId', foundUser.user._id)
         await CurrentUser.setUser(foundUser.user)
       }
-      console.log('current', CurrentUser)
     } catch (err) {
       console.log('Error signing in...', err)
     }
@@ -52,13 +52,16 @@ const SignIn = ({ navigation, updateAuthState }) => {
 
       if (result.type === 'success') {
         const user = {
-          firstName: result.user.givenName,
-          lastName: result.user.familyName,
+          // firstName: result.user.givenName,
+          // lastName: result.user.familyName,
+          _id: result.user.email,
+          name: result.user.name,
           email: result.user.email,
           googleId: result.user.id,
         }
 
-        const foundUser = await UserModel.show(result.user.id)
+        const foundUser = await UserModel.show(result.user.email)
+
         if (foundUser.user !== null && foundUser.user !== undefined) {
           await AsyncStorage.setItem('email', foundUser.user.email)
           await AsyncStorage.setItem('userId', foundUser.user.googleId)
@@ -67,13 +70,63 @@ const SignIn = ({ navigation, updateAuthState }) => {
           const newUser = await UserModel.create(user)
           await AsyncStorage.setItem('email', newUser.data.user.email)
           await AsyncStorage.setItem('userId', newUser.data.user._id)
-          await CurrentUser.setUser(foundUser.user)
+          await CurrentUser.setUser(newUser.data.user)
         }
       } else {
         return { cancelled: true }
       }
     } catch (error) {
       console.log(error)
+    }
+  }
+
+  const facebookSignIn = async () => {
+    try {
+      await Facebook.initializeAsync({
+        appId: '976030243163813',
+      })
+      const {
+        type,
+        token,
+        expirationDate,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ['public_profile', 'email'],
+      })
+
+      if (type === 'success') {
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(
+          `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`,
+        )
+        const result = await response.json()
+        const user = {
+          // firstName: result.user.givenName,
+          // lastName: result.user.familyName,
+          _id: result.email,
+          name: result.name,
+          email: result.email,
+          facebookId: result.id,
+        }
+
+        const foundUser = await UserModel.show(result.email)
+
+        if (foundUser.user !== null && foundUser.user !== undefined) {
+          await AsyncStorage.setItem('email', foundUser.user.email)
+          await AsyncStorage.setItem('userId', foundUser.user.googleId)
+          await CurrentUser.setUser(foundUser.user)
+        } else {
+          const newUser = await UserModel.create(user)
+          await AsyncStorage.setItem('email', newUser.data.user.email)
+          await AsyncStorage.setItem('userId', newUser.data.user._id)
+          await CurrentUser.setUser(newUser.data.user)
+        }
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`)
     }
   }
   return (
@@ -136,6 +189,7 @@ const SignIn = ({ navigation, updateAuthState }) => {
                     color="white"
                     backgroundColor="black"
                     title="Facebook"
+                    onPress={facebookSignIn}
                   />
                 </View>
               </View>

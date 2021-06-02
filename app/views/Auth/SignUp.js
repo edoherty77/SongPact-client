@@ -61,22 +61,23 @@ const SignUp = ({ navigation }) => {
           <View>
             <AppForm
               initialValues={{
-                firstName: '',
-                lastName: '',
+                // firstName: '',
+                nsame: '',
                 email: '',
                 password: '',
               }}
               onSubmit={(values) => register(values)}
               // validationSchema={validationSchema}
             >
-              {/* <AppText style={styles.inputTitle}>First Name</AppText>
+              <AppText style={styles.inputTitle}>Full Name</AppText>
               <AppFormField
                 style={styles.input}
-                name="firstName"
+                name="name"
+                height={50}
                 autoCorrect={false}
                 textContentType="givenName"
               />
-              <AppText style={styles.inputTitle}>Last Name</AppText>
+              {/* <AppText style={styles.inputTitle}>Last Name</AppText>
               <AppFormField
                 style={styles.input}
                 name="lastName"

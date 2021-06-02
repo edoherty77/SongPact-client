@@ -2,8 +2,9 @@ import { makeAutoObservable } from 'mobx'
 
 class UserStore {
   _id = ''
-  firstName = ''
-  lastName = ''
+  // firstName = ''
+  // lastName = ''
+  name = ''
   artistName = ''
   companyName = ''
   address = ''
@@ -20,8 +21,9 @@ class UserStore {
   }
 
   setUser(values) {
-    this.firstName = values.firstName
-    this.lastName = values.lastName
+    // this.firstName = values.firstName
+    // this.lastName = values.lastName
+    this.name = values.name
     this.artistName = values.artistName
     this.companyName = values.companyName
     this.address = values.address
@@ -53,8 +55,9 @@ class UserStore {
   resetUser() {
     console.log('resetting User in UserStore...')
     this._id = ''
-    this.firstName = ''
-    this.lastName = ''
+    // this.firstName = ''
+    // this.lastName = ''
+    this.name = ''
     this.artistName = ''
     this.companyName = ''
     this.address = ''
