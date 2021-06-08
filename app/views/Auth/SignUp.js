@@ -198,7 +198,7 @@ const SignUp = ({ navigation }) => {
             </AppForm>
             <View style={styles.socialContainer}>
               <AppText style={styles.socialText}>
-                or sign in with your social account
+                or sign up with your social account
               </AppText>
               <View style={styles.socialBtns}>
                 <SocialMediaBtn
@@ -288,12 +288,12 @@ const styles = StyleSheet.create({
   socialContainer: {
     display: 'flex',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 10,
   },
   socialText: {
     marginTop: 20,
     fontSize: 18,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   socialBtns: {
     display: 'flex',

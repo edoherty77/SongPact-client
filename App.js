@@ -1,17 +1,9 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, View, Text } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-// AMPLIFY & AUTH
-import Amplify, { Auth } from 'aws-amplify'
-import awsconfig from './src/aws-exports'
-Amplify.configure({
-  ...awsconfig,
-  Analytics: {
-    disabled: true, // kills unhandled promise warning
-  },
-})
+// AUTH
 import AuthModel from './app/api/auth'
 import AsyncStorage from '@react-native-community/async-storage'
 // NAV
@@ -31,7 +23,6 @@ const Initializing = () => {
 }
 
 const App = observer(() => {
-  const [isUserLoggedIn, setUserLoggedIn] = useState('initializing')
   const [user, setUser] = useState({
     email: '',
     userId: '',
@@ -71,12 +62,6 @@ const App = observer(() => {
     <>
       <SafeAreaProvider>
         {user.email === 'initializing' && <Initializing />}
-        {/* {isUserLoggedIn === 'loggedIn' && (
-          <Main updateAuthState={updateAuthState} />
-        )}
-        {isUserLoggedIn === 'loggedOut' && (
-          <AuthNavigator updateAuthState={updateAuthState} />
-        )} */}
         {CurrentUser.email !== '' ? (
           <Main logout={logout} />
         ) : (
