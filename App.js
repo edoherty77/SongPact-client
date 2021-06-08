@@ -5,7 +5,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 // AUTH
 import AuthModel from './app/api/auth'
-import AsyncStorage from '@react-native-community/async-storage'
+// import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 // NAV
 import AuthNavigator from './app/navigation/AuthNavigator'
 import Main from './app/navigation/main'

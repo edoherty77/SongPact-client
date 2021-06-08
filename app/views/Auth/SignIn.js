@@ -10,7 +10,8 @@ import {
 
 import UserModel from '../../api/users'
 import AuthModel from '../../api/auth'
-import AsyncStorage from '@react-native-community/async-storage'
+// import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import Screen from '../../components/Screen'
 import AppTextInput from '../../components/AppTextInput'
 import AppButton from '../../components/AppButton'
