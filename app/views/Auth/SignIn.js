@@ -201,7 +201,7 @@ const SignIn = ({ navigation, updateAuthState }) => {
             Don't have an accout?{' '}
             <AppText
               style={styles.textBtn}
-              onPress={() => navigation.navigate('SignUp')}
+              onPress={() => navigation.navigate('Onboarding')}
             >
               Sign Up
             </AppText>

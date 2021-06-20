@@ -21,7 +21,8 @@ const FindArtist = observer(({ navigation }) => {
   const currentUserFriends = currentUser.friends
 
   const findUsers = async () => {
-    console.log('ccurentFriends', currentUser.friends)
+    // console.log('curentUser', currentUser)
+    // console.log('ccurentFriends', currentUser.friends)
     try {
       const getUsers = await UserModel.all()
       // console.log('GETUSERS', getUsers)
@@ -31,12 +32,12 @@ const FindArtist = observer(({ navigation }) => {
       })
       // setUsers(notCurrentUser)
       console.log('NOT CURRENT', notCurrentUser)
-      // console.log('FRIENDS', currentUserFriends)
+      console.log('FRIENDS', currentUserFriends)
       const notFriends = notCurrentUser.filter((user) =>
-        currentUserFriends.find(({ userId }) => user._id !== userId),
+        currentUser.friends.find(({ _id }) => user._id !== _id),
       )
-
-      setUsers(notFriends)
+      console.log('not friends', notFriends)
+      setUsers(notCurrentUser)
     } catch (error) {
       console.log(error)
     }
@@ -63,10 +64,15 @@ const FindArtist = observer(({ navigation }) => {
     // setModalVisible(false)
     // navigation.navigate('Contacts')
   }
+  const viewProfile = (item) => {
+    navigation.navigate('ArtistProfile', {
+      item: item,
+    })
+  }
 
   return (
     <Screen>
-      <Head noBack />
+      <Head noBack title="Contacts" />
       <Header
         transparent={true}
         searchBar
@@ -88,12 +94,13 @@ const FindArtist = observer(({ navigation }) => {
           keyExtractor={(user) => user._id}
           renderItem={({ item, index }) => (
             <ContactButton
-              name={item.firstName + ' ' + item.lastName}
-              onPress={() => {
-                addFriend(item._id)
-                // setModalVisible(true)
-                // setFriendInfo(item)
-              }}
+              viewProfile={() => viewProfile(item)}
+              item={item}
+              // onPress={() => {
+              //   addFriend(item._id)
+              //   setModalVisible(true)
+              //   setFriendInfo(item)
+              // }}
             />
           )}
         />
