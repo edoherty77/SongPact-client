@@ -59,6 +59,7 @@ const SignUp = ({ navigation }) => {
           name: result.user.name,
           email: result.user.email,
           googleId: result.user.id,
+          googlePhotoUrl: result.user.photoUrl,
         }
 
         const foundUser = await UserModel.show(result.user.email)

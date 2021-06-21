@@ -15,6 +15,7 @@ class UserStore {
   pacts = []
   friends = []
   notFriends = []
+  googlePhotoUrl = ''
 
   setID(id) {
     this._id = id
@@ -34,7 +35,7 @@ class UserStore {
     this.pacts = values.pacts
     this.friends = values.friends
     this._id = values._id
-    // console.log(this.firstName, this.lastName, 'set')
+    this.googlePhotoUrl = values.googlePhotoUrl
   }
 
   // addOtherUsers(values) {
@@ -67,7 +68,7 @@ class UserStore {
     this.email = ''
     this.pacts = []
     this.friends = []
-    // console.log('User reset')
+    this.googlePhotoUrl = ''
   }
 
   constructor() {

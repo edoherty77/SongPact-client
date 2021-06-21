@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import AppText from '../components/AppText'
 import colors from '../config/colors'
 import ButtonIcon from '../components/ButtonIcon'
@@ -18,7 +18,7 @@ const ContactButton = ({
     <View style={styles.contactButton}>
       <View style={styles.contactView}>
         <View style={styles.picContainer}>
-          <AppText></AppText>
+          <Image source={{ uri: item.googlePhotoUrl }} style={styles.image} />
         </View>
         <View style={styles.infoContainer}>
           <AppText style={styles.name}>{item.name}</AppText>
@@ -49,9 +49,7 @@ export default ContactButton
 const styles = StyleSheet.create({
   contactButton: {
     position: 'relative',
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
+    marginBottom: 5,
     marginTop: 10,
     padding: 15,
     borderRadius: 10,
@@ -67,14 +65,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   picContainer: {
-    // padding: 10,
     height: 42,
     width: 42,
     marginRight: 20,
-    borderStyle: 'solid',
-    borderColor: 'black',
     borderRadius: 50,
-    borderWidth: 1,
+  },
+  image: {
+    height: 42,
+    width: 42,
+    borderRadius: 20,
   },
   name: {
     fontWeight: 'bold',

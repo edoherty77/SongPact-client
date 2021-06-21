@@ -3,7 +3,7 @@ import { View, StyleSheet, FlatList } from 'react-native'
 import { Header, Item, Input, Icon } from 'native-base'
 import Head from '../../components/Header'
 import Screen from '../../components/Screen'
-import AppTextInput from '../../components/AppTextInput'
+import colors from '../../config/colors'
 import ContactButton from '../../components/ContactButton'
 import ConfirmModal from '../../components/ConfirmModal'
 import UserModel from '../../api/users'
@@ -78,17 +78,20 @@ const FindArtist = observer(({ navigation }) => {
         searchBar
         noshadow
         rounded
-        width={300}
+        // width={300}
         alignSelf="center"
+        height={20}
+        style={{ paddingRight: 22, paddingLeft: 22 }}
       >
-        <Item>
+        {/* <Item style={{ padding: 20 }}> */}
+        <Item style={styles.searchInput}>
           <Icon name="ios-search" />
           <Input placeholder="Search" />
           <Icon name="ios-people" />
         </Item>
       </Header>
 
-      <View>
+      <View style={styles.mainView}>
         <FlatList
           data={users}
           keyExtractor={(user) => user._id}
@@ -121,6 +124,18 @@ const FindArtist = observer(({ navigation }) => {
 })
 
 const styles = StyleSheet.create({
+  mainView: {
+    marginLeft: 25,
+    marginRight: 25,
+  },
+  searchInput: {
+    height: 50,
+    borderRadius: 10,
+    backgroundColor: colors.white,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderStyle: 'solid',
+  },
   inputView: {
     display: 'flex',
     justifyContent: 'center',

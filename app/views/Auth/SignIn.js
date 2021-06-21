@@ -52,11 +52,13 @@ const SignIn = ({ navigation, updateAuthState }) => {
       })
 
       if (result.type === 'success') {
+        console.log('googleResult', result)
         const user = {
           _id: result.user.email,
           name: result.user.name,
           email: result.user.email,
           googleId: result.user.id,
+          googlePhotoUrl: result.user.photoUrl,
         }
 
         const foundUser = await UserModel.show(result.user.email)
