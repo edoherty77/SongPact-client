@@ -103,7 +103,6 @@ const SignUp = ({ navigation }) => {
           `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`,
         )
         const result = await response.json()
-        console.log
         const user = {
           // firstName: result.user.givenName,
           // lastName: result.user.familyName,

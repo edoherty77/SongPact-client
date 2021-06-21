@@ -39,7 +39,7 @@ function NewSongPact({ navigation }) {
 
   return (
     <Screen>
-      <Header title="Create a new pact" noBack />
+      <Header title="Create New Pact" noBack />
       <View style={styles.mainView}>
         <View style={styles.rowView}>
           <NewPactButton

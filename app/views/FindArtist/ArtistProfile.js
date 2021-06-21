@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, FlatList } from 'react-native'
+import { View, StyleSheet, Image } from 'react-native'
 import Header from '../../components/Header'
 import Screen from '../../components/Screen'
 import AppText from '../../components/AppTextInput'
@@ -12,7 +12,10 @@ const FindArtist = observer(({ route, navigation }) => {
   const { item } = route.params
   return (
     <Screen>
-      <Header icon="chevron-back" back={() => navigation.navigate('Find')} />
+      <Header
+        icon="chevron-back"
+        back={() => navigation.navigate('Contacts')}
+      />
       <View style={styles.mainContainer}>
         <View style={styles.heroView}>
           <View style={styles.iconView}>
@@ -24,7 +27,7 @@ const FindArtist = observer(({ route, navigation }) => {
             />
           </View>
           <View style={styles.picContainer}>
-            <AppText></AppText>
+            <Image source={{ uri: item.googlePhotoUrl }} style={styles.image} />
           </View>
           <AppText style={styles.name}>{item.name}</AppText>
           <AppText style={styles.email}>{item.email}</AppText>
@@ -34,6 +37,26 @@ const FindArtist = observer(({ route, navigation }) => {
           </View>
         </View>
         <View style={styles.pactsView}></View>
+        <View style={styles.contactView}>
+          <View style={styles.infoHeaderContainer}>
+            <View style={styles.infoHeaderContent}>
+              <AppText style={styles.infoHeaderText}>Pacts</AppText>
+              <ButtonIcon
+                name="plus"
+                backgroundColor={colors.green}
+                style={{
+                  borderRadius: 5,
+                  borderColor: 'black',
+                  borderWidth: 1,
+                  borderStyle: 'solid',
+                }}
+                size={35}
+                iconColor={colors.background}
+              />
+            </View>
+          </View>
+          <View style={styles.infoBodyContainer}></View>
+        </View>
         <View style={styles.contactView}>
           <View style={styles.infoHeaderContainer}>
             <View style={styles.infoHeaderContent}>
@@ -101,7 +124,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     zIndex: 0,
     backgroundColor: colors.white,
-    marginTop: 50,
+    marginTop: 20,
+  },
+  image: {
+    height: 70,
+    width: 70,
+    borderRadius: 35,
   },
   iconView: {
     position: 'absolute',
@@ -115,11 +143,11 @@ const styles = StyleSheet.create({
     height: 70,
     width: 70,
     marginRight: 20,
-    borderStyle: 'solid',
-    borderColor: 'black',
-    borderRadius: 50,
-    borderWidth: 1,
-    backgroundColor: colors.blue,
+    // borderStyle: 'solid',
+    // borderColor: 'black',
+    // borderRadius: 50,
+    // borderWidth: 1,
+    // backgroundColor: colors.blue,
   },
   name: {
     fontWeight: 'bold',
@@ -140,7 +168,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     zIndex: 0,
     backgroundColor: colors.white,
-    marginTop: 50,
+    marginTop: 20,
   },
   infoHeaderContainer: {
     borderBottomColor: 'black',
