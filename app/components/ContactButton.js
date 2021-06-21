@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderWidth: 1,
     flexDirection: 'row',
+    backgroundColor: colors.white,
   },
   contactView: {
     flexDirection: 'row',
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
   },
   email: {
     color: '#222222',
-    opacity: 50,
+    opacity: 0.5,
     marginBottom: 2,
   },
   infoButtonContainer: {
