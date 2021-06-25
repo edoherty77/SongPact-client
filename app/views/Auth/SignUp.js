@@ -6,21 +6,20 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native'
-import { AppForm, AppFormField, SubmitButton } from '../../components/forms'
-// import AsyncStorage from '@react-native-community/async-storage'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import UserModel from '../../api/users'
-import AuthModel from '../../api/auth'
-import * as Yup from 'yup'
-import Screen from '../../components/Screen'
 
+// FORMS
+import { AppForm, AppFormField, SubmitButton } from '../../components/forms'
+import * as Yup from 'yup'
+
+// AUTH
+import AuthModel from '../../api/auth'
+
+// COMPONENTS
+import Screen from '../../components/Screen'
 import AppText from '../../components/AppText'
 import Header from '../../components/Header'
-import SocialMediaBtn from '../../components/SocialMediaBtn'
+import SocMediaSignIn from './SocMediaSignIn'
 import colors from '../../config/colors'
-import * as Google from 'expo-google-app-auth'
-import * as Facebook from 'expo-facebook'
-import CurrentUser from '../../stores/UserStore'
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required().label('First name'),
@@ -43,94 +42,6 @@ const SignUp = ({ navigation }) => {
     }
   }
 
-  const googleSignUp = async () => {
-    try {
-      const result = await Google.logInAsync({
-        androidClientId:
-          '350040199389-gjbgtaas95ofd5hd9ojotcfht73gj407.apps.googleusercontent.com',
-        iosClientId:
-          '350040199389-e8iqt2rlahdmgeslat7eq51944dcbb7c.apps.googleusercontent.com',
-        scopes: ['profile', 'email'],
-      })
-
-      if (result.type === 'success') {
-        const user = {
-          _id: result.user.email,
-          name: result.user.name,
-          email: result.user.email,
-          googleId: result.user.id,
-          googlePhotoUrl: result.user.photoUrl,
-        }
-
-        const foundUser = await UserModel.show(result.user.email)
-
-        if (foundUser.user !== null && foundUser.user !== undefined) {
-          await AsyncStorage.setItem('email', foundUser.user.email)
-          await AsyncStorage.setItem('userId', foundUser.user.googleId)
-          await CurrentUser.setUser(foundUser.user)
-        } else {
-          const newUser = await UserModel.create(user)
-          await AsyncStorage.setItem('email', newUser.data.user.email)
-          await AsyncStorage.setItem('userId', newUser.data.user._id)
-          await CurrentUser.setUser(newUser.data.user)
-        }
-      } else {
-        return { cancelled: true }
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const facebookSignUp = async () => {
-    try {
-      await Facebook.initializeAsync({
-        appId: '976030243163813',
-      })
-      const {
-        type,
-        token,
-        expirationDate,
-        permissions,
-        declinedPermissions,
-      } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ['public_profile', 'email'],
-      })
-
-      if (type === 'success') {
-        // Get the user's name using Facebook's Graph API
-        const response = await fetch(
-          `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`,
-        )
-        const result = await response.json()
-        const user = {
-          // firstName: result.user.givenName,
-          // lastName: result.user.familyName,
-          _id: result.email,
-          name: result.name,
-          email: result.email,
-          facebookId: result.id,
-        }
-
-        const foundUser = await UserModel.show(result.email)
-        console.log('fb found user', foundUser)
-        if (foundUser.user !== null && foundUser.user !== undefined) {
-          await AsyncStorage.setItem('email', foundUser.user.email)
-          await AsyncStorage.setItem('userId', foundUser.user.facebookId)
-          await CurrentUser.setUser(foundUser.user)
-        } else {
-          const newUser = await UserModel.create(user)
-          await AsyncStorage.setItem('email', newUser.data.user.email)
-          await AsyncStorage.setItem('userId', newUser.data.user._id)
-          await CurrentUser.setUser(newUser.data.user)
-        }
-      } else {
-        // type === 'cancel'
-      }
-    } catch ({ message }) {
-      alert(`Facebook Login Error: ${message}`)
-    }
-  }
   return (
     <Screen>
       <Header icon="chevron-back" noIcon />
@@ -201,22 +112,7 @@ const SignUp = ({ navigation }) => {
               <AppText style={styles.socialText}>
                 or sign up with your social account
               </AppText>
-              <View style={styles.socialBtns}>
-                <SocialMediaBtn
-                  name="google"
-                  color="white"
-                  backgroundColor="black"
-                  title="Google"
-                  onPress={googleSignUp}
-                />
-                <SocialMediaBtn
-                  name="facebook-square"
-                  color="white"
-                  backgroundColor="black"
-                  title="Facebook"
-                  onPress={facebookSignUp}
-                />
-              </View>
+              <SocMediaSignIn />
             </View>
           </View>
         </TouchableWithoutFeedback>

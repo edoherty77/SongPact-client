@@ -8,129 +8,57 @@ import {
   Keyboard,
 } from 'react-native'
 
+// AUTH/STORAGE
 import UserModel from '../../api/users'
 import AuthModel from '../../api/auth'
-// import AsyncStorage from '@react-native-community/async-storage'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import currentUser from '../../stores/UserStore'
+
+// COMPONENTS
 import Screen from '../../components/Screen'
 import AppTextInput from '../../components/AppTextInput'
 import AppButton from '../../components/AppButton'
-import SocialMediaBtn from '../../components/SocialMediaBtn'
 import AppText from '../../components/AppText'
 import Header from '../../components/Header'
 import colors from '../../config/colors'
-import CurrentUser from '../../stores/UserStore'
-import * as Google from 'expo-google-app-auth'
-import * as Facebook from 'expo-facebook'
+import SocMediaSignIn from './SocMediaSignIn'
 
-const SignIn = ({ navigation, updateAuthState }) => {
-  const [username, setUsername] = useState('')
+const SignIn = ({ navigation }) => {
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  async function signIn() {
+  const checkForFriends = async () => {
+    let friends = currentUser.friends
+    let arr = []
     try {
-      const userData = { email: username, password: password }
-      const foundUser = await AuthModel.login(userData)
-      if (foundUser) {
-        await AsyncStorage.setItem('email', foundUser.user.email)
-        await AsyncStorage.setItem('userId', foundUser.user._id)
-        await CurrentUser.setUser(foundUser.user)
-      }
-    } catch (err) {
-      console.log('Error signing in...', err)
-    }
-  }
-
-  const googleSignIn = async () => {
-    try {
-      const result = await Google.logInAsync({
-        androidClientId:
-          '350040199389-gjbgtaas95ofd5hd9ojotcfht73gj407.apps.googleusercontent.com',
-        iosClientId:
-          '350040199389-e8iqt2rlahdmgeslat7eq51944dcbb7c.apps.googleusercontent.com',
-        scopes: ['profile', 'email'],
-      })
-
-      if (result.type === 'success') {
-        console.log('googleResult', result)
-        const user = {
-          _id: result.user.email,
-          name: result.user.name,
-          email: result.user.email,
-          googleId: result.user.id,
-          googlePhotoUrl: result.user.photoUrl,
-        }
-
-        const foundUser = await UserModel.show(result.user.email)
-
-        if (foundUser.user !== null && foundUser.user !== undefined) {
-          await AsyncStorage.setItem('email', foundUser.user.email)
-          await AsyncStorage.setItem('userId', foundUser.user.googleId)
-          await CurrentUser.setUser(foundUser.user)
-        } else {
-          const newUser = await UserModel.create(user)
-          await AsyncStorage.setItem('email', newUser.data.user.email)
-          await AsyncStorage.setItem('userId', newUser.data.user._id)
-          await CurrentUser.setUser(newUser.data.user)
-        }
-      } else {
-        return { cancelled: true }
+      if (friends) {
+        friends.map(async (friend) => {
+          let response = await UserModel.show(friend)
+          let friendInfo = response.user
+          arr.push(friendInfo)
+          await currentUser.setFriends([...arr])
+        })
       }
     } catch (error) {
       console.log(error)
     }
   }
 
-  const facebookSignIn = async () => {
+  async function signIn() {
     try {
-      await Facebook.initializeAsync({
-        appId: '976030243163813',
-      })
-      const {
-        type,
-        token,
-        expirationDate,
-        permissions,
-        declinedPermissions,
-      } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ['public_profile', 'email'],
-      })
-
-      if (type === 'success') {
-        // Get the user's name using Facebook's Graph API
-        const response = await fetch(
-          `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`,
-        )
-        const result = await response.json()
-        console.log
-        const user = {
-          // firstName: result.user.givenName,
-          // lastName: result.user.familyName,
-          _id: result.email,
-          name: result.name,
-          email: result.email,
-          facebookId: result.id,
-        }
-
-        const foundUser = await UserModel.show(result.email)
-        console.log('fb found user', foundUser)
-        if (foundUser.user !== null && foundUser.user !== undefined) {
-          await AsyncStorage.setItem('email', foundUser.user.email)
-          await AsyncStorage.setItem('userId', foundUser.user.facebookId)
-          await CurrentUser.setUser(foundUser.user)
-        } else {
-          const newUser = await UserModel.create(user)
-          await AsyncStorage.setItem('email', newUser.data.user.email)
-          await AsyncStorage.setItem('userId', newUser.data.user._id)
-          await CurrentUser.setUser(newUser.data.user)
-        }
-      } else {
-        // type === 'cancel'
+      const userData = { email: email, password: password }
+      const foundUser = await AuthModel.login(userData)
+      if (foundUser) {
+        await AsyncStorage.setItem('email', foundUser.user.email)
+        await AsyncStorage.setItem('userId', foundUser.user._id)
+        await currentUser.setUser(foundUser.user)
+        await checkForFriends()
       }
-    } catch ({ message }) {
-      alert(`Facebook Login Error: ${message}`)
+    } catch (err) {
+      console.log('Error signing in...', err)
     }
   }
+
   return (
     <Screen>
       <Header icon="chevron-back" noIcon />
@@ -151,8 +79,8 @@ const SignIn = ({ navigation, updateAuthState }) => {
               <AppText style={styles.inputTitle}>Email</AppText>
               <AppTextInput
                 style={styles.input}
-                value={username}
-                onChangeText={(text) => setUsername(text)}
+                value={email}
+                onChangeText={(text) => setEmail(text)}
                 autoCapitalize="none"
                 keyboardType="email-address"
                 textContentType="username"
@@ -178,22 +106,7 @@ const SignIn = ({ navigation, updateAuthState }) => {
                 <AppText style={styles.socialText}>
                   or sign in with your social account
                 </AppText>
-                <View style={styles.socialBtns}>
-                  <SocialMediaBtn
-                    name="google"
-                    color="white"
-                    backgroundColor="black"
-                    title="Google"
-                    onPress={googleSignIn}
-                  />
-                  <SocialMediaBtn
-                    name="facebook-square"
-                    color="white"
-                    backgroundColor="black"
-                    title="Facebook"
-                    onPress={facebookSignIn}
-                  />
-                </View>
+                <SocMediaSignIn />
               </View>
             </View>
           </TouchableWithoutFeedback>
@@ -203,7 +116,7 @@ const SignIn = ({ navigation, updateAuthState }) => {
             Don't have an accout?{' '}
             <AppText
               style={styles.textBtn}
-              onPress={() => navigation.navigate('Onboarding')}
+              onPress={() => navigation.navigate('SignUp')}
             >
               Sign Up
             </AppText>
@@ -272,7 +185,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
   },
-
   footer: {
     display: 'flex',
     justifyContent: 'flex-end',

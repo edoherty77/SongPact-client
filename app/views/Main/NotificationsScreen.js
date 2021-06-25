@@ -19,23 +19,24 @@ const NotificationsScreen = observer(() => {
     try {
       const response = await FriendRequestModel.all(currentUser._id)
       const requests = await response.data.friendRequests
-      requests.map(async (request) => {
-        let obj = {}
-        let requester = await UserModel.show(request.requester)
-        let requesterInfo = requester.user
-        obj['friendRequestId'] = request._id
-        obj['requesterInfo'] = requesterInfo
-        arr.push(obj)
-        await setFriendRequests([...arr])
-        console.log('req', friendRequests)
-      })
+      if (requests) {
+        requests.map(async (request) => {
+          let obj = {}
+          let requester = await UserModel.show(request.requester)
+          let requesterInfo = requester.user
+          obj['friendRequestId'] = request._id
+          obj['requesterInfo'] = requesterInfo
+          arr.push(obj)
+          await setFriendRequests([...arr])
+          console.log('req', friendRequests)
+        })
+      }
     } catch (error) {
       console.log(error)
     }
   }
 
   const answerRequest = async (id, requesterId) => {
-    let status = 2
     let values = {
       status: 2,
       requester: requesterId,

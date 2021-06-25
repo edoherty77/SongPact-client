@@ -20,23 +20,6 @@ const ContactsScreen = observer(({ navigation }) => {
   const [isModalVisible, setModalVisible] = useState(false)
   const currentUserFriends = currentUser.friends
 
-  const getFriendInfo = async () => {
-    console.log('currentUser', currentUser)
-    let friends = currentUser.friends
-    let arr = []
-    try {
-      friends.map(async (friend) => {
-        let obj = {}
-        let response = await UserModel.show(friend)
-        let friendInfo = response.user
-        arr.push(friendInfo)
-        await setFriendInfo([...arr])
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   const findUsers = async () => {
     console.log('curentUser', currentUser)
     // console.log('ccurentFriends', currentUser.friends)
@@ -53,7 +36,7 @@ const ContactsScreen = observer(({ navigation }) => {
       const notFriends = notCurrentUser.filter((user) =>
         currentUser.friends.find(({ _id }) => user._id !== _id),
       )
-      console.log('not friends', notFriends)
+      // console.log('not friends', notFriends)
       setUsers(notCurrentUser)
     } catch (error) {
       console.log(error)
@@ -61,8 +44,7 @@ const ContactsScreen = observer(({ navigation }) => {
   }
 
   useEffect(() => {
-    // findUsers()
-    getFriendInfo()
+    findUsers()
   }, [])
 
   // function cancel() {
@@ -123,14 +105,13 @@ const ContactsScreen = observer(({ navigation }) => {
           )}
         /> */}
         <FlatList
-          data={friendInfo}
-          keyExtractor={(friendInfo) => friendInfo._id}
+          data={currentUser.friends}
+          keyExtractor={(item) => item._id}
           renderItem={({ item, index }) => (
             <ContactButton
               // viewProfile={() => viewProfile(item)}
               item={item}
               onPress={() => {
-                addFriend(item._id)
                 // setModalVisible(true)
                 // setFriendInfo(item)
               }}
