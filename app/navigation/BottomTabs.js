@@ -23,7 +23,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
         showLabel: false,
         style: {
           // marginBottom: 60,
-          height: 90,
+          height: 110,
           marginTop: 0,
           borderTopColor: 'black',
           display: 'flex',
@@ -53,7 +53,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
             <MaterialCommunityIcons
               name="home"
               color={color}
-              size={30}
+              size={38}
               backgroundColor="red"
             />
           ),
@@ -65,7 +65,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
             <MaterialCommunityIcons
               name="account-multiple"
               color={color}
-              size={30}
+              size={38}
             />
           ),
           // tabBarLabel: 'Contacts',
@@ -80,25 +80,25 @@ export default function BottomTabs({ updateAuthState, logout }) {
             <View
               style={{
                 position: 'absolute',
-                top: -30,
+                top: -35,
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderColor: colors.background,
                 borderWidth: 5,
                 borderStyle: 'solid',
                 borderRadius: 40,
-                width: 55,
-                height: 55,
+                width: 70,
+                height: 70,
                 backgroundColor: colors.background,
               }}
             >
               <MaterialCommunityIcons
                 name="plus-circle"
                 color={colors.green}
-                size={55}
+                size={70}
                 style={{
-                  width: 55,
-                  height: 55,
+                  width: 70,
+                  height: 70,
                 }}
               />
             </View>
@@ -111,7 +111,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
       <Tab.Screen
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={30} />
+            <MaterialCommunityIcons name="bell" color={color} size={38} />
           ),
           // tabBarBadge: 3,
           // tabBarLabel: 'Notifications',
@@ -122,7 +122,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
       <Tab.Screen
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="chat" color={color} size={30} />
+            <MaterialCommunityIcons name="chat" color={color} size={38} />
           ),
 
           // tabBarLabel: 'Menu',
