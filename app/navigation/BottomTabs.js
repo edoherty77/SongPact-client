@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
+import { StyleSheet, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { StyleSheet } from 'react-native'
 
 import CreatePactStack from './CreatePactStack'
 import ContactStack from './ContactStack'
@@ -77,18 +77,31 @@ export default function BottomTabs({ updateAuthState, logout }) {
         options={{
           // tabBarVisible: false,
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="plus-circle"
-              color={colors.green}
-              size={55}
+            <View
               style={{
                 position: 'absolute',
                 top: -30,
-                // backgroundColor: 'white',
-                borderRadius: 300,
-                backgroundColor: 'transparent',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderColor: colors.background,
+                borderWidth: 5,
+                borderStyle: 'solid',
+                borderRadius: 40,
+                width: 55,
+                height: 55,
+                backgroundColor: colors.background,
               }}
-            />
+            >
+              <MaterialCommunityIcons
+                name="plus-circle"
+                color={colors.green}
+                size={55}
+                style={{
+                  width: 55,
+                  height: 55,
+                }}
+              />
+            </View>
           ),
           // tabBarLabel: '',
         }}
