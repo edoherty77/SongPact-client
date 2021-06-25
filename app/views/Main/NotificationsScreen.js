@@ -35,6 +35,7 @@ const NotificationsScreen = observer(() => {
   }
 
   const answerRequest = async (id, requesterId) => {
+    let status = 2
     let values = {
       status: 2,
       requester: requesterId,
@@ -42,6 +43,7 @@ const NotificationsScreen = observer(() => {
     }
     let data = { id, values }
     await FriendRequestModel.update(data)
+    await FriendRequestModel.delete(id)
   }
 
   useEffect(() => {

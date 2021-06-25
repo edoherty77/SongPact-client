@@ -43,6 +43,14 @@ export default class FriendRequestModel {
     }
   }
 
+  static delete = async (id) => {
+    try {
+      await axios.delete(`${url}/friendRequests/${id}`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   // static show = async (id) => {
   //   try {
   //     const result = await axios.get(`${url}/users/${id}`)
