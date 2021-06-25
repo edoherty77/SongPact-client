@@ -11,7 +11,7 @@ import AuthNavigator from './app/navigation/AuthNavigator'
 import Main from './app/navigation/main'
 
 // DATA FLOW
-import CurrentUser from './app/stores/UserStore'
+import currentUser from './app/stores/UserStore'
 import { observer } from 'mobx-react'
 
 const Initializing = () => {
@@ -32,7 +32,6 @@ const App = observer(() => {
     try {
       const localUser = await AsyncStorage.getItem('email')
       const localId = await AsyncStorage.getItem('userId')
-
       if (localUser)
         setUser({
           email: localUser,
@@ -52,7 +51,7 @@ const App = observer(() => {
       await AuthModel.logout()
       await AsyncStorage.setItem('email', '')
       await AsyncStorage.setItem('userId', '')
-      CurrentUser.resetUser()
+      currentUser.resetUser()
     } catch (error) {
       console.log(error)
     }
@@ -62,7 +61,7 @@ const App = observer(() => {
     <>
       <SafeAreaProvider>
         {user.email === 'initializing' && <Initializing />}
-        {CurrentUser.email !== '' ? (
+        {currentUser.email !== '' ? (
           <Main logout={logout} />
         ) : (
           <AuthNavigator />

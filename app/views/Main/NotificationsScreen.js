@@ -9,7 +9,7 @@ import ContactButton from '../../components/ContactButton'
 import FriendRequestModel from '../../api/friendRequests'
 import UserModel from '../../api/users'
 import colors from '../../config/colors'
-import store from '../../stores/UserStore'
+import currentUser from '../../stores/UserStore'
 
 const NotificationsScreen = observer(() => {
   const [friendRequests, setFriendRequests] = useState('')
@@ -17,9 +17,8 @@ const NotificationsScreen = observer(() => {
   const fetchRequests = async () => {
     let arr = []
     try {
-      const response = await FriendRequestModel.all(store.id)
+      const response = await FriendRequestModel.all(currentUser._id)
       const requests = await response.data.friendRequests
-
       requests.map(async (request) => {
         let obj = {}
         let requester = await UserModel.show(request.requester)
@@ -28,6 +27,7 @@ const NotificationsScreen = observer(() => {
         obj['requesterInfo'] = requesterInfo
         arr.push(obj)
         await setFriendRequests([...arr])
+        console.log('req', friendRequests)
       })
     } catch (error) {
       console.log(error)
@@ -38,7 +38,7 @@ const NotificationsScreen = observer(() => {
     let values = {
       status: 2,
       requester: requesterId,
-      recipient: store.id,
+      recipient: currentUser._id,
     }
     let data = { id, values }
     await FriendRequestModel.update(data)
@@ -53,12 +53,10 @@ const NotificationsScreen = observer(() => {
       <Header title="Notifications" noBack />
       <FlatList
         data={Object.values(friendRequests)}
-        keyExtractor={(user) => user.friendRequestId}
+        keyExtractor={(friendRequests) => friendRequests.friendRequestId}
         renderItem={({ item, index }) => (
           <ContactButton
-            name={
-              item.requesterInfo.firstName + ' ' + item.requesterInfo.lastName
-            }
+            item={item.requesterInfo}
             onPress={() => {
               answerRequest(item.friendRequestId, item.requesterInfo._id)
               // setModalVisible(true)

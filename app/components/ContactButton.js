@@ -14,8 +14,9 @@ const ContactButton = ({
   noIcon,
   viewProfile,
 }) => {
+  // console.log('item', item)
   return (
-    <View style={styles.contactButton}>
+    <TouchableOpacity style={styles.contactButton} onPress={onPress}>
       <View style={styles.contactView}>
         <View style={styles.picContainer}>
           <Image source={{ uri: item.googlePhotoUrl }} style={styles.image} />
@@ -36,11 +37,11 @@ const ContactButton = ({
             backgroundColor={'transparent'}
             size={45}
             iconColor={colors.black}
-            onPress={viewProfile}
+            // onPress={viewProfile}
           />
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 

@@ -22,7 +22,6 @@ export default function BottomTabs({ updateAuthState, logout }) {
       tabBarOptions={{
         showLabel: false,
         style: {
-          // marginBottom: 60,
           height: 110,
           marginTop: 0,
           borderTopColor: 'black',
@@ -84,11 +83,10 @@ export default function BottomTabs({ updateAuthState, logout }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderColor: colors.background,
-                borderWidth: 5,
                 borderStyle: 'solid',
                 borderRadius: 40,
-                width: 70,
-                height: 70,
+                width: 67,
+                height: 67,
                 backgroundColor: colors.background,
               }}
             >

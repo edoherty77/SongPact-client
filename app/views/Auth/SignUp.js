@@ -43,7 +43,7 @@ const SignUp = ({ navigation }) => {
     }
   }
 
-  const googleSignIn = async () => {
+  const googleSignUp = async () => {
     try {
       const result = await Google.logInAsync({
         androidClientId:
@@ -82,7 +82,7 @@ const SignUp = ({ navigation }) => {
     }
   }
 
-  const facebookSignIn = async () => {
+  const facebookSignUp = async () => {
     try {
       await Facebook.initializeAsync({
         appId: '976030243163813',
@@ -207,14 +207,14 @@ const SignUp = ({ navigation }) => {
                   color="white"
                   backgroundColor="black"
                   title="Google"
-                  onPress={googleSignIn}
+                  onPress={googleSignUp}
                 />
                 <SocialMediaBtn
                   name="facebook-square"
                   color="white"
                   backgroundColor="black"
                   title="Facebook"
-                  onPress={facebookSignIn}
+                  onPress={facebookSignUp}
                 />
               </View>
             </View>

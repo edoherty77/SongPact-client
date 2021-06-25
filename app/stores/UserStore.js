@@ -38,12 +38,6 @@ class UserStore {
     this.googlePhotoUrl = values.googlePhotoUrl
   }
 
-  // addOtherUsers(values) {
-  //   console.log(this.notFriends)
-  //   this.notFriends.push(values)
-  //   console.log('VAALUES', values)
-  // }
-
   addFriend(value) {
     this.friends.items.push(value)
     // for (let i = 0; i < this.notFriends.length; i++) {
