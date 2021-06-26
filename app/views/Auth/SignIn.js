@@ -106,7 +106,7 @@ const SignIn = ({ navigation }) => {
                 <AppText style={styles.socialText}>
                   or sign in with your social account
                 </AppText>
-                <SocMediaSignIn />
+                <SocMediaSignIn checkForFriends={checkForFriends} />
               </View>
             </View>
           </TouchableWithoutFeedback>

@@ -13,7 +13,7 @@ import UserModel from '../../api/users'
 import * as Google from 'expo-google-app-auth'
 import * as Facebook from 'expo-facebook'
 
-const SocMediaSignIn = () => {
+const SocMediaSignIn = ({ checkForFriends }) => {
   const googleSignIn = async () => {
     const googleConfig = {
       androidClientId:

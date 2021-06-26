@@ -34,7 +34,6 @@ const App = observer(() => {
   })
 
   const checkForUser = async () => {
-    console.log('current', currentUser)
     try {
       const localUser = await AsyncStorage.getItem('email')
       const localId = await AsyncStorage.getItem('userId')
@@ -48,26 +47,8 @@ const App = observer(() => {
     }
   }
 
-  const checkForFriends = async () => {
-    let friends = currentUser.friends
-    let arr = []
-    try {
-      if (friends) {
-        friends.map(async (friend) => {
-          let response = await UserModel.show(friend)
-          let friendInfo = response.user
-          arr.push(friendInfo)
-          await currentUser.setFriends([...arr])
-        })
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   useEffect(() => {
     checkForUser()
-    // checkForFriends()
   }, [user.userId])
 
   const googleConfig = {

@@ -16,36 +16,34 @@ import { get } from 'mobx'
 
 const ContactsScreen = observer(({ navigation }) => {
   const [users, setUsers] = useState('')
-  const [friendInfo, setFriendInfo] = useState('')
+  const [friends, setFriends] = useState(currentUser.friends)
+  const [inMemoryFriends, setInMemoryFriends] = useState(currentUser.friends)
+  const [toggleList, setToggleList] = useState(false)
+  const [searchValue, setSearchValue] = useState('')
   const [isModalVisible, setModalVisible] = useState(false)
-  const currentUserFriends = currentUser.friends
 
-  const findUsers = async () => {
-    console.log('curentUser', currentUser)
-    // console.log('ccurentFriends', currentUser.friends)
-    try {
-      const getUsers = await UserModel.all()
-      // console.log('GETUSERS', getUsers)
-      const arr = getUsers.data.users
-      let notCurrentUser = arr.filter(function (user) {
-        return user._id !== currentUser._id
-      })
-      // setUsers(notCurrentUser)
-      // console.log('NOT CURRENT', notCurrentUser)
-      // console.log('FRIENDS', currentUserFriends)
-      const notFriends = notCurrentUser.filter((user) =>
-        currentUser.friends.find(({ _id }) => user._id !== _id),
-      )
-      // console.log('not friends', notFriends)
-      setUsers(notCurrentUser)
-    } catch (error) {
-      console.log(error)
-    }
+  const findUser = async () => {
+    await UserModel.all(searchValue)
+  }
+
+  const findFriend = async () => {
+    const filteredContacts = inMemoryFriends.filter((contact) => {
+      let contactLowercase = contact.name.toLowerCase()
+
+      let searchTermLowercase = searchValue.toLowerCase()
+
+      return contactLowercase.indexOf(searchTermLowercase) > -1
+    })
+    setFriends(filteredContacts)
   }
 
   useEffect(() => {
-    findUsers()
-  }, [])
+    if (toggleList === true) {
+      findUser()
+    } else {
+      findFriend()
+    }
+  }, [searchValue])
 
   // function cancel() {
   //   setModalVisible(false)
@@ -84,13 +82,36 @@ const ContactsScreen = observer(({ navigation }) => {
       >
         <Item>
           <Icon name="ios-search" />
-          <Input placeholder="Search" />
+          <Input
+            value={searchValue}
+            placeholder="Search"
+            onChangeText={(value) => {
+              setSearchValue(value)
+            }}
+          />
           <Icon name="ios-people" />
         </Item>
       </Header>
       <View style={styles.mainView}>
-        {/* <FlatList
+        <FlatList
+          data={friends}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item, index }) => (
+            <ContactButton
+              // viewProfile={() => viewProfile(item)}
+              item={item}
+              onPress={() => {
+                // setModalVisible(true)
+                // setFriendInfo(item)
+              }}
+            />
+          )}
+        />
+        <FlatList
           data={users}
+          contentContainerStyle={
+            toggleList === true ? { display: 'inline' } : { display: 'none' }
+          }
           keyExtractor={(users) => users._id}
           renderItem={({ item, index }) => (
             <ContactButton
@@ -98,20 +119,6 @@ const ContactsScreen = observer(({ navigation }) => {
               item={item}
               onPress={() => {
                 addFriend(item._id)
-                // setModalVisible(true)
-                // setFriendInfo(item)
-              }}
-            />
-          )}
-        /> */}
-        <FlatList
-          data={currentUser.friends}
-          keyExtractor={(item) => item._id}
-          renderItem={({ item, index }) => (
-            <ContactButton
-              // viewProfile={() => viewProfile(item)}
-              item={item}
-              onPress={() => {
                 // setModalVisible(true)
                 // setFriendInfo(item)
               }}
