@@ -7,8 +7,9 @@ const url = 'http://192.168.1.8:4000/api/v1'
 export default class UserModel {
   static all = async (name) => {
     try {
-      const findUsers = await axios.get(`${url}/users/search/${name}`)
-      console.log(findUsers.data)
+      const response = await axios.get(`${url}/users/search/${name}`)
+      const foundUsers = response.data
+      return foundUsers
     } catch (error) {
       console.log(error)
     }

@@ -15,9 +15,19 @@ import Main from './app/navigation/main'
 // DATA FLOW
 import currentUser from './app/stores/UserStore'
 import { observer } from 'mobx-react'
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from 'react-query'
 
 // MODELS
 import UserModel from './app/api/users'
+
+// Create a client
+const queryClient = new QueryClient()
 
 const Initializing = () => {
   return (
@@ -77,7 +87,7 @@ const App = observer(() => {
   }
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
         {user.email === 'initializing' && <Initializing />}
         {currentUser.email !== '' ? (
@@ -87,7 +97,7 @@ const App = observer(() => {
         )}
       </SafeAreaProvider>
       <StatusBar style={'auto'} />
-    </>
+    </QueryClientProvider>
   )
 })
 

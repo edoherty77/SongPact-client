@@ -9,6 +9,7 @@ export default function AppButton({
   style,
   fontSize,
   disabled,
+  fontWeight,
 }) {
   return (
     <TouchableOpacity
@@ -16,7 +17,12 @@ export default function AppButton({
       onPress={onPress}
       disabled={disabled}
     >
-      <Text style={[styles.text, { fontSize: fontSize, color: textColor }]}>
+      <Text
+        style={[
+          styles.text,
+          { fontSize: fontSize, color: textColor, fontWeight: fontWeight },
+        ]}
+      >
         {title}
       </Text>
     </TouchableOpacity>
@@ -33,7 +39,6 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   text: {
-    // color: colors.white,
     fontSize: 18,
     fontFamily: 'Futura',
     textTransform: 'uppercase',

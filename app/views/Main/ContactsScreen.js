@@ -7,35 +7,59 @@ import colors from '../../config/colors'
 import ContactButton from '../../components/ContactButton'
 import ConfirmModal from '../../components/ConfirmModal'
 import UserModel from '../../api/users'
-import FriendRequestModel from '../../api/friendRequests'
+import AppText from '../../components/AppText'
 import AppButton from '../../components/AppButton'
 
 import currentUser from '../../stores/UserStore'
 import { observer } from 'mobx-react'
-import { get } from 'mobx'
 
 const ContactsScreen = observer(({ navigation }) => {
   const [users, setUsers] = useState('')
   const [friends, setFriends] = useState(currentUser.friends)
   const [inMemoryFriends, setInMemoryFriends] = useState(currentUser.friends)
   const [toggleList, setToggleList] = useState(false)
+  const [toggleSearchBtn, setToggleSearchBtn] = useState(false)
   const [searchValue, setSearchValue] = useState('')
   const [isModalVisible, setModalVisible] = useState(false)
 
   const findUser = async () => {
-    await UserModel.all(searchValue)
+    let arr = []
+    setToggleList(true)
+    setToggleSearchBtn(false)
+    const foundUsers = await UserModel.all(searchValue)
+    try {
+      if (foundUsers.length > 0) {
+        foundUsers.map(async (user) => {
+          arr.push(user)
+          await setUsers([...arr])
+        })
+      } else if (foundUsers.length === 0) {
+        users.length === 0
+        setUsers('')
+        console.log('sorry no user foundddd')
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const findFriend = async () => {
     const filteredContacts = inMemoryFriends.filter((contact) => {
       let contactLowercase = contact.name.toLowerCase()
-
       let searchTermLowercase = searchValue.toLowerCase()
-
       return contactLowercase.indexOf(searchTermLowercase) > -1
     })
     setFriends(filteredContacts)
   }
+
+  useEffect(() => {
+    if (friends.length === 0) {
+      setToggleSearchBtn(true)
+    }
+    if (friends.length > 0) {
+      setToggleSearchBtn(false)
+    }
+  }, [friends])
 
   useEffect(() => {
     if (toggleList === true) {
@@ -43,25 +67,17 @@ const ContactsScreen = observer(({ navigation }) => {
     } else {
       findFriend()
     }
+    if (searchValue === '') {
+      users.length === 0
+      setUsers('')
+      setToggleList(false)
+    }
   }, [searchValue])
 
   // function cancel() {
   //   setModalVisible(false)
   //   // console.log('users', users)
   // }
-
-  const addFriend = async (recipientId) => {
-    console.log('id', recipientId)
-    const obj = {
-      requester: currentUser._id,
-      recipient: recipientId,
-      status: 1,
-    }
-    await FriendRequestModel.create(obj)
-    // store.addFriend(friendInfo)
-    // setModalVisible(false)
-    // navigation.navigate('Contacts')
-  }
 
   const viewProfile = (item) => {
     navigation.navigate('ArtistProfile', {
@@ -92,22 +108,35 @@ const ContactsScreen = observer(({ navigation }) => {
           <Icon name="ios-people" />
         </Item>
       </Header>
+      <AppButton
+        title="Click here to search more"
+        onPress={findUser}
+        style={[
+          styles.searchMoreView,
+          toggleSearchBtn === false ? { display: 'none' } : { display: 'flex' },
+        ]}
+      />
       <View style={styles.mainView}>
+        {friends.length > 0 && (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={friends.slice().sort((a, b) => a.name.localeCompare(b.name))}
+            contentContainerStyle={
+              toggleList === false ? { display: 'inline' } : { display: 'none' }
+            }
+            keyExtractor={(item, index) => item._id}
+            renderItem={({ item }) => {
+              return (
+                <ContactButton
+                  viewProfile={() => viewProfile(item)}
+                  item={item}
+                />
+              )
+            }}
+          />
+        )}
         <FlatList
-          data={friends}
-          keyExtractor={(item) => item._id}
-          renderItem={({ item, index }) => (
-            <ContactButton
-              // viewProfile={() => viewProfile(item)}
-              item={item}
-              onPress={() => {
-                // setModalVisible(true)
-                // setFriendInfo(item)
-              }}
-            />
-          )}
-        />
-        <FlatList
+          showsVerticalScrollIndicator={false}
           data={users}
           contentContainerStyle={
             toggleList === true ? { display: 'inline' } : { display: 'none' }
@@ -115,10 +144,10 @@ const ContactsScreen = observer(({ navigation }) => {
           keyExtractor={(users) => users._id}
           renderItem={({ item, index }) => (
             <ContactButton
-              // viewProfile={() => viewProfile(item)}
+              viewProfile={() => viewProfile(item)}
               item={item}
               onPress={() => {
-                addFriend(item._id)
+                // addFriend(item._id)
                 // setModalVisible(true)
                 // setFriendInfo(item)
               }}
@@ -126,6 +155,7 @@ const ContactsScreen = observer(({ navigation }) => {
           )}
         />
       </View>
+
       <ConfirmModal
         text="Add Friend?"
         // onBackdropPress={() => setModalVisible(false)}
@@ -141,22 +171,15 @@ const styles = StyleSheet.create({
   mainView: {
     marginLeft: 25,
     marginRight: 25,
+    flex: 1,
   },
-  searchInput: {
-    height: 50,
-    borderRadius: 10,
-    backgroundColor: colors.white,
-    borderColor: 'black',
-    borderWidth: 1,
-    borderStyle: 'solid',
-  },
-  inputView: {
-    display: 'flex',
-    justifyContent: 'center',
+  searchMoreView: {
+    // display: 'flex',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    width: '100%',
-    marginBottom: 5,
-    marginTop: 5,
+  },
+  searchMoreText: {
+    // fontSize: 15,
   },
 })
 
