@@ -7,7 +7,7 @@ import ArtistProfile from '../views/FindArtist/ArtistProfile'
 
 const Stack = createStackNavigator()
 
-const CreatePactStack = () => {
+const ContactsStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
@@ -21,4 +21,4 @@ const CreatePactStack = () => {
   )
 }
 
-export default CreatePactStack
+export default ContactsStack

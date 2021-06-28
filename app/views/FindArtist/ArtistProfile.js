@@ -1,26 +1,86 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Image } from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+
+// MODELS
+import FriendRequestModel from '../../api/friendRequests'
+
+// COMPONENTS
 import Header from '../../components/Header'
 import Screen from '../../components/Screen'
 import AppText from '../../components/AppTextInput'
 import AppButton from '../../components/AppButton'
 import ButtonIcon from '../../components/ButtonIcon'
 import UserIcon from '../../components/UserIcon'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+
+// CONFIG
 import colors from '../../config/colors'
+
+// STORE
 import currentUser from '../../stores/UserStore'
 import { observer } from 'mobx-react'
-import FriendRequestModel from '../../api/friendRequests'
 
 const FindArtist = observer(({ route, navigation }) => {
   const { item } = route.params
-  const [request, setRequest] = useState(false)
+  const [requestId, setRequestId] = useState('')
+  const [accepted, setAccepted] = useState(false)
+  const [isDisabled, setDisabled] = useState(false)
+  const [btnText, setBtnText] = useState('Request')
+  const [btnBackground, setBtnBackground] = useState(colors.green)
+  const [btnBorder, setBtnBorder] = useState(1)
+  const [btnTextColor, setBtnTextColor] = useState(colors.white)
+  const [isFriend, setFriend] = useState(false)
 
-  const addFriend = async (recipientId) => {
-    setRequest(true)
+  const checkFriend = () => {
+    currentUser.friends.find((friend) => {
+      if (friend.email === item.email) {
+        setFriend(true)
+      }
+    })
+  }
+
+  const checkRequestStatus = () => {
+    if (currentUser.friendRequests.length > 0) {
+      currentUser.friendRequests.find((request) => {
+        if (request.requesterInfo.email === item.email) {
+          setBtnText('Accept')
+          setRequestId(request.friendRequestId)
+        } else if (req.requesterInfo.email === currentUser.email) {
+          setBtnText('Requested')
+          setDisabled(true)
+          setBtnBackground(colors.gray)
+          setBtnTextColor(colors.black)
+        }
+      })
+    }
+  }
+
+  useEffect(() => {
+    checkFriend()
+  }, [])
+
+  useEffect(() => {
+    checkRequestStatus()
+  }, [])
+
+  const friendBtnLogic = (contactId) => {
+    if (btnText === 'Request') {
+      addFriend(contactId)
+    } else {
+      answerRequest(contactId)
+    }
+  }
+
+  const addFriend = async (contactId) => {
+    setDisabled(true)
+    setBtnBackground(colors.background)
+    setBtnBorder(0)
+    setBtnTextColor(colors.black)
+    setBtnText('Requested')
+
     const obj = {
       requester: currentUser._id,
-      recipient: recipientId,
+      recipient: contactId,
       status: 1,
     }
     await FriendRequestModel.create(obj)
@@ -28,12 +88,27 @@ const FindArtist = observer(({ route, navigation }) => {
     // setModalVisible(false)
     // navigation.navigate('Contacts')
   }
+
+  const answerRequest = async (contactId) => {
+    setDisabled(true)
+    setBtnBackground(colors.background)
+    setBtnBorder(0)
+    setBtnTextColor(colors.black)
+    setBtnText('Accepted')
+    let values = {
+      status: 2,
+      requester: contactId,
+      recipient: currentUser._id,
+    }
+    let data = { requestId, values }
+    console.log('data', data)
+    await FriendRequestModel.update(data)
+    await FriendRequestModel.delete(requestId)
+  }
+
   return (
     <Screen>
-      <Header
-        icon="chevron-back"
-        back={() => navigation.navigate('Contacts')}
-      />
+      <Header icon="chevron-back" back={() => navigation.goBack()} />
       <View style={styles.mainContainer}>
         <View style={styles.heroView}>
           <View style={styles.iconView}>
@@ -92,34 +167,25 @@ const FindArtist = observer(({ route, navigation }) => {
           <View style={styles.infoHeaderContainer}>
             <View style={styles.infoHeaderContent}>
               <AppText style={styles.infoHeaderText}>Contact Info</AppText>
-              <AppButton
-                onPress={() => addFriend(item._id)}
-                title="Request"
-                fontSize={13}
-                fontWeight="normal"
-                color={colors.green}
-                style={[
-                  styles.button,
-                  request === false
-                    ? { display: 'inline' }
-                    : { display: 'none' },
-                ]}
-                textColor={colors.white}
-              />
-              <AppButton
-                title="Requested"
-                disabled={true}
-                fontSize={13}
-                fontWeight="normal"
-                color={colors.background}
-                style={[
-                  styles.button,
-                  request === true
-                    ? { display: 'inline', borderWidth: 0 }
-                    : { display: 'none' },
-                ]}
-                textColor={colors.black}
-              />
+              {isFriend === false && (
+                <AppButton
+                  item={item}
+                  onPress={() => friendBtnLogic(item._id)}
+                  fontSize={13}
+                  fontWeight="normal"
+                  style={[
+                    styles.button,
+                    accepted === false
+                      ? { dislay: 'inline' }
+                      : { display: 'none' },
+                  ]}
+                  color={btnBackground}
+                  title={btnText}
+                  textColor={btnTextColor}
+                  border={btnBorder}
+                  disabled={isDisabled}
+                />
+              )}
             </View>
           </View>
           <View style={styles.infoBodyContainer}>
@@ -193,7 +259,6 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 5,
     borderColor: 'black',
-    borderWidth: 1,
     borderStyle: 'solid',
     width: 100,
   },

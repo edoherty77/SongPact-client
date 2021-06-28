@@ -3,15 +3,16 @@ import { StyleSheet, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
+// Stacks
 import CreatePactStack from './CreatePactStack'
 import ContactStack from './ContactStack'
+import NotificationsStack from './NotificationStack'
 
-import Contacts from '../views/Main/ContactsScreen'
+// Screens
 import Dashboard from '../views/Main/DashboardScreen'
-import NotificationsScreen from '../views/Main/NotificationsScreen'
 
 import colors from '../config/colors'
-import MenuNavigator from './MenuNavigator'
+import MenuStack from './MenuStack'
 
 const Tab = createBottomTabNavigator()
 
@@ -115,7 +116,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
           // tabBarLabel: 'Notifications',
         }}
         name="Notifications"
-        component={NotificationsScreen}
+        component={NotificationsStack}
       />
       <Tab.Screen
         options={{
@@ -128,7 +129,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
         name="Menu"
       >
         {(screenProps) => (
-          <MenuNavigator
+          <MenuStack
             {...screenProps}
             updateAuthState={updateAuthState}
             logout={logout}

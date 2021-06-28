@@ -8,9 +8,10 @@ import {
   Keyboard,
 } from 'react-native'
 
-// AUTH/STORAGE
+// MODELS/STORAGE
 import UserModel from '../../api/users'
 import AuthModel from '../../api/auth'
+import FriendRequestModel from '../../api/friendRequests'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import currentUser from '../../stores/UserStore'
 
@@ -44,6 +45,27 @@ const SignIn = ({ navigation }) => {
     }
   }
 
+  const fetchRequests = async () => {
+    let arr = []
+    try {
+      const response = await FriendRequestModel.all(currentUser._id)
+      const requests = await response.data.friendRequests
+      if (requests) {
+        requests.map(async (request) => {
+          let obj = {}
+          let requester = await UserModel.show(request.requester)
+          let requesterInfo = requester.user
+          obj['friendRequestId'] = request._id
+          obj['requesterInfo'] = requesterInfo
+          arr.push(obj)
+          await currentUser.setFriendRequests([...arr])
+        })
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   async function signIn() {
     try {
       const userData = { email: email, password: password }
@@ -53,6 +75,7 @@ const SignIn = ({ navigation }) => {
         await AsyncStorage.setItem('userId', foundUser.user._id)
         await currentUser.setUser(foundUser.user)
         await checkForFriends()
+        await fetchRequests()
       }
     } catch (err) {
       console.log('Error signing in...', err)
@@ -106,7 +129,10 @@ const SignIn = ({ navigation }) => {
                 <AppText style={styles.socialText}>
                   or sign in with your social account
                 </AppText>
-                <SocMediaSignIn checkForFriends={checkForFriends} />
+                <SocMediaSignIn
+                  checkForFriends={checkForFriends}
+                  fetchRequests={fetchRequests}
+                />
               </View>
             </View>
           </TouchableWithoutFeedback>

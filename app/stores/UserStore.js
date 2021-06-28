@@ -12,6 +12,7 @@ class UserStore {
   email = ''
   pacts = []
   friends = ''
+  friendRequests = ''
   googlePhotoUrl = ''
   accessToken = ''
 
@@ -31,11 +32,16 @@ class UserStore {
     this.email = values.email
     this.pacts = values.pacts
     this.friends = values.friends
+    this.requests = values.requests
     this.googlePhotoUrl = values.googlePhotoUrl
   }
 
   setFriends(values) {
     this.friends = values
+  }
+
+  setFriendRequests(values) {
+    this.friendRequests = values
   }
 
   setAccessToken(token) {
@@ -56,6 +62,7 @@ class UserStore {
     this.friends = ''
     this.googlePhotoUrl = ''
     this.accessToken = ''
+    this.friendRequests = ''
   }
 
   constructor() {

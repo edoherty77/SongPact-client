@@ -11,63 +11,33 @@ import UserModel from '../../api/users'
 import colors from '../../config/colors'
 import currentUser from '../../stores/UserStore'
 
-const NotificationsScreen = observer(() => {
-  const [friendRequests, setFriendRequests] = useState('')
-
-  const fetchRequests = async () => {
-    let arr = []
-    try {
-      const response = await FriendRequestModel.all(currentUser._id)
-      const requests = await response.data.friendRequests
-      if (requests) {
-        requests.map(async (request) => {
-          let obj = {}
-          let requester = await UserModel.show(request.requester)
-          let requesterInfo = requester.user
-          obj['friendRequestId'] = request._id
-          obj['requesterInfo'] = requesterInfo
-          arr.push(obj)
-          await setFriendRequests([...arr])
-          console.log('req', friendRequests)
-        })
-      }
-    } catch (error) {
-      console.log(error)
-    }
+const NotificationsScreen = observer(({ navigation }) => {
+  const viewProfile = (item) => {
+    navigation.navigate('ReqArtistProfile', {
+      item: item.requesterInfo,
+    })
   }
-
-  const answerRequest = async (id, requesterId) => {
-    let values = {
-      status: 2,
-      requester: requesterId,
-      recipient: currentUser._id,
-    }
-    let data = { id, values }
-    await FriendRequestModel.update(data)
-    await FriendRequestModel.delete(id)
-  }
-
-  useEffect(() => {
-    fetchRequests()
-  }, [])
 
   return (
     <Screen>
       <Header title="Notifications" noBack />
-      <FlatList
-        data={Object.values(friendRequests)}
-        keyExtractor={(friendRequests) => friendRequests.friendRequestId}
-        renderItem={({ item, index }) => (
-          <ContactButton
-            item={item.requesterInfo}
-            onPress={() => {
-              answerRequest(item.friendRequestId, item.requesterInfo._id)
-              // setModalVisible(true)
-              // setFriendInfo(item)
-            }}
-          />
-        )}
-      />
+      <View style={styles.mainView}>
+        <FlatList
+          data={currentUser.friendRequests}
+          keyExtractor={(friendRequests) => friendRequests.friendRequestId}
+          renderItem={({ item, index }) => (
+            <ContactButton
+              item={item.requesterInfo}
+              viewProfile={() => viewProfile(item)}
+              onPress={() => {
+                // answerRequest(item.friendRequestId, item.requesterInfo._id)
+                // setModalVisible(true)
+                // setFriendInfo(item)
+              }}
+            />
+          )}
+        />
+      </View>
     </Screen>
   )
 })
@@ -75,17 +45,10 @@ const NotificationsScreen = observer(() => {
 export default NotificationsScreen
 
 const styles = StyleSheet.create({
-  notifications: {
+  mainView: {
+    marginLeft: 25,
+    marginRight: 25,
+    marginTop: 25,
     flex: 1,
-    backgroundColor: '#30BCED',
   },
-  stateDisplay: {
-    flex: 1,
-    marginHorizontal: 30,
-  },
-  update: {
-    flex: 1,
-    marginHorizontal: 30,
-  },
-  input: {},
 })

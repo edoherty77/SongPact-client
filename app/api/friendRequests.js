@@ -34,7 +34,7 @@ export default class FriendRequestModel {
     console.log(data)
     try {
       const updatedRequest = await axios.put(
-        `${url}/friendRequests/${data.id}`,
+        `${url}/friendRequests/${data.requestId}`,
         data.values,
       )
       return updatedRequest
@@ -43,9 +43,9 @@ export default class FriendRequestModel {
     }
   }
 
-  static delete = async (id) => {
+  static delete = async (requestId) => {
     try {
-      await axios.delete(`${url}/friendRequests/${id}`)
+      await axios.delete(`${url}/friendRequests/${requestId}`)
     } catch (error) {
       console.log(error)
     }

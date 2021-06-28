@@ -37,6 +37,8 @@ const ContactsScreen = observer(({ navigation }) => {
         users.length === 0
         setUsers('')
         console.log('sorry no user foundddd')
+      } else if (searchValue === '') {
+        setToggleList(false)
       }
     } catch (error) {
       console.log(error)
