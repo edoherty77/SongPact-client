@@ -1,17 +1,18 @@
 import React, { useContext, useEffect } from 'react'
+import { StyleSheet, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { StyleSheet } from 'react-native'
 
+// Stacks
 import CreatePactStack from './CreatePactStack'
 import ContactStack from './ContactStack'
+import NotificationsStack from './NotificationStack'
 
-import Contacts from '../views/Main/ContactsScreen'
+// Screens
 import Dashboard from '../views/Main/DashboardScreen'
-import NotificationsScreen from '../views/Main/NotificationsScreen'
 
 import colors from '../config/colors'
-import MenuNavigator from './MenuNavigator'
+import MenuStack from './MenuStack'
 
 const Tab = createBottomTabNavigator()
 
@@ -22,8 +23,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
       tabBarOptions={{
         showLabel: false,
         style: {
-          // marginBottom: 60,
-          height: 90,
+          height: 110,
           marginTop: 0,
           borderTopColor: 'black',
           display: 'flex',
@@ -53,7 +53,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
             <MaterialCommunityIcons
               name="home"
               color={color}
-              size={30}
+              size={38}
               backgroundColor="red"
             />
           ),
@@ -65,7 +65,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
             <MaterialCommunityIcons
               name="account-multiple"
               color={color}
-              size={30}
+              size={38}
             />
           ),
           // tabBarLabel: 'Contacts',
@@ -77,18 +77,30 @@ export default function BottomTabs({ updateAuthState, logout }) {
         options={{
           // tabBarVisible: false,
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="plus-circle"
-              color={colors.green}
-              size={55}
+            <View
               style={{
                 position: 'absolute',
-                top: -30,
-                // backgroundColor: 'white',
-                borderRadius: 300,
-                backgroundColor: 'transparent',
+                top: -35,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderColor: colors.background,
+                borderStyle: 'solid',
+                borderRadius: 40,
+                width: 67,
+                height: 67,
+                backgroundColor: colors.background,
               }}
-            />
+            >
+              <MaterialCommunityIcons
+                name="plus-circle"
+                color={colors.green}
+                size={70}
+                style={{
+                  width: 70,
+                  height: 70,
+                }}
+              />
+            </View>
           ),
           // tabBarLabel: '',
         }}
@@ -98,18 +110,18 @@ export default function BottomTabs({ updateAuthState, logout }) {
       <Tab.Screen
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={30} />
+            <MaterialCommunityIcons name="bell" color={color} size={38} />
           ),
           // tabBarBadge: 3,
           // tabBarLabel: 'Notifications',
         }}
         name="Notifications"
-        component={NotificationsScreen}
+        component={NotificationsStack}
       />
       <Tab.Screen
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="message" color={color} size={30} />
+            <MaterialCommunityIcons name="chat" color={color} size={38} />
           ),
 
           // tabBarLabel: 'Menu',
@@ -117,7 +129,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
         name="Menu"
       >
         {(screenProps) => (
-          <MenuNavigator
+          <MenuStack
             {...screenProps}
             updateAuthState={updateAuthState}
             logout={logout}

@@ -3,10 +3,11 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import Contacts from '../views/Main/ContactsScreen'
 import Find from '../views/FindArtist/FindArtistScreen'
+import ArtistProfile from '../views/FindArtist/ArtistProfile'
 
 const Stack = createStackNavigator()
 
-const CreatePactStack = () => {
+const ContactsStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
@@ -15,8 +16,9 @@ const CreatePactStack = () => {
     >
       <Stack.Screen name="Contacts" component={Contacts} />
       <Stack.Screen name="Find" component={Find} />
+      <Stack.Screen name="ArtistProfile" component={ArtistProfile} />
     </Stack.Navigator>
   )
 }
 
-export default CreatePactStack
+export default ContactsStack

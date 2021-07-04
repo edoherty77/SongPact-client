@@ -8,90 +8,32 @@ import {
   Keyboard,
 } from 'react-native'
 
-// MODELS/STORAGE
 import UserModel from '../../api/users'
 import AuthModel from '../../api/auth'
-import FriendRequestModel from '../../api/friendRequests'
+// import AsyncStorage from '@react-native-community/async-storage'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import currentUser from '../../stores/UserStore'
-
-// COMPONENTS
 import Screen from '../../components/Screen'
 import AppTextInput from '../../components/AppTextInput'
 import AppButton from '../../components/AppButton'
+import SocialMediaBtn from '../../components/SocialMediaBtn'
 import AppText from '../../components/AppText'
 import Header from '../../components/Header'
 import colors from '../../config/colors'
-import SocMediaSignIn from './SocMediaSignIn'
+import CurrentUser from '../../stores/UserStore'
+import * as Google from 'expo-google-app-auth'
+import * as Facebook from 'expo-facebook'
 
-const SignIn = ({ navigation }) => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-  const checkForFriends = async () => {
-    let friends = currentUser.friends
-    let arr = []
-    try {
-      if (friends) {
-        friends.map(async (friend) => {
-          let response = await UserModel.show(friend)
-          let friendInfo = response.user
-          arr.push(friendInfo)
-          await currentUser.setFriends([...arr])
-        })
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const fetchRequests = async () => {
-    let arr = []
-    try {
-      const response = await FriendRequestModel.all(currentUser._id)
-      const requests = await response.data.friendRequests
-      if (requests) {
-        requests.map(async (request) => {
-          let obj = {}
-          let requester = await UserModel.show(request.requester)
-          let requesterInfo = requester.user
-          obj['friendRequestId'] = request._id
-          obj['requesterInfo'] = requesterInfo
-          arr.push(obj)
-          await currentUser.setFriendRequests([...arr])
-        })
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  async function signIn() {
-    try {
-      const userData = { email: email, password: password }
-      const foundUser = await AuthModel.login(userData)
-      if (foundUser) {
-        await AsyncStorage.setItem('email', foundUser.user.email)
-        await AsyncStorage.setItem('userId', foundUser.user._id)
-        await currentUser.setUser(foundUser.user)
-        await checkForFriends()
-        await fetchRequests()
-      }
-    } catch (err) {
-      console.log('Error signing in...', err)
-    }
-  }
-
+const Onboarding = ({ navigation, updateAuthState }) => {
   return (
     <Screen>
-      <Header icon="chevron-back" noIcon />
       <View style={styles.mainContainer}>
         <View style={styles.messageContainer}>
-          <AppText style={styles.messageTitle}>Welcome Back!</AppText>
+          <AppText style={styles.messageTitle}>Welcome to SongPact!</AppText>
           <AppText style={styles.message}>
-            Sign in to start organizing your contracts, safely and all in one
-            place.
+            First thing's first, we need a bit more information before you begin
+            creating your first pact
           </AppText>
+          <AppText style={styles.optOut}>I'll do this later</AppText>
         </View>
         <KeyboardAvoidingView
           behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
@@ -99,41 +41,80 @@ const SignIn = ({ navigation }) => {
         >
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.signInContainer}>
-              <AppText style={styles.inputTitle}>Email</AppText>
+              <AppText style={styles.inputTitle}>Artist Name</AppText>
               <AppTextInput
                 style={styles.input}
-                value={email}
-                onChangeText={(text) => setEmail(text)}
-                autoCapitalize="none"
-                keyboardType="email-address"
-                textContentType="username"
-                autoCorrect={false}
-              />
-              <AppText style={styles.inputTitle}>Password</AppText>
-              <AppTextInput
-                style={styles.input}
-                value={password}
+                // value={password}
                 onChangeText={(text) => setPassword(text)}
                 autoCapitalize="none"
                 textContentType="password"
                 autoCorrect={false}
               />
-              <AppText style={styles.forgot}>Forgot password?</AppText>
+              <AppText style={styles.inputTitle}>
+                Company Name (optional)
+              </AppText>
+              <AppTextInput
+                style={styles.input}
+                // value={password}
+                onChangeText={(text) => setPassword(text)}
+                autoCapitalize="none"
+                textContentType="password"
+                autoCorrect={false}
+              />
+              <AppText style={styles.inputTitle}>Address</AppText>
+              <AppTextInput
+                style={styles.input}
+                // value={password}
+                onChangeText={(text) => setPassword(text)}
+                autoCapitalize="none"
+                textContentType="password"
+                autoCorrect={false}
+              />
+              <AppText style={styles.inputTitle}>
+                Apartment, suite, etc. (optional)
+              </AppText>
+              <AppTextInput
+                style={styles.input}
+                // value={password}
+                onChangeText={(text) => setPassword(text)}
+                autoCapitalize="none"
+                textContentType="password"
+                autoCorrect={false}
+              />
+              <AppText style={styles.inputTitle}>City</AppText>
+              <AppTextInput
+                style={styles.input}
+                // value={password}
+                onChangeText={(text) => setPassword(text)}
+                autoCapitalize="none"
+                textContentType="password"
+                autoCorrect={false}
+              />
+              <AppText style={styles.inputTitle}>State</AppText>
+              <AppTextInput
+                style={styles.input}
+                // value={password}
+                onChangeText={(text) => setPassword(text)}
+                autoCapitalize="none"
+                textContentType="password"
+                autoCorrect={false}
+              />
+              <AppText style={styles.inputTitle}>Zip Code</AppText>
+              <AppTextInput
+                style={styles.input}
+                // value={password}
+                onChangeText={(text) => setPassword(text)}
+                autoCapitalize="none"
+                textContentType="password"
+                autoCorrect={false}
+              />
+
               <AppButton
-                title="Sign In"
-                onPress={signIn}
+                title="Next"
+                // onPress={signIn}
                 textColor={colors.white}
                 style={styles.loginButton}
               />
-              <View style={styles.socialContainer}>
-                <AppText style={styles.socialText}>
-                  or sign in with your social account
-                </AppText>
-                <SocMediaSignIn
-                  checkForFriends={checkForFriends}
-                  fetchRequests={fetchRequests}
-                />
-              </View>
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -142,7 +123,7 @@ const SignIn = ({ navigation }) => {
             Don't have an accout?{' '}
             <AppText
               style={styles.textBtn}
-              onPress={() => navigation.navigate('SignUp')}
+              onPress={() => navigation.navigate('Onboarding')}
             >
               Sign Up
             </AppText>
@@ -153,26 +134,32 @@ const SignIn = ({ navigation }) => {
   )
 }
 
-export default SignIn
+export default Onboarding
 
 const styles = StyleSheet.create({
   mainContainer: {
     padding: 30,
     flex: 1,
     display: 'flex',
+    // justifyContent: 'center'
   },
   messageContainer: {
+    alignItems: 'center',
     marginBottom: 30,
-    marginTop: 30,
+    marginTop: 50,
   },
   messageTitle: {
     fontSize: 25,
     fontWeight: 'bold',
-    marginBottom: 5,
+    marginBottom: 20,
   },
   message: {
-    fontSize: 20,
+    textAlign: 'center',
+    fontSize: 18,
+    width: '100%',
+    marginBottom: 10,
   },
+  optOut: {},
   input: {
     width: '100%',
     backgroundColor: colors.white,
@@ -211,6 +198,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
   },
+
   footer: {
     display: 'flex',
     justifyContent: 'flex-end',

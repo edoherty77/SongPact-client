@@ -12,7 +12,7 @@ import {
 
 const Stack = createStackNavigator()
 
-const MenuNavigator = (props) => {
+const MenuStack = (props) => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} headerMode="screen">
       <Stack.Screen name="Main">
@@ -33,4 +33,4 @@ const MenuNavigator = (props) => {
   )
 }
 
-export default MenuNavigator
+export default MenuStack

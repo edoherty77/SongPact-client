@@ -2,8 +2,6 @@ import { makeAutoObservable } from 'mobx'
 
 class UserStore {
   _id = ''
-  // firstName = ''
-  // lastName = ''
   name = ''
   artistName = ''
   companyName = ''
@@ -13,16 +11,17 @@ class UserStore {
   zipCode = ''
   email = ''
   pacts = []
-  friends = []
-  notFriends = []
+  friends = ''
+  friendRequests = ''
+  googlePhotoUrl = ''
+  accessToken = ''
 
   setID(id) {
     this._id = id
   }
 
   setUser(values) {
-    // this.firstName = values.firstName
-    // this.lastName = values.lastName
+    this._id = values._id
     this.name = values.name
     this.artistName = values.artistName
     this.companyName = values.companyName
@@ -33,30 +32,24 @@ class UserStore {
     this.email = values.email
     this.pacts = values.pacts
     this.friends = values.friends
-    this._id = values._id
-    // console.log(this.firstName, this.lastName, 'set')
+    this.requests = values.requests
+    this.googlePhotoUrl = values.googlePhotoUrl
   }
 
-  // addOtherUsers(values) {
-  //   console.log(this.notFriends)
-  //   this.notFriends.push(values)
-  //   console.log('VAALUES', values)
-  // }
+  setFriends(values) {
+    this.friends = values
+  }
 
-  addFriend(value) {
-    this.friends.items.push(value)
-    // for (let i = 0; i < this.notFriends.length; i++) {
-    //   if (this.notFriends[i].id === value.id) {
-    //     this.notFriends.splice(i, 1)
-    //   }
-    // }
+  setFriendRequests(values) {
+    this.friendRequests = values
+  }
+
+  setAccessToken(token) {
+    this.accessToken = token
   }
 
   resetUser() {
-    console.log('resetting User in UserStore...')
     this._id = ''
-    // this.firstName = ''
-    // this.lastName = ''
     this.name = ''
     this.artistName = ''
     this.companyName = ''
@@ -66,8 +59,10 @@ class UserStore {
     this.zipCode = ''
     this.email = ''
     this.pacts = []
-    this.friends = []
-    // console.log('User reset')
+    this.friends = ''
+    this.googlePhotoUrl = ''
+    this.accessToken = ''
+    this.friendRequests = ''
   }
 
   constructor() {

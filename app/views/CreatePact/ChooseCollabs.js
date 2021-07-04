@@ -12,14 +12,12 @@ import { SubmitButton } from '../../components/forms'
 import ButtonIcon from '../../components/ButtonIcon'
 import { Formik, FieldArray } from 'formik'
 import ConfirmModal from '../../components/ConfirmModal'
-import Amplify, { API, Auth, graphqlOperation } from 'aws-amplify'
-// import { listUsers } from '../../../src/graphql/queries'
-import config from '../../../src/aws-exports'
-Amplify.configure(config)
+
 import store from '../../stores/CreatePactStore'
 import currentUser from '../../stores/UserStore'
 import AppText from '../../components/AppText'
 import UserModel from '../../api/users'
+
 function ChooseCollabs({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false)
   const [friends, setFriends] = useState([])
@@ -128,12 +126,12 @@ function ChooseCollabs({ navigation }) {
                   {({ remove, push }) => (
                     <FlatList
                       style={styles.contactsList}
-                      data={friends}
+                      data={currentUser.friends}
                       keyExtractor={(item) => item._id}
                       renderItem={({ item }) => (
                         <ContactCheckBox
                           name={`collabs.${item.id}`}
-                          title={`${item.firstName} ${item.lastName}`}
+                          title={`${item.name}`}
                           onPress={(checked) => {
                             const index = values.collabs.findIndex(
                               (person) => person.id === item.id,

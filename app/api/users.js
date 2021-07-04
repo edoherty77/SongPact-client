@@ -5,10 +5,11 @@ const url = 'http://192.168.1.8:4000/api/v1'
 // const url = 'http://192.168.1.203:4000/api/v1'
 
 export default class UserModel {
-  static all = async () => {
+  static all = async (name) => {
     try {
-      const allUsers = await axios.get(`${url}/users`)
-      return allUsers
+      const response = await axios.get(`${url}/users/search/${name}`)
+      const foundUsers = response.data
+      return foundUsers
     } catch (error) {
       console.log(error)
     }
@@ -29,7 +30,7 @@ export default class UserModel {
     }
   }
   static show = async (id) => {
-    console.log('sho9w route', id)
+    9
     try {
       const result = await axios.get(`${url}/users/${id}`)
       return result.data

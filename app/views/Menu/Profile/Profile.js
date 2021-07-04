@@ -42,17 +42,17 @@ const Profile = ({ navigation }) => {
       <View style={styles.main}>
         <View style={styles.nameContainer}>
           <View style={styles.circle}>
-            <AppText
+            {/* <AppText
               // fontWeight="bold"
               fontSize={50}
               color={colors.red}
             >
               {store.firstName[0]}
               {store.lastName[0]}
-            </AppText>
+            </AppText> */}
           </View>
           <AppText fontSize={30} style={styles.name}>
-            {store.firstName} {store.lastName}
+            {store.name}
           </AppText>
         </View>
         <View style={styles.paymentContainer}>

@@ -3,7 +3,7 @@ import { View, StyleSheet, FlatList } from 'react-native'
 import { Header, Item, Input, Icon } from 'native-base'
 import Head from '../../components/Header'
 import Screen from '../../components/Screen'
-import AppTextInput from '../../components/AppTextInput'
+import colors from '../../config/colors'
 import ContactButton from '../../components/ContactButton'
 import ConfirmModal from '../../components/ConfirmModal'
 import UserModel from '../../api/users'
@@ -21,7 +21,8 @@ const FindArtist = observer(({ navigation }) => {
   const currentUserFriends = currentUser.friends
 
   const findUsers = async () => {
-    console.log('ccurentFriends', currentUser.friends)
+    // console.log('curentUser', currentUser)
+    // console.log('ccurentFriends', currentUser.friends)
     try {
       const getUsers = await UserModel.all()
       // console.log('GETUSERS', getUsers)
@@ -31,12 +32,12 @@ const FindArtist = observer(({ navigation }) => {
       })
       // setUsers(notCurrentUser)
       console.log('NOT CURRENT', notCurrentUser)
-      // console.log('FRIENDS', currentUserFriends)
+      console.log('FRIENDS', currentUserFriends)
       const notFriends = notCurrentUser.filter((user) =>
-        currentUserFriends.find(({ userId }) => user._id !== userId),
+        currentUser.friends.find(({ _id }) => user._id !== _id),
       )
-
-      setUsers(notFriends)
+      console.log('not friends', notFriends)
+      setUsers(notCurrentUser)
     } catch (error) {
       console.log(error)
     }
@@ -63,37 +64,46 @@ const FindArtist = observer(({ navigation }) => {
     // setModalVisible(false)
     // navigation.navigate('Contacts')
   }
+  const viewProfile = (item) => {
+    navigation.navigate('ArtistProfile', {
+      item: item,
+    })
+  }
 
   return (
     <Screen>
-      <Head noBack />
+      <Head noBack title="Contacts" />
       <Header
         transparent={true}
         searchBar
         noshadow
         rounded
-        width={300}
+        // width={300}
         alignSelf="center"
+        height={20}
+        style={{ paddingRight: 22, paddingLeft: 22 }}
       >
-        <Item>
+        {/* <Item style={{ padding: 20 }}> */}
+        <Item style={styles.searchInput}>
           <Icon name="ios-search" />
           <Input placeholder="Search" />
           <Icon name="ios-people" />
         </Item>
       </Header>
 
-      <View>
+      <View style={styles.mainView}>
         <FlatList
           data={users}
           keyExtractor={(user) => user._id}
           renderItem={({ item, index }) => (
             <ContactButton
-              name={item.firstName + ' ' + item.lastName}
-              onPress={() => {
-                addFriend(item._id)
-                // setModalVisible(true)
-                // setFriendInfo(item)
-              }}
+              viewProfile={() => viewProfile(item)}
+              item={item}
+              // onPress={() => {
+              //   addFriend(item._id)
+              //   setModalVisible(true)
+              //   setFriendInfo(item)
+              // }}
             />
           )}
         />
@@ -114,6 +124,18 @@ const FindArtist = observer(({ navigation }) => {
 })
 
 const styles = StyleSheet.create({
+  mainView: {
+    marginLeft: 25,
+    marginRight: 25,
+  },
+  searchInput: {
+    height: 50,
+    borderRadius: 10,
+    backgroundColor: colors.white,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderStyle: 'solid',
+  },
   inputView: {
     display: 'flex',
     justifyContent: 'center',

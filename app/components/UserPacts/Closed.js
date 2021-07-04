@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import PactButton from '../PactButton'
+import colors from '../../config/colors'
 // import { API, Auth, graphqlOperation } from "aws-amplify"
 // import { listPacts } from "../../src/graphql/Queries"
 // import { listUsers } from "../../src/graphql/Queries"
@@ -42,7 +43,7 @@ const Closed = () => {
 const styles = StyleSheet.create({
   pactList: {
     padding: 10,
-    // backgroundColor: 'black',
+    backgroundColor: colors.background,
     marginLeft: 10,
     marginRight: 10,
     elevation: 1,

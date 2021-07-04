@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Text, View, StyleSheet } from 'react-native'
 import PactButton from '../PactButton'
+import colors from '../../config/colors'
 
 const Pending = () => {
   return (
@@ -20,7 +21,7 @@ const Pending = () => {
 const styles = StyleSheet.create({
   pactList: {
     padding: 10,
-    // backgroundColor: 'black',
+    backgroundColor: colors.background,
     marginLeft: 10,
     marginRight: 10,
     elevation: 1,

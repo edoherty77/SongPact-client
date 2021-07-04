@@ -6,15 +6,19 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native'
+
+// FORMS
 import { AppForm, AppFormField, SubmitButton } from '../../components/forms'
-
-import AuthModel from '../../api/auth'
 import * as Yup from 'yup'
-import Screen from '../../components/Screen'
 
+// AUTH
+import AuthModel from '../../api/auth'
+
+// COMPONENTS
+import Screen from '../../components/Screen'
 import AppText from '../../components/AppText'
 import Header from '../../components/Header'
-import SocialMediaBtn from '../../components/SocialMediaBtn'
+import SocMediaSignIn from './SocMediaSignIn'
 import colors from '../../config/colors'
 
 const validationSchema = Yup.object().shape({
@@ -37,6 +41,7 @@ const SignUp = ({ navigation }) => {
       console.log('❌ Error signing up...', error)
     }
   }
+
   return (
     <Screen>
       <Header icon="chevron-back" noIcon />
@@ -62,7 +67,7 @@ const SignUp = ({ navigation }) => {
             <AppForm
               initialValues={{
                 // firstName: '',
-                nsame: '',
+                name: '',
                 email: '',
                 password: '',
               }}
@@ -77,13 +82,6 @@ const SignUp = ({ navigation }) => {
                 autoCorrect={false}
                 textContentType="givenName"
               />
-              {/* <AppText style={styles.inputTitle}>Last Name</AppText>
-              <AppFormField
-                style={styles.input}
-                name="lastName"
-                autoCorrect={false}
-                textContentType="familyName"
-              /> */}
               <AppText style={styles.inputTitle}>Email</AppText>
               <AppFormField
                 style={styles.input}
@@ -112,22 +110,9 @@ const SignUp = ({ navigation }) => {
             </AppForm>
             <View style={styles.socialContainer}>
               <AppText style={styles.socialText}>
-                or sign in with your social account
+                or sign up with your social account
               </AppText>
-              <View style={styles.socialBtns}>
-                <SocialMediaBtn
-                  name="google"
-                  color="white"
-                  backgroundColor="black"
-                  title="Google"
-                />
-                <SocialMediaBtn
-                  name="facebook-square"
-                  color="white"
-                  backgroundColor="black"
-                  title="Facebook"
-                />
-              </View>
+              <SocMediaSignIn />
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -200,12 +185,12 @@ const styles = StyleSheet.create({
   socialContainer: {
     display: 'flex',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 10,
   },
   socialText: {
     marginTop: 20,
     fontSize: 18,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   socialBtns: {
     display: 'flex',
