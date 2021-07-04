@@ -1,6 +1,8 @@
 import React from 'react'
+import { StyleSheet } from 'react-native'
 import { useFormikContext } from 'formik'
 import AppButton from '../AppButton'
+import colors from '../../config/colors'
 
 const SubmitButton = ({
   title,
@@ -17,11 +19,21 @@ const SubmitButton = ({
     <AppButton
       title={title}
       onPress={handleSubmit}
-      style={style}
+      style={styles.button}
       disabled={disabled}
+      textColor="white"
     />
-    /* <AppButton onPress={onPress} title={title} style={style} /> */
   )
 }
+
+const styles = StyleSheet.create({
+  button: {
+    marginVertical: 20,
+    borderRadius: 5,
+    height: 45,
+    backgroundColor: colors.green,
+    width: '80%',
+  },
+})
 
 export default SubmitButton

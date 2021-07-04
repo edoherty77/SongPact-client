@@ -9,6 +9,7 @@ import colors from '../config/colors'
 const Header = ({
   onPress,
   title,
+  subTitle,
   noIcon,
   back,
   icon,
@@ -43,6 +44,11 @@ const Header = ({
           />
         )}
       </View>
+      {subTitle && (
+        <View style={styles.titleContainer}>
+          <AppText style={styles.subTitle}>{subTitle}</AppText>
+        </View>
+      )}
     </SafeAreaView>
   )
 }
@@ -51,12 +57,19 @@ const styles = StyleSheet.create({
   appHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingLeft: 25,
     paddingRight: 25,
+    marginTop: 10,
+  },
+  subTitle: {
+    fontSize: 20,
+    marginBottom: 10,
   },
   titleContainer: {
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   screenName: {
     fontSize: 30,

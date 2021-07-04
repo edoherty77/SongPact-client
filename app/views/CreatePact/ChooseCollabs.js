@@ -1,68 +1,35 @@
-import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, FlatList } from 'react-native'
+import React from 'react'
+import { View, StyleSheet, FlatList, Image } from 'react-native'
 import { Header, Item, Icon, Input } from 'native-base'
+
+// FORM
+import { SubmitButton } from '../../components/forms'
+import { Formik, FieldArray } from 'formik'
+
+// COMPONENTS
 import Head from '../../components/Header'
 import Screen from '../../components/Screen'
 import colors from '../../config/colors'
-import AppButton from '../../components/AppButton'
 import ContactCheckBox from '../../components/ContactCheckBox'
 import UserIcon from '../../components/UserIcon'
 import Separator from '../../components/Separator'
-import { SubmitButton } from '../../components/forms'
-import ButtonIcon from '../../components/ButtonIcon'
-import { Formik, FieldArray } from 'formik'
-import ConfirmModal from '../../components/ConfirmModal'
 
-import store from '../../stores/CreatePactStore'
+// STORE
+import currentPact from '../../stores/CreatePactStore'
 import currentUser from '../../stores/UserStore'
-import AppText from '../../components/AppText'
-import UserModel from '../../api/users'
 
 function ChooseCollabs({ navigation }) {
-  const [isModalVisible, setModalVisible] = useState(false)
-  const [friends, setFriends] = useState([])
-
-  const fetchFriends = () => {
-    let arr = []
-    currentUser.friends.map(async (id) => {
-      const response = await UserModel.show(id)
-      const user = await response.user
-      arr.push(user)
-      await setFriends([...arr])
-      console.log('arr', arr)
-    })
-  }
-
-  useEffect(() => {
-    store.resetPact()
-    fetchFriends()
-  }, [])
-
   const nextScreen = (values) => {
-    store.setCollabInfo(values, currentUser)
+    currentPact.setCollabInfo(values, currentUser)
     navigation.navigate('Producer')
-  }
-
-  function trash() {
-    setModalVisible(true)
-  }
-
-  function trashDeny() {
-    setModalVisible(false)
-  }
-
-  function trashConfirm() {
-    setModalVisible(false)
-    store.resetPact()
-    navigation.navigate('New')
   }
 
   return (
     <Screen>
       <Head
-        title="Collaborators"
-        noBack
-        // icon="arrow-left-bold"
+        title="Create a new pact"
+        subTitle="Add Collaborators"
+        icon="arrow-back"
         // back={() => navigation.navigate('First')}
       />
       <View style={styles.mainView}>
@@ -71,8 +38,9 @@ function ChooseCollabs({ navigation }) {
           initialValues={{ collabs: [] }}
           onSubmit={(values) => nextScreen(values)}
         >
-          {({ values, errors, handleSubmit }) => (
+          {({ values }) => (
             <View style={styles.formView}>
+              <Separator />
               <View style={styles.inputView}>
                 <Header
                   transparent={true}
@@ -90,13 +58,6 @@ function ChooseCollabs({ navigation }) {
                 </Header>
               </View>
               <View style={styles.addedCollabView}>
-                {values.collabs.length === 0 ? (
-                  <View style={styles.emptyView}>
-                    <AppText style={styles.empty}>
-                      Add collabrators to the contract
-                    </AppText>
-                  </View>
-                ) : null}
                 <FieldArray name="collabs">
                   {() => (
                     <FlatList
@@ -110,23 +71,36 @@ function ChooseCollabs({ navigation }) {
                       style={styles.addedCollabsList}
                       data={values.collabs}
                       keyExtractor={(collab) => collab._id}
-                      renderItem={({ item, index }) => (
-                        <UserIcon
-                          name={`collabs.${index}`}
-                          title={`${item.firstName} ${item.lastName}`}
-                        />
-                      )}
+                      renderItem={({ item, index }) =>
+                        item.googlePhotoUrl ? (
+                          <Image
+                            source={{ uri: item.googlePhotoUrl }}
+                            style={styles.image}
+                          />
+                        ) : (
+                          <UserIcon
+                            name={`collabs.${index}`}
+                            title={item.name}
+                            style={styles.image}
+                            fontSize={20}
+                            color={colors.white}
+                            backgroundColor={colors.green}
+                          />
+                        )
+                      }
                     />
                   )}
                 </FieldArray>
               </View>
-              <Separator />
               <View style={styles.contactsView}>
                 <FieldArray name="collabs">
                   {({ remove, push }) => (
                     <FlatList
+                      showsVerticalScrollIndicator={false}
+                      data={currentUser.friends
+                        .slice()
+                        .sort((a, b) => a.name.localeCompare(b.name))}
                       style={styles.contactsList}
-                      data={currentUser.friends}
                       keyExtractor={(item) => item._id}
                       renderItem={({ item }) => (
                         <ContactCheckBox
@@ -152,27 +126,12 @@ function ChooseCollabs({ navigation }) {
                 <SubmitButton
                   disabled={values.collabs.length === 0 ? true : false}
                   style={styles.nextButton}
-                  title="Next"
+                  title="Continue"
                 />
-                <View style={styles.iconView}>
-                  <ButtonIcon
-                    onPress={trash}
-                    name="delete"
-                    backgroundColor="transparent"
-                    iconColor={colors.red}
-                  />
-                </View>
               </View>
             </View>
           )}
         </Formik>
-        <ConfirmModal
-          text="Are you sure you'd like to delete?"
-          onBackdropPress={() => setModalVisible(false)}
-          isVisible={isModalVisible}
-          confirm={trashConfirm}
-          deny={trashDeny}
-        />
       </View>
     </Screen>
   )
@@ -180,24 +139,25 @@ function ChooseCollabs({ navigation }) {
 
 const styles = StyleSheet.create({
   mainView: {
-    // backgroundColor: 'yellow',
     display: 'flex',
     flex: 1,
     marginBottom: 30,
-    // marginHorizontal: 30,
   },
   formView: {
-    // backgroundColor: 'gray',
     flex: 1,
   },
   addedCollabView: {
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
-    height: 70,
-    // backgroundColor: 'green',
+    height: 55,
     alignItems: 'center',
-    // flex: 1,
+  },
+  image: {
+    height: 42,
+    width: 42,
+    borderRadius: 20,
+    marginHorizontal: 3,
   },
   emptyView: {
     display: 'flex',
@@ -216,35 +176,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    // marginBottom: 5,
     height: 50,
     marginTop: 5,
-    // backgroundColor: 'purple',
   },
   contactsView: {
-    // backgroundColor: 'orange',
     marginTop: 15,
     flex: 1,
+    marginHorizontal: 35,
   },
   footer: {
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    // backgroundColor: 'pink',
-    // alignSelf: 'flex-end',
-    // justifyContent: 'space-between',
-  },
-  iconView: {
-    position: 'absolute',
-    right: 10,
-  },
-  nextButton: {
-    // marginTop: 10,
-    borderRadius: 50,
-    height: 45,
-    backgroundColor: colors.red,
-    width: '50%',
   },
 })
 
