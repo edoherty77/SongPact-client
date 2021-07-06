@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import New from '../views/Main/NewSongPactScreen'
 import {
   Collabs,
+  GratInfo,
   Producer,
   ProducerInfo,
   PerformerInfo,
@@ -22,6 +23,7 @@ const CreatePactStack = ({ navigation, route }) => {
     >
       <Stack.Screen name="New" component={New} />
       <Stack.Screen name="Collabs" component={Collabs} />
+      <Stack.Screen name="GratInfo" component={GratInfo} />
       <Stack.Screen name="Producer" component={Producer} />
       <Stack.Screen name="PerformerInfo" component={PerformerInfo} />
       <Stack.Screen name="ProducerInfo" component={ProducerInfo} />

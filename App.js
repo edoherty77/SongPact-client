@@ -17,6 +17,7 @@ import Home from './app/views/Main/HomeScreen'
 
 // DATA FLOW
 import currentUser from './app/stores/UserStore'
+import currentPact from './app/stores/CreatePactStore'
 import { observer } from 'mobx-react'
 import {
   useQuery,
@@ -84,6 +85,7 @@ const App = observer(() => {
       await AsyncStorage.setItem('email', '')
       await AsyncStorage.setItem('userId', '')
       currentUser.resetUser()
+      currentPact.resetPact()
     } catch (error) {
       console.log(error)
     }

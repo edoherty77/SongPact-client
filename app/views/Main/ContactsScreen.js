@@ -162,6 +162,7 @@ const styles = StyleSheet.create({
   mainView: {
     marginLeft: 25,
     marginRight: 25,
+    marginBottom: 40,
     flex: 1,
   },
   searchMoreView: {

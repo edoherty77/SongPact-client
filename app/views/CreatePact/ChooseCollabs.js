@@ -23,7 +23,7 @@ import currentUser from '../../stores/UserStore'
 function ChooseCollabs({ navigation }) {
   const nextScreen = (values) => {
     currentPact.setCollabInfo(values, currentUser)
-    navigation.navigate('Producer')
+    navigation.navigate('GratInfo')
   }
 
   return (

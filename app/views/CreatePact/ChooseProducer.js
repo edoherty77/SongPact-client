@@ -13,6 +13,7 @@ import ConfirmModal from '../../components/ConfirmModal'
 import AppButton from '../../components/AppButton'
 import { RadioButton } from 'react-native-paper'
 import Separator from '../../components/Separator'
+import AppProgressBar from '../../components/AppProgressBar'
 
 // FORM
 import { Formik, FieldArray } from 'formik'
@@ -69,6 +70,7 @@ export default function ChooseProducer({ navigation }) {
         icon="arrow-back"
         back={() => navigation.navigate('Collabs')}
       />
+      <AppProgressBar value={30} />
       <Separator />
       <Formik
         enableReinitialize

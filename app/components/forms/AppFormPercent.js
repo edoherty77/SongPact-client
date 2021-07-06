@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, TextInput } from 'react-native'
 import AppFormField from './AppFormField'
 import { useFormikContext } from 'formik'
 
@@ -9,58 +9,52 @@ import colors from '../../config/colors'
 import ButtonIcon from '../ButtonIcon'
 
 export default function AppFormPercent({ title, name, info }) {
-  const { setFieldTouched, handleChange, errors, touched } = useFormikContext()
+  // const { setFieldTouched, handleChange, errors, touched } = useFormikContext()
   return (
-    <View style={styles.percentView}>
-      <View style={styles.left}>
-        <AppText fontSize={25}>{title}:</AppText>
-        <ButtonIcon
-          name="information"
-          backgroundColor="transparent"
-          size={35}
-          iconColor="#42C1FC"
-          onPress={() => handleInfoPress()}
-        />
+    <View style={styles.mainView}>
+      <View style={styles.inputView}>
+        <TextInput style={styles.input} />
       </View>
-      <View style={styles.right}>
-        <AppFormField
-          name={name}
-          style={styles.numInput}
-          placeholder="%"
-          placeholderTextColor={colors.black}
-          keyboardType="number-pad"
-          maxLength={3}
-          returnKeyType="done"
-          textAlign="center"
-        />
+      <View style={styles.percentView}>
+        <AppText fontSize={20} fontWeight="bold">
+          %
+        </AppText>
       </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  percentView: {
-    flexDirection: 'row',
-    // backgroundColor: 'red',
-    alignItems: 'center',
-    marginBottom: 20,
-    justifyContent: 'space-between',
-  },
-  left: {
-    paddingLeft: 7,
-    justifyContent: 'center',
-  },
-  right: {
+  mainView: {
     display: 'flex',
-    alignSelf: 'flex-start',
-    // backgroundColor: 'green',
+    flexDirection: 'row',
+    height: 40,
   },
-  numInput: {
-    width: 35,
-    backgroundColor: 'rgba(250, 250, 250, 0.8)',
-    fontSize: 18,
-    justifyContent: 'center',
+  inputView: {
+    // width: '100%',
+    backgroundColor: 'white',
+  },
+  input: {
+    width: 50,
+    height: 40,
+    borderColor: 'black',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
+  },
+  percentView: {
+    display: 'flex',
     alignItems: 'center',
-    height: 35,
+    justifyContent: 'center',
+    padding: 10,
+    backgroundColor: colors.gray,
+    borderColor: 'black',
+    borderStyle: 'solid',
+    borderLeftWidth: 0,
+    borderWidth: 1,
+    borderLeftColor: 'white',
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
   },
 })

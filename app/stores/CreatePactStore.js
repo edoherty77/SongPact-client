@@ -59,10 +59,10 @@ class CreatePactStore {
   }
 
   setCollabInfo(values, foundUser) {
+    console.log('collabs', values)
     //Set initBy value with foundUser
     this.initBy.user = foundUser._id
-    this.initBy.firstName = foundUser.firstName
-    this.initBy.lastName = foundUser.lastName
+    this.initBy.name = foundUser.name
     this.users.push(foundUser)
     // console.log(this.collaborators, this.initBy)
 
@@ -72,8 +72,7 @@ class CreatePactStore {
       let obj = {}
       obj['status'] = 1
       obj['user'] = collab._id
-      obj['firstName'] = collab.firstName
-      obj['lastName'] = collab.lastName
+      obj['name'] = collab.name
       obj['artistName'] = collab.artistName
       obj['companyName'] = collab.companyName
       obj['address'] = collab.address
