@@ -38,7 +38,7 @@ const DashboardScreen = observer(({ navigation }) => {
         borderBottomWidth={0}
         noBack
       />
-      <View style={styles.tabView}>
+      {/* <View style={styles.tabView}>
         <Tabs
           renderTabBar={renderTabBar}
           locked={true}
@@ -95,7 +95,7 @@ const DashboardScreen = observer(({ navigation }) => {
             <Closed />
           </Tab>
         </Tabs>
-      </View>
+      </View> */}
     </Screen>
   )
 })

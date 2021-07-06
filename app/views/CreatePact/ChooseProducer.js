@@ -105,9 +105,7 @@ export default function ChooseProducer({ navigation }) {
                         <View style={styles.checkView}>
                           <RadioButton.Item
                             label={
-                              item._id === currentUser._id
-                                ? 'Me'
-                                : `${item.firstName} ${item.lastName}`
+                              item._id === currentUser._id ? 'Me' : item.name
                             }
                             labelStyle={{ fontSize: 20, padding: 10 }}
                             uncheckedColor="red"
@@ -192,9 +190,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    // backgroundColor: 'pink',
-    // alignSelf: 'flex-end',
-    // justifyContent: 'space-between',
   },
   iconView: {
     position: 'absolute',

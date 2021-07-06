@@ -14,16 +14,6 @@ import {
 const Stack = createStackNavigator()
 
 const CreatePactStack = ({ navigation, route }) => {
-  // if (route.state.routes[route.state.index].name === { New }) {
-  //   navigation.setOptions({ tabBarVisible: true })
-  // } else {
-  //   navigation.setOptions({ tabBarVisible: false })
-  // }
-  // if (route.state && route.state.index > 0) {
-  //   navigation.setOptions({ tabBarVisible: false })
-  // } else {
-  //   navigation.setOptions({ tabBarVisible: true })
-  // }
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}

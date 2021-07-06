@@ -25,17 +25,6 @@ const AppFormRadio = ({
         value={value}
         {...otherProps}
       >
-        {/* <View>
-          <AppText fontSize={30}>{user}</AppText>
-        </View>
-        <View style={styles.optionView}>
-          <View style={styles.textView}>
-            <AppText fontSize={23}>{value1}:</AppText>
-          </View>
-          <View style={styles.radioBtnView}>
-            <RadioButton color="#42C1FC" value={value1} />
-          </View>
-        </View> */}
         <View style={styles.optionView}>
           <View style={styles.textView}>
             <AppText fontSize={23}>{user}:</AppText>

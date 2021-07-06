@@ -4,9 +4,9 @@ export default {
   //jet black
   secondary: '#303036',
   tan: '#d8c7c0',
-  gray: '#dad8d8',
   lttan: '#eae3e3',
 
+  gray: '#E0E0E0',
   darkBlue: '#494E6B',
   green: '#6CC17F',
   white: '#EEEEEE',
@@ -14,4 +14,5 @@ export default {
   red: '#DE6C59',
   black: '#222222',
   background: '#E5E5E5',
+  gray: '#E0E0E0',
 }

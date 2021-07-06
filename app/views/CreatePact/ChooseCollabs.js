@@ -42,7 +42,7 @@ function ChooseCollabs({ navigation }) {
             <View style={styles.formView}>
               <Separator />
               <View style={styles.inputView}>
-                <Header
+                {/* <Header
                   transparent={true}
                   searchBar
                   noshadow
@@ -55,7 +55,7 @@ function ChooseCollabs({ navigation }) {
                     <Input placeholder="Search" />
                     <Icon name="ios-people" />
                   </Item>
-                </Header>
+                </Header> */}
               </View>
               <View style={styles.addedCollabView}>
                 <FieldArray name="collabs">

@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, View } from 'react-native'
+import { NativeBaseProvider } from 'native-base'
+
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 // AUTH
@@ -11,6 +13,7 @@ import * as Google from 'expo-google-app-auth'
 // NAV
 import AuthNavigator from './app/navigation/AuthNavigator'
 import Main from './app/navigation/main'
+import Home from './app/views/Main/HomeScreen'
 
 // DATA FLOW
 import currentUser from './app/stores/UserStore'
@@ -88,15 +91,18 @@ const App = observer(() => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SafeAreaProvider>
-        {user.email === 'initializing' && <Initializing />}
-        {currentUser.email !== '' ? (
-          <Main logout={logout} />
-        ) : (
-          <AuthNavigator />
-        )}
-      </SafeAreaProvider>
-      <StatusBar style={'auto'} />
+      <NativeBaseProvider>
+        <SafeAreaProvider>
+          {user.email === 'initializing' && <Initializing />}
+          {currentUser.email !== '' ? (
+            <Main logout={logout} />
+          ) : (
+            // <Home />
+            <AuthNavigator />
+          )}
+        </SafeAreaProvider>
+        <StatusBar style={'auto'} />
+      </NativeBaseProvider>
     </QueryClientProvider>
   )
 })

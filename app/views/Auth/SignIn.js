@@ -117,6 +117,7 @@ const SignIn = ({ navigation }) => {
                 autoCapitalize="none"
                 textContentType="password"
                 autoCorrect={false}
+                secureTextEntry={true}
               />
               <AppText style={styles.forgot}>Forgot password?</AppText>
               <AppButton

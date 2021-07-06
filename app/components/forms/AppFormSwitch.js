@@ -23,7 +23,7 @@ const AppFormSwitch = ({
 
   return (
     <View style={styles.view}>
-      <AppText fontSize={30}>{label}</AppText>
+      <AppText fontSize={18}>{label}</AppText>
       <View style={styles.switchView}>
         <Switch
           onChange={onPress}
