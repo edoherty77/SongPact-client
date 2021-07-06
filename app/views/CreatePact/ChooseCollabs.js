@@ -13,6 +13,8 @@ import colors from '../../config/colors'
 import ContactCheckBox from '../../components/ContactCheckBox'
 import UserIcon from '../../components/UserIcon'
 import Separator from '../../components/Separator'
+import AppSearchInput from '../../components/AppSearchInput'
+import AppProgressBar from '../../components/AppProgressBar'
 
 // STORE
 import currentPact from '../../stores/CreatePactStore'
@@ -32,6 +34,8 @@ function ChooseCollabs({ navigation }) {
         icon="arrow-back"
         // back={() => navigation.navigate('First')}
       />
+      <AppProgressBar value={10} />
+      <Separator />
       <View style={styles.mainView}>
         <Formik
           enableReinitialize
@@ -40,22 +44,8 @@ function ChooseCollabs({ navigation }) {
         >
           {({ values }) => (
             <View style={styles.formView}>
-              <Separator />
               <View style={styles.inputView}>
-                {/* <Header
-                  transparent={true}
-                  searchBar
-                  noshadow
-                  rounded
-                  width={300}
-                  alignSelf="center"
-                >
-                  <Item>
-                    <Icon name="ios-search" />
-                    <Input placeholder="Search" />
-                    <Icon name="ios-people" />
-                  </Item>
-                </Header> */}
+                <AppSearchInput />
               </View>
               <View style={styles.addedCollabView}>
                 <FieldArray name="collabs">
@@ -84,7 +74,7 @@ function ChooseCollabs({ navigation }) {
                             style={styles.image}
                             fontSize={20}
                             color={colors.white}
-                            backgroundColor={colors.green}
+                            backgroundColor={colors.blue}
                           />
                         )
                       }
@@ -142,6 +132,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flex: 1,
     marginBottom: 30,
+    marginHorizontal: 25,
   },
   formView: {
     flex: 1,
@@ -177,12 +168,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: 50,
-    marginTop: 5,
+    marginTop: 20,
   },
   contactsView: {
     marginTop: 15,
     flex: 1,
-    marginHorizontal: 35,
+    // marginHorizontal: 35,
   },
   footer: {
     justifyContent: 'center',
