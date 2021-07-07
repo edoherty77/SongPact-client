@@ -34,7 +34,7 @@ function ChooseCollabs({ navigation }) {
         icon="arrow-back"
         // back={() => navigation.navigate('First')}
       />
-      <AppProgressBar value={20} />
+      <AppProgressBar value={0} />
       <Separator />
       <View style={styles.mainView}>
         <Formik
@@ -55,7 +55,6 @@ function ChooseCollabs({ navigation }) {
                       contentContainerStyle={{
                         alignItems: 'center',
                         justifyContent: 'center',
-
                         width: '100%',
                       }}
                       style={styles.addedCollabsList}

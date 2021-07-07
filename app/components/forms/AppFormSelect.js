@@ -51,9 +51,9 @@ const AppFormSelect = ({ data, setItem, item, isDisabled, defaultValue }) => {
         {data.map((element) => {
           return (
             <Select.Item
-              label={element._id === currentUser._id ? 'Me' : element.name}
-              value={element._id}
-              key={element._id}
+              label={element.user === currentUser._id ? 'Me' : element.name}
+              value={element.user}
+              key={element.user}
             />
           )
         })}

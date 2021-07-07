@@ -32,7 +32,7 @@ export default function ReviewData({ navigation }) {
         title="Create a new pact"
         subTitle="Review"
       />
-      <AppProgressBar value={83} />
+      <AppProgressBar value={80} />
       <Separator />
       <Formik
         initialValues={{}}

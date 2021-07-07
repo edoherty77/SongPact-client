@@ -9,7 +9,7 @@ import Separator from '../../components/Separator'
 import AppProgressBar from '../../components/AppProgressBar'
 import AppButton from '../../components/AppButton'
 import PactModel from '../../api/pacts'
-// import currentPact from '../../stores/CreatePactStore'
+import currentPact from '../../stores/CreatePactStore'
 
 // FORM
 import { Formik, FieldArray } from 'formik'
@@ -17,10 +17,10 @@ import {
   AppFormField,
   AppFormSelect,
   AppFormPercent,
+  SubmitButton,
 } from '../../components/forms'
 
-export default function ReviewData({ navigation, route }) {
-  const { currentPact } = route.params
+export default function ReviewData({ navigation }) {
   const createPact = async () => {
     let performArr = []
     let usersArr = [currentPact.producer.user]
@@ -62,7 +62,7 @@ export default function ReviewData({ navigation, route }) {
   }
 
   async function nextScreen() {
-    // navigation.navigate('ReviewContract')
+    navigation.navigate('ViewContract')
   }
 
   return (
@@ -79,11 +79,25 @@ export default function ReviewData({ navigation, route }) {
         enableReinitialize
         onSubmit={(values) => nextScreen(values)}
       >
-        {() => (
+        {({ handleSubmit }) => (
           <ScrollView
             style={styles.mainView}
             showsVerticalScrollIndicator={false}
           >
+            <View style={styles.btnView}>
+              <AppButton
+                textColor="white"
+                title="Accept"
+                style={styles.button}
+                onPress={handleSubmit}
+              />
+              {/* <AppButton
+                textColor="white"
+                title="Counter"
+                style={styles.button}
+                onPress={nextScreen}
+              /> */}
+            </View>
             <View style={styles.infoSection}>
               <View style={styles.titleView}>
                 <AppText style={styles.text}>Record Title</AppText>
@@ -134,29 +148,37 @@ export default function ReviewData({ navigation, route }) {
                 item={currentPact.producer.name}
               />
               <AppFormPercent
+                editable={false}
+                selectTextOnFocus={false}
                 name="advancePercent"
                 title="Producer Advance"
-                placeholder={currentPact.producer.advancePercent}
+                // placeholder={currentPact.producer.advancePercent}
               />
               <AppFormPercent
+                editable={false}
+                selectTextOnFocus={false}
                 name="royaltyPercent"
                 title="Producer Royalty"
-                placeholder={currentPact.producer.royaltyPercent}
+                // placeholder={currentPact.producer.royaltyPercent}
               />
               <AppFormPercent
+                editable={false}
+                selectTextOnFocus={false}
                 name="publisherPercent"
                 title="Producer Publish"
-                placeholder={currentPact.producer.publisherPercent}
+                // placeholder={currentPact.producer.publisherPercent}
               />
               <View style={styles.credText}>
                 <AppText style={styles.text}>Producer Credit</AppText>
               </View>
               <View style={styles.credInput}>
                 <AppFormField
+                  editable={false}
+                  selectTextOnFocus={false}
                   name="credit"
                   height={50}
                   style={styles.input}
-                  placeholder={currentPact.producer.credit}
+                  // placeholder={currentPact.producer.credit}
                   autoCapitalize="none"
                   autoCorrect={false}
                   placeholderTextColor={colors.black}
@@ -176,6 +198,8 @@ export default function ReviewData({ navigation, route }) {
                     keyExtractor={(performer) => performer._id}
                     renderItem={({ item, index }) => (
                       <AppFormPercent
+                        editable={false}
+                        selectTextOnFocus={false}
                         name={`${index}.publisherPercent`}
                         title={item.name}
                         placeholder={item.publisherPercent}
@@ -184,14 +208,6 @@ export default function ReviewData({ navigation, route }) {
                   />
                 )}
               </FieldArray>
-            </View>
-            <View style={styles.footer}>
-              <AppButton
-                textColor="white"
-                title="Create Pact"
-                style={styles.button}
-                onPress={nextScreen}
-              />
             </View>
           </ScrollView>
         )}
@@ -247,19 +263,19 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     marginBottom: 5,
   },
-  footer: {
-    justifyContent: 'center',
+  btnView: {
+    justifyContent: 'flex-end',
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
   },
   button: {
-    marginBottom: 70,
+    // marginBottom: 70,
     marginTop: 20,
     // flex: 1,
     borderRadius: 5,
     height: 45,
     backgroundColor: colors.green,
-    width: '100%',
+    width: '30%',
   },
 })

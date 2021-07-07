@@ -791,13 +791,8 @@ export default function ReviewContract({ navigation }) {
 
   const createPact = async (signature) => {
     let performArr = []
-    let usersArr = [pact.producer.user]
     try {
       pact.setSignature(signature, currentUser)
-      let checkProducer = false
-      if (currentUser._id === pact.producer.user) {
-        checkProducer = true
-      }
       pact.performers.map((performer) => {
         let obj = {}
         obj['user'] = performer._id
@@ -814,11 +809,9 @@ export default function ReviewContract({ navigation }) {
           obj['signatureImg'] = performer.signatureImg
         }
         performArr.push(obj)
-        usersArr.push(performer._id)
       })
       const obj = {
-        // signatureImg: signature,
-        users: usersArr,
+        users: pact.users,
         producer: pact.producer,
         type: pact.type,
         sample: pact.sample,
@@ -830,7 +823,6 @@ export default function ReviewContract({ navigation }) {
         performers: performArr,
         user: currentUser._id,
         status: 1,
-        checkProducer: checkProducer,
       }
       await PactModel.create(obj)
       await generateEmail(signature)

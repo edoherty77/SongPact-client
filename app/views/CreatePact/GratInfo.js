@@ -48,7 +48,7 @@ export default function GratInfo({ navigation }) {
         icon="arrow-back"
         back={() => navigation.navigate('Collabs')}
       />
-      <AppProgressBar value={40} />
+      <AppProgressBar value={20} />
       <Separator />
       <Formik
         enableReinitialize

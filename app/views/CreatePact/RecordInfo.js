@@ -53,7 +53,7 @@ export default function RecordInfo({ navigation }) {
         back={() => navigation.navigate('GratInfoCont')}
         icon="chevron-back"
       />
-      <AppProgressBar value={80} />
+      <AppProgressBar value={60} />
       <Separator />
       <Formik
         initialValues={{

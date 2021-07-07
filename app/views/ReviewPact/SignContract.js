@@ -28,7 +28,7 @@ export default function ReviewAndSign({ route, navigation }) {
   const [isModalVisible, setModalVisible] = useState(false)
   const [pactObj, setPactObj] = useState('')
   const [signature, setSign] = useState(null)
-  const { pact, createPDF } = route.params
+  const { pact, acceptPact } = route.params
 
   // const createPDF = async (signature) => {
   //   setSign(signature)
@@ -82,8 +82,8 @@ export default function ReviewAndSign({ route, navigation }) {
   return (
     <Screen>
       <Header
-        back={() => navigation.navigate('Dashboard')}
-        icon="arrow-left-bold"
+        back={() => navigation.navigate('ViewContract')}
+        icon="arrow-back"
         title="ViewContract"
       />
       <View style={{ flex: 1 }}>
@@ -97,7 +97,7 @@ export default function ReviewAndSign({ route, navigation }) {
           ) : null}
         </View> */}
         <Signature
-          onOK={createPDF}
+          onOK={acceptPact}
           onEmpty={handleEmpty}
           descriptionText="Sign"
           clearText="Clear"

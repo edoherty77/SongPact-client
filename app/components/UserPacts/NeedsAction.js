@@ -6,10 +6,10 @@ import pactStore from '../../stores/CreatePactStore'
 import colors from '../../config/colors'
 
 const NeedsAction = ({ navigation }) => {
+  console.log('currentUser', currentUser)
   const reviewPact = (pact) => {
-    navigation.navigate('ReviewData', {
-      currentPact: pact,
-    })
+    pactStore.setPact(pact)
+    navigation.navigate('ReviewData')
   }
 
   return (
@@ -33,8 +33,10 @@ const NeedsAction = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   mainView: {
-    display: 'flex',
-    padding: 20,
+    // display: 'flex',
+    // padding: 20,
+    // flex: 1,
+    marginHorizontal: 20,
     backgroundColor: colors.background,
   },
 })

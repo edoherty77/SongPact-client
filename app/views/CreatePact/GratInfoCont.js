@@ -37,7 +37,7 @@ export default function GratInfoCont({ navigation }) {
         icon="arrow-back"
         back={() => navigation.navigate('GratInfo')}
       />
-      <AppProgressBar value={60} />
+      <AppProgressBar value={40} />
       <Separator />
       <Formik
         enableReinitialize
