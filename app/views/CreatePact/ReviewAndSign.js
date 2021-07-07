@@ -12,7 +12,7 @@ import PactModel from '../../api/pacts'
 import currentPact from '../../stores/CreatePactStore'
 
 // FORM
-import { Formik } from 'formik'
+import { Formik, FieldArray } from 'formik'
 import {
   AppFormField,
   SubmitButton,
@@ -78,18 +78,15 @@ export default function ReviewAndSign({ navigation }) {
       <AppProgressBar value={90} />
       <Separator />
       <Formik
-        initialValues={{
-          recordTitle: '',
-          sample: false,
-          recordLabel: false,
-          labelName: '',
-          advancePercent: currentPact.producer.advancePercent,
-        }}
+        initialValues={{}}
         enableReinitialize
         onSubmit={(values) => nextScreen(values)}
       >
-        {({ values }) => (
-          <View style={styles.mainView}>
+        {() => (
+          <ScrollView
+            style={styles.mainView}
+            showsVerticalScrollIndicator={false}
+          >
             <View style={styles.infoSection}>
               <View style={styles.titleView}>
                 <AppText style={styles.text}>Record Title</AppText>
@@ -108,19 +105,19 @@ export default function ReviewAndSign({ navigation }) {
                 <View>
                   <AppText style={styles.text}>Is this a sample?</AppText>
                   {currentPact.sample ? (
-                    <AppText style={styles.text}>Yes</AppText>
+                    <AppText style={styles.answer}>Yes</AppText>
                   ) : (
-                    <AppText style={styles.text}>No</AppText>
+                    <AppText style={styles.answer}>No</AppText>
                   )}
                 </View>
                 <View>
                   <AppText style={styles.text}>Label Name</AppText>
                   {currentPact.labelName ? (
-                    <AppText style={styles.text}>
+                    <AppText style={styles.answer}>
                       {currentPact.labelName}
                     </AppText>
                   ) : (
-                    <AppText style={styles.text}>-</AppText>
+                    <AppText style={styles.answer}>-</AppText>
                   )}
                 </View>
               </View>
@@ -178,7 +175,30 @@ export default function ReviewAndSign({ navigation }) {
                 />
               </View>
             </View>
-            <View style={styles.performerInfo}></View>
+            <Separator />
+            <View style={styles.infoSection}>
+              <AppText fontWeight="bold" style={styles.sectionHeader}>
+                Performer Info
+              </AppText>
+
+              <FieldArray name="performers">
+                {() => (
+                  <FlatList
+                    data={currentPact.performers}
+                    keyExtractor={(performer) => performer._id}
+                    renderItem={({ item, index }) => (
+                      <AppFormPercent
+                        editable={false}
+                        selectTextOnFocus={false}
+                        name={`${index}.publisherPercent`}
+                        title={item.name}
+                        placeholder={item.publisherPercent}
+                      />
+                    )}
+                  />
+                )}
+              </FieldArray>
+            </View>
             <View style={styles.footer}>
               <AppButton
                 textColor="white"
@@ -187,7 +207,7 @@ export default function ReviewAndSign({ navigation }) {
                 // onPress={createPact}
               />
             </View>
-          </View>
+          </ScrollView>
         )}
       </Formik>
     </Screen>
@@ -203,18 +223,30 @@ const styles = StyleSheet.create({
   },
   sectionHeader: {
     fontSize: 20,
+    marginBottom: 10,
   },
   text: {
     fontSize: 18,
   },
+  answer: {
+    fontSize: 18,
+    marginTop: 5,
+  },
   infoSection: {
     display: 'flex',
-    marginVertical: 15,
+    marginVertical: 20,
   },
   recordInfo: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  credText: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '50%',
+    marginTop: 10,
   },
   input: {
     width: '100%',
@@ -227,49 +259,6 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     marginBottom: 5,
   },
-  dataBlock: {
-    // backgroundColor: 'red',
-    marginVertical: 10,
-  },
-  header: {},
-  headerText: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  subHeaderText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginLeft: 10,
-    marginVertical: 10,
-  },
-  artistNameText: {
-    marginLeft: 10,
-    color: 'red',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  recordDataContainer: {
-    // backgroundColor: 'green',
-    marginLeft: 10,
-  },
-  recordDataText: {
-    color: 'red',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  percView: {
-    display: 'flex',
-    flexDirection: 'row',
-    // backgroundColor: 'blue',
-    justifyContent: 'space-between',
-    marginLeft: 10,
-  },
-  perc: {
-    color: 'red',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
   footer: {
     justifyContent: 'center',
     flexDirection: 'row',
@@ -277,7 +266,9 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   button: {
-    marginVertical: 20,
+    marginBottom: 60,
+    marginTop: 20,
+    // flex: 1,
     borderRadius: 5,
     height: 45,
     backgroundColor: colors.green,
