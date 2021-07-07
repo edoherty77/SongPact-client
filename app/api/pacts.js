@@ -5,11 +5,10 @@ const url = `http://192.168.1.8:4000/api/v1`
 const axios = require('axios')
 
 export default class PactModel {
-  static all = async () => {
+  static all = async (id) => {
     try {
-      const response = await fetch(`${url}/`)
-      const pacts = await response.json()
-      return pacts
+      const response = await axios.get(`${url}/pacts/${id}`)
+      return response.data
     } catch (error) {
       console.log(error)
     }

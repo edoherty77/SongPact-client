@@ -3,10 +3,11 @@ import { StyleSheet, View, FlatList } from 'react-native'
 import PactButton from '../PactButton'
 import currentUser from '../../stores/UserStore'
 import pactStore from '../../stores/CreatePactStore'
+import sortedPacts from '../../stores/SortedPactStore'
 import colors from '../../config/colors'
 
-const NeedsAction = ({ navigation }) => {
-  console.log('currentUser', currentUser)
+const Action = ({ navigation }) => {
+  console.log('aaactiooon', sortedPacts.action)
   const reviewPact = (pact) => {
     pactStore.setPact(pact)
     navigation.navigate('ReviewData')
@@ -15,7 +16,7 @@ const NeedsAction = ({ navigation }) => {
   return (
     <View style={styles.mainView}>
       <FlatList
-        data={currentUser.pacts}
+        data={sortedPacts.action}
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => (
           <PactButton
@@ -23,7 +24,7 @@ const NeedsAction = ({ navigation }) => {
             type={item.type}
             title={item.recordTitle}
             name={item.initBy.name}
-            status={item.status === 1 && 'Pending'}
+            status={item.status === 1 && 'Needs Action'}
           />
         )}
       />
@@ -41,4 +42,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default NeedsAction
+export default Action
