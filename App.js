@@ -75,7 +75,6 @@ const App = observer(() => {
 
   const logout = async () => {
     let accessToken = currentUser.accessToken
-    console.log(currentUser)
     try {
       if (accessToken) {
         await Google.logOutAsync({ accessToken, ...googleConfig })

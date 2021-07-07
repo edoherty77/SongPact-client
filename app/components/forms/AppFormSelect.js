@@ -32,7 +32,9 @@ const AppFormSelect = ({ data, setItem, item, isDisabled, defaultValue }) => {
         variant="unstyled"
         selectedValue={item}
         placeholderTextColor={isDisabled === true ? 'dark.50' : '#18181b'}
-        placeholder={defaultValue !== null ? defaultValue : 'Choose Producer'}
+        placeholder={
+          defaultValue !== undefined ? defaultValue : 'Choose Producer'
+        }
         onValueChange={(itemValue) => {
           setFieldValue('producer', itemValue), setItem(itemValue)
         }}
@@ -49,9 +51,9 @@ const AppFormSelect = ({ data, setItem, item, isDisabled, defaultValue }) => {
         {data.map((element) => {
           return (
             <Select.Item
-              label={element._id === currentUser._id ? 'Me' : element.name}
-              value={element._id}
-              key={element._id}
+              label={element.user === currentUser._id ? 'Me' : element.name}
+              value={element.user}
+              key={element.user}
             />
           )
         })}

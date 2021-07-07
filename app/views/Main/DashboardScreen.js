@@ -1,35 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { View, StyleSheet } from 'react-native'
+import { Tabs, Box } from 'native-base'
 
+// CONFIG
 import colors from '../../config/colors'
+
+// COMPONENTS
 import Screen from '../../components/Screen'
 import Header from '../../components/Header'
-import PactButton from '../../components/PactButton'
-
 import Pending from '../../components/UserPacts/Pending'
 import NeedsAction from '../../components/UserPacts/NeedsAction'
 import Closed from '../../components/UserPacts/Closed'
+import AppSearchInput from '../../components/AppSearchInput'
 
-import AppText from '../../components/AppText'
-import currentUser from '../../stores/UserStore'
+// STORE
 import { observer } from 'mobx-react'
-import { Tab, Tabs, TabHeading, DefaultTabBar } from 'native-base'
 
 const DashboardScreen = observer(({ navigation }) => {
-  const [pacts, setPacts] = useState([])
-
-  const findPacts = async () => {
-    // console.log('PACTS', currentUser.pacts)
-  }
-
-  const renderTabBar = (props) => {
-    props.tabStyle = Object.create(props.tabStyle)
-    return <DefaultTabBar {...props} />
-  }
-
-  useEffect(() => {
-    findPacts()
-  }, [])
   return (
     <Screen>
       <Header
@@ -38,71 +25,50 @@ const DashboardScreen = observer(({ navigation }) => {
         borderBottomWidth={0}
         noBack
       />
-      {/* <View style={styles.tabView}>
+      <Box w="100%" mt={5}>
         <Tabs
-          renderTabBar={renderTabBar}
-          locked={true}
-          initialPage={1}
-          tabBarUnderlineStyle={{
-            backgroundColor: colors.green,
-          }}
+          defaultIndex={1}
+          align="center"
+          size="md"
+          color="#6cc17f"
+          colorScheme="#6cc17f"
         >
-          <Tab
-            heading={
-              <TabHeading
-                tabStyle={{ fontSize: 90 }}
-                style={{ backgroundColor: colors.background }}
-              >
-                <AppText>Drafts</AppText>
-              </TabHeading>
-            }
+          <Tabs.Bar
+            py={4}
+            px={0}
+            // border={1}
+            borderRadius="md"
+            mx={0}
+            // bg="#e0e0e0"
           >
-            <Pending />
-          </Tab>
-          <Tab
-            activeTextStyle={{
-              fontWeight: 'bold',
-              fontSize: 80,
-              color: colors.green,
-            }}
-            heading={
-              <TabHeading
-                style={{ backgroundColor: colors.background }}
-                textStyle={{ fontSize: 80 }}
-              >
-                <AppText>Needs Action</AppText>
-              </TabHeading>
-            }
-          >
-            <NeedsAction navigation={navigation} />
-          </Tab>
-          <Tab
-            heading={
-              <TabHeading style={{ backgroundColor: colors.background }}>
-                <AppText>Pending</AppText>
-              </TabHeading>
-            }
-          >
-            <Closed />
-          </Tab>
-          <Tab
-            heading={
-              <TabHeading style={{ backgroundColor: colors.background }}>
-                <AppText>Archived</AppText>
-              </TabHeading>
-            }
-          >
-            <Closed />
-          </Tab>
+            <Tabs.Tab>Drafts</Tabs.Tab>
+            <Tabs.Tab>Needs Action</Tabs.Tab>
+            <Tabs.Tab>Pending</Tabs.Tab>
+            <Tabs.Tab>Archived</Tabs.Tab>
+          </Tabs.Bar>
+          <Tabs.Views>
+            <Tabs.View>
+              <Closed />
+            </Tabs.View>
+            <Tabs.View>
+              <NeedsAction navigation={navigation} />
+            </Tabs.View>
+            <Tabs.View>
+              <Pending />
+            </Tabs.View>
+            <Tabs.View>
+              <Closed />
+            </Tabs.View>
+          </Tabs.Views>
         </Tabs>
-      </View> */}
+      </Box>
     </Screen>
   )
 })
 
 const styles = StyleSheet.create({
   tabView: {
-    flex: 6,
+    // flex: 1,
   },
 })
 

@@ -12,8 +12,7 @@ class CreatePactStore {
   initBy = {
     user: '',
     status: 1,
-    firstName: '',
-    lastName: '',
+    name: '',
   }
   performers = []
   producer = {
@@ -34,7 +33,6 @@ class CreatePactStore {
   }
 
   setPact(pact) {
-    console.log('pact', pact)
     this.pactId = pact._id
     this.labelName = pact.labelName
     this.recordLabel = pact.recordLabel
@@ -46,24 +44,22 @@ class CreatePactStore {
   }
 
   setSignature(sig, currentUser) {
-    console.log('current', currentUser)
-    if (currentUser._id === this.producer.user) {
-      this.producer.signatureImg = sig
-    } else {
-      const foundPerformer = this.performers.find((performer) => {
-        return performer.user === currentUser._id
-      })
-      foundPerformer['signatureImg'] = sig
-    }
+    this.users.find((user) => {
+      if (user.user === currentUser._id) {
+        return (user['signatureImg'] = sig)
+      }
+    })
   }
 
   setCollabInfo(values, foundUser) {
-    console.log('collabs', values)
     //Set initBy value with foundUser
     this.initBy.user = foundUser._id
     this.initBy.name = foundUser.name
-    this.users.push(foundUser)
-    // console.log(this.collaborators, this.initBy)
+    this.users.push({
+      user: foundUser._id,
+      userStatus: 1,
+      name: foundUser.name,
+    })
 
     //Find everyone else involved in agreement and push in to collaborator array
     const collabsArr = values.collabs
@@ -80,14 +76,14 @@ class CreatePactStore {
       obj['zipCode'] = collab.zipCode
       obj['email'] = collab.email
       this.collaborators.push(obj)
-      this.users.push(collab)
+      this.users.push({ user: collab._id, userStatus: 1, name: collab.name })
     })
   }
 
   setProducer(values) {
     //Find the one producer and add to object
-    let foundProducer = this.users.find((x) => x._id === values.producer)
-    this.producer.user = foundProducer._id
+    let foundProducer = this.users.find((x) => x.user === values.producer)
+    this.producer.user = foundProducer.user
     this.producer.artistName = foundProducer.artistName
     this.producer.name = foundProducer.name
     this.producer.companyName = foundProducer.companyName
@@ -96,7 +92,6 @@ class CreatePactStore {
     this.producer.state = foundProducer.state
     this.producer.zipCode = foundProducer.zipCode
     this.producer.email = foundProducer.email
-
     //The rest must be performers. find and push into array
     let foundPerformers = this.users.filter(function (x) {
       return x !== foundProducer
@@ -143,14 +138,12 @@ class CreatePactStore {
     this.initBy = {
       user: '',
       status: 1,
-      firstName: '',
-      lastName: '',
+      name: '',
     }
     this.collaborators = []
     this.performers = []
     this.producer = {
-      firstName: '',
-      lastName: '',
+      name: '',
       user: '',
       advancePercent: '',
       publisherPercent: '',

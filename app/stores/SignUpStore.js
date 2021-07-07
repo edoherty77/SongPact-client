@@ -1,8 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 
 class SignUpStore {
-  firstName = ''
-  lastName = ''
+  name = ''
   email = ''
   password = ''
   address = ''
@@ -13,8 +12,7 @@ class SignUpStore {
   companyName = ''
 
   setUserInfo(values) {
-    this.firstName = values.firstName
-    this.lastName = values.lastName
+    this.name = values.name
     this.email = values.email
     this.password = values.password
   }
@@ -32,8 +30,7 @@ class SignUpStore {
   }
 
   resetSignUp() {
-    this.firstName = ''
-    this.lastName = ''
+    this.name = ''
     this.email = ''
     this.password = ''
     this.address = ''

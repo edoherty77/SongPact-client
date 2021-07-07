@@ -5,6 +5,6 @@ export default {
   text: {
     color: colors.red,
     fontSize: 18,
-    fontFamily: 'Futura',
+    fontFamily: 'Lato',
   },
 }

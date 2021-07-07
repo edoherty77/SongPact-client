@@ -1,9 +1,9 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, SafeAreaView } from 'react-native'
 import colors from '../config/colors'
 
 const Screen = ({ children, backgroundColor }) => {
-  return <View style={styles.screen}>{children}</View>
+  return <SafeAreaView style={styles.screen}>{children}</SafeAreaView>
 }
 
 export default Screen

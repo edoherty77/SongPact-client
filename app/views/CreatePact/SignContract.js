@@ -28,36 +28,7 @@ export default function ReviewAndSign({ route, navigation }) {
   const [isModalVisible, setModalVisible] = useState(false)
   const [pactObj, setPactObj] = useState('')
   const [signature, setSign] = useState(null)
-  const { pact, acceptPact } = route.params
-
-  // const createPDF = async (signature) => {
-  //   setSign(signature)
-  //   let checkProducer = false
-  //   if (currentUser._id === pact.producer.user) {
-  //     checkProducer = true
-  //   }
-  //   const obj = {
-  //     id: pact._id,
-  //     signatureImg: signature,
-  //     user: currentUser._id,
-  //     status: 2,
-  //     checkProducer: checkProducer,
-  //   }
-  //   try {
-  //     await PactModel.update(obj)
-  //     const { uri } = await Print.printToFileAsync({ html: htmlContent })
-
-  //     // if (currentUser._id === pact.initBy.user) {
-  //     await MailComposer.composeAsync({
-  //       attachments: [uri],
-  //       recipients: ['edoherty77@gmail.com'],
-  //     })
-  //     // }
-  //     await navigation.navigate('Dashboard')
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  const { pact, createPact } = route.params
 
   const deletePact = async () => {
     const obj = {
@@ -82,9 +53,9 @@ export default function ReviewAndSign({ route, navigation }) {
   return (
     <Screen>
       <Header
-        back={() => navigation.navigate('ViewContract')}
+        back={() => navigation.navigate('Dashboard')}
         icon="arrow-back"
-        title="ViewContract"
+        title="ReviewContract"
       />
       <View style={{ flex: 1 }}>
         {/* <View style={styles.preview}>
@@ -97,7 +68,7 @@ export default function ReviewAndSign({ route, navigation }) {
           ) : null}
         </View> */}
         <Signature
-          onOK={acceptPact}
+          onOK={createPact}
           onEmpty={handleEmpty}
           descriptionText="Sign"
           clearText="Clear"

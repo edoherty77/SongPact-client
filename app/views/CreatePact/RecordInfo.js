@@ -38,7 +38,7 @@ export default function RecordInfo({ navigation }) {
 
   async function nextScreen(values) {
     currentPactStore.setRecordInfo(values)
-    navigation.navigate('ReviewAndSign')
+    navigation.navigate('ReviewData')
   }
 
   const toggleInput = () => {
@@ -50,10 +50,10 @@ export default function RecordInfo({ navigation }) {
       <Header
         title="Create a new pact"
         subTitle="Record Info"
-        back={() => navigation.navigate('PerformerInfo')}
+        back={() => navigation.navigate('GratInfoCont')}
         icon="chevron-back"
       />
-      <AppProgressBar value={80} />
+      <AppProgressBar value={60} />
       <Separator />
       <Formik
         initialValues={{
@@ -153,5 +153,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
+    marginBottom: -10,
   },
 })

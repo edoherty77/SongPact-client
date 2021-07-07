@@ -66,7 +66,6 @@ const SignUp = ({ navigation }) => {
           <View>
             <AppForm
               initialValues={{
-                // firstName: '',
                 name: '',
                 email: '',
                 password: '',

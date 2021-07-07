@@ -42,7 +42,6 @@ const FindArtist = observer(({ route, navigation }) => {
   const checkRequestStatus = () => {
     if (currentUser.friendRequests.length > 0) {
       currentUser.friendRequests.find((request) => {
-        console.log('rrequest', request)
         if (request.requesterInfo.email === item.email) {
           setBtnText('Accept')
           setRequestId(request.friendRequestId)

@@ -8,16 +8,18 @@ import Header from '../../components/Header'
 import AppButton from '../../components/AppButton'
 import ButtonIcon from '../../components/ButtonIcon'
 import ConfirmModal from '../../components/ConfirmModal'
+import Separator from '../../components/Separator'
+import AppProgressBar from '../../components/AppProgressBar'
 import PactModel from '../../api/pacts'
-import currentPact from '../../stores/CreatePactStore'
+import pact from '../../stores/CreatePactStore'
 import currentUser from '../../stores/UserStore'
 import * as Print from 'expo-print'
 import * as MailComposer from 'expo-mail-composer'
 import { WebView } from 'react-native-webview'
-import PDF from './PDF'
+// import PDF from './PDF'
 import moment from 'moment'
 
-export default function ReviewAndSign({ navigation }) {
+export default function ReviewContract({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false)
   const htmlObj = {
     date: moment().format('MMMM Do YYYY'),
@@ -30,7 +32,7 @@ export default function ReviewAndSign({ navigation }) {
     prodSignature: [],
   }
 
-  currentPact.performers.map((performer) => {
+  pact.performers.map((performer) => {
     let performerAddress = /*html*/ `
       <div>${performer.companyName} f/s/o</div>
       <div>${performer.name} p/k/a ${performer.artistName}</div>
@@ -63,7 +65,7 @@ export default function ReviewAndSign({ navigation }) {
     `
 
     let prodSig = /*html*/ `
-      <img class='signature-img' src="${currentPact.producer.signatureImg}"/>
+      <img class='signature-img' src="${pact.producer.signatureImg}"/>
     `
 
     htmlObj.perfAddress.push(performerAddress)
@@ -203,17 +205,17 @@ export default function ReviewAndSign({ navigation }) {
         </div>
 
         <div class="div">
-          <div>${currentPact.producer.companyName} f/s/o</div>
-          <div>${currentPact.producer.name} p/k/a ${currentPact.producer.artistName}</div>
-          <div>${currentPact.producer.address}</div>
-          <div>${currentPact.producer.city}, ${currentPact.producer.state} ${currentPact.producer.zipCode} </div>
+          <div>${pact.producer.companyName} f/s/o</div>
+          <div>${pact.producer.name} p/k/a ${pact.producer.artistName}</div>
+          <div>${pact.producer.address}</div>
+          <div>${pact.producer.city}, ${pact.producer.state} ${pact.producer.zipCode} </div>
         </div>
 
         <div class="regard-container">
           <div class="regard-content">
             <div class='re'>Re:</div>
             <div class='regard-ppl'>
-                ${htmlObj.perfInfoSpan} ${currentPact.producer.companyName} f/s/o ${currentPact.producer.name} ${currentPact.producer.lastName}  p/k/a “${currentPact.producer.artistName}” - Producer Agreement
+                ${htmlObj.perfInfoSpan} ${pact.producer.companyName} f/s/o ${pact.producer.name} ${pact.producer.lastName}  p/k/a “${pact.producer.artistName}” - Producer Agreement
             </div>
           </div>
         </div>
@@ -223,7 +225,7 @@ export default function ReviewAndSign({ navigation }) {
         </div>
 
         <div class="body">
-          The following, when duly signed by the parties hereto, sets forth the agreement (the “Agreement”) between ${currentPact.producer.companyName} f/so ${currentPact.producer.name} p/k/a ${currentPact.producer.artistName} (hereinafter referred to collectively as the “Producer”) and ${htmlObj.perfInfoSpan} (hereinafter referred to collectively as the “Artist”) regarding Producer’s non-exclusive services in connection with producing and mixing one (1) master recording (the “Master”) embodying the performances of Artist of the musical composition (“Composition”) tentatively entitled “${currentPact.recordTitle}” . The Master is intended for potential inclusion on Artist’s forthcoming album (the “Album”) to be delivered by Artist to ${currentPact.labelName} or their successor (“Record Company”) pursuant to the recording agreement between Artist and Record Company dated as of ${htmlObj.date}, as amended (the “Recording Agreement”) The parties acknowledge that only those versions of the Master featuring the production or mixing, as applicable, services of Producer shall constitute the Master hereunder.
+          The following, when duly signed by the parties hereto, sets forth the agreement (the “Agreement”) between ${pact.producer.companyName} f/so ${pact.producer.name} p/k/a ${pact.producer.artistName} (hereinafter referred to collectively as the “Producer”) and ${htmlObj.perfInfoSpan} (hereinafter referred to collectively as the “Artist”) regarding Producer’s non-exclusive services in connection with producing and mixing one (1) master recording (the “Master”) embodying the performances of Artist of the musical composition (“Composition”) tentatively entitled “${pact.recordTitle}” . The Master is intended for potential inclusion on Artist’s forthcoming album (the “Album”) to be delivered by Artist to ${pact.labelName} or their successor (“Record Company”) pursuant to the recording agreement between Artist and Record Company dated as of ${htmlObj.date}, as amended (the “Recording Agreement”) The parties acknowledge that only those versions of the Master featuring the production or mixing, as applicable, services of Producer shall constitute the Master hereunder.
         </div>
 
         <div class="body">
@@ -293,7 +295,7 @@ export default function ReviewAndSign({ navigation }) {
             services hereunder in connection with the Master, Artist shall
             authorize Record Company to pay to Producer via a letter of direction
             in the form attached hereto as Exhibit A, a royalty (the “Producer
-            Royalty”) equal to [PRODUCER ROYALTY WRITTEN OUT] percent ${currentPact.producer.royaltyPercent} of any gross royalties (including, without
+            Royalty”) equal to [PRODUCER ROYALTY WRITTEN OUT] percent ${pact.producer.royaltyPercent} of any gross royalties (including, without
             limitation, with respect to audio-visual exploitations, flat fee/net
             receipt monies, etc.) payable to the Artist solely in connection with
             the Master and any exploitation thereof, computed, adjusted,
@@ -415,7 +417,7 @@ export default function ReviewAndSign({ navigation }) {
           performance of all of the material terms and conditions hereof and in
           consideration for all services rendered by Producer in connection with
           the Master, Artist shall pay or cause Record Company to pay to Producer
-          an advance (“Advance”) in the amount of ${currentPact.producer.advancePercent}[DOLLAR AMOUNT] ($XX) with
+          an advance (“Advance”) in the amount of ${pact.producer.advancePercent}[DOLLAR AMOUNT] ($XX) with
           respect to the Master. The Advance is fully recoupable from any and all
           royalties payable to Producer hereunder (excluding publishing
           royalties). The Advance shall be payable promptly following the later
@@ -461,7 +463,7 @@ export default function ReviewAndSign({ navigation }) {
           </div>
 
           <div class="flex-center" style='margin-right:25px'>
-            <div>“Produced by: ${currentPact.producer.artistName}.”</div>
+            <div>“Produced by: ${pact.producer.artistName}.”</div>
           </div>
 
           <div class="body-sub">
@@ -757,7 +759,7 @@ export default function ReviewAndSign({ navigation }) {
 
           <div class="flex-center">
             <div>
-              The undersigned: (a) agrees and accepts the above terms and conditions for a producer agreement with ${currentPact.producer.companyName} f/s/o ${currentPact.producer.name} p/k/a “${currentPact.producer.artistName}” (b) assents to the execution of the agreement and agrees to be bound by all of the terms and conditions thereof, and (c) represents and warrants that ${htmlObj.perfCompany} is in a position to offer the services of the undersigned.
+              The undersigned: (a) agrees and accepts the above terms and conditions for a producer agreement with ${pact.producer.companyName} f/s/o ${pact.producer.name} p/k/a “${pact.producer.artistName}” (b) assents to the execution of the agreement and agrees to be bound by all of the terms and conditions thereof, and (c) represents and warrants that ${htmlObj.perfCompany} is in a position to offer the services of the undersigned.
             </div>
           </div> 
           <div class="flex-end">
@@ -767,9 +769,9 @@ export default function ReviewAndSign({ navigation }) {
           <div style='margin: 5px 0 15px;'>AGREED TO AND ACCEPTED:</div>
           <div class="producer-section">
             <div class="flex" style='flex-direction:column'>
-              <div>${currentPact.producer.companyName} f/s/o</div>
-              <div>${currentPact.producer.name} p/k/a</div> 
-              <div>“${currentPact.producer.artistName}”</div>
+              <div>${pact.producer.companyName} f/s/o</div>
+              <div>${pact.producer.name} p/k/a</div> 
+              <div>“${pact.producer.artistName}”</div>
             </div>  
             <div class="flex-start">
               <div class='flex' style='align-items:flex-end'>By: ${htmlObj.prodSignature}</div>
@@ -777,26 +779,52 @@ export default function ReviewAndSign({ navigation }) {
           </div>
           <div class="flex-center">
             <div>
-              The undersigned: (a) agrees and accepts the above terms andconditions for a producer agreement with ${htmlObj.perfInfoSpan}. (b) assents to the execution of the agreement and agrees to be bound by all of the terms and conditions thereof, and (c) represents and warrants that ${currentPact.producer.companyName} is in a position to offer the services of the undersigned.
+              The undersigned: (a) agrees and accepts the above terms andconditions for a producer agreement with ${htmlObj.perfInfoSpan}. (b) assents to the execution of the agreement and agrees to be bound by all of the terms and conditions thereof, and (c) represents and warrants that ${pact.producer.companyName} is in a position to offer the services of the undersigned.
             </div>
           </div>
-          <div class="legal-name">${currentPact.producer.name}</div>
+          <div class="legal-name">${pact.producer.name}</div>
         </div>
       </body>
     </html>
   `
   }
 
-  const acceptPact = async (signature) => {
+  const createPact = async (signature) => {
+    let performArr = []
     try {
-      currentPact.setSignature(signature, currentUser)
+      pact.setSignature(signature, currentUser)
+      pact.performers.map((performer) => {
+        let obj = {}
+        obj['user'] = performer._id
+        obj['publisherPercent'] = parseInt(performer.publisherPercent)
+        obj['name'] = performer.name
+        obj['companyName'] = performer.companyName
+        obj['artistName'] = performer.artistName
+        obj['address'] = performer.address
+        obj['city'] = performer.city
+        obj['state'] = performer.state
+        obj['zipCode'] = performer.zipCode
+        obj['email'] = performer.email
+        if (performer.signatureImg) {
+          obj['signatureImg'] = performer.signatureImg
+        }
+        performArr.push(obj)
+      })
       const obj = {
-        id: currentPact.pactId,
-        signatureImg: signature,
+        users: pact.users,
+        producer: pact.producer,
+        type: pact.type,
+        sample: pact.sample,
+        recordLabel: pact.recordLabel,
+        labelName: pact.labelName,
+        recordTitle: pact.recordTitle,
+        initBy: pact.initBy,
+        collaborators: pact.collaborators,
+        performers: performArr,
         user: currentUser._id,
-        status: 2,
+        status: 1,
       }
-      await PactModel.update(obj)
+      await PactModel.create(obj)
       await generateEmail(signature)
     } catch (error) {
       console.log(error)
@@ -804,7 +832,7 @@ export default function ReviewAndSign({ navigation }) {
   }
 
   const generateEmail = async (signature) => {
-    if (currentUser._id === currentPact.producer.user) {
+    if (currentUser._id === pact.producer.user) {
       htmlObj.prodSignature.length = 0
       let newProd = /*html*/ `
         <img class='signature-img' src="${signature}"/>
@@ -826,7 +854,7 @@ export default function ReviewAndSign({ navigation }) {
         attachments: [uri],
         recipients: ['evan.doherty.ny@gmail.com'],
       })
-      await currentPact.resetPact()
+      await pact.resetPact()
       await navigation.navigate('Dashboard')
     } catch (error) {
       console.log(error)
@@ -835,8 +863,8 @@ export default function ReviewAndSign({ navigation }) {
 
   const goToSignatureScreen = () => {
     navigation.navigate('SignContract', {
-      pact: currentPact,
-      acceptPact: acceptPact,
+      pact: pact,
+      createPact: createPact,
     })
   }
 
@@ -845,31 +873,76 @@ export default function ReviewAndSign({ navigation }) {
       <Header
         back={() => navigation.navigate('ReviewData')}
         icon="arrow-back"
-        title="Sign"
+        title="Create a new pact"
+        subTitle="Sign Pact"
       />
-      <WebView
-        originWhitelist={['*']}
-        source={{
-          html: generateHTML(htmlObj),
-        }}
-      />
-      <View style={styles.footer}>
+      <AppProgressBar value={100} />
+      <Separator />
+      <View style={styles.mainView}>
+        <View style={styles.btnView}>
+          <AppButton
+            textColor="white"
+            title="More Options"
+            style={styles.btnSecondary}
+            // onPress={nextScreen}
+          />
+          <AppButton
+            textColor="white"
+            title="Sign Pact"
+            style={styles.btnPrimary}
+            onPress={goToSignatureScreen}
+          />
+        </View>
+        <WebView
+          style={styles.contract}
+          originWhitelist={['*']}
+          source={{
+            html: generateHTML(htmlObj),
+          }}
+        />
+      </View>
+      {/* <View style={styles.footer}>
         <AppButton
           title="Sign Contract"
           style={styles.nextButton}
-          onPress={goToSignatureScreen}
         />
-      </View>
+      </View> */}
     </Screen>
   )
 }
 
 const styles = StyleSheet.create({
-  footer: {
-    justifyContent: 'center',
+  mainView: {
+    flex: 1,
+    marginHorizontal: 20,
+  },
+  btnView: {
+    display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
     width: '100%',
+    justifyContent: 'flex-end',
+    marginHorizontal: 'auto',
+    marginVertical: 20,
+  },
+  btnSecondary: {
+    borderRadius: 5,
+    height: 45,
+    backgroundColor: 'rgba(73, 78, 107, 0.3)',
+    width: '40%',
+  },
+  btnPrimary: {
+    marginLeft: 15,
+    width: '30%',
+    borderRadius: 5,
+    height: 45,
+    backgroundColor: colors.green,
+  },
+  contract: {
+    borderColor: 'black',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderRadius: 10,
+    flex: 1,
   },
   iconView: {
     position: 'absolute',

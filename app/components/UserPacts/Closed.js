@@ -24,20 +24,7 @@ const Closed = () => {
   //   getPerson()
   // }, [])
 
-  return (
-    <View style={styles.pactList}>
-      <PactButton status="pending" name="Mark" title="Adrift" type="Remix" />
-      <PactButton
-        status="pending"
-        name="Stephan"
-        title="A Walk"
-        type="Producer"
-      />
-      <PactButton status="closed" name="Me" title="Closer" type="Beat" />
-      <PactButton status="closed" name="Seth" title="Orbit" type="Remix" />
-      <PactButton status="pending" name="Me" title="Around" type="Producer" />
-    </View>
-  )
+  return <View style={styles.pactList}></View>
 }
 
 const styles = StyleSheet.create({

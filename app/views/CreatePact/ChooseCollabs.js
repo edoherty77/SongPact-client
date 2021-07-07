@@ -34,7 +34,7 @@ function ChooseCollabs({ navigation }) {
         icon="arrow-back"
         // back={() => navigation.navigate('First')}
       />
-      <AppProgressBar value={10} />
+      <AppProgressBar value={0} />
       <Separator />
       <View style={styles.mainView}>
         <Formik
@@ -55,7 +55,6 @@ function ChooseCollabs({ navigation }) {
                       contentContainerStyle={{
                         alignItems: 'center',
                         justifyContent: 'center',
-
                         width: '100%',
                       }}
                       style={styles.addedCollabsList}
@@ -150,18 +149,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginHorizontal: 3,
   },
-  emptyView: {
-    display: 'flex',
-    justifyContent: 'center',
-    height: '100%',
-  },
-  empty: {
-    fontSize: 20,
-    color: colors.gray,
-  },
-  addedCollabsList: {
-    // flexWrap: 'wrap',
-  },
+
   inputView: {
     display: 'flex',
     justifyContent: 'center',
@@ -173,8 +161,6 @@ const styles = StyleSheet.create({
   contactsView: {
     marginTop: 15,
     flex: 1,
-    // backgroundColor: colors.white,
-    // marginHorizontal: 35,
   },
   footer: {
     justifyContent: 'center',

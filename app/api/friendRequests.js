@@ -15,7 +15,6 @@ export default class FriendRequestModel {
   }
 
   static create = async (requestData) => {
-    // console.log('requestData', requestData)
     try {
       const newUser = await axios.post(`${url}/friendRequests`, {
         method: 'POST',
@@ -31,7 +30,6 @@ export default class FriendRequestModel {
   }
 
   static update = async (data) => {
-    console.log(data)
     try {
       const updatedRequest = await axios.put(
         `${url}/friendRequests/${data.requestId}`,
