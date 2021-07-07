@@ -7,9 +7,8 @@ import colors from '../../config/colors'
 
 const NeedsAction = ({ navigation }) => {
   const reviewPact = (pact) => {
-    pactStore.setPact(pact)
     navigation.navigate('ReviewData', {
-      pact: pact,
+      currentPact: pact,
     })
   }
 

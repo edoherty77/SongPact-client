@@ -9,7 +9,7 @@ import Separator from '../../components/Separator'
 import AppProgressBar from '../../components/AppProgressBar'
 import AppButton from '../../components/AppButton'
 import PactModel from '../../api/pacts'
-// import currentPact from '../../stores/CreatePactStore'
+import currentPact from '../../stores/CreatePactStore'
 
 // FORM
 import { Formik, FieldArray } from 'formik'
@@ -20,8 +20,6 @@ import {
 } from '../../components/forms'
 
 export default function ReviewData({ navigation }) {
-  const { currentPact } = route.params
-
   async function nextScreen() {
     navigation.navigate('ReviewContract')
   }

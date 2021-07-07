@@ -9,7 +9,7 @@ import Separator from '../../components/Separator'
 import AppProgressBar from '../../components/AppProgressBar'
 import AppButton from '../../components/AppButton'
 import PactModel from '../../api/pacts'
-import currentPact from '../../stores/CreatePactStore'
+// import currentPact from '../../stores/CreatePactStore'
 
 // FORM
 import { Formik, FieldArray } from 'formik'
@@ -19,7 +19,8 @@ import {
   AppFormPercent,
 } from '../../components/forms'
 
-export default function ReviewData({ navigation }) {
+export default function ReviewData({ navigation, route }) {
+  const { currentPact } = route.params
   const createPact = async () => {
     let performArr = []
     let usersArr = [currentPact.producer.user]
@@ -67,7 +68,7 @@ export default function ReviewData({ navigation }) {
   return (
     <Screen>
       <Header
-        back={() => navigation.navigate('RecordInfo')}
+        back={() => navigation.navigate('Dashboard')}
         icon="arrow-back"
         title={currentPact.recordTitle}
         subTitle="Accept/Counter/Decline"
@@ -133,22 +134,16 @@ export default function ReviewData({ navigation }) {
                 item={currentPact.producer.name}
               />
               <AppFormPercent
-                editable={false}
-                selectTextOnFocus={false}
                 name="advancePercent"
                 title="Producer Advance"
                 placeholder={currentPact.producer.advancePercent}
               />
               <AppFormPercent
-                editable={false}
-                selectTextOnFocus={false}
                 name="royaltyPercent"
                 title="Producer Royalty"
                 placeholder={currentPact.producer.royaltyPercent}
               />
               <AppFormPercent
-                editable={false}
-                selectTextOnFocus={false}
                 name="publisherPercent"
                 title="Producer Publish"
                 placeholder={currentPact.producer.publisherPercent}
@@ -158,8 +153,6 @@ export default function ReviewData({ navigation }) {
               </View>
               <View style={styles.credInput}>
                 <AppFormField
-                  editable={false}
-                  selectTextOnFocus={false}
                   name="credit"
                   height={50}
                   style={styles.input}
@@ -183,8 +176,6 @@ export default function ReviewData({ navigation }) {
                     keyExtractor={(performer) => performer._id}
                     renderItem={({ item, index }) => (
                       <AppFormPercent
-                        editable={false}
-                        selectTextOnFocus={false}
                         name={`${index}.publisherPercent`}
                         title={item.name}
                         placeholder={item.publisherPercent}
