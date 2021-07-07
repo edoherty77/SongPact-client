@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, FlatList } from 'react-native'
-import { Header, Item, Input, Icon } from 'native-base'
+
+// COMPONENTS
 import Head from '../../components/Header'
 import Screen from '../../components/Screen'
 import colors from '../../config/colors'
 import ContactButton from '../../components/ContactButton'
 import ConfirmModal from '../../components/ConfirmModal'
-import UserModel from '../../api/users'
 import AppText from '../../components/AppText'
 import AppButton from '../../components/AppButton'
+import AppSearchInputFilter from '../../components/AppSearchInputFilter'
 
+// MODELS
+import UserModel from '../../api/users'
+
+// STORE
 import currentUser from '../../stores/UserStore'
 import { observer } from 'mobx-react'
 
@@ -90,26 +95,10 @@ const ContactsScreen = observer(({ navigation }) => {
   return (
     <Screen>
       <Head noBack title="Contacts" />
-      <Header
-        transparent={true}
-        searchBar
-        noshadow
-        rounded
-        width={300}
-        alignSelf="center"
-      >
-        <Item>
-          <Icon name="ios-search" />
-          <Input
-            value={searchValue}
-            placeholder="Search"
-            onChangeText={(value) => {
-              setSearchValue(value)
-            }}
-          />
-          <Icon name="ios-people" />
-        </Item>
-      </Header>
+      <AppSearchInputFilter
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+      />
       <AppButton
         title="Click here to search more"
         onPress={findUser}
@@ -173,6 +162,7 @@ const styles = StyleSheet.create({
   mainView: {
     marginLeft: 25,
     marginRight: 25,
+    marginBottom: 40,
     flex: 1,
   },
   searchMoreView: {

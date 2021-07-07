@@ -17,8 +17,7 @@ class CreatePactStore {
   }
   performers = []
   producer = {
-    firstName: '',
-    lastName: '',
+    name: '',
     user: '',
     advancePercent: '',
     publisherPercent: '',
@@ -59,10 +58,10 @@ class CreatePactStore {
   }
 
   setCollabInfo(values, foundUser) {
+    console.log('collabs', values)
     //Set initBy value with foundUser
     this.initBy.user = foundUser._id
-    this.initBy.firstName = foundUser.firstName
-    this.initBy.lastName = foundUser.lastName
+    this.initBy.name = foundUser.name
     this.users.push(foundUser)
     // console.log(this.collaborators, this.initBy)
 
@@ -72,8 +71,7 @@ class CreatePactStore {
       let obj = {}
       obj['status'] = 1
       obj['user'] = collab._id
-      obj['firstName'] = collab.firstName
-      obj['lastName'] = collab.lastName
+      obj['name'] = collab.name
       obj['artistName'] = collab.artistName
       obj['companyName'] = collab.companyName
       obj['address'] = collab.address
@@ -91,8 +89,7 @@ class CreatePactStore {
     let foundProducer = this.users.find((x) => x._id === values.producer)
     this.producer.user = foundProducer._id
     this.producer.artistName = foundProducer.artistName
-    this.producer.firstName = foundProducer.firstName
-    this.producer.lastName = foundProducer.lastName
+    this.producer.name = foundProducer.name
     this.producer.companyName = foundProducer.companyName
     this.producer.address = foundProducer.address
     this.producer.city = foundProducer.city

@@ -1,16 +1,21 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
+// CONFIG
 import colors from '../../config/colors'
+
+// COMPONENTS
 import Screen from '../../components/Screen'
+import Separator from '../../components/Separator'
+import AppProgressBar from '../../components/AppProgressBar'
 import AppText from '../../components/AppText'
 import Header from '../../components/Header'
-import { Formik } from 'formik'
-import ButtonIcon from '../../components/ButtonIcon'
-import ConfirmModal from '../../components/ConfirmModal'
-import AppButton from '../../components/AppButton'
-import store from '../../stores/CreatePactStore'
 
+// STORE
+import currentPactStore from '../../stores/CreatePactStore'
+
+// FORM
+import { Formik } from 'formik'
 import {
   AppFormField,
   SubmitButton,
@@ -29,41 +34,11 @@ const validationSchema = Yup.object().shape({
 })
 
 export default function RecordInfo({ navigation }) {
-  const [isModalVisible, setModalVisible] = useState(false)
   const [isInputVisible, setInputVisible] = useState(false)
 
   async function nextScreen(values) {
-    store.setRecordInfo(values)
-
-    // const newPact = await API.graphql(
-    //   graphqlOperation(createPact, {
-    //     input: {
-    //       type: store.type,
-    //       recordTitle: store.recordTitle,
-    //       initBy: store.initBy,
-    //       sample: store.sample,
-    //       labelName: store.labelName,
-    //       recordLabel: store.recordLabel,
-    //       createdAt: new Date().toISOString(),
-    //     },
-    //   }),
-    // )
-    // store.setPactId(newPact.data.createPact.id)
+    currentPactStore.setRecordInfo(values)
     navigation.navigate('ReviewAndSign')
-  }
-
-  function trash() {
-    setModalVisible(true)
-  }
-
-  function trashDeny() {
-    setModalVisible(false)
-  }
-
-  function trashConfirm() {
-    setModalVisible(false)
-    store.resetPact()
-    navigation.navigate('New')
   }
 
   const toggleInput = () => {
@@ -73,9 +48,13 @@ export default function RecordInfo({ navigation }) {
   return (
     <Screen>
       <Header
+        title="Create a new pact"
+        subTitle="Record Info"
         back={() => navigation.navigate('PerformerInfo')}
         icon="chevron-back"
       />
+      <AppProgressBar value={80} />
+      <Separator />
       <Formik
         initialValues={{
           recordTitle: '',
@@ -86,135 +65,93 @@ export default function RecordInfo({ navigation }) {
         enableReinitialize
         onSubmit={(values) => nextScreen(values)}
       >
-        {({ values, errors, handleSubmit }) => (
+        {() => (
           <View style={styles.mainView}>
-            <View style={styles.formView}>
-              <View style={styles.switchView}>
-                <View style={styles.titleView}>
-                  <View style={styles.sectionText}>
-                    <AppText fontSize={30}>Record Title</AppText>
-                  </View>
-                  <AppFormField
-                    name="recordTitle"
-                    style={styles.input}
-                    placeholder="Record Title"
-                    autoCorrect={false}
-                    placeholderTextColor={colors.black}
-                  />
-                </View>
-                <AppFormSwitch
-                  name="sample"
-                  label="Sample?"
-                  formikKey="sample"
-                />
-                <AppFormSwitch
-                  name="recordLabel"
-                  label="Record Label?"
-                  formikKey="recordLabel"
-                  onChange={toggleInput}
+            <View style={styles.switchView}>
+              <View style={styles.titleView}>
+                <AppText fontSize={18}>Record Title</AppText>
+                <AppFormField
+                  name="recordTitle"
+                  style={styles.input}
+                  // placeholder="Record title"
+                  autoCorrect={false}
+                  height={50}
+                  placeholderTextColor={colors.black}
                 />
               </View>
-              {isInputVisible ? (
-                <View style={styles.labelView}>
-                  <View style={styles.labelText}>
-                    <AppText fontSize={30}>Label Name</AppText>
-                  </View>
-                  <AppFormField
-                    name="labelName"
-                    style={styles.input}
-                    placeholder="Name"
-                    autoCorrect={false}
-                    placeholderTextColor={colors.black}
-                  />
-                </View>
-              ) : (
-                <View style={styles.noLabelView}></View>
-              )}
-            </View>
-            <View style={styles.footer}>
-              <SubmitButton
-                title="Review"
-                style={styles.nextButton}
-                // onPress={() => {
-                //   navigation.push('ReviewAndSign'), console.log(values)
-                // }}
+              <AppFormSwitch
+                name="sample"
+                label="Is this a record sample?"
+                formikKey="sample"
               />
-              <View style={styles.iconView}>
-                <ButtonIcon
-                  onPress={trash}
-                  name="delete"
-                  backgroundColor="transparent"
-                  iconColor={colors.red}
+              <AppFormSwitch
+                name="recordLabel"
+                label="Is this for a record label?"
+                formikKey="recordLabel"
+                onChange={toggleInput}
+              />
+            </View>
+            {isInputVisible ? (
+              <View style={styles.labelView}>
+                <View style={styles.labelText}>
+                  <AppText fontSize={18}>Label Name</AppText>
+                </View>
+                <AppFormField
+                  name="labelName"
+                  style={styles.input}
+                  autoCorrect={false}
+                  height={50}
+                  placeholderTextColor={colors.black}
                 />
               </View>
+            ) : (
+              <View style={styles.noLabelView}></View>
+            )}
+            <View style={styles.footer}>
+              <SubmitButton title="Continue" />
             </View>
           </View>
         )}
       </Formik>
-      <ConfirmModal
-        text="Are you sure you'd like to delete?"
-        onBackdropPress={() => setModalVisible(false)}
-        isVisible={isModalVisible}
-        confirm={trashConfirm}
-        deny={trashDeny}
-      />
     </Screen>
   )
 }
 
 const styles = StyleSheet.create({
   mainView: {
+    display: 'flex',
     flex: 1,
-    // backgroundColor: 'orange',
-  },
-  formView: {
-    // backgroundColor: 'gray',
-    flex: 1,
-    margin: 40,
-    // padding: 20,
+    padding: 10,
+    marginHorizontal: 30,
   },
   switchView: {
     justifyContent: 'space-evenly',
-    flex: 2,
+    flex: 3,
     paddingTop: 20,
-    paddingRight: 20,
-    paddingLeft: 20,
-    backgroundColor: 'lightgray',
   },
   labelView: {
     flex: 1,
-    paddingLeft: 20,
-    paddingRight: 20,
-    backgroundColor: 'lightgray',
     justifyContent: 'flex-start',
   },
   noLabelView: {
     flex: 1,
   },
   input: {
-    width: '90%',
-    backgroundColor: 'rgba(250, 250, 250, 0.8)',
+    width: '100%',
+    backgroundColor: colors.white,
+    borderColor: colors.black,
+    borderWidth: 1,
     fontSize: 18,
+    height: 100,
     paddingLeft: 20,
-    height: 45,
-    borderRadius: 25,
+    borderRadius: 7,
+    marginBottom: 5,
   },
   footer: {
+    flex: 2,
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-  },
-  iconView: {
-    position: 'absolute',
-    right: 10,
-    bottom: 10,
-  },
-  nextButton: {
-    marginBottom: 10,
-    borderRadius: 50,
-    height: 45,
-    backgroundColor: colors.red,
-    width: '50%',
   },
 })

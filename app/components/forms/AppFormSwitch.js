@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
-import { useFormikContext } from 'formik'
+import { AntDesign } from '@expo/vector-icons'
 import { View, StyleSheet, Switch } from 'react-native'
-import AppText from '../AppText'
+
+// FORM
+import { useFormikContext } from 'formik'
 import ErrorMessage from './ErrorMessage'
+
+// COMPONENTS
+import AppText from '../AppText'
 
 const AppFormSwitch = ({
   name,
@@ -12,28 +17,28 @@ const AppFormSwitch = ({
   label,
   ...otherProps
 }) => {
-  const {
-    setFieldValue,
-    handleChange,
-    errors,
-    touched,
-    values,
-  } = useFormikContext()
+  const { setFieldValue } = useFormikContext()
   const [value, setValue] = useState('first')
 
   return (
     <View style={styles.view}>
-      <AppText fontSize={30}>{label}</AppText>
-      <View style={styles.switchView}>
-        <Switch
-          onChange={onPress}
-          onValueChange={(value) => {
-            setFieldValue(formikKey, value), setValue(value)
-          }}
-          value={value}
-          {...otherProps}
+      <View style={styles.textView}>
+        <AppText fontSize={18}>{label}</AppText>
+        <AntDesign
+          name="questioncircle"
+          size={14}
+          color="black"
+          style={styles.icon}
         />
       </View>
+      <Switch
+        onChange={onPress}
+        onValueChange={(value) => {
+          setFieldValue(formikKey, value), setValue(value)
+        }}
+        value={value}
+        {...otherProps}
+      />
 
       {/* <ErrorMessage error={errors[name]} visible={touched[name]} /> */}
     </View>
@@ -49,7 +54,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  switchView: {
-    // marginRight: 20,
+  textView: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '70%',
+  },
+  icon: {
+    position: 'absolute',
+    right: 0,
   },
 })

@@ -1,66 +1,102 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import AppFormField from './AppFormField'
-import { useFormikContext } from 'formik'
+import { StyleSheet, View, TextInput } from 'react-native'
+import { AntDesign } from '@expo/vector-icons'
 
+// COMPONENTS
 import AppText from '../AppText'
 
-import colors from '../../config/colors'
-import ButtonIcon from '../ButtonIcon'
+// FORM
+import { useFormikContext } from 'formik'
 
-export default function AppFormPercent({ title, name, info }) {
+// CONFIG
+import colors from '../../config/colors'
+
+export default function AppFormPercent({ name, title }) {
+  // console.log('collab', collab)
   const { setFieldTouched, handleChange, errors, touched } = useFormikContext()
   return (
-    <View style={styles.percentView}>
+    <View style={styles.mainView}>
       <View style={styles.left}>
-        <AppText fontSize={25}>{title}:</AppText>
-        <ButtonIcon
-          name="information"
-          backgroundColor="transparent"
-          size={35}
-          iconColor="#42C1FC"
-          onPress={() => handleInfoPress()}
+        <AppText style={styles.text}>{title}</AppText>
+        <AntDesign
+          name="questioncircle"
+          size={14}
+          color="black"
+          style={styles.icon}
         />
       </View>
       <View style={styles.right}>
-        <AppFormField
-          name={name}
-          style={styles.numInput}
-          placeholder="%"
-          placeholderTextColor={colors.black}
-          keyboardType="number-pad"
-          maxLength={3}
-          returnKeyType="done"
-          textAlign="center"
-        />
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.input}
+            onChangeText={handleChange(name)}
+            onBlur={() => setFieldTouched(name)}
+            keyboardType="number-pad"
+            maxLength={3}
+            returnKeyType="done"
+            textAlign="center"
+          />
+        </View>
+        <View style={styles.percentView}>
+          <AppText fontSize={20} fontWeight="bold">
+            %
+          </AppText>
+        </View>
       </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  percentView: {
+  mainView: {
+    display: 'flex',
     flexDirection: 'row',
-    // backgroundColor: 'red',
-    alignItems: 'center',
-    marginBottom: 20,
     justifyContent: 'space-between',
+    marginVertical: 10,
   },
   left: {
-    paddingLeft: 7,
-    justifyContent: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '50%',
   },
   right: {
     display: 'flex',
-    alignSelf: 'flex-start',
-    // backgroundColor: 'green',
+    flexDirection: 'row',
+    height: 40,
   },
-  numInput: {
-    width: 35,
-    backgroundColor: 'rgba(250, 250, 250, 0.8)',
+  inputView: {
+    // width: '100%',
+    backgroundColor: 'white',
+  },
+  text: {
     fontSize: 18,
-    justifyContent: 'center',
+  },
+  input: {
+    width: 50,
+    height: 40,
+    borderColor: 'black',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
+  },
+  percentView: {
+    display: 'flex',
     alignItems: 'center',
-    height: 35,
+    justifyContent: 'center',
+    padding: 10,
+    backgroundColor: colors.gray,
+    borderColor: 'black',
+    borderStyle: 'solid',
+    borderLeftWidth: 0,
+    borderWidth: 1,
+    borderLeftColor: 'white',
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+  },
+  icon: {
+    position: 'absolute',
+    right: 0,
   },
 })

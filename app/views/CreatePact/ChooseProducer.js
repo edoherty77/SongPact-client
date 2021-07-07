@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, FlatList } from 'react-native'
 
+// CONFIG
 import colors from '../../config/colors'
+
+//COMPONENTTS
 import Screen from '../../components/Screen'
 import AppText from '../../components/AppText'
 import Header from '../../components/Header'
-
 import ButtonIcon from '../../components/ButtonIcon'
 import ConfirmModal from '../../components/ConfirmModal'
 import AppButton from '../../components/AppButton'
 import { RadioButton } from 'react-native-paper'
+import Separator from '../../components/Separator'
+import AppProgressBar from '../../components/AppProgressBar'
 
+// FORM
 import { Formik, FieldArray } from 'formik'
-import store from '../../stores/CreatePactStore'
-import currentUser from '../../stores/UserStore'
-
 import { SubmitButton } from '../../components/forms'
 import * as Yup from 'yup'
+
+// STORE
+import store from '../../stores/CreatePactStore'
+import currentUser from '../../stores/UserStore'
 
 // const validationSchema = Yup.object().shape({
 //   recordTitle: Yup.string().required().label('Record Title'),
@@ -59,10 +65,13 @@ export default function ChooseProducer({ navigation }) {
   return (
     <Screen>
       <Header
-        // title="Producer?"
-        icon="chevron-back"
+        title="Create a new pact"
+        subTitle="Gratuity Info"
+        icon="arrow-back"
         back={() => navigation.navigate('Collabs')}
       />
+      <AppProgressBar value={30} />
+      <Separator />
       <Formik
         enableReinitialize
         initialValues={{ producer: '' }}
@@ -71,7 +80,6 @@ export default function ChooseProducer({ navigation }) {
       >
         {({ setFieldValue }) => (
           <View style={styles.mainView}>
-            <AppText style={styles.pageHeader}>SELECT THE PRODUCER</AppText>
             <View style={styles.formView}>
               <FieldArray name="producer">
                 {({}) => (
@@ -99,9 +107,7 @@ export default function ChooseProducer({ navigation }) {
                         <View style={styles.checkView}>
                           <RadioButton.Item
                             label={
-                              item._id === currentUser._id
-                                ? 'Me'
-                                : `${item.firstName} ${item.lastName}`
+                              item._id === currentUser._id ? 'Me' : item.name
                             }
                             labelStyle={{ fontSize: 20, padding: 10 }}
                             uncheckedColor="red"
@@ -124,14 +130,6 @@ export default function ChooseProducer({ navigation }) {
                 //   navigation.push('Fourth')
                 // }}
               />
-              <View style={styles.iconView}>
-                <ButtonIcon
-                  onPress={trash}
-                  name="delete"
-                  backgroundColor="transparent"
-                  iconColor={colors.red}
-                />
-              </View>
             </View>
           </View>
         )}
@@ -194,9 +192,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
-    // backgroundColor: 'pink',
-    // alignSelf: 'flex-end',
-    // justifyContent: 'space-between',
   },
   iconView: {
     position: 'absolute',
