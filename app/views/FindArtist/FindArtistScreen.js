@@ -21,22 +21,15 @@ const FindArtist = observer(({ navigation }) => {
   const currentUserFriends = currentUser.friends
 
   const findUsers = async () => {
-    // console.log('curentUser', currentUser)
-    // console.log('ccurentFriends', currentUser.friends)
     try {
       const getUsers = await UserModel.all()
-      // console.log('GETUSERS', getUsers)
       const arr = getUsers.data.users
       let notCurrentUser = arr.filter(function (user) {
         return user._id !== currentUser._id
       })
-      // setUsers(notCurrentUser)
-      console.log('NOT CURRENT', notCurrentUser)
-      console.log('FRIENDS', currentUserFriends)
       const notFriends = notCurrentUser.filter((user) =>
         currentUser.friends.find(({ _id }) => user._id !== _id),
       )
-      console.log('not friends', notFriends)
       setUsers(notCurrentUser)
     } catch (error) {
       console.log(error)

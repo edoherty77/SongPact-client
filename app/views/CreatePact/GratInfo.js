@@ -35,15 +35,11 @@ export default function GratInfo({ navigation }) {
   const [producer, setProducer] = React.useState('')
 
   function nextScreen(values) {
-    console.log(values)
     currentPact.setProducer(values)
     currentPact.setProducerInfo(values)
     navigation.navigate('GratInfoCont')
   }
 
-  useEffect(() => {
-    // console.log('collabs', currentPact.collaborators)
-  }, [])
   return (
     <Screen>
       <Header
@@ -52,7 +48,7 @@ export default function GratInfo({ navigation }) {
         icon="arrow-back"
         back={() => navigation.navigate('Collabs')}
       />
-      <AppProgressBar value={30} />
+      <AppProgressBar value={40} />
       <Separator />
       <Formik
         enableReinitialize
@@ -107,7 +103,7 @@ export default function GratInfo({ navigation }) {
                 name="credit"
                 height={50}
                 style={styles.input}
-                placeholder="Producer Credit"
+                // placeholder="Producer Credit"
                 autoCapitalize="none"
                 autoCorrect={false}
                 placeholderTextColor={colors.black}

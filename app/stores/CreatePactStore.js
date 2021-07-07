@@ -12,8 +12,7 @@ class CreatePactStore {
   initBy = {
     user: '',
     status: 1,
-    firstName: '',
-    lastName: '',
+    name: '',
   }
   performers = []
   producer = {
@@ -34,7 +33,6 @@ class CreatePactStore {
   }
 
   setPact(pact) {
-    console.log('pact', pact)
     this.pactId = pact._id
     this.labelName = pact.labelName
     this.recordLabel = pact.recordLabel
@@ -46,24 +44,22 @@ class CreatePactStore {
   }
 
   setSignature(sig, currentUser) {
-    console.log('current', currentUser)
     if (currentUser._id === this.producer.user) {
       this.producer.signatureImg = sig
     } else {
       const foundPerformer = this.performers.find((performer) => {
-        return performer.user === currentUser._id
+        return performer.email === currentUser._id
       })
+      console.log('found', foundPerformer)
       foundPerformer['signatureImg'] = sig
     }
   }
 
   setCollabInfo(values, foundUser) {
-    console.log('collabs', values)
     //Set initBy value with foundUser
     this.initBy.user = foundUser._id
     this.initBy.name = foundUser.name
     this.users.push(foundUser)
-    // console.log(this.collaborators, this.initBy)
 
     //Find everyone else involved in agreement and push in to collaborator array
     const collabsArr = values.collabs
@@ -143,14 +139,12 @@ class CreatePactStore {
     this.initBy = {
       user: '',
       status: 1,
-      firstName: '',
-      lastName: '',
+      name: '',
     }
     this.collaborators = []
     this.performers = []
     this.producer = {
-      firstName: '',
-      lastName: '',
+      name: '',
       user: '',
       advancePercent: '',
       publisherPercent: '',

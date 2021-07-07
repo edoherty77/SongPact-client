@@ -8,16 +8,18 @@ import Header from '../../components/Header'
 import AppButton from '../../components/AppButton'
 import ButtonIcon from '../../components/ButtonIcon'
 import ConfirmModal from '../../components/ConfirmModal'
+import Separator from '../../components/Separator'
+import AppProgressBar from '../../components/AppProgressBar'
 import PactModel from '../../api/pacts'
 import pact from '../../stores/CreatePactStore'
 import currentUser from '../../stores/UserStore'
 import * as Print from 'expo-print'
 import * as MailComposer from 'expo-mail-composer'
 import { WebView } from 'react-native-webview'
-import PDF from './PDF'
+// import PDF from './PDF'
 import moment from 'moment'
 
-export default function ReviewAndSign({ navigation }) {
+export default function ReviewContract({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false)
   const htmlObj = {
     date: moment().format('MMMM Do YYYY'),
@@ -787,21 +789,50 @@ export default function ReviewAndSign({ navigation }) {
   `
   }
 
-  const createPDF = async (signature) => {
+  const createPact = async (signature) => {
+    let performArr = []
+    let usersArr = [pact.producer.user]
     try {
       pact.setSignature(signature, currentUser)
       let checkProducer = false
       if (currentUser._id === pact.producer.user) {
         checkProducer = true
       }
+      pact.performers.map((performer) => {
+        let obj = {}
+        obj['user'] = performer._id
+        obj['publisherPercent'] = parseInt(performer.publisherPercent)
+        obj['name'] = performer.name
+        obj['companyName'] = performer.companyName
+        obj['artistName'] = performer.artistName
+        obj['address'] = performer.address
+        obj['city'] = performer.city
+        obj['state'] = performer.state
+        obj['zipCode'] = performer.zipCode
+        obj['email'] = performer.email
+        if (performer.signatureImg) {
+          obj['signatureImg'] = performer.signatureImg
+        }
+        performArr.push(obj)
+        usersArr.push(performer._id)
+      })
       const obj = {
-        id: pact.pactId,
-        signatureImg: signature,
+        // signatureImg: signature,
+        users: usersArr,
+        producer: pact.producer,
+        type: pact.type,
+        sample: pact.sample,
+        recordLabel: pact.recordLabel,
+        labelName: pact.labelName,
+        recordTitle: pact.recordTitle,
+        initBy: pact.initBy,
+        collaborators: pact.collaborators,
+        performers: performArr,
         user: currentUser._id,
-        status: 2,
+        status: 1,
         checkProducer: checkProducer,
       }
-      await PactModel.update(obj)
+      await PactModel.create(obj)
       await generateEmail(signature)
     } catch (error) {
       console.log(error)
@@ -841,40 +872,85 @@ export default function ReviewAndSign({ navigation }) {
   const goToSignatureScreen = () => {
     navigation.navigate('SignContract', {
       pact: pact,
-      createPDF: createPDF,
+      createPact: createPact,
     })
   }
 
   return (
     <Screen>
       <Header
-        back={() => navigation.navigate('ReviewPact')}
-        icon="arrow-left-bold"
-        title="Sign"
+        back={() => navigation.navigate('ReviewData')}
+        icon="arrow-back"
+        title="Create a new pact"
+        subTitle="Sign Pact"
       />
-      <WebView
-        originWhitelist={['*']}
-        source={{
-          html: generateHTML(htmlObj),
-        }}
-      />
-      <View style={styles.footer}>
+      <AppProgressBar value={100} />
+      <Separator />
+      <View style={styles.mainView}>
+        <View style={styles.btnView}>
+          <AppButton
+            textColor="white"
+            title="More Options"
+            style={styles.btnSecondary}
+            // onPress={nextScreen}
+          />
+          <AppButton
+            textColor="white"
+            title="Sign Pact"
+            style={styles.btnPrimary}
+            onPress={goToSignatureScreen}
+          />
+        </View>
+        <WebView
+          style={styles.contract}
+          originWhitelist={['*']}
+          source={{
+            html: generateHTML(htmlObj),
+          }}
+        />
+      </View>
+      {/* <View style={styles.footer}>
         <AppButton
           title="Sign Contract"
           style={styles.nextButton}
-          onPress={goToSignatureScreen}
         />
-      </View>
+      </View> */}
     </Screen>
   )
 }
 
 const styles = StyleSheet.create({
-  footer: {
-    justifyContent: 'center',
+  mainView: {
+    flex: 1,
+    marginHorizontal: 20,
+  },
+  btnView: {
+    display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
     width: '100%',
+    justifyContent: 'flex-end',
+    marginHorizontal: 'auto',
+    marginVertical: 20,
+  },
+  btnSecondary: {
+    borderRadius: 5,
+    height: 45,
+    backgroundColor: 'rgba(73, 78, 107, 0.3)',
+    width: '40%',
+  },
+  btnPrimary: {
+    marginLeft: 15,
+    width: '30%',
+    borderRadius: 5,
+    height: 45,
+    backgroundColor: colors.green,
+  },
+  contract: {
+    borderColor: 'black',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderRadius: 10,
+    flex: 1,
   },
   iconView: {
     position: 'absolute',

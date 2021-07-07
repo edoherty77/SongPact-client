@@ -26,7 +26,6 @@ const SocMediaSignIn = ({ checkForFriends, fetchRequests }) => {
       const result = await Google.logInAsync(googleConfig)
 
       if (result.type === 'success') {
-        console.log('googleResult', result)
         currentUser.setAccessToken(result.accessToken)
         const user = {
           _id: result.user.email,
@@ -80,7 +79,6 @@ const SocMediaSignIn = ({ checkForFriends, fetchRequests }) => {
           `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`,
         )
         const result = await response.json()
-        console.log
         const user = {
           _id: result.email,
           name: result.name,
@@ -89,7 +87,6 @@ const SocMediaSignIn = ({ checkForFriends, fetchRequests }) => {
         }
 
         const foundUser = await UserModel.show(result.email)
-        console.log('fb found user', foundUser)
         if (foundUser.user !== null && foundUser.user !== undefined) {
           await AsyncStorage.setItem('email', foundUser.user.email)
           await AsyncStorage.setItem('userId', foundUser.user.facebookId)

@@ -8,7 +8,6 @@ export default class PactModel {
   static all = async () => {
     try {
       const response = await fetch(`${url}/`)
-      console.log('response', response)
       const pacts = await response.json()
       return pacts
     } catch (error) {
@@ -41,7 +40,6 @@ export default class PactModel {
   }
 
   static delete = async (pactData) => {
-    console.log('pactdata', pactData)
     try {
       const deletedPact = await axios.delete(
         `${url}/pacts/${pactData.id}`,

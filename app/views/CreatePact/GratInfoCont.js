@@ -35,7 +35,7 @@ export default function GratInfoCont({ navigation }) {
         title="Create a new pact"
         subTitle="Gratuity Info"
         icon="arrow-back"
-        back={() => navigation.navigate('Collabs')}
+        back={() => navigation.navigate('GratInfo')}
       />
       <AppProgressBar value={60} />
       <Separator />
@@ -91,6 +91,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   footer: {
-    marginTop: 100,
+    marginHorizontal: 15,
+    position: 'absolute',
+    width: '100%',
+    bottom: 40,
   },
 })

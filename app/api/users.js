@@ -15,7 +15,6 @@ export default class UserModel {
     }
   }
   static create = async (userData) => {
-    console.log('create route', userData)
     try {
       const newUser = await axios.post(`${url}/users`, {
         method: 'POST',

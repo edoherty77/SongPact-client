@@ -27,7 +27,8 @@ export default function AppText({
 const styles = StyleSheet.create({
   text: {
     fontSize: 18,
-    fontFamily: 'Futura',
+    fontFamily: 'Avenir Next',
+    fontWeight: '600',
     color: colors.text,
   },
 })

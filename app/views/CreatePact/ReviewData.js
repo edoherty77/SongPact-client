@@ -6,8 +6,8 @@ import Screen from '../../components/Screen'
 import AppText from '../../components/AppText'
 import Header from '../../components/Header'
 import Separator from '../../components/Separator'
-import AppButton from '../../components/AppButton'
 import AppProgressBar from '../../components/AppProgressBar'
+import AppButton from '../../components/AppButton'
 import PactModel from '../../api/pacts'
 import currentPact from '../../stores/CreatePactStore'
 
@@ -15,14 +15,11 @@ import currentPact from '../../stores/CreatePactStore'
 import { Formik, FieldArray } from 'formik'
 import {
   AppFormField,
-  SubmitButton,
   AppFormSelect,
   AppFormPercent,
 } from '../../components/forms'
 
-export default function ReviewAndSign({ navigation }) {
-  console.log('pact currentPact', currentPact)
-
+export default function ReviewData({ navigation }) {
   const createPact = async () => {
     let performArr = []
     let usersArr = [currentPact.producer.user]
@@ -63,6 +60,10 @@ export default function ReviewAndSign({ navigation }) {
     }
   }
 
+  async function nextScreen() {
+    navigation.navigate('ReviewContract')
+  }
+
   // useEffect(() => {
   //   createPact()
   // }, [])
@@ -75,7 +76,7 @@ export default function ReviewAndSign({ navigation }) {
         title="Create a new pact"
         subTitle="Review"
       />
-      <AppProgressBar value={90} />
+      <AppProgressBar value={83} />
       <Separator />
       <Formik
         initialValues={{}}
@@ -134,7 +135,6 @@ export default function ReviewAndSign({ navigation }) {
                 defaultValue={currentPact.producer.name}
                 isDisabled={true}
                 data={currentPact.users}
-                // setItem={setProducer}
                 item={currentPact.producer.name}
               />
               <AppFormPercent
@@ -204,7 +204,7 @@ export default function ReviewAndSign({ navigation }) {
                 textColor="white"
                 title="Create Pact"
                 style={styles.button}
-                // onPress={createPact}
+                onPress={nextScreen}
               />
             </View>
           </ScrollView>
@@ -224,13 +224,15 @@ const styles = StyleSheet.create({
   sectionHeader: {
     fontSize: 20,
     marginBottom: 10,
+    fontWeight: 'bold',
   },
   text: {
     fontSize: 18,
+    fontWeight: '600',
   },
   answer: {
     fontSize: 18,
-    marginTop: 5,
+    marginTop: 8,
   },
   infoSection: {
     display: 'flex',
@@ -266,7 +268,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   button: {
-    marginBottom: 60,
+    marginBottom: 70,
     marginTop: 20,
     // flex: 1,
     borderRadius: 5,

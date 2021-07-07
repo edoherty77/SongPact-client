@@ -6,11 +6,10 @@ import {
   Collabs,
   GratInfo,
   GratInfoCont,
-  Producer,
-  ProducerInfo,
-  PerformerInfo,
   RecordInfo,
-  ReviewAndSign,
+  ReviewData,
+  ReviewContract,
+  SignContract,
 } from '../views/CreatePact/index'
 
 const Stack = createStackNavigator()
@@ -26,11 +25,10 @@ const CreatePactStack = ({ navigation, route }) => {
       <Stack.Screen name="Collabs" component={Collabs} />
       <Stack.Screen name="GratInfo" component={GratInfo} />
       <Stack.Screen name="GratInfoCont" component={GratInfoCont} />
-      <Stack.Screen name="Producer" component={Producer} />
-      <Stack.Screen name="PerformerInfo" component={PerformerInfo} />
-      <Stack.Screen name="ProducerInfo" component={ProducerInfo} />
       <Stack.Screen name="RecordInfo" component={RecordInfo} />
-      <Stack.Screen name="ReviewAndSign" component={ReviewAndSign} />
+      <Stack.Screen name="ReviewData" component={ReviewData} />
+      <Stack.Screen name="ReviewContract" component={ReviewContract} />
+      <Stack.Screen name="SignContract" component={SignContract} />
     </Stack.Navigator>
   )
 }

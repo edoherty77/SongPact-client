@@ -32,7 +32,9 @@ const AppFormSelect = ({ data, setItem, item, isDisabled, defaultValue }) => {
         variant="unstyled"
         selectedValue={item}
         placeholderTextColor={isDisabled === true ? 'dark.50' : '#18181b'}
-        placeholder={defaultValue !== null ? defaultValue : 'Choose Producer'}
+        placeholder={
+          defaultValue !== undefined ? defaultValue : 'Choose Producer'
+        }
         onValueChange={(itemValue) => {
           setFieldValue('producer', itemValue), setItem(itemValue)
         }}
