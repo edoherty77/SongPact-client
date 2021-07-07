@@ -5,17 +5,7 @@ import PactButton from '../PactButton'
 import colors from '../../config/colors'
 
 const Pending = () => {
-  return (
-    <View style={styles.pactList}>
-      <PactButton status="pending" name="Mark" title="Adrift" type="Remix" />
-      <PactButton
-        status="pending"
-        name="Stephan"
-        title="A Walk"
-        type="Producer"
-      />
-    </View>
-  )
+  return <View style={styles.pactList}></View>
 }
 
 const styles = StyleSheet.create({

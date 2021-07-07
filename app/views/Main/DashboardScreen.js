@@ -27,17 +27,17 @@ const DashboardScreen = observer(({ navigation }) => {
       <View style={styles.tabView}>
         <Tabs>
           <Tabs.Bar>
-            <Tabs.Tab>Drafts</Tabs.Tab>
             <Tabs.Tab>Needs Action</Tabs.Tab>
             <Tabs.Tab>Pending</Tabs.Tab>
+            <Tabs.Tab>Drafts</Tabs.Tab>
             <Tabs.Tab>Archived</Tabs.Tab>
           </Tabs.Bar>
           <Tabs.Views>
             <Tabs.View>
-              <Pending />
+              <NeedsAction navigation={navigation} />
             </Tabs.View>
             <Tabs.View>
-              <NeedsAction navigation={navigation} />
+              <Pending />
             </Tabs.View>
             <Tabs.View>
               <Closed />

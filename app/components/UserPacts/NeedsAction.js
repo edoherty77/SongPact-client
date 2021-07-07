@@ -6,11 +6,9 @@ import pactStore from '../../stores/CreatePactStore'
 import colors from '../../config/colors'
 
 const NeedsAction = ({ navigation }) => {
-  console.log(currentUser.pacts)
-  const pacts = currentUser.pacts
   const reviewPact = (pact) => {
     pactStore.setPact(pact)
-    navigation.navigate('ReviewPact', {
+    navigation.navigate('ReviewData', {
       pact: pact,
     })
   }

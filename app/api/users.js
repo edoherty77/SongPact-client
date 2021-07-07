@@ -29,7 +29,7 @@ export default class UserModel {
     }
   }
   static show = async (id) => {
-    9
+    console.log('id', id)
     try {
       const result = await axios.get(`${url}/users/${id}`)
       return result.data

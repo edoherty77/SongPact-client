@@ -69,11 +69,13 @@ const SignIn = ({ navigation }) => {
   async function signIn() {
     try {
       const userData = { email: email, password: password }
+      const dbUser = await UserModel.show(email)
       const foundUser = await AuthModel.login(userData)
       if (foundUser) {
+        console.log('dbUser', dbUser)
         await AsyncStorage.setItem('email', foundUser.user.email)
         await AsyncStorage.setItem('userId', foundUser.user._id)
-        await currentUser.setUser(foundUser.user)
+        await currentUser.setUser(dbUser.user)
         await checkForFriends()
         await fetchRequests()
       }

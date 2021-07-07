@@ -9,7 +9,7 @@ import Separator from '../../components/Separator'
 import AppProgressBar from '../../components/AppProgressBar'
 import AppButton from '../../components/AppButton'
 import PactModel from '../../api/pacts'
-// import currentPact from '../../stores/CreatePactStore'
+import currentPact from '../../stores/CreatePactStore'
 
 // FORM
 import { Formik, FieldArray } from 'formik'
@@ -20,10 +20,48 @@ import {
 } from '../../components/forms'
 
 export default function ReviewData({ navigation }) {
-  const { currentPact } = route.params
+  const createPact = async () => {
+    let performArr = []
+    let usersArr = [currentPact.producer.user]
+    try {
+      currentPact.performers.map((performer) => {
+        let obj = {}
+        obj['user'] = performer._id
+        obj['publisherPercent'] = parseInt(performer.publisherPercent)
+        obj['name'] = performer.name
+        obj['companyName'] = performer.companyName
+        obj['artistName'] = performer.artistName
+        obj['address'] = performer.address
+        obj['city'] = performer.city
+        obj['state'] = performer.state
+        obj['zipCode'] = performer.zipCode
+        obj['email'] = performer.email
+        performArr.push(obj)
+        usersArr.push(performer._id)
+      })
+      let obj = {
+        status: 1,
+        users: usersArr,
+        producer: currentPact.producer,
+        type: currentPact.type,
+        sample: currentPact.sample,
+        recordLabel: currentPact.recordLabel,
+        labelName: currentPact.labelName,
+        recordTitle: currentPact.recordTitle,
+        initBy: currentPact.initBy,
+        collaborators: currentPact.collaborators,
+        performers: performArr,
+      }
+      await PactModel.create(obj)
+      currentPact.resetPact()
+      navigation.navigate('New')
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   async function nextScreen() {
-    navigation.navigate('ReviewContract')
+    // navigation.navigate('ReviewContract')
   }
 
   return (
@@ -31,10 +69,9 @@ export default function ReviewData({ navigation }) {
       <Header
         back={() => navigation.navigate('RecordInfo')}
         icon="arrow-back"
-        title="Create a new pact"
-        subTitle="Review"
+        title={currentPact.recordTitle}
+        subTitle="Accept/Counter/Decline"
       />
-      <AppProgressBar value={83} />
       <Separator />
       <Formik
         initialValues={{}}
