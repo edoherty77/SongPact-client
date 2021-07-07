@@ -78,9 +78,21 @@ export default function GratInfo({ navigation }) {
               setItem={setProducer}
               item={producer}
             />
-            <AppFormPercent name="advancePercent" title="Producer Advance" />
-            <AppFormPercent name="royaltyPercent" title="Producer Royalty" />
-            <AppFormPercent name="publisherPercent" title="Producer Publish" />
+            <AppFormPercent
+              icon
+              name="advancePercent"
+              title="Producer Advance"
+            />
+            <AppFormPercent
+              icon
+              name="royaltyPercent"
+              title="Producer Royalty"
+            />
+            <AppFormPercent
+              icon
+              name="publisherPercent"
+              title="Producer Publish"
+            />
             <View style={styles.credText}>
               <AppText style={styles.text}>Producer Credit</AppText>
               <AntDesign

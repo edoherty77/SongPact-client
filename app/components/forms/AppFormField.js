@@ -4,19 +4,28 @@ import { useFormikContext } from 'formik'
 import AppTextInput from '../AppTextInput'
 import ErrorMessage from './ErrorMessage'
 
-const AppFormField = ({ name, width, height, ...props }) => {
-  const {
-    setFieldTouched,
-    handleChange,
-    setFieldValue,
-    errors,
-    touched,
-    values,
-  } = useFormikContext()
+const AppFormField = ({
+  name,
+  width,
+  height,
+  editable,
+  style,
+  selectTextOnFocus,
+  ...props
+}) => {
+  const { setFieldTouched, handleChange, errors, touched } = useFormikContext()
 
   return (
     <>
       <AppTextInput
+        editable={editable}
+        selectTextOnFocus={selectTextOnFocus}
+        style={[
+          style,
+          editable === false
+            ? { backgroundColor: '#E0E0E0' }
+            : { backgroundColor: 'white' },
+        ]}
         onChangeText={handleChange(name)}
         width={width}
         height={height}

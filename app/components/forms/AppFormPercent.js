@@ -11,24 +11,45 @@ import { useFormikContext } from 'formik'
 // CONFIG
 import colors from '../../config/colors'
 
-export default function AppFormPercent({ name, title }) {
-  // console.log('collab', collab)
+export default function AppFormPercent({
+  name,
+  title,
+  editable,
+  selectTextOnFocus,
+  placeholder,
+  icon,
+  ...props
+}) {
   const { setFieldTouched, handleChange, errors, touched } = useFormikContext()
   return (
     <View style={styles.mainView}>
       <View style={styles.left}>
         <AppText style={styles.text}>{title}</AppText>
-        <AntDesign
-          name="questioncircle"
-          size={14}
-          color="black"
-          style={styles.icon}
-        />
+        {icon && (
+          <AntDesign
+            name="questioncircle"
+            size={14}
+            color="black"
+            style={styles.icon}
+          />
+        )}
       </View>
       <View style={styles.right}>
         <View style={styles.inputView}>
           <TextInput
-            style={styles.input}
+            editable={editable}
+            selectTextOnFocus={selectTextOnFocus}
+            placeholderTextColor="#18181b"
+            placeholder={
+              placeholder !== undefined ? placeholder.toString() : null
+            }
+            style={[
+              styles.input,
+              editable === false
+                ? { backgroundColor: '#E0E0E0' }
+                : { backgroundColor: 'white' },
+            ]}
+            {...props}
             onChangeText={handleChange(name)}
             onBlur={() => setFieldTouched(name)}
             keyboardType="number-pad"
