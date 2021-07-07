@@ -17,8 +17,7 @@ class CreatePactStore {
   }
   performers = []
   producer = {
-    firstName: '',
-    lastName: '',
+    name: '',
     user: '',
     advancePercent: '',
     publisherPercent: '',
@@ -90,8 +89,7 @@ class CreatePactStore {
     let foundProducer = this.users.find((x) => x._id === values.producer)
     this.producer.user = foundProducer._id
     this.producer.artistName = foundProducer.artistName
-    this.producer.firstName = foundProducer.firstName
-    this.producer.lastName = foundProducer.lastName
+    this.producer.name = foundProducer.name
     this.producer.companyName = foundProducer.companyName
     this.producer.address = foundProducer.address
     this.producer.city = foundProducer.city

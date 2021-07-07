@@ -90,10 +90,10 @@ function ChooseCollabs({ navigation }) {
                       data={currentUser.friends
                         .slice()
                         .sort((a, b) => a.name.localeCompare(b.name))}
-                      style={styles.contactsList}
                       keyExtractor={(item) => item._id}
                       renderItem={({ item }) => (
                         <ContactCheckBox
+                          photo={item.googlePhotoUrl}
                           name={`collabs.${item.id}`}
                           title={`${item.name}`}
                           onPress={(checked) => {
@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
   contactsView: {
     marginTop: 15,
     flex: 1,
+    // backgroundColor: colors.white,
     // marginHorizontal: 35,
   },
   footer: {

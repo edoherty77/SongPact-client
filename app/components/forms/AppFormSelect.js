@@ -3,11 +3,15 @@ import { StyleSheet, FlatList, View } from 'react-native'
 import { Select, VStack } from 'native-base'
 import { Ionicons } from '@expo/vector-icons'
 
+// FORM
+import { useFormikContext } from 'formik'
+
 // STORE
 import currentPact from '../../stores/CreatePactStore'
 import currentUser from '../../stores/UserStore'
 
 const AppFormSelect = ({ data, setItem, item }) => {
+  const { setFieldValue } = useFormikContext()
   return (
     <View style={styles.selectView}>
       <Select
@@ -15,9 +19,11 @@ const AppFormSelect = ({ data, setItem, item }) => {
         variant="unstyled"
         selectedValue={item}
         placeholder="Choose producer"
-        onValueChange={(itemValue) => setItem(itemValue)}
+        onValueChange={(itemValue) => {
+          setFieldValue('producer', itemValue), setItem(itemValue)
+        }}
         _selectedItem={{
-          bg: 'cyan.600',
+          // bg: 'cyan.600',
           endIcon: <Ionicons name="chevron-down" size={4} />,
         }}
       >

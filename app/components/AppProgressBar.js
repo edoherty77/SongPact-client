@@ -15,7 +15,7 @@ export default AppProgressBar
 
 const styles = StyleSheet.create({
   progressBarView: {
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 5,
+    marginBottom: 5,
   },
 })

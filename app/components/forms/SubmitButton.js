@@ -19,7 +19,7 @@ const SubmitButton = ({
     <AppButton
       title={title}
       onPress={handleSubmit}
-      style={styles.button}
+      style={[style, styles.button]}
       disabled={disabled}
       textColor="white"
     />
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 45,
     backgroundColor: colors.green,
-    width: '80%',
+    width: '100%',
   },
 })
 

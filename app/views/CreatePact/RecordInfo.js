@@ -1,17 +1,21 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
+// CONFIG
 import colors from '../../config/colors'
+
+// COMPONENTS
 import Screen from '../../components/Screen'
 import Separator from '../../components/Separator'
+import AppProgressBar from '../../components/AppProgressBar'
 import AppText from '../../components/AppText'
 import Header from '../../components/Header'
-import { Formik } from 'formik'
-import ButtonIcon from '../../components/ButtonIcon'
-import ConfirmModal from '../../components/ConfirmModal'
-import AppButton from '../../components/AppButton'
-import store from '../../stores/CreatePactStore'
 
+// STORE
+import currentPactStore from '../../stores/CreatePactStore'
+
+// FORM
+import { Formik } from 'formik'
 import {
   AppFormField,
   SubmitButton,
@@ -33,7 +37,7 @@ export default function RecordInfo({ navigation }) {
   const [isInputVisible, setInputVisible] = useState(false)
 
   async function nextScreen(values) {
-    store.setRecordInfo(values)
+    currentPactStore.setRecordInfo(values)
     navigation.navigate('ReviewAndSign')
   }
 
@@ -49,6 +53,7 @@ export default function RecordInfo({ navigation }) {
         back={() => navigation.navigate('PerformerInfo')}
         icon="chevron-back"
       />
+      <AppProgressBar value={80} />
       <Separator />
       <Formik
         initialValues={{
@@ -70,6 +75,7 @@ export default function RecordInfo({ navigation }) {
                   style={styles.input}
                   // placeholder="Record title"
                   autoCorrect={false}
+                  height={50}
                   placeholderTextColor={colors.black}
                 />
               </View>
@@ -80,7 +86,7 @@ export default function RecordInfo({ navigation }) {
               />
               <AppFormSwitch
                 name="recordLabel"
-                label="Are you signed to a record label?"
+                label="Is this for a record label?"
                 formikKey="recordLabel"
                 onChange={toggleInput}
               />
@@ -93,8 +99,8 @@ export default function RecordInfo({ navigation }) {
                 <AppFormField
                   name="labelName"
                   style={styles.input}
-                  placeholder="Name"
                   autoCorrect={false}
+                  height={50}
                   placeholderTextColor={colors.black}
                 />
               </View>
@@ -113,33 +119,33 @@ export default function RecordInfo({ navigation }) {
 
 const styles = StyleSheet.create({
   mainView: {
+    display: 'flex',
     flex: 1,
-    // backgroundColor: 'orange',
+    padding: 10,
+    marginHorizontal: 30,
   },
   switchView: {
     justifyContent: 'space-evenly',
     flex: 3,
     paddingTop: 20,
-    paddingRight: 20,
-    paddingLeft: 20,
-    // backgroundColor: 'lightgray',
   },
   labelView: {
     flex: 1,
-    paddingLeft: 20,
-    paddingRight: 20,
     justifyContent: 'flex-start',
   },
   noLabelView: {
     flex: 1,
   },
   input: {
-    width: '90%',
-    backgroundColor: 'rgba(250, 250, 250, 0.8)',
+    width: '100%',
+    backgroundColor: colors.white,
+    borderColor: colors.black,
+    borderWidth: 1,
     fontSize: 18,
+    height: 100,
     paddingLeft: 20,
-    height: 45,
-    borderRadius: 25,
+    borderRadius: 7,
+    marginBottom: 5,
   },
   footer: {
     flex: 2,
