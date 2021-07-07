@@ -57,6 +57,7 @@ export default function GratInfoCont({ navigation }) {
                     keyExtractor={(performer) => performer._id}
                     renderItem={({ item, index }) => (
                       <AppFormPercent
+                        icon
                         name={`${index}.publisherPercent`}
                         title={item.name}
                       />

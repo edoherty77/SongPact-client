@@ -10,6 +10,9 @@ import AppText from '../../components/AppText'
 import { AppLoading } from 'expo'
 import ConfirmModal from '../../components/ConfirmModal'
 
+// STORE
+import currentPactStore from '../../stores/CreatePactStore'
+
 function NewSongPact({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false)
 
@@ -32,6 +35,7 @@ function NewSongPact({ navigation }) {
 
   function createConfirm(type) {
     setModalVisible(false)
+    currentPactStore.resetPact()
     navigation.navigate('Collabs', {
       type: type,
     })

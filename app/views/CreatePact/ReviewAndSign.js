@@ -7,10 +7,18 @@ import AppText from '../../components/AppText'
 import Header from '../../components/Header'
 import Separator from '../../components/Separator'
 import AppButton from '../../components/AppButton'
+import AppProgressBar from '../../components/AppProgressBar'
 import PactModel from '../../api/pacts'
 import currentPact from '../../stores/CreatePactStore'
 
-import { SubmitButton } from '../../components/forms'
+// FORM
+import { Formik, FieldArray } from 'formik'
+import {
+  AppFormField,
+  SubmitButton,
+  AppFormSelect,
+  AppFormPercent,
+} from '../../components/forms'
 
 export default function ReviewAndSign({ navigation }) {
   console.log('pact currentPact', currentPact)
@@ -23,8 +31,7 @@ export default function ReviewAndSign({ navigation }) {
         let obj = {}
         obj['user'] = performer._id
         obj['publisherPercent'] = parseInt(performer.publisherPercent)
-        obj['firstName'] = performer.firstName
-        obj['lastName'] = performer.lastName
+        obj['name'] = performer.name
         obj['companyName'] = performer.companyName
         obj['artistName'] = performer.artistName
         obj['address'] = performer.address
@@ -68,152 +75,189 @@ export default function ReviewAndSign({ navigation }) {
         title="Create a new pact"
         subTitle="Review"
       />
+      <AppProgressBar value={90} />
       <Separator />
-      <ScrollView style={styles.mainView}>
-        <View style={styles.dataBlock}>
-          <View style={styles.header}>
-            <AppText style={styles.headerText}>Record Title</AppText>
-          </View>
-          <View style={styles.recordDataContainer}>
-            <AppText style={styles.recordDataText}>
-              {currentPact.recordTitle}
-            </AppText>
-          </View>
-        </View>
-        <View style={styles.dataBlock}>
-          <View style={styles.header}>
-            <AppText style={styles.headerText}>Sample</AppText>
-          </View>
-          <View style={styles.recordDataContainer}>
-            <AppText style={styles.recordDataText}>
-              {currentPact.sample === true ? 'Yes' : 'No'}
-            </AppText>
-          </View>
-        </View>
-        <View style={styles.dataBlock}>
-          <View style={styles.header}>
-            <AppText style={styles.headerText}>Label</AppText>
-          </View>
-          <View style={styles.recordDataContainer}>
-            <AppText style={styles.recordDataText}>
-              {currentPact.recordLabel === true
-                ? currentPact.labelName
-                : 'None'}
-            </AppText>
-          </View>
-        </View>
-        <View style={styles.dataBlock}>
-          <View style={styles.header}>
-            <AppText style={styles.headerText}>Producer</AppText>
-          </View>
-          <View style={styles.data}>
-            <AppText style={styles.artistNameText}>
-              {currentPact.producer.artistName}
-            </AppText>
-            <View style={styles.percView}>
-              <AppText style={styles.subHeaderText}>Advance %</AppText>
-              <AppText style={styles.perc}>
-                {currentPact.producer.advancePercent}%
-              </AppText>
-            </View>
-            <View style={styles.percView}>
-              <AppText style={styles.subHeaderText}>Publisher %</AppText>
-              <AppText style={styles.perc}>
-                {currentPact.producer.publisherPercent}%
-              </AppText>
-            </View>
-            <View style={styles.percView}>
-              <AppText style={styles.subHeaderText}>Royalty %</AppText>
-              <AppText style={styles.perc}>
-                {currentPact.producer.royaltyPercent}%
-              </AppText>
-            </View>
-          </View>
-        </View>
-        <View style={styles.dataBlock}>
-          <View style={styles.header}>
-            <AppText style={styles.headerText}>Performers</AppText>
-          </View>
-          <View style={styles.data}>
-            <FlatList
-              data={currentPact.performers}
-              keyExtractor={(item) => item._id}
-              renderItem={({ item, index }) => (
-                <View style={styles.dataBlock}>
-                  <AppText style={styles.artistNameText}>
-                    {item.artistName}
-                  </AppText>
-                  <View style={styles.percView}>
-                    <AppText style={styles.subHeaderText}>Publisher %</AppText>
-                    <AppText style={styles.perc}>
-                      {item.publisherPercent}%
-                    </AppText>
-                  </View>
+      <Formik
+        initialValues={{}}
+        enableReinitialize
+        onSubmit={(values) => nextScreen(values)}
+      >
+        {() => (
+          <ScrollView
+            style={styles.mainView}
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={styles.infoSection}>
+              <View style={styles.titleView}>
+                <AppText style={styles.text}>Record Title</AppText>
+                <AppFormField
+                  editable={false}
+                  selectTextOnFocus={false}
+                  name="recordTitle"
+                  style={styles.input}
+                  placeholder={currentPact.recordTitle}
+                  autoCorrect={false}
+                  height={50}
+                  placeholderTextColor="#18181b"
+                />
+              </View>
+              <View style={styles.recordInfo}>
+                <View>
+                  <AppText style={styles.text}>Is this a sample?</AppText>
+                  {currentPact.sample ? (
+                    <AppText style={styles.answer}>Yes</AppText>
+                  ) : (
+                    <AppText style={styles.answer}>No</AppText>
+                  )}
                 </View>
-              )}
-            />
-          </View>
-        </View>
-        <View style={styles.footer}>
-          <AppButton
-            title="Create Pact"
-            style={styles.nextButton}
-            onPress={createPact}
-          />
-        </View>
-      </ScrollView>
+                <View>
+                  <AppText style={styles.text}>Label Name</AppText>
+                  {currentPact.labelName ? (
+                    <AppText style={styles.answer}>
+                      {currentPact.labelName}
+                    </AppText>
+                  ) : (
+                    <AppText style={styles.answer}>-</AppText>
+                  )}
+                </View>
+              </View>
+            </View>
+            <Separator />
+            <View style={styles.infoSection}>
+              <AppText fontWeight="bold" style={styles.sectionHeader}>
+                Producer Info
+              </AppText>
+              <AppText style={styles.text}>
+                Who is the producer for this pact?
+              </AppText>
+              <AppFormSelect
+                defaultValue={currentPact.producer.name}
+                isDisabled={true}
+                data={currentPact.users}
+                // setItem={setProducer}
+                item={currentPact.producer.name}
+              />
+              <AppFormPercent
+                editable={false}
+                selectTextOnFocus={false}
+                name="advancePercent"
+                title="Producer Advance"
+                placeholder={currentPact.producer.advancePercent}
+              />
+              <AppFormPercent
+                editable={false}
+                selectTextOnFocus={false}
+                name="royaltyPercent"
+                title="Producer Royalty"
+                placeholder={currentPact.producer.royaltyPercent}
+              />
+              <AppFormPercent
+                editable={false}
+                selectTextOnFocus={false}
+                name="publisherPercent"
+                title="Producer Publish"
+                placeholder={currentPact.producer.publisherPercent}
+              />
+              <View style={styles.credText}>
+                <AppText style={styles.text}>Producer Credit</AppText>
+              </View>
+              <View style={styles.credInput}>
+                <AppFormField
+                  editable={false}
+                  selectTextOnFocus={false}
+                  name="credit"
+                  height={50}
+                  style={styles.input}
+                  placeholder={currentPact.producer.credit}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  placeholderTextColor={colors.black}
+                />
+              </View>
+            </View>
+            <Separator />
+            <View style={styles.infoSection}>
+              <AppText fontWeight="bold" style={styles.sectionHeader}>
+                Performer Info
+              </AppText>
+
+              <FieldArray name="performers">
+                {() => (
+                  <FlatList
+                    data={currentPact.performers}
+                    keyExtractor={(performer) => performer._id}
+                    renderItem={({ item, index }) => (
+                      <AppFormPercent
+                        editable={false}
+                        selectTextOnFocus={false}
+                        name={`${index}.publisherPercent`}
+                        title={item.name}
+                        placeholder={item.publisherPercent}
+                      />
+                    )}
+                  />
+                )}
+              </FieldArray>
+            </View>
+            <View style={styles.footer}>
+              <AppButton
+                textColor="white"
+                title="Create Pact"
+                style={styles.button}
+                // onPress={createPact}
+              />
+            </View>
+          </ScrollView>
+        )}
+      </Formik>
     </Screen>
   )
 }
 
 const styles = StyleSheet.create({
   mainView: {
+    display: 'flex',
     flex: 1,
-    // backgroundColor: 'orange',
-    paddingHorizontal: 20,
+    padding: 10,
+    marginHorizontal: 30,
   },
-  dataBlock: {
-    // backgroundColor: 'red',
-    marginVertical: 10,
-  },
-  header: {},
-  headerText: {
-    fontSize: 30,
-    fontWeight: 'bold',
+  sectionHeader: {
+    fontSize: 20,
     marginBottom: 10,
   },
-  subHeaderText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginLeft: 10,
-    marginVertical: 10,
+  text: {
+    fontSize: 18,
   },
-  artistNameText: {
-    marginLeft: 10,
-    color: 'red',
-    fontSize: 20,
-    fontWeight: 'bold',
+  answer: {
+    fontSize: 18,
+    marginTop: 5,
   },
-  recordDataContainer: {
-    // backgroundColor: 'green',
-    marginLeft: 10,
+  infoSection: {
+    display: 'flex',
+    marginVertical: 20,
   },
-  recordDataText: {
-    color: 'red',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  percView: {
+  recordInfo: {
     display: 'flex',
     flexDirection: 'row',
-    // backgroundColor: 'blue',
     justifyContent: 'space-between',
-    marginLeft: 10,
   },
-  perc: {
-    color: 'red',
-    fontSize: 20,
-    fontWeight: 'bold',
+  credText: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '50%',
+    marginTop: 10,
+  },
+  input: {
+    width: '100%',
+    backgroundColor: colors.white,
+    borderColor: colors.black,
+    borderWidth: 1,
+    fontSize: 18,
+    height: 100,
+    paddingLeft: 20,
+    borderRadius: 7,
+    marginBottom: 5,
   },
   footer: {
     justifyContent: 'center',
@@ -221,11 +265,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
-  nextButton: {
-    marginBottom: 10,
-    borderRadius: 50,
+  button: {
+    marginBottom: 60,
+    marginTop: 20,
+    // flex: 1,
+    borderRadius: 5,
     height: 45,
-    backgroundColor: colors.red,
-    width: '50%',
+    backgroundColor: colors.green,
+    width: '100%',
   },
 })

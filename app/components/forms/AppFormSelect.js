@@ -10,18 +10,37 @@ import { useFormikContext } from 'formik'
 import currentPact from '../../stores/CreatePactStore'
 import currentUser from '../../stores/UserStore'
 
-const AppFormSelect = ({ data, setItem, item }) => {
+const AppFormSelect = ({ data, setItem, item, isDisabled, defaultValue }) => {
   const { setFieldValue } = useFormikContext()
   return (
-    <View style={styles.selectView}>
+    <View
+      style={[
+        styles.selectView,
+        isDisabled === true
+          ? { backgroundColor: '#E0E0E0' }
+          : { backgroundColor: 'white' },
+      ]}
+    >
       <Select
-        style={styles.select}
+        isDisabled={isDisabled}
+        style={[
+          styles.select,
+          isDisabled === true
+            ? { backgroundColor: '#E0E0E0' }
+            : { backgroundColor: 'white' },
+        ]}
         variant="unstyled"
         selectedValue={item}
-        placeholder="Choose producer"
+        placeholderTextColor={isDisabled === true ? 'dark.50' : '#18181b'}
+        placeholder={defaultValue !== null ? defaultValue : 'Choose Producer'}
         onValueChange={(itemValue) => {
           setFieldValue('producer', itemValue), setItem(itemValue)
         }}
+        _item={
+          {
+            // bg: 'cyan.600',
+          }
+        }
         _selectedItem={{
           // bg: 'cyan.600',
           endIcon: <Ionicons name="chevron-down" size={4} />,
@@ -45,15 +64,14 @@ export default AppFormSelect
 
 const styles = StyleSheet.create({
   selectView: {
-    backgroundColor: 'white',
     borderColor: 'black',
     borderRadius: 5,
     borderWidth: 1,
     borderStyle: 'solid',
     marginVertical: 10,
+    height: 50,
   },
   select: {
-    // padding: 40,
-    // backgroundColor: 'red',
+    height: 47,
   },
 })
