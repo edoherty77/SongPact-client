@@ -13,9 +13,9 @@ const theme = extendTheme({
     },
   },
 })
-const AppSearchInput = ({ filter, searchValue, setSearchValue }) => {
+const AppSearchInput = ({ filter, searchValue, setSearchValue, style }) => {
   return (
-    <View style={styles.mainView}>
+    <View style={[styles.mainView, style]}>
       <View style={styles.leftIconView}>
         <Ionicons name="search-outline" size={24} />
       </View>
@@ -42,10 +42,7 @@ const styles = StyleSheet.create({
   mainView: {
     display: 'flex',
     flexDirection: 'row',
-    // marginLeft: 25,
-    // marginRight: 25,
     marginBottom: 10,
-    // marginTop: 10,
     backgroundColor: 'white',
     borderRadius: 5,
   },

@@ -10,10 +10,12 @@ import {
 
 // MODELS/STORAGE
 import UserModel from '../../api/users'
+import PactModel from '../../api/pacts'
 import AuthModel from '../../api/auth'
 import FriendRequestModel from '../../api/friendRequests'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import currentUser from '../../stores/UserStore'
+import sortedPacts from '../../stores/SortedPactStore'
 
 // COMPONENTS
 import Screen from '../../components/Screen'
@@ -66,18 +68,42 @@ const SignIn = ({ navigation }) => {
     }
   }
 
+  async function sortPacts(id) {
+    try {
+      const data = await PactModel.all(id)
+      const pacts = data.pact
+      pacts.map((pact) => {
+        pact.users.find((user) => {
+          if (user.user === currentUser._id) {
+            if (pact.status === 1 && user.userStatus === 1) {
+              sortedPacts.setAction(pact)
+            } else if (pact.status === 1 && user.userStatus === 2) {
+              sortedPacts.setPending(pact)
+            } else if (pact.status === 2) {
+              sortedPacts.setArchive(pact)
+            } else if (pact.status === 0) {
+              sortedPacts.setDrafts(pact)
+            }
+          }
+        })
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   async function signIn() {
     try {
       const userData = { email: email, password: password }
       const dbUser = await UserModel.show(email)
       const foundUser = await AuthModel.login(userData)
       if (foundUser) {
-        console.log('dbUser', dbUser)
         await AsyncStorage.setItem('email', foundUser.user.email)
         await AsyncStorage.setItem('userId', foundUser.user._id)
         await currentUser.setUser(dbUser.user)
         await checkForFriends()
         await fetchRequests()
+        await sortPacts(email)
       }
     } catch (err) {
       console.log('Error signing in...', err)
@@ -135,6 +161,7 @@ const SignIn = ({ navigation }) => {
                 <SocMediaSignIn
                   checkForFriends={checkForFriends}
                   fetchRequests={fetchRequests}
+                  sortPacts={sortPacts}
                 />
               </View>
             </View>

@@ -61,18 +61,24 @@ export default function ReviewData({ navigation }) {
     }
   }
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      header: (props) => <Header title={currentPact.recordTitle} {...props} />,
+    })
+  }, [navigation])
+
   async function nextScreen() {
     navigation.navigate('ViewContract')
   }
 
   return (
     <Screen>
-      <Header
+      {/* <Header
         back={() => navigation.navigate('Dashboard')}
         icon="arrow-back"
         title={currentPact.recordTitle}
         subTitle="Accept/Counter/Decline"
-      />
+      /> */}
       <Separator />
       <Formik
         initialValues={{}}
@@ -152,21 +158,21 @@ export default function ReviewData({ navigation }) {
                 selectTextOnFocus={false}
                 name="advancePercent"
                 title="Producer Advance"
-                // placeholder={currentPact.producer.advancePercent}
+                placeholder={currentPact.producer.advancePercent}
               />
               <AppFormPercent
                 editable={false}
                 selectTextOnFocus={false}
                 name="royaltyPercent"
                 title="Producer Royalty"
-                // placeholder={currentPact.producer.royaltyPercent}
+                placeholder={currentPact.producer.royaltyPercent}
               />
               <AppFormPercent
                 editable={false}
                 selectTextOnFocus={false}
                 name="publisherPercent"
                 title="Producer Publish"
-                // placeholder={currentPact.producer.publisherPercent}
+                placeholder={currentPact.producer.publisherPercent}
               />
               <View style={styles.credText}>
                 <AppText style={styles.text}>Producer Credit</AppText>
@@ -178,7 +184,7 @@ export default function ReviewData({ navigation }) {
                   name="credit"
                   height={50}
                   style={styles.input}
-                  // placeholder={currentPact.producer.credit}
+                  placeholder={currentPact.producer.credit}
                   autoCapitalize="none"
                   autoCorrect={false}
                   placeholderTextColor={colors.black}

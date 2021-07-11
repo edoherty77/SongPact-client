@@ -57,7 +57,7 @@ class CreatePactStore {
     this.initBy.name = foundUser.name
     this.users.push({
       user: foundUser._id,
-      userStatus: 1,
+      userStatus: 2,
       name: foundUser.name,
     })
 

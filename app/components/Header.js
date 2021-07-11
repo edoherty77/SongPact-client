@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, View, SafeAreaView } from 'react-native'
 
 import ButtonIcon from './ButtonIcon'
-import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 import AppText from '../components/AppText'
 import colors from '../config/colors'
 
@@ -14,27 +14,37 @@ const Header = ({
   back,
   icon,
   noBack,
+  navigation,
   name = 'message-text',
   iconPress,
   borderBottomColor,
   borderBottomWidth,
   ...otherProps
 }) => {
+  const goToMenu = () => {
+    navigation.navigate('Menu')
+  }
+  const goBack = () => {
+    navigation.goBack()
+  }
   return (
     <SafeAreaView>
       <View style={styles.appHeader}>
-        {/* <View style={{ justifyContent: 'center', flex: 1 }}> */}
         {!noBack && (
-          <Ionicons onPress={back} name={icon} size={35} color={colors.black} />
+          <Ionicons
+            onPress={goBack}
+            name="chevron-back"
+            size={35}
+            color={colors.black}
+          />
         )}
-        {/* </View> */}
         <View style={styles.titleContainer}>
           <AppText style={styles.screenName}>{title}</AppText>
         </View>
 
         {!noIcon && (
           <ButtonIcon
-            onPress={iconPress}
+            onPress={goToMenu}
             style={styles.messageBtn}
             iconColor={colors.black}
             size={45}
@@ -74,7 +84,7 @@ const styles = StyleSheet.create({
   screenName: {
     fontSize: 30,
     color: colors.black,
-    // fontWeight: "bold",
+    fontWeight: 'bold',
   },
   messageBtn: {
     // marginTop: 4,

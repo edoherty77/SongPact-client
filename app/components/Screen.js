@@ -3,7 +3,18 @@ import { StyleSheet, SafeAreaView } from 'react-native'
 import colors from '../config/colors'
 
 const Screen = ({ children, backgroundColor }) => {
-  return <SafeAreaView style={styles.screen}>{children}</SafeAreaView>
+  return (
+    <SafeAreaView
+      style={[
+        styles.screen,
+        backgroundColor === undefined
+          ? { backgroundColor: colors.background }
+          : { backgroundColor },
+      ]}
+    >
+      {children}
+    </SafeAreaView>
+  )
 }
 
 export default Screen

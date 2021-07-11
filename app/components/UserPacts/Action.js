@@ -7,7 +7,7 @@ import sortedPacts from '../../stores/SortedPactStore'
 import colors from '../../config/colors'
 import AppSearchInput from '../AppSearchInput'
 
-const Pending = ({ navigation }) => {
+const Action = ({ navigation }) => {
   const reviewPact = (pact) => {
     pactStore.setPact(pact)
     navigation.navigate('ReviewData')
@@ -17,10 +17,11 @@ const Pending = ({ navigation }) => {
     <View style={styles.mainView}>
       {/* <AppSearchInput /> */}
       <FlatList
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           marginTop: 82,
         }}
-        data={sortedPacts.pending}
+        data={sortedPacts.action}
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => (
           <PactButton
@@ -28,7 +29,7 @@ const Pending = ({ navigation }) => {
             type={item.type}
             title={item.recordTitle}
             name={item.initBy.name}
-            status={colors.pending}
+            status={colors.action}
           />
         )}
       />
@@ -40,10 +41,10 @@ const styles = StyleSheet.create({
   mainView: {
     // display: 'flex',
     // padding: 20,
-    // flex: 1,
+    flex: 1,
     marginHorizontal: 20,
     backgroundColor: colors.background,
   },
 })
 
-export default Pending
+export default Action

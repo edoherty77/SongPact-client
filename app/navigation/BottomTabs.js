@@ -7,9 +7,11 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import CreatePactStack from './CreatePactStack'
 import ContactStack from './ContactStack'
 import NotificationsStack from './NotificationStack'
+import DashboardStack from './DashboardStack'
 
 // Screens
 import Dashboard from '../views/Main/DashboardScreen'
+import ChatScreen from '../views/Main/ChatScreen'
 
 import colors from '../config/colors'
 import MenuStack from './MenuStack'
@@ -19,7 +21,6 @@ const Tab = createBottomTabNavigator()
 export default function BottomTabs({ updateAuthState, logout }) {
   return (
     <Tab.Navigator
-      initialRouteName="Dashboard"
       tabBarOptions={{
         showLabel: false,
         style: {
@@ -38,16 +39,10 @@ export default function BottomTabs({ updateAuthState, logout }) {
           paddingBottom: 45,
           fontFamily: 'Futura',
         },
-        // tabStyle: {
-        //   height: 90,
-        //   backgroundColor: colors.gray,
-        //   paddingBottom: 10,
-        // },
       }}
     >
       <Tab.Screen
         name="Dashboard"
-        component={Dashboard}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
@@ -58,7 +53,15 @@ export default function BottomTabs({ updateAuthState, logout }) {
             />
           ),
         }}
-      />
+      >
+        {(screenProps) => (
+          <DashboardStack
+            {...screenProps}
+            updateAuthState={updateAuthState}
+            logout={logout}
+          />
+        )}
+      </Tab.Screen>
       <Tab.Screen
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -68,14 +71,19 @@ export default function BottomTabs({ updateAuthState, logout }) {
               size={38}
             />
           ),
-          // tabBarLabel: 'Contacts',
         }}
         name="Contacts"
-        component={ContactStack}
-      />
+      >
+        {(screenProps) => (
+          <ContactStack
+            {...screenProps}
+            updateAuthState={updateAuthState}
+            logout={logout}
+          />
+        )}
+      </Tab.Screen>
       <Tab.Screen
         options={{
-          // tabBarVisible: false,
           tabBarIcon: ({ color, size }) => (
             <View
               style={{
@@ -102,7 +110,6 @@ export default function BottomTabs({ updateAuthState, logout }) {
               />
             </View>
           ),
-          // tabBarLabel: '',
         }}
         name="New"
         component={CreatePactStack}
@@ -112,30 +119,25 @@ export default function BottomTabs({ updateAuthState, logout }) {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="bell" color={color} size={38} />
           ),
-          // tabBarBadge: 3,
-          // tabBarLabel: 'Notifications',
         }}
         name="Notifications"
         component={NotificationsStack}
       />
+
       <Tab.Screen
+        name="ChatScreenAQ"
+        component={ChatScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="chat" color={color} size={38} />
+            <MaterialCommunityIcons
+              name="chat"
+              color={color}
+              size={38}
+              backgroundColor="red"
+            />
           ),
-
-          // tabBarLabel: 'Menu',
         }}
-        name="Menu"
-      >
-        {(screenProps) => (
-          <MenuStack
-            {...screenProps}
-            updateAuthState={updateAuthState}
-            logout={logout}
-          />
-        )}
-      </Tab.Screen>
+      />
     </Tab.Navigator>
   )
 }

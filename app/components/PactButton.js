@@ -7,15 +7,13 @@ import colors from '../config/colors'
 const PactButton = ({ type, title, name, status, onPress }) => {
   return (
     <TouchableOpacity style={styles.pactButton} onPress={onPress}>
-      <View style={styles.left}>
-        <View style={styles.status}></View>
-      </View>
-      <View style={styles.middle}>
+      <View style={[styles.status, { backgroundColor: status }]}></View>
+      <View>
         <AppText style={styles.title}>{title}</AppText>
         <AppText style={styles.text}>
-          Started By: <AppText style={styles.name}>{name}</AppText>
+          Created By: <AppText style={styles.name}>{name}</AppText>
         </AppText>
-        <AppText style={styles.text}>Type: {type}</AppText>
+        <AppText fontSize={13}>Type: {type}</AppText>
       </View>
       <View style={styles.right}>
         <AppText style={styles.updated}>Last updated: 05/02/2021</AppText>
@@ -29,8 +27,6 @@ export default PactButton
 const styles = StyleSheet.create({
   pactButton: {
     backgroundColor: '#FFFFFF',
-    // marginLeft: 10,
-    // marginRight: 10,
     marginBottom: 15,
     padding: 15,
     borderRadius: 5,
@@ -41,26 +37,16 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
   },
-  left: {
-    // backgroundColor: 'blue',
-    // position: 'relative',
-  },
   status: {
-    backgroundColor: '#F2C94C',
-    // position: 'absolute',
     top: 5,
     height: 10,
     width: 10,
     borderRadius: 20,
     marginRight: 15,
   },
-  middle: {
-    margin: 0,
-    // backgroundColor: 'red',
-  },
   name: {
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 14,
   },
   title: {
     fontWeight: 'bold',
@@ -68,7 +54,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   text: {
-    fontSize: 18,
+    fontSize: 14,
     marginBottom: 4,
   },
   right: {
