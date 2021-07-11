@@ -28,12 +28,6 @@ function ChooseCollabs({ navigation }) {
 
   return (
     <Screen>
-      <Head
-        title="Create a new pact"
-        subTitle="Add Collaborators"
-        icon="arrow-back"
-        // back={() => navigation.navigate('First')}
-      />
       <AppProgressBar value={0} />
       <Separator />
       <View style={styles.mainView}>

@@ -112,8 +112,15 @@ export default function BottomTabs({ updateAuthState, logout }) {
           ),
         }}
         name="New"
-        component={CreatePactStack}
-      />
+      >
+        {(screenProps) => (
+          <CreatePactStack
+            {...screenProps}
+            updateAuthState={updateAuthState}
+            logout={logout}
+          />
+        )}
+      </Tab.Screen>
       <Tab.Screen
         options={{
           tabBarIcon: ({ color, size }) => (

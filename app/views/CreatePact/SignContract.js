@@ -52,11 +52,6 @@ export default function ReviewAndSign({ route, navigation }) {
 
   return (
     <Screen>
-      <Header
-        back={() => navigation.navigate('Dashboard')}
-        icon="arrow-back"
-        title="ReviewContract"
-      />
       <View style={{ flex: 1 }}>
         {/* <View style={styles.preview}>
           {signature ? (

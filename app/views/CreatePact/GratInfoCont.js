@@ -31,12 +31,6 @@ export default function GratInfoCont({ navigation }) {
   useEffect(() => {}, [])
   return (
     <Screen>
-      <Header
-        title="Create a new pact"
-        subTitle="Gratuity Info"
-        icon="arrow-back"
-        back={() => navigation.navigate('GratInfo')}
-      />
       <AppProgressBar value={40} />
       <Separator />
       <Formik

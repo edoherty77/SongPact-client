@@ -28,7 +28,7 @@ const Header = ({
     navigation.goBack()
   }
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ backgroundColor: colors.background }}>
       <View style={styles.appHeader}>
         {!noBack && (
           <Ionicons
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     paddingLeft: 25,
     paddingRight: 25,
     marginTop: 10,
+    backgroundColor: colors.background,
   },
   subTitle: {
     fontSize: 20,

@@ -42,12 +42,6 @@ export default function GratInfo({ navigation }) {
 
   return (
     <Screen>
-      <Header
-        title="Create a new pact"
-        subTitle="Gratuity Info"
-        icon="arrow-back"
-        back={() => navigation.navigate('Collabs')}
-      />
       <AppProgressBar value={20} />
       <Separator />
       <Formik

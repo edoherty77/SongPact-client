@@ -870,12 +870,6 @@ export default function ReviewContract({ navigation }) {
 
   return (
     <Screen>
-      <Header
-        back={() => navigation.navigate('ReviewData')}
-        icon="arrow-back"
-        title="Create a new pact"
-        subTitle="Sign Pact"
-      />
       <AppProgressBar value={100} />
       <Separator />
       <View style={styles.mainView}>
