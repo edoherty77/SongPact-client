@@ -3,16 +3,16 @@ import { StyleSheet, View, SafeAreaView } from 'react-native'
 
 import ButtonIcon from './ButtonIcon'
 import { Ionicons } from '@expo/vector-icons'
-import AppText from '../components/AppText'
+import AppText from './AppText'
 import colors from '../config/colors'
 
-const Header = ({
+const ChatHeader = ({
   onPress,
   title,
   subTitle,
   noIcon,
   back,
-  icon,
+  rightIcon,
   noBack,
   navigation,
   name = 'message-text',
@@ -22,10 +22,10 @@ const Header = ({
   ...otherProps
 }) => {
   const goToMenu = () => {
-    navigation.navigate('Menu')
+    navigation.navigate('New Message')
   }
   const goBack = () => {
-    navigation.goBack()
+    navigation.navigate('Chat Main')
   }
   return (
     <SafeAreaView style={{ backgroundColor: colors.background }}>
@@ -48,7 +48,7 @@ const Header = ({
             style={styles.messageBtn}
             iconColor={colors.black}
             size={45}
-            name="menu"
+            name={rightIcon}
             backgroundColor="transparent"
             {...otherProps}
           />
@@ -94,4 +94,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Header
+export default ChatHeader

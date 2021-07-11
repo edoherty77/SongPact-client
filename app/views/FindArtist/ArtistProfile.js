@@ -108,7 +108,6 @@ const FindArtist = observer(({ route, navigation }) => {
 
   return (
     <Screen>
-      <Header icon="chevron-back" back={() => navigation.goBack()} />
       <View style={styles.mainContainer}>
         <View style={styles.heroView}>
           <View style={styles.iconView}>

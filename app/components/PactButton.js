@@ -1,12 +1,12 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-
+import ButtonIcon from './ButtonIcon'
 import AppText from './AppText'
 import colors from '../config/colors'
 
 const PactButton = ({ type, title, name, status, onPress }) => {
   return (
-    <TouchableOpacity style={styles.pactButton} onPress={onPress}>
+    <View style={styles.pactButton} onPress={onPress}>
       <View style={[styles.status, { backgroundColor: status }]}></View>
       <View>
         <AppText style={styles.title}>{title}</AppText>
@@ -15,10 +15,19 @@ const PactButton = ({ type, title, name, status, onPress }) => {
         </AppText>
         <AppText fontSize={13}>Type: {type}</AppText>
       </View>
-      <View style={styles.right}>
+      <View style={styles.topRight}>
+        <ButtonIcon
+          name="chevron-right"
+          backgroundColor={'transparent'}
+          size={45}
+          iconColor={colors.black}
+          onPress={onPress}
+        />
+      </View>
+      <View style={styles.bottomRight}>
         <AppText style={styles.updated}>Last updated: 05/02/2021</AppText>
       </View>
-    </TouchableOpacity>
+    </View>
   )
 }
 
@@ -57,10 +66,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 4,
   },
-  right: {
+  topRight: {
     display: 'flex',
     position: 'absolute',
-    top: 20,
+    top: 5,
+    right: 5,
+  },
+  bottomRight: {
+    display: 'flex',
+    position: 'absolute',
+    bottom: 15,
     right: 20,
   },
   updated: {

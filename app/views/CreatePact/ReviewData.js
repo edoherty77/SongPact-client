@@ -26,12 +26,6 @@ export default function ReviewData({ navigation }) {
 
   return (
     <Screen>
-      <Header
-        back={() => navigation.navigate('RecordInfo')}
-        icon="arrow-back"
-        title="Create a new pact"
-        subTitle="Review"
-      />
       <AppProgressBar value={80} />
       <Separator />
       <Formik

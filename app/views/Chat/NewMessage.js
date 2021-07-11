@@ -20,16 +20,14 @@ import AppProgressBar from '../../components/AppProgressBar'
 import currentPact from '../../stores/CreatePactStore'
 import currentUser from '../../stores/UserStore'
 
-function ChooseCollabs({ navigation }) {
+function NewMessage({ navigation }) {
   const nextScreen = (values) => {
-    currentPact.setCollabInfo(values, currentUser)
-    navigation.navigate('GratInfo')
+    // currentPact.setCollabInfo(values, currentUser)
+    navigation.navigate('Chat Room')
   }
 
   return (
     <Screen>
-      <AppProgressBar value={0} />
-      <Separator />
       <View style={styles.mainView}>
         <Formik
           enableReinitialize
@@ -164,4 +162,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ChooseCollabs
+export default NewMessage

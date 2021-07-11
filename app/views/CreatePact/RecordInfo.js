@@ -47,12 +47,6 @@ export default function RecordInfo({ navigation }) {
 
   return (
     <Screen>
-      <Header
-        title="Create a new pact"
-        subTitle="Record Info"
-        back={() => navigation.navigate('GratInfoCont')}
-        icon="chevron-back"
-      />
       <AppProgressBar value={60} />
       <Separator />
       <Formik
