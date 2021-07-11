@@ -8,13 +8,12 @@ import CreatePactStack from './CreatePactStack'
 import ContactStack from './ContactStack'
 import NotificationsStack from './NotificationStack'
 import DashboardStack from './DashboardStack'
+import ChatStack from './ChatStack'
 
 // Screens
-import Dashboard from '../views/Main/DashboardScreen'
-import ChatScreen from '../views/Main/ChatScreen'
 
+// CONFIG
 import colors from '../config/colors'
-import MenuStack from './MenuStack'
 
 const Tab = createBottomTabNavigator()
 
@@ -132,10 +131,9 @@ export default function BottomTabs({ updateAuthState, logout }) {
       />
 
       <Tab.Screen
-        name="ChatScreenAQ"
-        component={ChatScreen}
+        name="ChatMain"
         options={{
-          tabBarIcon: ({ color, size }) => (
+          tabBarIcon: ({ color, navigation }) => (
             <MaterialCommunityIcons
               name="chat"
               color={color}
@@ -144,7 +142,15 @@ export default function BottomTabs({ updateAuthState, logout }) {
             />
           ),
         }}
-      />
+      >
+        {(screenProps) => (
+          <ChatStack
+            {...screenProps}
+            updateAuthState={updateAuthState}
+            logout={logout}
+          />
+        )}
+      </Tab.Screen>
     </Tab.Navigator>
   )
 }
