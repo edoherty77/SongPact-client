@@ -1,14 +1,49 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useEffect } from 'react'
+import { StyleSheet, View, FlatList } from 'react-native'
+import PactButton from '../PactButton'
+import currentUser from '../../stores/UserStore'
+import pactStore from '../../stores/CreatePactStore'
+import sortedPacts from '../../stores/SortedPactStore'
+import colors from '../../config/colors'
+import AppSearchInput from '../AppSearchInput'
 
-const Archive = () => {
+const Archive = ({ navigation }) => {
+  const reviewPact = (pact) => {
+    pactStore.setPact(pact)
+    navigation.navigate('ReviewData')
+  }
+
   return (
-    <View>
-      <Text></Text>
+    <View style={styles.mainView}>
+      {/* <AppSearchInput /> */}
+      <FlatList
+        contentContainerStyle={{
+          marginTop: 82,
+        }}
+        data={sortedPacts.archive}
+        keyExtractor={(item) => item._id}
+        renderItem={({ item, index }) => (
+          <PactButton
+            onPress={() => reviewPact(item)}
+            type={item.type}
+            title={item.recordTitle}
+            name={item.initBy.name}
+            status={colors.archive}
+          />
+        )}
+      />
     </View>
   )
 }
 
-export default Archive
+const styles = StyleSheet.create({
+  mainView: {
+    // display: 'flex',
+    // padding: 20,
+    // flex: 1,
+    marginHorizontal: 20,
+    backgroundColor: colors.background,
+  },
+})
 
-const styles = StyleSheet.create({})
+export default Archive

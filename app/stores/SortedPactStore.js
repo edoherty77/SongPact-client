@@ -6,19 +6,21 @@ class SortedPactStore {
   pending = []
   archive = []
 
-  setDrafts() {}
+  setDrafts(pacts) {
+    this.drafts.push(pacts)
+  }
 
   setAction(pacts) {
-    // console.log('pactsstore', pacts)
     this.action.push(pacts)
-    // console.log('action', this.action)
   }
 
   setPending(pacts) {
     this.pending.push(pacts)
   }
 
-  setArchive() {}
+  setArchive(pacts) {
+    this.archive.push(pacts)
+  }
 
   resetPacts() {
     this.drafts = []

@@ -79,6 +79,10 @@ const SignIn = ({ navigation }) => {
               sortedPacts.setAction(pact)
             } else if (pact.status === 1 && user.userStatus === 2) {
               sortedPacts.setPending(pact)
+            } else if (pact.status === 2) {
+              sortedPacts.setArchive(pact)
+            } else if (pact.status === 0) {
+              sortedPacts.setDrafts(pact)
             }
           }
         })

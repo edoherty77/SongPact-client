@@ -31,13 +31,13 @@ const DashboardScreen = observer(({ navigation }) => {
   const renderScene = ({ route }) => {
     switch (route.key) {
       case 'first':
-        return <Draft />
+        return <Draft navigation={navigation} />
       case 'second':
         return <Action navigation={navigation} />
       case 'third':
-        return <Pending />
+        return <Pending navigation={navigation} />
       case 'fourth':
-        return <Archive />
+        return <Archive navigation={navigation} />
       default:
         return null
     }
@@ -49,7 +49,7 @@ const DashboardScreen = observer(({ navigation }) => {
         <View
           style={[
             {
-              height: 55,
+              height: 30,
               width: 85,
               display: 'flex',
               alignItems: 'center',
@@ -64,7 +64,9 @@ const DashboardScreen = observer(({ navigation }) => {
           <Text
             style={[
               { fontSize: 14, fontWeight: 'bold' },
-              focused ? { color: colors.green } : { color: 'black' },
+              focused
+                ? { color: colors.green }
+                : { color: 'black', fontWeight: 'normal' },
             ]}
           >
             {route.title}
@@ -72,17 +74,12 @@ const DashboardScreen = observer(({ navigation }) => {
         </View>
       )}
       {...props}
-      indicatorStyle={{ backgroundColor: 'none' }}
+      indicatorStyle={{ backgroundColor: 'white' }}
     />
   )
   return (
     <Screen>
-      <Header
-        title="Your pacts"
-        borderBottomColor="transparent"
-        borderBottomWidth={0}
-        noBack
-      />
+      <AppSearchInput style={styles.input} />
       <TabView
         renderTabBar={renderTabBar}
         style={styles.tabView}
@@ -97,10 +94,15 @@ const DashboardScreen = observer(({ navigation }) => {
 
 const styles = StyleSheet.create({
   tabBar: {
-    marginVertical: 20,
-    marginHorizontal: 10,
-    backgroundColor: 'rgba(34, 34, 34, 0.1)',
-    borderRadius: 10,
+    marginTop: 20,
+    marginBottom: 30,
+    backgroundColor: 'rgba(34, 34, 34, 0.5)',
+  },
+  input: {
+    position: 'absolute',
+    top: 100,
+    marginHorizontal: 20,
+    zIndex: 1,
   },
 })
 

@@ -1,31 +1,60 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import BottomTabs from './BottomTabs'
+
+// SCREENS
 import ReviewData from '../views/ReviewPact/ReviewData'
 import SignContract from '../views/ReviewPact/SignContract'
 import ViewContract from '../views/ReviewPact/ViewContract'
+import DashboardScreen from '../views/Main/DashboardScreen'
+
+// STACKS
+import MenuStack from './MenuStack'
+
+// COMPONENTS
+import Header from '../components/Header'
 
 const Stack = createStackNavigator()
 
 export default function DashboardStack({ updateAuthState, logout }) {
   return (
-    <Stack.Navigator
-      initialRouteName="Dashboard"
-      screenOptions={{ headerShown: false }}
-    >
-      <Stack.Screen name="Dashboard">
+    <Stack.Navigator headerMode="screen">
+      <Stack.Screen
+        name="Dashboard"
+        options={({ navigation, route }) => ({
+          header: (props) => <Header title="Your Pacts" noBack {...props} />,
+        })}
+        component={DashboardScreen}
+      />
+      <Stack.Screen
+        name="ReviewData"
+        component={ReviewData}
+        options={({ navigation, route }) => ({
+          header: (props) => <Header {...props} />,
+        })}
+      />
+      <Stack.Screen
+        name="ViewContract"
+        component={ViewContract}
+        options={({ navigation, route }) => ({
+          header: (props) => <Header {...props} title="Sign" />,
+        })}
+      />
+      <Stack.Screen
+        name="SignContract"
+        component={SignContract}
+        options={({ navigation, route }) => ({
+          header: (props) => <Header {...props} />,
+        })}
+      />
+      <Stack.Screen name="Menu">
         {(screenProps) => (
-          <BottomTabs
+          <MenuStack
             {...screenProps}
             updateAuthState={updateAuthState}
             logout={logout}
           />
         )}
       </Stack.Screen>
-      <Stack.Screen name="ReviewData" component={ReviewData} />
-      <Stack.Screen name="ViewContract" component={ViewContract} />
-      <Stack.Screen name="SignContract" component={SignContract} />
-      {/* component={BottomTabs} /> */}
     </Stack.Navigator>
   )
 }

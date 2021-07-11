@@ -5,9 +5,9 @@ import currentUser from '../../stores/UserStore'
 import pactStore from '../../stores/CreatePactStore'
 import sortedPacts from '../../stores/SortedPactStore'
 import colors from '../../config/colors'
+import AppSearchInput from '../AppSearchInput'
 
 const Pending = ({ navigation }) => {
-  console.log('aaactiooon', sortedPacts.pending)
   const reviewPact = (pact) => {
     pactStore.setPact(pact)
     navigation.navigate('ReviewData')
@@ -15,7 +15,11 @@ const Pending = ({ navigation }) => {
 
   return (
     <View style={styles.mainView}>
+      {/* <AppSearchInput /> */}
       <FlatList
+        contentContainerStyle={{
+          marginTop: 82,
+        }}
         data={sortedPacts.pending}
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => (
@@ -24,7 +28,7 @@ const Pending = ({ navigation }) => {
             type={item.type}
             title={item.recordTitle}
             name={item.initBy.name}
-            status={item.status === 2 && 'Pending'}
+            status={colors.pending}
           />
         )}
       />

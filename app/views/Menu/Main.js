@@ -50,7 +50,11 @@ export default function Main({ updateAuthState, navigation, logout }) {
 
   return (
     <Screen>
-      <Header title="Menu" noBack />
+      <Header
+        title="Menu"
+        icon="arrow-back"
+        back={() => navigation.navigate('Dashboard')}
+      />
       <View style={styles.menuContainer}>
         <FlatList
           data={menuItems}

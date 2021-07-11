@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import DashboardStack from './DashboardStack'
+import BottomTabs from './BottomTabs'
 
 const Drawer = createDrawerNavigator()
 
@@ -14,7 +15,7 @@ export const RootNavigator = ({ updateAuthState, logout }) => {
         {/* <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}> */}
         <Drawer.Screen name="Home">
           {(screenProps) => (
-            <DashboardStack
+            <BottomTabs
               {...screenProps}
               updateAuthState={updateAuthState}
               logout={logout}

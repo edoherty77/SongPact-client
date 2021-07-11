@@ -1,7 +1,5 @@
 export default {
-  // light blue
   primary: '#30BCED',
-  //jet black
   secondary: '#303036',
   tan: '#d8c7c0',
   lttan: '#eae3e3',
@@ -14,4 +12,8 @@ export default {
   black: '#222222',
   background: '#E5E5E5',
   gray: '#BDBDBD',
+  pending: '#F2C94C',
+  archive: '#BDBDBD',
+  action: '#6FCF97',
+  draft: '#ef2314',
 }

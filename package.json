@@ -49,6 +49,7 @@
     "react-native-tab-view": "^3.0.1",
     "react-native-web": "~0.13.12",
     "react-native-webview": "11.2.3",
+    "react-navigation": "^4.4.4",
     "react-query": "^3.17.2",
     "yup": "^0.32.9"
   },

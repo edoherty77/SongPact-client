@@ -5,9 +5,9 @@ import currentUser from '../../stores/UserStore'
 import pactStore from '../../stores/CreatePactStore'
 import sortedPacts from '../../stores/SortedPactStore'
 import colors from '../../config/colors'
+import AppSearchInput from '../AppSearchInput'
 
 const Action = ({ navigation }) => {
-  console.log('aaactiooon', sortedPacts.action)
   const reviewPact = (pact) => {
     pactStore.setPact(pact)
     navigation.navigate('ReviewData')
@@ -15,7 +15,12 @@ const Action = ({ navigation }) => {
 
   return (
     <View style={styles.mainView}>
+      {/* <AppSearchInput /> */}
       <FlatList
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          marginTop: 82,
+        }}
         data={sortedPacts.action}
         keyExtractor={(item) => item._id}
         renderItem={({ item, index }) => (
@@ -24,7 +29,7 @@ const Action = ({ navigation }) => {
             type={item.type}
             title={item.recordTitle}
             name={item.initBy.name}
-            status={item.status === 1 && 'Needs Action'}
+            status={colors.action}
           />
         )}
       />
@@ -36,7 +41,7 @@ const styles = StyleSheet.create({
   mainView: {
     // display: 'flex',
     // padding: 20,
-    // flex: 1,
+    flex: 1,
     marginHorizontal: 20,
     backgroundColor: colors.background,
   },
