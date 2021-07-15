@@ -17,7 +17,6 @@ import {
   RecordInfo,
   ReviewData,
   ReviewContract,
-  SignContract,
 } from '../views/CreatePact/index'
 
 // STORE
@@ -115,19 +114,6 @@ const CreatePactStack = ({ updateAuthState, logout }) => {
             <Header
               title="Create New Pact"
               subTitle="Review Contract"
-              {...props}
-            />
-          ),
-        })}
-      />
-      <Stack.Screen
-        name="SignContract"
-        component={SignContract}
-        options={({ navigation, route }) => ({
-          header: (props) => (
-            <Header
-              title="Create New Pact"
-              subTitle="Sign Contract"
               {...props}
             />
           ),
