@@ -3,7 +3,6 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 // SCREENS
 import ReviewData from '../views/ReviewPact/ReviewData'
-import SignContract from '../views/ReviewPact/SignContract'
 import ReviewContract from '../views/ReviewPact/ReviewContract'
 import DashboardScreen from '../views/Main/DashboardScreen'
 
@@ -37,13 +36,6 @@ export default function DashboardStack({ updateAuthState, logout }) {
         component={ReviewContract}
         options={({ navigation, route }) => ({
           header: (props) => <Header {...props} title="Sign" />,
-        })}
-      />
-      <Stack.Screen
-        name="SignContract"
-        component={SignContract}
-        options={({ navigation, route }) => ({
-          header: (props) => <Header {...props} />,
         })}
       />
       <Stack.Screen name="Menu">
