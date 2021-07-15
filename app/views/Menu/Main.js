@@ -1,4 +1,3 @@
-import { Auth } from 'aws-amplify'
 import React from 'react'
 import { StyleSheet, FlatList, View, TouchableOpacity } from 'react-native'
 import Header from '../../components/Header'
