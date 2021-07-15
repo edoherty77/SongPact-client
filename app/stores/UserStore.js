@@ -7,6 +7,7 @@ class UserStore {
   companyName = ''
   address = ''
   city = ''
+  phoneNumber = ''
   state = ''
   zipCode = ''
   email = ''

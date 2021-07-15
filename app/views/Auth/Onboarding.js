@@ -38,24 +38,37 @@ const Onboarding = ({ navigation, route }) => {
     navigation.navigate('SignIn')
   }
 
-  const updateUser = (values) => {
-    console.log('values', values)
-    let address
-    if (values.apartment !== '') {
-      address = values.address.concat(' ', values.apartment)
+  const updateUser = async (values) => {
+    try {
+      let address
+      let googlePhotoUrl
+      if (user.googlePhotoUrl) {
+        googlePhotoUrl = user.googlePhotoUrl
+      } else {
+        googlePhotoUrl = ''
+      }
+      if (values.apartment !== '') {
+        address = values.address.concat(' ', values.apartment)
+      }
+      const obj = {
+        name: user.name,
+        email: user.email,
+        artistName: values.artistName,
+        address: address,
+        city: values.city,
+        state: values.state,
+        zipCode: parseInt(values.zipCode),
+        companyName: values.companyName,
+        phoneNumber: parseInt(values.phoneNumber),
+        googlePhotoUrl: googlePhotoUrl,
+      }
+      await UserModel.update(obj)
+      await AsyncStorage.setItem('email', user.email)
+      await AsyncStorage.setItem('userId', user._id)
+      await currentUser.setUser(obj)
+    } catch (error) {
+      console.log(error)
     }
-    const obj = {
-      name: user.name,
-      email: user.email,
-      artistName: values.artistName,
-      address: address,
-      city: values.city,
-      state: values.state,
-      zipCode: values.zipCode,
-      companyName: values.companyName,
-      phoneNumber: values.phoneNumber,
-    }
-    console.log('obj', obj)
   }
   return (
     <Screen>
@@ -148,6 +161,14 @@ const Onboarding = ({ navigation, route }) => {
           <AppFormField
             style={styles.input}
             name="zipCode"
+            autoCapitalize="none"
+            textContentType="password"
+            autoCorrect={false}
+          />
+          <AppText style={styles.inputTitle}>Phone Number</AppText>
+          <AppFormField
+            style={styles.input}
+            name="phoneNumber"
             autoCapitalize="none"
             textContentType="password"
             autoCorrect={false}
