@@ -6,130 +6,159 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Keyboard,
+  ScrollView,
 } from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
+// MODEL
 import UserModel from '../../api/users'
-import AuthModel from '../../api/auth'
-// import AsyncStorage from '@react-native-community/async-storage'
+
+// STORAGE
 import AsyncStorage from '@react-native-async-storage/async-storage'
+
+// COMPONENTS
 import Screen from '../../components/Screen'
 import AppTextInput from '../../components/AppTextInput'
 import AppButton from '../../components/AppButton'
-import SocialMediaBtn from '../../components/SocialMediaBtn'
 import AppText from '../../components/AppText'
-import Header from '../../components/Header'
-import colors from '../../config/colors'
-import CurrentUser from '../../stores/UserStore'
-import * as Google from 'expo-google-app-auth'
-import * as Facebook from 'expo-facebook'
 
-const Onboarding = ({ navigation, updateAuthState }) => {
+// CONFIG
+import colors from '../../config/colors'
+
+// STORE
+import currentUser from '../../stores/UserStore'
+
+// FORMS
+import { AppForm, AppFormField, SubmitButton } from '../../components/forms'
+
+const Onboarding = ({ navigation, route }) => {
+  const { user } = route.params
+
+  const toLogin = () => {
+    navigation.navigate('SignIn')
+  }
+
+  const updateUser = (values) => {
+    console.log('values', values)
+    let address
+    if (values.apartment !== '') {
+      address = values.address.concat(' ', values.apartment)
+    }
+    const obj = {
+      name: user.name,
+      email: user.email,
+      artistName: values.artistName,
+      address: address,
+      city: values.city,
+      state: values.state,
+      zipCode: values.zipCode,
+      companyName: values.companyName,
+      phoneNumber: values.phoneNumber,
+    }
+    console.log('obj', obj)
+  }
   return (
     <Screen>
-      <View style={styles.mainContainer}>
+      <ScrollView
+        style={styles.mainContainer}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={styles.messageContainer}>
-          <AppText style={styles.messageTitle}>Welcome to SongPact!</AppText>
+          <AppText style={styles.messageTitle}>Welcome to SongPact</AppText>
           <AppText style={styles.message}>
             First thing's first, we need a bit more information before you begin
             creating your first pact
           </AppText>
-          <AppText style={styles.optOut}>I'll do this later</AppText>
-        </View>
-        <KeyboardAvoidingView
-          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-          style={styles.container}
-        >
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.signInContainer}>
-              <AppText style={styles.inputTitle}>Artist Name</AppText>
-              <AppTextInput
-                style={styles.input}
-                // value={password}
-                onChangeText={(text) => setPassword(text)}
-                autoCapitalize="none"
-                textContentType="password"
-                autoCorrect={false}
-              />
-              <AppText style={styles.inputTitle}>
-                Company Name (optional)
-              </AppText>
-              <AppTextInput
-                style={styles.input}
-                // value={password}
-                onChangeText={(text) => setPassword(text)}
-                autoCapitalize="none"
-                textContentType="password"
-                autoCorrect={false}
-              />
-              <AppText style={styles.inputTitle}>Address</AppText>
-              <AppTextInput
-                style={styles.input}
-                // value={password}
-                onChangeText={(text) => setPassword(text)}
-                autoCapitalize="none"
-                textContentType="password"
-                autoCorrect={false}
-              />
-              <AppText style={styles.inputTitle}>
-                Apartment, suite, etc. (optional)
-              </AppText>
-              <AppTextInput
-                style={styles.input}
-                // value={password}
-                onChangeText={(text) => setPassword(text)}
-                autoCapitalize="none"
-                textContentType="password"
-                autoCorrect={false}
-              />
-              <AppText style={styles.inputTitle}>City</AppText>
-              <AppTextInput
-                style={styles.input}
-                // value={password}
-                onChangeText={(text) => setPassword(text)}
-                autoCapitalize="none"
-                textContentType="password"
-                autoCorrect={false}
-              />
-              <AppText style={styles.inputTitle}>State</AppText>
-              <AppTextInput
-                style={styles.input}
-                // value={password}
-                onChangeText={(text) => setPassword(text)}
-                autoCapitalize="none"
-                textContentType="password"
-                autoCorrect={false}
-              />
-              <AppText style={styles.inputTitle}>Zip Code</AppText>
-              <AppTextInput
-                style={styles.input}
-                // value={password}
-                onChangeText={(text) => setPassword(text)}
-                autoCapitalize="none"
-                textContentType="password"
-                autoCorrect={false}
-              />
-
-              <AppButton
-                title="Next"
-                // onPress={signIn}
-                textColor={colors.white}
-                style={styles.loginButton}
-              />
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-        <View style={styles.footer}>
-          <AppText style={styles.footertext}>
-            Don't have an accout?{' '}
-            <AppText
-              style={styles.textBtn}
-              onPress={() => navigation.navigate('Onboarding')}
-            >
-              Sign Up
+          <View style={styles.doLater}>
+            <AppText color="rgba(34, 34, 34, 0.4)" onPress={toLogin}>
+              I'll do this later
             </AppText>
-          </AppText>
+            <MaterialCommunityIcons
+              name="arrow-right"
+              size={18}
+              color="rgba(34, 34, 34, 0.4)"
+              style={{ paddingLeft: 5 }}
+            />
+          </View>
         </View>
-      </View>
+        <AppForm
+          initialValues={{
+            artistName: '',
+            address: '',
+            apartment: '',
+            city: '',
+            state: '',
+            zipCode: '',
+            companyName: '',
+            phoneNumber: '',
+          }}
+          onSubmit={(values) => updateUser(values)}
+        >
+          <AppText style={styles.inputTitle}>Artist Name</AppText>
+          <AppFormField
+            style={styles.input}
+            name="artistName"
+            autoCapitalize="none"
+            textContentType="password"
+            autoCorrect={false}
+          />
+          <AppText style={styles.inputTitle}>Company Name (optional)</AppText>
+          <AppFormField
+            style={styles.input}
+            name="companyName"
+            autoCapitalize="none"
+            textContentType="password"
+            autoCorrect={false}
+          />
+          <AppText style={styles.inputTitle}>Address</AppText>
+          <AppFormField
+            style={styles.input}
+            name="address"
+            autoCapitalize="none"
+            textContentType="password"
+            autoCorrect={false}
+          />
+          <AppText style={styles.inputTitle}>
+            Apartment, suite, etc. (optional)
+          </AppText>
+          <AppFormField
+            style={styles.input}
+            name="apartment"
+            autoCapitalize="none"
+            textContentType="password"
+            autoCorrect={false}
+          />
+          <AppText style={styles.inputTitle}>City</AppText>
+          <AppFormField
+            style={styles.input}
+            name="city"
+            autoCapitalize="none"
+            textContentType="password"
+            autoCorrect={false}
+          />
+          <AppText style={styles.inputTitle}>State</AppText>
+          <AppFormField
+            style={styles.input}
+            name="state"
+            autoCapitalize="none"
+            textContentType="password"
+            autoCorrect={false}
+          />
+          <AppText style={styles.inputTitle}>Zip Code</AppText>
+          <AppFormField
+            style={styles.input}
+            name="zipCode"
+            autoCapitalize="none"
+            textContentType="password"
+            autoCorrect={false}
+          />
+          <SubmitButton
+            title="Next"
+            textColor={colors.white}
+            style={styles.submitButton}
+          />
+        </AppForm>
+      </ScrollView>
     </Screen>
   )
 }
@@ -141,12 +170,11 @@ const styles = StyleSheet.create({
     padding: 30,
     flex: 1,
     display: 'flex',
-    // justifyContent: 'center'
   },
   messageContainer: {
     alignItems: 'center',
     marginBottom: 30,
-    marginTop: 50,
+    marginTop: 20,
   },
   messageTitle: {
     fontSize: 25,
@@ -159,14 +187,17 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 10,
   },
-  optOut: {},
+  doLater: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   input: {
     width: '100%',
     backgroundColor: colors.white,
     borderColor: colors.black,
     borderWidth: 1,
     fontSize: 18,
-    height: 50,
     paddingLeft: 20,
     borderRadius: 7,
     marginBottom: 5,
@@ -174,40 +205,15 @@ const styles = StyleSheet.create({
   forgot: {
     color: 'rgba(0, 0, 0, 0.54)',
   },
-  loginButton: {
-    marginTop: 40,
+  submitButton: {
+    marginTop: 20,
+    marginBottom: 50,
     borderRadius: 7,
     height: 50,
     color: 'white',
     backgroundColor: colors.green,
-    width: '100%',
-  },
-  socialContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
-  },
-  socialText: {
-    marginTop: 40,
-    marginBottom: 20,
-    fontSize: 18,
-  },
-  socialBtns: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
-
-  footer: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    marginBottom: 40,
-    alignItems: 'center',
-    flex: 1,
-  },
-  footertext: {
-    fontSize: 16,
+    width: '30%',
+    alignSelf: 'flex-end',
   },
   textBtn: {
     fontWeight: 'bold',

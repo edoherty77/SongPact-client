@@ -36,7 +36,7 @@ const SignUp = ({ navigation }) => {
   const register = async (values) => {
     try {
       await AuthModel.register(values)
-      navigation.navigate('SignIn')
+      navigation.navigate('Onboarding', { user: values })
     } catch (error) {
       console.log('❌ Error signing up...', error)
     }
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
-    height: 100,
+    // height: 50,
     backgroundColor: colors.white,
     borderColor: colors.black,
     borderWidth: 1,

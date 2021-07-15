@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { StyleSheet, TouchableOpacity, View, TextInput } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import NativeModal from 'react-native-modal'
-import Signature from 'react-native-signature-canvas'
 
 // COMPONENTS
 import AppText from './AppText'
@@ -18,14 +17,17 @@ export default function SignatureModal({
   setVisible,
   confirmSignature,
   email,
+  sig,
+  setSig,
 }) {
-  const [sig, setSig] = useState('')
   return (
     <NativeModal
       style={styles.modal}
       hasBackdrop={true}
       isVisible={isVisible}
-      onBackdropPress={() => setVisible(false)}
+      onBackdropPress={() => {
+        setVisible(false), setSig('')
+      }}
     >
       <View style={styles.mainView}>
         <View style={styles.headerView}>
@@ -72,12 +74,16 @@ export default function SignatureModal({
             textColor="white"
             title="Confirm Signature"
             style={styles.btn}
-            onPress={() => setVisible(true)}
+            onPress={() => confirmSignature(sig)}
           />
         </View>
       </View>
       <View style={styles.closeView}>
-        <TouchableOpacity onPress={confirmSignature}>
+        <TouchableOpacity
+          onPress={() => {
+            setVisible(false), setSig('')
+          }}
+        >
           <MaterialCommunityIcons name="close" size={22} color="black" />
         </TouchableOpacity>
       </View>
@@ -113,7 +119,6 @@ const styles = StyleSheet.create({
   bodyHeader: {
     marginVertical: 20,
     fontWeight: '600',
-    // textAlign: 'center',
   },
   inputView: {
     paddingBottom: 5,

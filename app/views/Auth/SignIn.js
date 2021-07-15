@@ -30,7 +30,13 @@ const SignIn = ({ navigation }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const checkForFriends = async () => {
+  async function toOnboarding(user) {
+    navigation.navigate('Onboarding', {
+      user: user,
+    })
+  }
+
+  async function checkForFriends() {
     let friends = currentUser.friends
     let arr = []
     try {
@@ -47,7 +53,7 @@ const SignIn = ({ navigation }) => {
     }
   }
 
-  const fetchRequests = async () => {
+  async function fetchRequests() {
     let arr = []
     try {
       const response = await FriendRequestModel.all(currentUser._id)
@@ -98,9 +104,9 @@ const SignIn = ({ navigation }) => {
       const dbUser = await UserModel.show(email)
       const foundUser = await AuthModel.login(userData)
       if (foundUser) {
+        await currentUser.setUser(dbUser.user)
         await AsyncStorage.setItem('email', foundUser.user.email)
         await AsyncStorage.setItem('userId', foundUser.user._id)
-        await currentUser.setUser(dbUser.user)
         await checkForFriends()
         await fetchRequests()
         await sortPacts(email)
@@ -162,6 +168,7 @@ const SignIn = ({ navigation }) => {
                   checkForFriends={checkForFriends}
                   fetchRequests={fetchRequests}
                   sortPacts={sortPacts}
+                  toOnboarding={toOnboarding}
                 />
               </View>
             </View>

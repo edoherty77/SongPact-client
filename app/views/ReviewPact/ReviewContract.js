@@ -1,24 +1,28 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-
-import colors from '../../config/colors'
-import Screen from '../../components/Screen'
-import AppText from '../../components/AppText'
-import Header from '../../components/Header'
-import AppButton from '../../components/AppButton'
-import ButtonIcon from '../../components/ButtonIcon'
-import ConfirmModal from '../../components/ConfirmModal'
-import PactModel from '../../api/pacts'
-import currentPact from '../../stores/CreatePactStore'
-import currentUser from '../../stores/UserStore'
+import { WebView } from 'react-native-webview'
+import moment from 'moment'
 import * as Print from 'expo-print'
 import * as MailComposer from 'expo-mail-composer'
-import { WebView } from 'react-native-webview'
-import PDF from './PDF'
-import moment from 'moment'
 
-export default function ReviewAndSign({ navigation }) {
-  const [isModalVisible, setModalVisible] = useState(false)
+// CONFIG
+import colors from '../../config/colors'
+
+// COMPONENTS
+import Screen from '../../components/Screen'
+import AppButton from '../../components/AppButton'
+import Separator from '../../components/Separator'
+import AppProgressBar from '../../components/AppProgressBar'
+import SignatureModal from '../../components/SignatureModal'
+
+// MODELS
+import PactModel from '../../api/pacts'
+
+// STORE
+import currentPact from '../../stores/CreatePactStore'
+import currentUser from '../../stores/UserStore'
+
+export default function ReviewContract({ navigation }) {
   const htmlObj = {
     date: moment().format('MMMM Do YYYY'),
     perfAddress: [],
@@ -833,31 +837,58 @@ export default function ReviewAndSign({ navigation }) {
     }
   }
 
-  const goToSignatureScreen = () => {
-    navigation.navigate('SignContract', {
-      pact: currentPact,
-      acceptPact: acceptPact,
-    })
+  const confirmSignature = (signature) => {
+    console.log(signature)
+    currentPact.setSignature(signature, currentUser)
+    setSigned(true)
+    setVisible(false)
   }
+
+  const [isVisible, setVisible] = useState(false)
+  const [isSigned, setSigned] = useState(false)
+  const [sig, setSig] = useState('')
 
   return (
     <Screen>
-      <Header
-        back={() => navigation.navigate('ReviewData')}
-        icon="arrow-back"
-        title="Sign"
-      />
-      <WebView
-        originWhitelist={['*']}
-        source={{
-          html: generateHTML(htmlObj),
-        }}
-      />
-      <View style={styles.footer}>
-        <AppButton
-          title="Sign Contract"
-          style={styles.nextButton}
-          onPress={goToSignatureScreen}
+      <View style={styles.mainView}>
+        <View style={styles.btnView}>
+          <AppButton
+            textColor="white"
+            title="More Options"
+            style={styles.btnSecondary}
+            // onPress={nextScreen}
+          />
+          {isSigned === false ? (
+            <AppButton
+              textColor="white"
+              title="Sign Pact"
+              style={styles.btnPrimary}
+              onPress={() => setVisible(true)}
+            />
+          ) : (
+            <AppButton
+              textColor="white"
+              title="Send Pact"
+              style={styles.btnPrimary}
+              onPress={() => acceptPact(sig)}
+            />
+          )}
+        </View>
+        <WebView
+          style={styles.contract}
+          originWhitelist={['*']}
+          source={{
+            html: generateHTML(htmlObj),
+          }}
+        />
+        <SignatureModal
+          isVisible={isVisible}
+          setVisible={setVisible}
+          confirmSignature={confirmSignature}
+          name={currentUser.name}
+          email={currentUser.email}
+          sig={sig}
+          setSig={setSig}
         />
       </View>
     </Screen>
@@ -865,22 +896,36 @@ export default function ReviewAndSign({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  footer: {
-    justifyContent: 'center',
+  mainView: {
+    flex: 1,
+    marginHorizontal: 20,
+  },
+  btnView: {
+    display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
     width: '100%',
+    justifyContent: 'flex-end',
+    marginHorizontal: 'auto',
+    marginVertical: 20,
   },
-  iconView: {
-    position: 'absolute',
-    right: 10,
-    bottom: 10,
-  },
-  nextButton: {
-    marginBottom: 10,
-    borderRadius: 50,
+  btnSecondary: {
+    borderRadius: 5,
     height: 45,
-    backgroundColor: colors.red,
-    width: '50%',
+    backgroundColor: 'rgba(73, 78, 107, 0.3)',
+    width: '40%',
+  },
+  btnPrimary: {
+    marginLeft: 15,
+    width: '30%',
+    borderRadius: 5,
+    height: 45,
+    backgroundColor: colors.green,
+  },
+  contract: {
+    borderColor: 'black',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderRadius: 10,
+    flex: 1,
   },
 })

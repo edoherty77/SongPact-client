@@ -7,6 +7,7 @@ import colors from '../../config/colors'
 const SubmitButton = ({
   title,
   style,
+  width,
   dismissKey,
   mode,
   onPress,
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 45,
     backgroundColor: colors.green,
-    width: '100%',
+    // width: '100%',
   },
 })
 
