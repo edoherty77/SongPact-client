@@ -13,7 +13,6 @@ import * as Google from 'expo-google-app-auth'
 // NAV
 import AuthNavigator from './app/navigation/AuthNavigator'
 import Main from './app/navigation/main'
-import Home from './app/views/Main/HomeScreen'
 
 // DATA FLOW
 import currentUser from './app/stores/UserStore'

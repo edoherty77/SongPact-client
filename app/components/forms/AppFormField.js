@@ -11,7 +11,7 @@ const AppFormField = ({
   editable,
   style,
   selectTextOnFocus,
-  ...props
+  ...otherProps
 }) => {
   const { setFieldTouched, handleChange, errors, touched } = useFormikContext()
 
@@ -29,7 +29,7 @@ const AppFormField = ({
         onChangeText={handleChange(name)}
         width={width}
         height={height}
-        {...props}
+        {...otherProps}
         onBlur={() => setFieldTouched(name)}
       />
       <ErrorMessage error={errors[name]} visible={touched[name]} />

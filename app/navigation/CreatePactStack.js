@@ -8,6 +8,7 @@ import MenuStack from './MenuStack'
 import Header from '../components/Header'
 
 // SCREENS
+import Onboarding from '../views/Auth/Onboarding'
 import New from '../views/Main/NewSongPactScreen'
 import {
   Collabs,
@@ -19,11 +20,27 @@ import {
   SignContract,
 } from '../views/CreatePact/index'
 
+// STORE
+import currentUser from '../stores/UserStore'
+
 const Stack = createStackNavigator()
 
 const CreatePactStack = ({ updateAuthState, logout }) => {
   return (
-    <Stack.Navigator headerMode="screen">
+    <Stack.Navigator
+      headerMode="screen"
+      initialRouteName={
+        currentUser.artistName !== undefined ? 'New' : 'Onboarding'
+      }
+    >
+      <Stack.Screen
+        name="Onboarding"
+        options={({ navigation, route }) => ({
+          header: (props) => <Header title="" noBack {...props} />,
+        })}
+        component={Onboarding}
+        initialParams={{ user: currentUser, status: 'signed in' }}
+      />
       <Stack.Screen
         name="New"
         component={New}

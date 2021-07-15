@@ -1,7 +1,8 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
-import Home from '../views/Main/HomeScreen'
+
+// SCREENS
 import SignIn from '../views/Auth/SignIn'
 import SignUp from '../views/Auth/SignUp'
 import Onboarding from '../views/Auth/Onboarding'
@@ -12,7 +13,6 @@ const AuthNavigator = (props) => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* <Stack.Screen name="Home">{(screenProps) => <Home />}</Stack.Screen> */}
         <Stack.Screen name="SignIn">
           {(screenProps) => (
             <SignIn {...screenProps} updateAuthState={props.updateAuthState} />

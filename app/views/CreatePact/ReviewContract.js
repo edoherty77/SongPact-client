@@ -1,26 +1,28 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-
-import colors from '../../config/colors'
-import Screen from '../../components/Screen'
-import AppText from '../../components/AppText'
-import Header from '../../components/Header'
-import AppButton from '../../components/AppButton'
-import ButtonIcon from '../../components/ButtonIcon'
-import ConfirmModal from '../../components/ConfirmModal'
-import Separator from '../../components/Separator'
-import AppProgressBar from '../../components/AppProgressBar'
-import PactModel from '../../api/pacts'
-import pact from '../../stores/CreatePactStore'
-import currentUser from '../../stores/UserStore'
+import { WebView } from 'react-native-webview'
+import moment from 'moment'
 import * as Print from 'expo-print'
 import * as MailComposer from 'expo-mail-composer'
-import { WebView } from 'react-native-webview'
-// import PDF from './PDF'
-import moment from 'moment'
+
+// CONFIG
+import colors from '../../config/colors'
+
+// COMPONENTS
+import Screen from '../../components/Screen'
+import AppButton from '../../components/AppButton'
+import Separator from '../../components/Separator'
+import AppProgressBar from '../../components/AppProgressBar'
+import SignatureModal from '../../components/SignatureModal'
+
+// MODELS
+import PactModel from '../../api/pacts'
+
+// STORE
+import pact from '../../stores/CreatePactStore'
+import currentUser from '../../stores/UserStore'
 
 export default function ReviewContract({ navigation }) {
-  const [isModalVisible, setModalVisible] = useState(false)
   const htmlObj = {
     date: moment().format('MMMM Do YYYY'),
     perfAddress: [],
@@ -60,12 +62,13 @@ export default function ReviewContract({ navigation }) {
         <div>“${performer.artistName}”</div>
       </div>
       `
+
     let perfSig = /*html*/ `
-      <img class='signature-img' src="${performer.signatureImg}"/>
+      <p class='signature-img'>${performer.signatureImg}</p>
     `
 
     let prodSig = /*html*/ `
-      <img class='signature-img' src="${pact.producer.signatureImg}"/>
+      <p class='signature-img'>${pact.producer.signatureImg}</p>
     `
 
     htmlObj.perfAddress.push(performerAddress)
@@ -151,13 +154,10 @@ export default function ReviewContract({ navigation }) {
           }
   
           .signature-img {
-            display: flex;
-            width: 130px;
-            height: 50px;
-            /* border: none; */
-            outline: none;
-            text-decoration: none;
-            border-bottom: 1px black solid
+            padding: 0;
+            margin: 0;
+            margin-left: 5;
+            font-family: 'Baskerville-SemiBoldItalic'
           }
 
           .div {
@@ -792,7 +792,6 @@ export default function ReviewContract({ navigation }) {
   const createPact = async (signature) => {
     let performArr = []
     try {
-      pact.setSignature(signature, currentUser)
       pact.performers.map((performer) => {
         let obj = {}
         obj['user'] = performer._id
@@ -835,13 +834,13 @@ export default function ReviewContract({ navigation }) {
     if (currentUser._id === pact.producer.user) {
       htmlObj.prodSignature.length = 0
       let newProd = /*html*/ `
-        <img class='signature-img' src="${signature}"/>
+        <p class='signature-img'>${signature}</p>
       `
       htmlObj.prodSignature.push(newProd)
     } else {
       htmlObj.perfSignature.length = 0
       let newPerf = /*html*/ `
-        <img class='signature-img' src="${signature}"/>
+        <p class='signature-img'>${signature}</p>
       `
       htmlObj.perfSignature.push(newPerf)
     }
@@ -861,12 +860,16 @@ export default function ReviewContract({ navigation }) {
     }
   }
 
-  const goToSignatureScreen = () => {
-    navigation.navigate('SignContract', {
-      pact: pact,
-      createPact: createPact,
-    })
+  const confirmSignature = (signature) => {
+    console.log(signature)
+    pact.setSignature(signature, currentUser)
+    setSigned(true)
+    setVisible(false)
   }
+
+  const [isVisible, setVisible] = useState(false)
+  const [isSigned, setSigned] = useState(false)
+  const [sig, setSig] = useState('')
 
   return (
     <Screen>
@@ -880,12 +883,21 @@ export default function ReviewContract({ navigation }) {
             style={styles.btnSecondary}
             // onPress={nextScreen}
           />
-          <AppButton
-            textColor="white"
-            title="Sign Pact"
-            style={styles.btnPrimary}
-            onPress={goToSignatureScreen}
-          />
+          {isSigned === false ? (
+            <AppButton
+              textColor="white"
+              title="Sign Pact"
+              style={styles.btnPrimary}
+              onPress={() => setVisible(true)}
+            />
+          ) : (
+            <AppButton
+              textColor="white"
+              title="Send Pact"
+              style={styles.btnPrimary}
+              onPress={() => createPact(sig)}
+            />
+          )}
         </View>
         <WebView
           style={styles.contract}
@@ -894,13 +906,16 @@ export default function ReviewContract({ navigation }) {
             html: generateHTML(htmlObj),
           }}
         />
-      </View>
-      {/* <View style={styles.footer}>
-        <AppButton
-          title="Sign Contract"
-          style={styles.nextButton}
+        <SignatureModal
+          isVisible={isVisible}
+          setVisible={setVisible}
+          confirmSignature={confirmSignature}
+          name={currentUser.name}
+          email={currentUser.email}
+          sig={sig}
+          setSig={setSig}
         />
-      </View> */}
+      </View>
     </Screen>
   )
 }
@@ -937,17 +952,5 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderRadius: 10,
     flex: 1,
-  },
-  iconView: {
-    position: 'absolute',
-    right: 10,
-    bottom: 10,
-  },
-  nextButton: {
-    marginBottom: 10,
-    borderRadius: 50,
-    height: 45,
-    backgroundColor: colors.red,
-    width: '50%',
   },
 })

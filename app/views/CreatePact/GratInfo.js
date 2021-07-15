@@ -61,7 +61,7 @@ export default function GratInfo({ navigation }) {
               Producer Info
             </AppText>
             <AppText style={styles.text}>
-              Who is the producer for this pact?
+              Who is the producer for this record?
             </AppText>
             <AppFormSelect
               data={currentPact.users}

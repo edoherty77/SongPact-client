@@ -25,7 +25,6 @@ const ContactsScreen = observer(({ navigation }) => {
   const [toggleList, setToggleList] = useState(false)
   const [toggleSearchBtn, setToggleSearchBtn] = useState(false)
   const [searchValue, setSearchValue] = useState('')
-  const [isModalVisible, setModalVisible] = useState(false)
 
   const findUser = async () => {
     let arr = []

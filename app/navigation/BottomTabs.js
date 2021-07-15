@@ -3,14 +3,15 @@ import { StyleSheet, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-// Stacks
+// STACKS
 import CreatePactStack from './CreatePactStack'
 import ContactStack from './ContactStack'
 import NotificationsStack from './NotificationStack'
 import DashboardStack from './DashboardStack'
 import ChatStack from './ChatStack'
 
-// Screens
+// STORE
+import currentUser from '../stores/UserStore'
 
 // CONFIG
 import colors from '../config/colors'
@@ -44,12 +45,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
         name="Dashboard"
         options={{
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="home"
-              color={color}
-              size={38}
-              backgroundColor="red"
-            />
+            <MaterialCommunityIcons name="home" color={color} size={38} />
           ),
         }}
       >

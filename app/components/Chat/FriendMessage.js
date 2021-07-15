@@ -17,7 +17,7 @@ const FriendMessage = () => {
           style={styles.image}
           fontSize={20}
           color={colors.white}
-          backgroundColor={colors.blue}
+          backgroundColor={colors.black}
         />
       </View>
       <View style={styles.messageText}>
@@ -36,12 +36,12 @@ const styles = StyleSheet.create({
   messageView: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'flex-start',
-    marginVertical: 10,
+    marginVertical: 15,
   },
   iconView: {
-    marginRight: 30,
+    marginRight: 10,
   },
   image: {
     height: 42,
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingHorizontal: 20,
     paddingVertical: 10,
-    borderRadius: 20,
+    borderRadius: 30,
     width: '70%',
   },
   time: {

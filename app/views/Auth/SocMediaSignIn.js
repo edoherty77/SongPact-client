@@ -13,7 +13,12 @@ import UserModel from '../../api/users'
 import * as Google from 'expo-google-app-auth'
 import * as Facebook from 'expo-facebook'
 
-const SocMediaSignIn = ({ checkForFriends, fetchRequests, sortPacts }) => {
+const SocMediaSignIn = ({
+  checkForFriends,
+  fetchRequests,
+  sortPacts,
+  toOnboarding,
+}) => {
   const googleSignIn = async () => {
     const googleConfig = {
       androidClientId:
@@ -47,9 +52,7 @@ const SocMediaSignIn = ({ checkForFriends, fetchRequests, sortPacts }) => {
           await sortPacts(foundUser.user.email)
         } else {
           const newUser = await UserModel.create(user)
-          await AsyncStorage.setItem('email', newUser.data.user.email)
-          await AsyncStorage.setItem('userId', newUser.data.user._id)
-          await currentUser.setUser(newUser.data.user)
+          await toOnboarding(newUser.data.user)
         }
       } else {
         return { cancelled: true }
