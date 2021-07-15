@@ -1,23 +1,26 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-
-import colors from '../../config/colors'
-import Screen from '../../components/Screen'
-import AppText from '../../components/AppText'
-import Header from '../../components/Header'
-import AppButton from '../../components/AppButton'
-import ButtonIcon from '../../components/ButtonIcon'
-import ConfirmModal from '../../components/ConfirmModal'
-import Separator from '../../components/Separator'
-import AppProgressBar from '../../components/AppProgressBar'
-import PactModel from '../../api/pacts'
-import pact from '../../stores/CreatePactStore'
-import currentUser from '../../stores/UserStore'
+import { WebView } from 'react-native-webview'
+import moment from 'moment'
 import * as Print from 'expo-print'
 import * as MailComposer from 'expo-mail-composer'
-import { WebView } from 'react-native-webview'
-// import PDF from './PDF'
-import moment from 'moment'
+
+// CONFIG
+import colors from '../../config/colors'
+
+// COMPONENTS
+import Screen from '../../components/Screen'
+import AppButton from '../../components/AppButton'
+import Separator from '../../components/Separator'
+import AppProgressBar from '../../components/AppProgressBar'
+import SignatureModel from '../../components/SignatureModal'
+
+// MODELS
+import PactModel from '../../api/pacts'
+
+// STORE
+import pact from '../../stores/CreatePactStore'
+import currentUser from '../../stores/UserStore'
 
 export default function ReviewContract({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false)
@@ -861,12 +864,16 @@ export default function ReviewContract({ navigation }) {
     }
   }
 
-  const goToSignatureScreen = () => {
-    navigation.navigate('SignContract', {
-      pact: pact,
-      createPact: createPact,
-    })
+  const confirmSignature = () => {
+    // navigation.navigate('SignContract', {
+    //   pact: pact,
+    //   createPact: createPact,
+    // })
+    setVisible(false)
+    console.log('hey')
   }
+
+  const [isVisible, setVisible] = useState(false)
 
   return (
     <Screen>
@@ -884,7 +891,7 @@ export default function ReviewContract({ navigation }) {
             textColor="white"
             title="Sign Pact"
             style={styles.btnPrimary}
-            onPress={goToSignatureScreen}
+            onPress={() => setVisible(true)}
           />
         </View>
         <WebView
@@ -894,13 +901,14 @@ export default function ReviewContract({ navigation }) {
             html: generateHTML(htmlObj),
           }}
         />
-      </View>
-      {/* <View style={styles.footer}>
-        <AppButton
-          title="Sign Contract"
-          style={styles.nextButton}
+        <SignatureModel
+          isVisible={isVisible}
+          setVisible={setVisible}
+          confirmSignature={confirmSignature}
+          name={currentUser.name}
+          email={currentUser.email}
         />
-      </View> */}
+      </View>
     </Screen>
   )
 }

@@ -21,7 +21,7 @@ const ContactButton = ({ onPress, item, noIcon, viewProfile }) => {
               style={styles.image}
               fontSize={20}
               color={colors.white}
-              backgroundColor={colors.blue}
+              backgroundColor={colors.black}
             />
           )}
         </View>

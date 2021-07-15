@@ -23,7 +23,7 @@ const OwnMessage = () => {
           style={styles.image}
           fontSize={20}
           color={colors.white}
-          backgroundColor={colors.blue}
+          backgroundColor={colors.black}
         />
       </View>
       <View style={styles.time}>
@@ -39,12 +39,12 @@ const styles = StyleSheet.create({
   messageView: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'flex-end',
-    marginVertical: 10,
+    marginVertical: 15,
   },
   iconView: {
-    marginLeft: 30,
+    marginLeft: 10,
   },
   image: {
     height: 42,
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.green,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    borderRadius: 20,
+    borderRadius: 30,
     width: '70%',
   },
   time: {
