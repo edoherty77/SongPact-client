@@ -33,6 +33,7 @@ const SignIn = ({ navigation }) => {
   async function toOnboarding(user) {
     navigation.navigate('Onboarding', {
       user: user,
+      status: 'signing up',
     })
   }
 

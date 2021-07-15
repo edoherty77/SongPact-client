@@ -53,9 +53,6 @@ const SocMediaSignIn = ({
         } else {
           const newUser = await UserModel.create(user)
           await toOnboarding(newUser.data.user)
-          // await AsyncStorage.setItem('email', newUser.data.user.email)
-          // await AsyncStorage.setItem('userId', newUser.data.user._id)
-          // await currentUser.setUser(newUser.data.user)
         }
       } else {
         return { cancelled: true }

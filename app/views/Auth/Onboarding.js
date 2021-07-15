@@ -32,13 +32,14 @@ import currentUser from '../../stores/UserStore'
 import { AppForm, AppFormField, SubmitButton } from '../../components/forms'
 
 const Onboarding = ({ navigation, route }) => {
-  const { user } = route.params
+  const { user, status } = route.params
 
   const toLogin = () => {
     navigation.navigate('SignIn')
   }
 
   const updateUser = async (values) => {
+    console.log('user', user)
     try {
       let address
       let googlePhotoUrl
@@ -61,11 +62,17 @@ const Onboarding = ({ navigation, route }) => {
         companyName: values.companyName,
         phoneNumber: parseInt(values.phoneNumber),
         googlePhotoUrl: googlePhotoUrl,
+        friends: [],
       }
       await UserModel.update(obj)
-      await AsyncStorage.setItem('email', user.email)
-      await AsyncStorage.setItem('userId', user._id)
-      await currentUser.setUser(obj)
+      if (status === 'signing up') {
+        await AsyncStorage.setItem('email', user.email)
+        await AsyncStorage.setItem('userId', user.email)
+        await currentUser.setUser(obj)
+      } else {
+        await currentUser.setUser(obj)
+        navigation.navigate('New')
+      }
     } catch (error) {
       console.log(error)
     }
@@ -76,24 +83,34 @@ const Onboarding = ({ navigation, route }) => {
         style={styles.mainContainer}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.messageContainer}>
-          <AppText style={styles.messageTitle}>Welcome to SongPact</AppText>
-          <AppText style={styles.message}>
-            First thing's first, we need a bit more information before you begin
-            creating your first pact
-          </AppText>
-          <View style={styles.doLater}>
-            <AppText color="rgba(34, 34, 34, 0.4)" onPress={toLogin}>
-              I'll do this later
+        {status === 'signing up' ? (
+          <View style={styles.messageContainer}>
+            <AppText style={styles.messageTitle}>Welcome to SongPact</AppText>
+            <AppText style={styles.message}>
+              First thing's first, we need a bit more information before you
+              begin creating your first pact
             </AppText>
-            <MaterialCommunityIcons
-              name="arrow-right"
-              size={18}
-              color="rgba(34, 34, 34, 0.4)"
-              style={{ paddingLeft: 5 }}
-            />
+            <View style={styles.doLater}>
+              <AppText color="rgba(34, 34, 34, 0.4)" onPress={toLogin}>
+                I'll do this later
+              </AppText>
+              <MaterialCommunityIcons
+                name="arrow-right"
+                size={18}
+                color="rgba(34, 34, 34, 0.4)"
+                style={{ paddingLeft: 5 }}
+              />
+            </View>
           </View>
-        </View>
+        ) : (
+          <View style={styles.signedInContainer}>
+            <AppText style={styles.messageTitle}>Hi {user.name}</AppText>
+            <AppText style={styles.message}>
+              We need a bit more information before you begin creating your
+              first pact.
+            </AppText>
+          </View>
+        )}
         <AppForm
           initialValues={{
             artistName: '',
@@ -111,25 +128,28 @@ const Onboarding = ({ navigation, route }) => {
           <AppFormField
             style={styles.input}
             name="artistName"
-            autoCapitalize="none"
+            autoCapitalize="words"
             textContentType="password"
             autoCorrect={false}
+            returnKeyType="done"
           />
           <AppText style={styles.inputTitle}>Company Name (optional)</AppText>
           <AppFormField
             style={styles.input}
             name="companyName"
-            autoCapitalize="none"
             textContentType="password"
             autoCorrect={false}
+            autoCapitalize="words"
+            returnKeyType="done"
           />
           <AppText style={styles.inputTitle}>Address</AppText>
           <AppFormField
             style={styles.input}
             name="address"
-            autoCapitalize="none"
+            autoCapitalize="words"
             textContentType="password"
             autoCorrect={false}
+            returnKeyType="done"
           />
           <AppText style={styles.inputTitle}>
             Apartment, suite, etc. (optional)
@@ -137,41 +157,47 @@ const Onboarding = ({ navigation, route }) => {
           <AppFormField
             style={styles.input}
             name="apartment"
-            autoCapitalize="none"
+            autoCapitalize="words"
             textContentType="password"
             autoCorrect={false}
+            returnKeyType="done"
           />
           <AppText style={styles.inputTitle}>City</AppText>
           <AppFormField
             style={styles.input}
             name="city"
-            autoCapitalize="none"
+            autoCapitalize="words"
             textContentType="password"
             autoCorrect={false}
+            returnKeyType="done"
           />
           <AppText style={styles.inputTitle}>State</AppText>
           <AppFormField
             style={styles.input}
             name="state"
-            autoCapitalize="none"
+            autoCapitalize="words"
             textContentType="password"
             autoCorrect={false}
+            returnKeyType="done"
           />
           <AppText style={styles.inputTitle}>Zip Code</AppText>
           <AppFormField
             style={styles.input}
             name="zipCode"
-            autoCapitalize="none"
+            autoCapitalize="words"
             textContentType="password"
             autoCorrect={false}
+            keyboardType="number-pad"
+            returnKeyType="done"
           />
           <AppText style={styles.inputTitle}>Phone Number</AppText>
           <AppFormField
             style={styles.input}
             name="phoneNumber"
-            autoCapitalize="none"
+            autoCapitalize="words"
             textContentType="password"
-            autoCorrect={false}
+            keyboardType="number-pad"
+            returnKeyType="done"
           />
           <SubmitButton
             title="Next"
@@ -196,6 +222,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 30,
     marginTop: 20,
+  },
+  signedInContainer: {
+    alignItems: 'center',
+    marginBottom: 30,
   },
   messageTitle: {
     fontSize: 25,

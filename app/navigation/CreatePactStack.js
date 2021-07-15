@@ -36,11 +36,10 @@ const CreatePactStack = ({ updateAuthState, logout }) => {
       <Stack.Screen
         name="Onboarding"
         options={({ navigation, route }) => ({
-          header: (props) => (
-            <Header title="Welcome to SongPact!" noBack {...props} />
-          ),
+          header: (props) => <Header title="" noBack {...props} />,
         })}
         component={Onboarding}
+        initialParams={{ user: currentUser, status: 'signed in' }}
       />
       <Stack.Screen
         name="New"

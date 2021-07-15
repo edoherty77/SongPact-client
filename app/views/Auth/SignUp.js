@@ -36,7 +36,7 @@ const SignUp = ({ navigation }) => {
   const register = async (values) => {
     try {
       await AuthModel.register(values)
-      navigation.navigate('Onboarding', { user: values })
+      navigation.navigate('Onboarding', { user: values, status: 'signing up' })
     } catch (error) {
       console.log('❌ Error signing up...', error)
     }
@@ -79,6 +79,7 @@ const SignUp = ({ navigation }) => {
                 name="name"
                 height={50}
                 autoCorrect={false}
+                autoCapitalize="words"
                 textContentType="givenName"
               />
               <AppText style={styles.inputTitle}>Email</AppText>
