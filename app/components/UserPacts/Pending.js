@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, View, FlatList } from 'react-native'
+
+// COMPONENTS
 import PactButton from '../PactButton'
-import currentUser from '../../stores/UserStore'
+
+// STORE
 import pactStore from '../../stores/CreatePactStore'
 import sortedPacts from '../../stores/SortedPactStore'
+
+// CONFIG
 import colors from '../../config/colors'
-import AppSearchInput from '../AppSearchInput'
 
 const Pending = ({ navigation }) => {
   const reviewPact = (pact) => {
@@ -15,7 +19,6 @@ const Pending = ({ navigation }) => {
 
   return (
     <View style={styles.mainView}>
-      {/* <AppSearchInput /> */}
       <FlatList
         contentContainerStyle={{
           marginTop: 82,

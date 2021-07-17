@@ -21,6 +21,7 @@ import PactModel from '../../api/pacts'
 // STORE
 import pact from '../../stores/CreatePactStore'
 import currentUser from '../../stores/UserStore'
+import sortedPacts from '../../stores/SortedPactStore'
 
 export default function ReviewContract({ navigation }) {
   const htmlObj = {
@@ -824,6 +825,8 @@ export default function ReviewContract({ navigation }) {
         status: 1,
       }
       await PactModel.create(obj)
+      await sortedPacts.setPending(obj)
+      await pact.setPact(obj)
       await generateEmail(signature)
     } catch (error) {
       console.log(error)
