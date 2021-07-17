@@ -11,8 +11,11 @@ export default function UserIcon({
   backgroundColor,
   color,
 }) {
-  const arr = title.split(' ')
-  const initials = arr[0][0] + arr[1][0]
+  let initials
+  if (title !== undefined) {
+    const arr = title.split(' ')
+    initials = arr[0][0] + arr[1][0]
+  }
 
   return (
     <TouchableOpacity

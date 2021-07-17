@@ -1,13 +1,11 @@
 import React from 'react'
 import { View, StyleSheet, FlatList, Image } from 'react-native'
-import { Header, Item, Icon, Input } from 'native-base'
 
 // FORM
 import { SubmitButton } from '../../components/forms'
 import { Formik, FieldArray } from 'formik'
 
 // COMPONENTS
-import Head from '../../components/Header'
 import Screen from '../../components/Screen'
 import colors from '../../config/colors'
 import ContactCheckBox from '../../components/ContactCheckBox'
@@ -21,6 +19,7 @@ import currentPact from '../../stores/CreatePactStore'
 import currentUser from '../../stores/UserStore'
 
 function ChooseCollabs({ navigation }) {
+  console.log('fuck', currentUser)
   const nextScreen = (values) => {
     currentPact.setCollabInfo(values, currentUser)
     navigation.navigate('GratInfo')

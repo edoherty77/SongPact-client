@@ -6,8 +6,12 @@ import ButtonIcon from './ButtonIcon'
 import UserIcon from './UserIcon'
 
 const ContactButton = ({ onPress, item, noIcon, viewProfile }) => {
-  const initials =
-    item.name.split(' ')[0].split('')[0] + item.name.split(' ')[1].split('')[0]
+  let initials
+  if (item.name !== undefined) {
+    initials =
+      item.name.split(' ')[0].split('')[0] +
+      item.name.split(' ')[1].split('')[0]
+  }
 
   return (
     <View style={styles.contactButton}>

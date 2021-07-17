@@ -31,6 +31,7 @@ class CreatePactStore {
     zipCode: '',
     email: '',
   }
+  status = ''
 
   setPact(pact) {
     this.pactId = pact._id
@@ -41,6 +42,7 @@ class CreatePactStore {
     this.initBy = pact.initBy
     this.performers = pact.performers
     this.producer = pact.producer
+    this.status = pact.status
   }
 
   setSignature(sig, currentUser) {

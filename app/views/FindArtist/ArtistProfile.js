@@ -32,11 +32,13 @@ const FindArtist = observer(({ route, navigation }) => {
   const [isFriend, setFriend] = useState(false)
 
   const checkFriend = () => {
-    currentUser.friends.find((friend) => {
-      if (friend.email === item.email) {
-        setFriend(true)
-      }
-    })
+    if (currentUser.friends.length > 0) {
+      currentUser.friends.find((friend) => {
+        if (friend.email === item.email) {
+          setFriend(true)
+        }
+      })
+    }
   }
 
   const checkRequestStatus = () => {

@@ -69,6 +69,8 @@ const SignIn = ({ navigation }) => {
           arr.push(obj)
           await currentUser.setFriendRequests([...arr])
         })
+      } else {
+        await currentUser.setFriendRequests('')
       }
     } catch (error) {
       console.log(error)
