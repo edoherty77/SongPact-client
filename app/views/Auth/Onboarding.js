@@ -40,6 +40,12 @@ const Onboarding = ({ navigation, route }) => {
 
   const updateUser = async (values) => {
     console.log('user', user)
+    let friends
+    if (currentUser.friends.length > 0) {
+      friends = currentUser.friends
+    } else {
+      friends = ''
+    }
     try {
       let address
       let googlePhotoUrl
@@ -62,7 +68,7 @@ const Onboarding = ({ navigation, route }) => {
         companyName: values.companyName,
         phoneNumber: parseInt(values.phoneNumber),
         googlePhotoUrl: googlePhotoUrl,
-        friends: [],
+        friends: friends,
       }
       await UserModel.update(obj)
       if (status === 'signing up') {

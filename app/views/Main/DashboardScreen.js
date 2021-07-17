@@ -7,7 +7,6 @@ import colors from '../../config/colors'
 
 // COMPONENTS
 import Screen from '../../components/Screen'
-import Header from '../../components/Header'
 import Pending from '../../components/UserPacts/Pending'
 import Action from '../../components/UserPacts/Action'
 import Draft from '../../components/UserPacts/Draft'

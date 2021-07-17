@@ -15,7 +15,6 @@ const Archive = ({ navigation }) => {
 
   return (
     <View style={styles.mainView}>
-      {/* <AppSearchInput /> */}
       <FlatList
         contentContainerStyle={{
           marginTop: 82,

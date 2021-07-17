@@ -33,7 +33,7 @@ class UserStore {
     this.email = values.email
     this.pacts = values.pacts
     this.friends = values.friends
-    this.requests = values.requests
+    this.friendRequests = values.friendRequests
     this.googlePhotoUrl = values.googlePhotoUrl
   }
 
