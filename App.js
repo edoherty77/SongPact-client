@@ -2,8 +2,8 @@ import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, View } from 'react-native'
 import { NativeBaseProvider } from 'native-base'
-
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import io from 'socket.io-client'
 
 // AUTH
 import AuthModel from './app/api/auth'
@@ -63,6 +63,7 @@ const App = observer(() => {
 
   useEffect(() => {
     checkForUser()
+    const socket = io('http://192.168.1.8:4000/api/v1')
   }, [user.userId])
 
   const googleConfig = {

@@ -14,16 +14,27 @@ import ContactCheckBox from '../../components/ContactCheckBox'
 import UserIcon from '../../components/UserIcon'
 import Separator from '../../components/Separator'
 import AppSearchInput from '../../components/AppSearchInput'
-import AppProgressBar from '../../components/AppProgressBar'
 
 // STORE
-import currentPact from '../../stores/CreatePactStore'
 import currentUser from '../../stores/UserStore'
 
+// MODELS
+import ChatRoomModel from '../../api/chatRoom'
+
 function NewMessage({ navigation }) {
-  const nextScreen = (values) => {
-    // currentPact.setCollabInfo(values, currentUser)
-    navigation.navigate('Chat Room')
+  const createChatRoom = async (values) => {
+    let obj = {}
+    obj['members'] = values.collabs
+    try {
+      const response = await ChatRoomModel.create(obj)
+      const newChatRoom = response.data
+      // console.log('newChat', newChatRoom)
+      await navigation.navigate('Chat Room', {
+        chatRoom: newChatRoom,
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -32,7 +43,7 @@ function NewMessage({ navigation }) {
         <Formik
           enableReinitialize
           initialValues={{ collabs: [] }}
-          onSubmit={(values) => nextScreen(values)}
+          onSubmit={(values) => createChatRoom(values)}
         >
           {({ values }) => (
             <View style={styles.formView}>

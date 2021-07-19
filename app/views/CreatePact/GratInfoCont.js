@@ -48,7 +48,7 @@ export default function GratInfoCont({ navigation }) {
                 {() => (
                   <FlatList
                     data={values}
-                    keyExtractor={(performer) => performer.email}
+                    keyExtractor={(values) => values.email}
                     renderItem={({ item, index }) => (
                       <AppFormPercent
                         icon

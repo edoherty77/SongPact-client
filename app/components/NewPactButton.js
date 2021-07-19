@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
-import { View, TouchableOpacity, StyleSheet } from 'react-native'
-import { Image } from 'react-native'
-
+import { View, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import NativeModal from 'react-native-modal'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+
+// COMPONENTS
 import AppText from '../components/AppText'
 import ButtonIcon from '../components/ButtonIcon'
-import colors from '../config/colors'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 import ConfirmModal from './ConfirmModal'
+
+// CONFIG
+import colors from '../config/colors'
 
 const NewPactButton = ({
   name,
@@ -29,30 +31,44 @@ const NewPactButton = ({
   return (
     <TouchableOpacity style={styles.newPactButton} onPress={onPress}>
       <View style={styles.buttonView}>
-        <View style={styles.imgView}>
+        {/* <View style={styles.imgView}>
           <Image
-            style={{ width: 175, height: 175, opacity: 0.7 }}
+            style={{ width: 165, height: 165, opacity: 0.7 }}
             source={image}
           />
-        </View>
-        <View style={styles.textView}>
-          <AppText
-            style={{ textAlign: 'center' }}
-            fontWeight="bold"
-            fontSize={35}
-            color={colors.lttan}
-          >
-            {name}
-          </AppText>
-        </View>
-        <View style={styles.iconView}>
-          <ButtonIcon
-            name="information"
-            backgroundColor="transparent"
-            size={40}
-            iconColor="#42C1FC"
-            onPress={() => handleInfoPress()}
-          />
+        </View> */}
+        <View style={styles.overlayView}>
+          <View style={styles.iconView}>
+            <MaterialCommunityIcons name="pen-plus" size={40} color="black" />
+          </View>
+          <View style={styles.textView}>
+            <AppText
+              style={styles.title}
+              fontWeight="bold"
+              fontSize={20}
+              color={colors.black}
+            >
+              {name}
+            </AppText>
+            <AppText
+              style={{ textAlign: 'center' }}
+              fontSize={16}
+              fontWeight="bold"
+              color={colors.black}
+            >
+              Short description of this pact
+            </AppText>
+          </View>
+          <View style={styles.helperIconView}>
+            <ButtonIcon
+              name="information"
+              backgroundColor="transparent"
+              size={35}
+              iconColor={colors.green}
+              // iconColor="#42C1FC"
+              onPress={() => handleInfoPress()}
+            />
+          </View>
         </View>
       </View>
       <ConfirmModal
@@ -84,35 +100,46 @@ const NewPactButton = ({
 const styles = StyleSheet.create({
   newPactButton: {
     display: 'flex',
-    width: 175,
+    width: 165,
     elevation: 1,
     shadowColor: 'rgb(50,50,50)',
     shadowOpacity: 0.5,
     borderRadius: 10,
-    marginHorizontal: 5,
   },
   buttonView: {
     display: 'flex',
-    width: 175,
-    backgroundColor: colors.red,
+    width: 155,
+    height: 155,
+    backgroundColor: colors.white,
   },
-  imgView: {
-    // backgroundColor: 'white',
-    width: 175,
-    opacity: 0.4,
-  },
-  textView: {
+  // imgView: {
+  //   width: 165,
+  //   opacity: 0.4,
+  // },
+  overlayView: {
+    display: 'flex',
     position: 'absolute',
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 10,
   },
   iconView: {
+    alignItems: 'center',
+    marginTop: 15,
+  },
+
+  textView: {
+    alignItems: 'center',
+  },
+  title: {
+    textAlign: 'center',
+    marginTop: 5,
+    marginBottom: 10,
+  },
+  helperIconView: {
     position: 'absolute',
-    // backgroundColor: 'purple',
     bottom: 0,
     right: 0,
   },

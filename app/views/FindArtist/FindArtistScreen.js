@@ -46,7 +46,6 @@ const FindArtist = observer(({ navigation }) => {
   // }
 
   const addFriend = async (recipientId) => {
-    console.log('id', recipientId)
     const obj = {
       requester: currentUser._id,
       recipient: recipientId,
