@@ -19,7 +19,6 @@ import currentPact from '../../stores/CreatePactStore'
 import currentUser from '../../stores/UserStore'
 
 function ChooseCollabs({ navigation }) {
-  console.log('fuck', currentUser)
   const nextScreen = (values) => {
     currentPact.setCollabInfo(values, currentUser)
     navigation.navigate('GratInfo')

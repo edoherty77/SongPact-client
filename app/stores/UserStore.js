@@ -16,6 +16,7 @@ class UserStore {
   friendRequests = ''
   googlePhotoUrl = ''
   accessToken = ''
+  chatRooms = []
 
   setID(id) {
     this._id = id
@@ -35,6 +36,11 @@ class UserStore {
     this.friends = values.friends
     this.friendRequests = values.friendRequests
     this.googlePhotoUrl = values.googlePhotoUrl
+    this.chatRooms = values.chatRooms
+  }
+
+  setChats(values) {
+    this.chatRooms.push(values)
   }
 
   setFriends(values) {
@@ -64,6 +70,7 @@ class UserStore {
     this.googlePhotoUrl = ''
     this.accessToken = ''
     this.friendRequests = ''
+    this.chatRooms = []
   }
 
   constructor() {

@@ -39,7 +39,6 @@ const Onboarding = ({ navigation, route }) => {
   }
 
   const updateUser = async (values) => {
-    console.log('user', user)
     let friends
     if (currentUser.friends.length > 0) {
       friends = currentUser.friends

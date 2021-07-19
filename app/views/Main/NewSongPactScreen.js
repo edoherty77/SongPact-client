@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
-import { View, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
+// COMPONENTS
 import Screen from '../../components/Screen'
-import Header from '../../components/Header'
-import NativeModal from 'react-native-modal'
 import NewPactButton from '../../components/NewPactButton'
+
+// CONFIG
 import colors from '../../config/colors'
-import AppText from '../../components/AppText'
-import { AppLoading } from 'expo'
-import ConfirmModal from '../../components/ConfirmModal'
 
 // STORE
 import currentPactStore from '../../stores/CreatePactStore'
@@ -81,7 +79,7 @@ function NewSongPact({ navigation }) {
             info="wfh shit blah blah blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah"
           />
           <NewPactButton
-            name="Location/Property Release"
+            name="Location Release"
             image={pics.location}
             info="location shit blah blah blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah"
           />
@@ -94,12 +92,13 @@ function NewSongPact({ navigation }) {
 const styles = StyleSheet.create({
   mainView: {
     display: 'flex',
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    marginTop: 20,
+    alignItems: 'center',
     flex: 1,
-    // backgroundColor: '#FEECEF',
   },
   rowView: {
-    marginVertical: 5,
+    marginVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',

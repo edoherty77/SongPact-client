@@ -28,7 +28,6 @@ export default function PDF({ pact }) {
   const firstBody = []
 
   pact.performers.map((performer) => {
-    console.log('perf', performer)
     let body1 = /*html*/ `
       <div class="body">
         The following, when duly signed by the parties hereto, sets forth the

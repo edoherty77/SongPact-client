@@ -103,7 +103,6 @@ const FindArtist = observer(({ route, navigation }) => {
       recipient: currentUser._id,
     }
     let data = { requestId, values }
-    console.log('data', data)
     await FriendRequestModel.update(data)
     await FriendRequestModel.delete(requestId)
   }

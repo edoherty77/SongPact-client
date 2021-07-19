@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, TextInput, View } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import io from 'socket.io-client'
 
 // COMPONENTS
 import ChatHeader from '../../components/ChatHeader'
@@ -13,7 +14,20 @@ import OwnMessage from '../../components/Chat/OwnMessage'
 // CONFIG
 import colors from '../../config/colors'
 
-const ChatRoom = ({ navigation }) => {
+// MODELS
+import ChatRoomModel from '../../api/chatRoom'
+import { get } from 'mobx'
+
+const ChatRoom = ({ navigation, route }) => {
+  const { chatRoom } = route.params
+  const getChat = async () => {
+    try {
+      const chat = await ChatRoomModel.show(chatRoom._id)
+      console.log('chat', chat)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: (props) => (
@@ -21,6 +35,12 @@ const ChatRoom = ({ navigation }) => {
       ),
     })
   }, [navigation])
+
+  useEffect(() => {
+    getChat()
+    // const socket = io('http://192.168.1.8:4000')
+  }, [])
+
   return (
     <Screen>
       <View style={styles.mainView}>

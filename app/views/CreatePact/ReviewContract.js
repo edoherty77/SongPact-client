@@ -864,7 +864,6 @@ export default function ReviewContract({ navigation }) {
   }
 
   const confirmSignature = (signature) => {
-    console.log(signature)
     pact.setSignature(signature, currentUser)
     setSigned(true)
     setVisible(false)
