@@ -34,7 +34,7 @@ function NewMessage({ navigation }) {
       const response = await ChatRoomModel.create(arr)
       const chatRoom = response.data
       await navigation.navigate('Chat Room', {
-        chatRoom: chatRoom,
+        chatRoom: chatRoom.chatRoom,
       })
     } catch (error) {
       console.log(error)

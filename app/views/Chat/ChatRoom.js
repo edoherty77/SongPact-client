@@ -22,7 +22,7 @@ const ChatRoom = ({ navigation, route }) => {
   const { chatRoom } = route.params
   const getChat = async () => {
     try {
-      const chat = await ChatRoomModel.show(chatRoom.chatRoom._id)
+      const chat = await ChatRoomModel.show(chatRoom._id)
       console.log('chat', chat)
     } catch (error) {
       console.log(error)
