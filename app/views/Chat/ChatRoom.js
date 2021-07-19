@@ -14,9 +14,20 @@ import OwnMessage from '../../components/Chat/OwnMessage'
 // CONFIG
 import colors from '../../config/colors'
 
+// MODELS
+import ChatRoomModel from '../../api/chatRoom'
+import { get } from 'mobx'
+
 const ChatRoom = ({ navigation, route }) => {
   const { chatRoom } = route.params
-  console.log('chatroom', chatRoom)
+  const getChat = async () => {
+    try {
+      const chat = await ChatRoomModel.show(chatRoom.chatRoom._id)
+      console.log('chat', chat)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: (props) => (
@@ -25,9 +36,10 @@ const ChatRoom = ({ navigation, route }) => {
     })
   }, [navigation])
 
-  // useEffect(() => {
-  //   const socket = io('http://192.168.1.8:4000')
-  // }, [])
+  useEffect(() => {
+    getChat()
+    // const socket = io('http://192.168.1.8:4000')
+  }, [])
 
   return (
     <Screen>

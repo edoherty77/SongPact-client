@@ -30,8 +30,9 @@ export default class ChatRoomModel {
     }
   }
   static show = async (id) => {
+    console.log('id', id)
     try {
-      const result = await axios.get(`${url}/users/${id}`)
+      const result = await axios.get(`${url}/chatRoom/${id}`)
       return result.data
     } catch (error) {
       console.log(error)
