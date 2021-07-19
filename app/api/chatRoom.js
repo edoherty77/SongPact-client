@@ -5,15 +5,15 @@ const url = 'http://192.168.1.8:4000/api/v1'
 // const url = 'http://192.168.1.203:4000/api/v1'
 
 export default class ChatRoomModel {
-  // static all = async (name) => {
-  //   try {
-  //     const response = await axios.get(`${url}/users/search/${name}`)
-  //     const foundUsers = response.data
-  //     return foundUsers
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  static all = async (data) => {
+    try {
+      const response = await axios.get(`${url}/chatRoom/all/${data}`)
+      const foundChatRooms = response.data
+      return foundChatRooms
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   static create = async (users) => {
     try {

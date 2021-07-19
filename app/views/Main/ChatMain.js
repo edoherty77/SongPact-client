@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 // COMPONENTS
@@ -8,7 +8,19 @@ import Screen from '../../components/Screen'
 // MODELS
 import ChatRoomModel from '../../api/chatRoom'
 
+// STORE
+import currentUser from '../../stores/UserStore'
+
 const ChatMain = () => {
+  const getChatRooms = async () => {
+    const response = await ChatRoomModel.all(currentUser.chatRooms)
+    const chatRooms = response.foundChatRooms
+    console.log('chatrooms', chatRooms)
+  }
+
+  useEffect(() => {
+    getChatRooms()
+  }, [])
   return (
     <Screen>
       <View style={styles.mainView}>

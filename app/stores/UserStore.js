@@ -36,6 +36,7 @@ class UserStore {
     this.friends = values.friends
     this.friendRequests = values.friendRequests
     this.googlePhotoUrl = values.googlePhotoUrl
+    this.chatRooms = values.chatRooms
   }
 
   setChats(values) {
