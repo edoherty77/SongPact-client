@@ -25,9 +25,7 @@ import colors from '../../config/colors'
 import currentUser from '../../stores/UserStore'
 
 // MODELS
-import ChatRoomModel from '../../api/chatRoom'
 import MessagesModel from '../../api/messages'
-import { get } from 'mobx'
 
 const ChatRoom = ({ navigation, route }) => {
   const { chatRoom } = route.params
@@ -41,15 +39,6 @@ const ChatRoom = ({ navigation, route }) => {
       ),
     })
   }, [navigation])
-
-  // const getChat = async () => {
-  //   try {
-  //     const chat = await ChatRoomModel.show(chatRoom._id)
-  //     console.log('chat', chat)
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
 
   const handleMessage = async () => {
     try {
@@ -69,8 +58,12 @@ const ChatRoom = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    // getChat()
-    // const socket = io('http://192.168.1.8:4000')
+    const socket = io('http://192.168.1.8:4000')
+    // socket.connect()
+    // socket.on('message', (message) => {
+    //   'fuckyou'
+    // })
+    // console.log('socket', socket)
   }, [])
 
   return (
