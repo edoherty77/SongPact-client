@@ -6,7 +6,7 @@ import ButtonIcon from '../ButtonIcon'
 import UserIcon from '../UserIcon'
 
 const ChatRoomButton = ({ onPress, item, noIcon, viewChatRoom }) => {
-  console.log('iteem', item)
+  // console.log('iteem', item)
   let initials
   if (item.name !== undefined) {
     initials =

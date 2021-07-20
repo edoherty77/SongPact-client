@@ -19,15 +19,15 @@ const ChatMain = ({ navigation }) => {
     const response = await ChatRoomModel.all(currentUser.chatRooms)
     const chatRooms = response.foundChatRooms
     setChatRooms(chatRooms)
-    console.log('chatrooms', chatRooms)
   }
 
   useEffect(() => {
-    getChatRooms()
+    if (currentUser.chatRooms.length !== 0) {
+      getChatRooms()
+    }
   }, [])
 
   const viewChatRoom = (item) => {
-    console.log('fuuuuck', item)
     navigation.navigate('Chat Room', {
       chatRoom: item,
     })
