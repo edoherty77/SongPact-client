@@ -9,7 +9,6 @@ import UserIcon from '../UserIcon'
 import colors from '../../config/colors'
 
 const OwnMessage = ({ item }) => {
-  console.log('item', item)
   return (
     <View style={styles.messageView}>
       <View style={styles.messageText}>

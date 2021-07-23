@@ -27,10 +27,12 @@ import currentUser from '../../stores/UserStore'
 // MODELS
 import MessagesModel from '../../api/messages'
 
+const socket = io('http://192.168.1.8:4000')
+
 const ChatRoom = ({ navigation, route }) => {
   const { chatRoom } = route.params
+  const [messages, setMessages] = useState([])
   const [message, setMessage] = useState('')
-  console.log('chatroom', chatRoom)
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -41,29 +43,54 @@ const ChatRoom = ({ navigation, route }) => {
   }, [navigation])
 
   const handleMessage = async () => {
+    // console.log('yooo')
     try {
-      let obj = {
-        message: {
-          user: currentUser.email,
-          name: currentUser.name,
-          message: message,
-          timestamp: moment().format('hh:mm A'),
-        },
-        chatRoom: chatRoom,
+      let messageInfo = {
+        user: currentUser.email,
+        name: currentUser.name,
+        message: message,
+        timestamp: moment().format('hh:mm A'),
       }
-      await MessagesModel.create(obj)
+      let chatRoomInfo = chatRoom
+
+      if (socket) {
+        socket.emit('chatroomMessage', { messageInfo, chatRoomInfo })
+        setMessage('')
+      }
     } catch (error) {
       console.log(error)
     }
   }
 
   useEffect(() => {
-    const socket = io('http://192.168.1.8:4000')
-    // socket.connect()
-    // socket.on('message', (message) => {
-    //   'fuckyou'
-    // })
-    // console.log('socket', socket)
+    if (socket) {
+      socket.on('newMessage', (messageInfo) => {
+        console.log('data???', messageInfo)
+        const newMessages = [...messages, messageInfo]
+        console.log('new mesaggessss', newMessages)
+        setMessages(newMessages)
+      })
+    }
+  }, [messages])
+
+  useEffect(() => {
+    socket.on('joinRoom', (currentRoom) => {
+      console.log('cuurrentrooom', currentRoom)
+      setMessages(currentRoom.messages)
+    })
+  }, [])
+
+  useEffect(() => {
+    if (socket) {
+      socket.emit('joinRoom', chatRoom._id)
+    }
+
+    return () => {
+      //Component Unmount
+      if (socket) {
+        socket.emit('leaveRoom', chatRoom._id)
+      }
+    }
   }, [])
 
   return (
@@ -75,7 +102,7 @@ const ChatRoom = ({ navigation, route }) => {
           </View>
           <View style={styles.messages}>
             <FlatList
-              data={chatRoom.messages}
+              data={messages}
               keyExtractor={(message) => message._id}
               renderItem={({ item }) =>
                 item.user === currentUser.email ? (
