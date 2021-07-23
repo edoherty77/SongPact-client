@@ -8,18 +8,17 @@ import UserIcon from '../UserIcon'
 // CONFIG
 import colors from '../../config/colors'
 
-const OwnMessage = () => {
+const OwnMessage = ({ item }) => {
   return (
     <View style={styles.messageView}>
       <View style={styles.messageText}>
         <AppText fontSize={18} color="white">
-          Okay perfect. Let me know if there’s anything in there that you’d like
-          to change.
+          {item.message}
         </AppText>
       </View>
       <View style={styles.iconView}>
         <UserIcon
-          title="Evan Doherty"
+          title={item.name}
           style={styles.image}
           fontSize={20}
           color={colors.white}
@@ -27,7 +26,7 @@ const OwnMessage = () => {
         />
       </View>
       <View style={styles.time}>
-        <AppText>8:30PM</AppText>
+        <AppText>{item.timestamp}</AppText>
       </View>
     </View>
   )

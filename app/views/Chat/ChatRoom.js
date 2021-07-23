@@ -1,6 +1,13 @@
-import React, { useEffect } from 'react'
-import { StyleSheet, TextInput, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import {
+  StyleSheet,
+  TextInput,
+  View,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import moment from 'moment'
 import io from 'socket.io-client'
 
 // COMPONENTS
@@ -14,20 +21,19 @@ import OwnMessage from '../../components/Chat/OwnMessage'
 // CONFIG
 import colors from '../../config/colors'
 
+// STORE
+import currentUser from '../../stores/UserStore'
+
 // MODELS
-import ChatRoomModel from '../../api/chatRoom'
-import { get } from 'mobx'
+import MessagesModel from '../../api/messages'
+
+const socket = io('http://192.168.1.8:4000')
 
 const ChatRoom = ({ navigation, route }) => {
   const { chatRoom } = route.params
-  const getChat = async () => {
-    try {
-      const chat = await ChatRoomModel.show(chatRoom._id)
-      console.log('chat', chat)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const [messages, setMessages] = useState([])
+  const [message, setMessage] = useState('')
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: (props) => (
@@ -36,9 +42,55 @@ const ChatRoom = ({ navigation, route }) => {
     })
   }, [navigation])
 
+  const handleMessage = async () => {
+    // console.log('yooo')
+    try {
+      let messageInfo = {
+        user: currentUser.email,
+        name: currentUser.name,
+        message: message,
+        timestamp: moment().format('hh:mm A'),
+      }
+      let chatRoomInfo = chatRoom
+
+      if (socket) {
+        socket.emit('chatroomMessage', { messageInfo, chatRoomInfo })
+        setMessage('')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
-    getChat()
-    // const socket = io('http://192.168.1.8:4000')
+    if (socket) {
+      socket.on('newMessage', (messageInfo) => {
+        console.log('data???', messageInfo)
+        const newMessages = [...messages, messageInfo]
+        console.log('new mesaggessss', newMessages)
+        setMessages(newMessages)
+      })
+    }
+  }, [messages])
+
+  useEffect(() => {
+    socket.on('joinRoom', (currentRoom) => {
+      console.log('cuurrentrooom', currentRoom)
+      setMessages(currentRoom.messages)
+    })
+  }, [])
+
+  useEffect(() => {
+    if (socket) {
+      socket.emit('joinRoom', chatRoom._id)
+    }
+
+    return () => {
+      //Component Unmount
+      if (socket) {
+        socket.emit('leaveRoom', chatRoom._id)
+      }
+    }
   }, [])
 
   return (
@@ -49,17 +101,36 @@ const ChatRoom = ({ navigation, route }) => {
             <AppText fontSize={20}>Today</AppText>
           </View>
           <View style={styles.messages}>
-            <FriendMessage />
-            <OwnMessage />
-            <FriendMessage />
-            <OwnMessage />
+            <FlatList
+              data={messages}
+              keyExtractor={(message) => message._id}
+              renderItem={({ item }) =>
+                item.user === currentUser.email ? (
+                  <OwnMessage item={item} />
+                ) : (
+                  <FriendMessage item={item} />
+                )
+              }
+            />
           </View>
         </View>
       </View>
       <View style={styles.sendView}>
         <MaterialCommunityIcons name="paperclip" size={24} color="black" />
-        <TextInput style={styles.input} placeholder="Type something..." />
-        <MaterialCommunityIcons name="send-outline" size={24} color="black" />
+        <TextInput
+          style={styles.input}
+          placeholder="Type something..."
+          value={message}
+          onChangeText={(text) => setMessage(text)}
+        />
+        <TouchableOpacity>
+          <MaterialCommunityIcons
+            name="send-outline"
+            size={24}
+            color="black"
+            onPress={handleMessage}
+          />
+        </TouchableOpacity>
       </View>
     </Screen>
   )

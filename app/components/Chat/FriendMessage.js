@@ -8,12 +8,12 @@ import UserIcon from '../UserIcon'
 // CONFIG
 import colors from '../../config/colors'
 
-const FriendMessage = () => {
+const FriendMessage = ({ item }) => {
   return (
     <View style={styles.messageView}>
       <View style={styles.iconView}>
         <UserIcon
-          title="Stephen Glandsburg"
+          title={item.name}
           style={styles.image}
           fontSize={20}
           color={colors.white}
@@ -21,10 +21,10 @@ const FriendMessage = () => {
         />
       </View>
       <View style={styles.messageText}>
-        <AppText fontSize={18}>Hey! Just got the contract!</AppText>
+        <AppText fontSize={18}>{item.message}</AppText>
       </View>
       <View style={styles.time}>
-        <AppText>8:30PM</AppText>
+        <AppText>{item.timestamp}</AppText>
       </View>
     </View>
   )
