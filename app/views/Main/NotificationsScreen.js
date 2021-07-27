@@ -1,14 +1,22 @@
 import { observer } from 'mobx-react'
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, FlatList } from 'react-native'
+
+// COMPONENTS
 import AppText from '../../components/AppText'
 import AppTextInput from '../../components/AppTextInput'
 import Screen from '../../components/Screen'
-import Header from '../../components/Header'
+import Separator from '../../components/Separator'
 import ContactButton from '../../components/ContactButton'
-import FriendRequestModel from '../../api/friendRequests'
+import FriendRequest from '../../components/Notifications/FriendRequest'
+
+// MODELS
 import UserModel from '../../api/users'
+
+// CONFIG
 import colors from '../../config/colors'
+
+// STORE
 import currentUser from '../../stores/UserStore'
 
 const NotificationsScreen = observer(({ navigation }) => {
@@ -20,13 +28,12 @@ const NotificationsScreen = observer(({ navigation }) => {
 
   return (
     <Screen>
-      <Header title="Notifications" noBack />
       <View style={styles.mainView}>
         <FlatList
           data={currentUser.friendRequests}
           keyExtractor={(friendRequests) => friendRequests.friendRequestId}
           renderItem={({ item, index }) => (
-            <ContactButton
+            <FriendRequest
               item={item.requesterInfo}
               viewProfile={() => viewProfile(item)}
               onPress={() => {

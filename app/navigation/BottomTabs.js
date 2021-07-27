@@ -117,14 +117,21 @@ export default function BottomTabs({ updateAuthState, logout }) {
         )}
       </Tab.Screen>
       <Tab.Screen
+        name="Notifications"
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="bell" color={color} size={38} />
           ),
         }}
-        name="Notifications"
-        component={NotificationsStack}
-      />
+      >
+        {(screenProps) => (
+          <NotificationsStack
+            {...screenProps}
+            updateAuthState={updateAuthState}
+            logout={logout}
+          />
+        )}
+      </Tab.Screen>
 
       <Tab.Screen
         name="ChatMain"

@@ -92,7 +92,6 @@ const ContactsScreen = observer(({ navigation }) => {
 
   return (
     <Screen>
-      {/* <Head noBack title="Contacts" /> */}
       <AppSearchInputFilter
         searchValue={searchValue}
         setSearchValue={setSearchValue}
