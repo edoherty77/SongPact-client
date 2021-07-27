@@ -65,9 +65,7 @@ const ChatRoom = ({ navigation, route }) => {
   useEffect(() => {
     if (socket) {
       socket.on('newMessage', (messageInfo) => {
-        console.log('data???', messageInfo)
         const newMessages = [...messages, messageInfo]
-        console.log('new mesaggessss', newMessages)
         setMessages(newMessages)
       })
     }
@@ -75,7 +73,6 @@ const ChatRoom = ({ navigation, route }) => {
 
   useEffect(() => {
     socket.on('joinRoom', (currentRoom) => {
-      console.log('cuurrentrooom', currentRoom)
       setMessages(currentRoom.messages)
     })
   }, [])

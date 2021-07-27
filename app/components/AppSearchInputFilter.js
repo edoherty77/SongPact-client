@@ -20,7 +20,9 @@ const AppSearchInput = ({ filter, searchValue, setSearchValue }) => {
           value={searchValue}
           placeholder="Search"
           onChangeText={(value) => {
-            setSearchValue(value)
+            if (value !== undefined) {
+              setSearchValue(value)
+            }
           }}
           placeholder="Search..."
         />
