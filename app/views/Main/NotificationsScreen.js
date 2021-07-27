@@ -9,6 +9,7 @@ import Screen from '../../components/Screen'
 import Separator from '../../components/Separator'
 import ContactButton from '../../components/ContactButton'
 import FriendRequest from '../../components/Notifications/FriendRequest'
+import PactUpdate from '../../components/Notifications/PactUpdate'
 
 // MODELS
 import UserModel from '../../api/users'
@@ -20,6 +21,7 @@ import colors from '../../config/colors'
 import currentUser from '../../stores/UserStore'
 
 const NotificationsScreen = observer(({ navigation }) => {
+  console.log('currentUser', currentUser.notifications)
   const viewProfile = (item) => {
     navigation.navigate('ReqArtistProfile', {
       item: item.requesterInfo,
