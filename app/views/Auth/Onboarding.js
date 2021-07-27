@@ -42,8 +42,6 @@ const Onboarding = ({ navigation, route }) => {
     let friends
     if (currentUser.friends.length > 0) {
       friends = currentUser.friends
-    } else {
-      friends = ''
     }
     try {
       let address
@@ -71,9 +69,10 @@ const Onboarding = ({ navigation, route }) => {
       }
       await UserModel.update(obj)
       if (status === 'signing up') {
-        await AsyncStorage.setItem('email', user.email)
-        await AsyncStorage.setItem('userId', user.email)
-        await currentUser.setUser(obj)
+        // await AsyncStorage.setItem('email', user.email)
+        // await AsyncStorage.setItem('userId', user.email)
+        // await currentUser.setUser(obj)
+        navigation.navigate('SignIn')
       } else {
         await currentUser.setUser(obj)
         navigation.navigate('New')
