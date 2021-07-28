@@ -121,6 +121,10 @@ export default function BottomTabs({ updateAuthState, logout }) {
         name="Notifications"
         options={{
           tabBarBadge: number,
+          tabBarBadgeStyle: {
+            top: 15,
+            paddingTop: 1,
+          },
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="bell" color={color} size={38} />
           ),
