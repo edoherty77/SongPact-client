@@ -14,6 +14,16 @@ export default class PactModel {
     }
   }
 
+  static show = async (id) => {
+    try {
+      const response = await axios.get(`${url}/pacts/current/${id}`)
+      const foundPact = response.data
+      return foundPact
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   static create = async (pactData) => {
     try {
       const newPact = await axios.post(`${url}/pacts`, {

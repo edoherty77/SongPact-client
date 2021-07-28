@@ -8,25 +8,30 @@ import AppText from '../AppText'
 // CONFIG
 import colors from '../../config/colors'
 
-const PactUpdate = ({ item }) => {
+const PactUpdate = ({ item, viewPact }) => {
   console.log('item', item)
   return (
     <View style={styles.notificationButton}>
       <View style={styles.textView}>
-        <AppText style={styles.text}></AppText>
+        <AppText style={styles.text}>
+          <AppText style={styles.name}>{item.initBy}</AppText>
+          {item.text}
+          <AppText style={styles.title} onPress={viewPact}>
+            {item.recordTitle}
+          </AppText>
+        </AppText>
       </View>
       <View style={styles.timeView}>
         <AppText style={styles.timeText}>July 26th, 2021 9:16PM</AppText>
       </View>
-      {/* <View style={styles.iconView}>
+      <View style={styles.iconView}>
         <ButtonIcon
-          name="chevron-right"
+          name="close"
           backgroundColor={'transparent'}
-          size={45}
-          iconColor={colors.black}
-          onPress={viewProfile}
+          size={30}
+          iconColor="rgba(34, 34, 34, 0.8)"
         />
-      </View> */}
+      </View>
     </View>
   )
 }
@@ -38,7 +43,8 @@ const styles = StyleSheet.create({
     position: 'relative',
     marginBottom: 10,
     marginTop: 0,
-    paddingHorizontal: 15,
+    paddingLeft: 15,
+    paddingRight: 20,
     paddingVertical: 10,
     borderRadius: 6,
     display: 'flex',
@@ -51,19 +57,30 @@ const styles = StyleSheet.create({
   },
   textView: {
     marginBottom: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    width: '90%',
+    // flexWrap: 'wrap'
   },
   text: {
     fontSize: 20,
+    lineHeight: 30,
   },
   name: {
     fontWeight: 'bold',
+  },
+  title: {
+    fontWeight: '500',
+    textDecorationColor: colors.black,
+    textDecorationLine: 'underline',
+    textDecorationStyle: 'solid',
   },
   timeText: {
     color: colors.gray,
   },
   iconView: {
     position: 'absolute',
-    right: 0,
-    top: 5,
+    right: 5,
+    top: 7,
   },
 })

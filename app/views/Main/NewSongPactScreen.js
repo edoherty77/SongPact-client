@@ -34,6 +34,7 @@ function NewSongPact({ navigation }) {
   function createConfirm(type) {
     setModalVisible(false)
     currentPactStore.resetPact()
+    currentPactStore.setType(type)
     navigation.navigate('Collabs', {
       type: type,
     })
@@ -49,7 +50,7 @@ function NewSongPact({ navigation }) {
             image={pics.drake}
             info="producer shit blah blah blahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblahblah"
             text="Would you like to initialize a contract?"
-            confirm={() => createConfirm('Producer')}
+            confirm={() => createConfirm("Producer's Agreement")}
             deny={createDeny}
             onBackdropPress={() => setModalVisible(false)}
             isVisible={isModalVisible}

@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx'
 
 class CreatePactStore {
-  type = 'Producer'
+  type = ''
   pactId = ''
   sample = false
   recordLabel = false
@@ -34,6 +34,7 @@ class CreatePactStore {
   status = ''
 
   setPact(pact) {
+    this.type = pact.type
     this.pactId = pact._id
     this.labelName = pact.labelName
     this.recordLabel = pact.recordLabel
@@ -43,6 +44,11 @@ class CreatePactStore {
     this.performers = pact.performers
     this.producer = pact.producer
     this.status = pact.status
+    this.users = pact.users
+  }
+
+  setType(type) {
+    this.type = type
   }
 
   setSignature(sig, currentUser) {
@@ -134,6 +140,7 @@ class CreatePactStore {
   }
 
   resetPact() {
+    this.type = ''
     this.users = []
     this.recordTitle = ''
     this.pactId = ''
