@@ -124,6 +124,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
           tabBarBadgeStyle: {
             top: 15,
             paddingTop: 1,
+            display: number === 0 ? 'none' : 'inline',
           },
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="bell" color={color} size={38} />
