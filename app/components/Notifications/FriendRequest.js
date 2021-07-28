@@ -25,8 +25,8 @@ const FriendRequest = ({ item, viewProfile }) => {
         <ButtonIcon
           name="chevron-right"
           backgroundColor={'transparent'}
-          size={45}
-          iconColor={colors.black}
+          size={40}
+          iconColor="rgba(34, 34, 34, 0.8)"
           onPress={viewProfile}
         />
       </View>
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   iconView: {
     position: 'absolute',
-    right: 0,
-    top: 5,
+    right: -5,
+    top: 2,
   },
 })

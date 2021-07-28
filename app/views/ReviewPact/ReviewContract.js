@@ -793,12 +793,19 @@ export default function ReviewContract({ navigation }) {
 
   const acceptPact = async (signature) => {
     try {
+      let otherUsers = currentPact.users.filter((user) => {
+        return user.user !== currentUser._id
+      })
       currentPact.setSignature(signature, currentUser)
       const obj = {
         id: currentPact.pactId,
         signatureImg: signature,
         user: currentUser._id,
+        name: currentUser.name,
         status: 2,
+        otherUsers: otherUsers,
+        recordTitle: currentPact.recordTitle,
+        type: currentPact.type,
       }
       await PactModel.update(obj)
       await generateEmail(signature)

@@ -40,34 +40,44 @@ const NotificationsScreen = observer(({ navigation }) => {
   return (
     <Screen>
       <View style={styles.mainView}>
-        <FlatList
-          data={currentUser.friendRequests}
-          keyExtractor={(friendRequests) => friendRequests.friendRequestId}
-          renderItem={({ item, index }) => (
-            <FriendRequest
-              item={item.requesterInfo}
-              viewProfile={() => viewProfile(item)}
-              onPress={() => {
-                // answerRequest(item.friendRequestId, item.requesterInfo._id)
-                // setModalVisible(true)
-                // setFriendInfo(item)
-              }}
+        {currentUser.friendRequests.length > 0 && (
+          <View style={styles.list}>
+            <AppText style={styles.listHeader}>Friend Requests</AppText>
+
+            <FlatList
+              data={currentUser.friendRequests}
+              keyExtractor={(friendRequests) => friendRequests.friendRequestId}
+              renderItem={({ item, index }) => (
+                <FriendRequest
+                  item={item.requesterInfo}
+                  viewProfile={() => viewProfile(item)}
+                  onPress={() => {
+                    // answerRequest(item.friendRequestId, item.requesterInfo._id)
+                    // setModalVisible(true)
+                    // setFriendInfo(item)
+                  }}
+                />
+              )}
             />
-          )}
-        />
-        <FlatList
-          data={currentUser.notifications}
-          keyExtractor={(notifications) => notifications._id}
-          renderItem={({ item, index }) => (
-            <PactUpdate
-              item={item}
-              // viewProfile={() => viewProfile(item)}
-              onPress={() => {
-                reviewPact(item.pactId)
-              }}
+          </View>
+        )}
+        {currentUser.notifications.length > 0 && (
+          <View style={styles.list}>
+            <AppText style={styles.listHeader}>Contracts</AppText>
+            <FlatList
+              data={currentUser.notifications}
+              keyExtractor={(notifications) => notifications._id}
+              renderItem={({ item, index }) => (
+                <PactUpdate
+                  item={item}
+                  viewPact={() => {
+                    reviewPact(item.pactId)
+                  }}
+                />
+              )}
             />
-          )}
-        />
+          </View>
+        )}
       </View>
     </Screen>
   )
@@ -80,6 +90,14 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginRight: 25,
     marginTop: 25,
-    flex: 1,
+    // flex: 1,
+  },
+  list: {
+    marginBottom: 25,
+  },
+  listHeader: {
+    marginBottom: 5,
+    fontSize: 16,
+    // color: colors.gray,
   },
 })
