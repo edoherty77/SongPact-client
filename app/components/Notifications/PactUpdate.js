@@ -13,7 +13,7 @@ const PactUpdate = ({ item }) => {
   return (
     <View style={styles.notificationButton}>
       <View style={styles.textView}>
-        <AppText style={styles.text}></AppText>
+        <AppText style={styles.text}>{item.text}</AppText>
       </View>
       <View style={styles.timeView}>
         <AppText style={styles.timeText}>July 26th, 2021 9:16PM</AppText>

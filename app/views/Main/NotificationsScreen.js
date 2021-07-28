@@ -13,6 +13,7 @@ import PactUpdate from '../../components/Notifications/PactUpdate'
 
 // MODELS
 import UserModel from '../../api/users'
+import NotificationsModel from '../../api/notifications'
 
 // CONFIG
 import colors from '../../config/colors'
@@ -38,6 +39,21 @@ const NotificationsScreen = observer(({ navigation }) => {
             <FriendRequest
               item={item.requesterInfo}
               viewProfile={() => viewProfile(item)}
+              onPress={() => {
+                // answerRequest(item.friendRequestId, item.requesterInfo._id)
+                // setModalVisible(true)
+                // setFriendInfo(item)
+              }}
+            />
+          )}
+        />
+        <FlatList
+          data={currentUser.notifications}
+          keyExtractor={(notifications) => notifications._id}
+          renderItem={({ item, index }) => (
+            <PactUpdate
+              item={item}
+              // viewProfile={() => viewProfile(item)}
               onPress={() => {
                 // answerRequest(item.friendRequestId, item.requesterInfo._id)
                 // setModalVisible(true)
