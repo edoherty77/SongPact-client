@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -19,6 +19,7 @@ import colors from '../config/colors'
 const Tab = createBottomTabNavigator()
 
 export default function BottomTabs({ updateAuthState, logout }) {
+  const [number, setNumber] = useState(currentUser.notifications.length)
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -119,6 +120,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
       <Tab.Screen
         name="Notifications"
         options={{
+          tabBarBadge: number,
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="bell" color={color} size={38} />
           ),

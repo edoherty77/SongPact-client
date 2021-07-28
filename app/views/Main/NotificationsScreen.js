@@ -24,7 +24,6 @@ import currentUser from '../../stores/UserStore'
 import pactStore from '../../stores/CreatePactStore'
 
 const NotificationsScreen = observer(({ navigation }) => {
-  console.log('currentUser', currentUser.notifications)
   const viewProfile = (item) => {
     navigation.navigate('ReqArtistProfile', {
       item: item.requesterInfo,
@@ -32,7 +31,6 @@ const NotificationsScreen = observer(({ navigation }) => {
   }
   const reviewPact = async (pactId) => {
     const pact = await PactModel.show(pactId)
-    console.log('pact', pact)
     pactStore.setPact(pact)
     navigation.navigate('ReviewData')
   }
