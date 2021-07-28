@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 // SCREENS
 import Notifications from '../views/Main/NotificationsScreen'
 import ArtistProfile from '../views/FindArtist/ArtistProfile'
+import ReviewData from '../views/ReviewPact/ReviewData'
+import ReviewContract from '../views/ReviewPact/ReviewContract'
 
 // STACKS
 import MenuStack from './MenuStack'
@@ -24,6 +26,20 @@ const NotificationsStack = ({ updateAuthState, logout }) => {
         })}
       />
       <Stack.Screen name="ReqArtistProfile" component={ArtistProfile} />
+      <Stack.Screen
+        name="ReviewData"
+        component={ReviewData}
+        options={({ navigation, route }) => ({
+          header: (props) => <Header {...props} />,
+        })}
+      />
+      <Stack.Screen
+        name="ViewContract"
+        component={ReviewContract}
+        options={({ navigation, route }) => ({
+          header: (props) => <Header {...props} title="Sign" />,
+        })}
+      />
       <Stack.Screen name="Menu">
         {(screenProps) => (
           <MenuStack

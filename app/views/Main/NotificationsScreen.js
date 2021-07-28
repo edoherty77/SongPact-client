@@ -14,12 +14,14 @@ import PactUpdate from '../../components/Notifications/PactUpdate'
 // MODELS
 import UserModel from '../../api/users'
 import NotificationsModel from '../../api/notifications'
+import PactModel from '../../api/pacts'
 
 // CONFIG
 import colors from '../../config/colors'
 
 // STORE
 import currentUser from '../../stores/UserStore'
+import pactStore from '../../stores/CreatePactStore'
 
 const NotificationsScreen = observer(({ navigation }) => {
   console.log('currentUser', currentUser.notifications)
@@ -27,6 +29,12 @@ const NotificationsScreen = observer(({ navigation }) => {
     navigation.navigate('ReqArtistProfile', {
       item: item.requesterInfo,
     })
+  }
+  const reviewPact = async (pactId) => {
+    const pact = await PactModel.show(pactId)
+    console.log('pact', pact)
+    pactStore.setPact(pact)
+    navigation.navigate('ReviewData')
   }
 
   return (
@@ -55,9 +63,7 @@ const NotificationsScreen = observer(({ navigation }) => {
               item={item}
               // viewProfile={() => viewProfile(item)}
               onPress={() => {
-                // answerRequest(item.friendRequestId, item.requesterInfo._id)
-                // setModalVisible(true)
-                // setFriendInfo(item)
+                reviewPact(item.pactId)
               }}
             />
           )}

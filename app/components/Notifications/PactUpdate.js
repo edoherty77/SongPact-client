@@ -8,7 +8,7 @@ import AppText from '../AppText'
 // CONFIG
 import colors from '../../config/colors'
 
-const PactUpdate = ({ item }) => {
+const PactUpdate = ({ item, onPress }) => {
   console.log('item', item)
   return (
     <View style={styles.notificationButton}>
@@ -18,15 +18,15 @@ const PactUpdate = ({ item }) => {
       <View style={styles.timeView}>
         <AppText style={styles.timeText}>July 26th, 2021 9:16PM</AppText>
       </View>
-      {/* <View style={styles.iconView}>
+      <View style={styles.iconView}>
         <ButtonIcon
           name="chevron-right"
           backgroundColor={'transparent'}
           size={45}
           iconColor={colors.black}
-          onPress={viewProfile}
+          onPress={onPress}
         />
-      </View> */}
+      </View>
     </View>
   )
 }
