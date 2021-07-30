@@ -160,9 +160,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     padding: 20,
+    height: 110,
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 100,
+    marginBottom: -32,
   },
   input: {
     height: 40,

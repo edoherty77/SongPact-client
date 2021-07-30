@@ -35,6 +35,7 @@ export default function GratInfo({ navigation }) {
   const [producer, setProducer] = React.useState('')
 
   function nextScreen(values) {
+    console.log('values', values)
     currentPact.setProducer(values)
     currentPact.setProducerInfo(values)
     navigation.navigate('GratInfoCont')
