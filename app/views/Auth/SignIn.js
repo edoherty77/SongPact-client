@@ -67,7 +67,6 @@ const SignIn = ({ navigation }) => {
           obj['friendRequestId'] = request._id
           obj['requesterInfo'] = requesterInfo
           arr.push(obj)
-          console.log('arr', arr)
           await currentUser.setFriendRequests([...arr])
         })
       } else {

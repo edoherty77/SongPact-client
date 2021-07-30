@@ -1,6 +1,5 @@
 import React from 'react'
-import { StyleSheet, FlatList, View } from 'react-native'
-import { Select } from 'native-base'
+import { StyleSheet, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import ModalDropdown from 'react-native-modal-dropdown-v2'
 
@@ -10,6 +9,9 @@ import { useFormikContext } from 'formik'
 // STORE
 import currentPact from '../../stores/CreatePactStore'
 import currentUser from '../../stores/UserStore'
+
+// CONFIG
+import colors from '../../config/colors'
 
 const AppFormSelect = ({ data, setItem, item, isDisabled, defaultValue }) => {
   const { setFieldValue } = useFormikContext()
@@ -82,6 +84,7 @@ const AppFormSelect = ({ data, setItem, item, isDisabled, defaultValue }) => {
         textStyle={styles.textStyle}
         dropdownStyle={styles.dropdownStyle}
         dropdownTextStyle={styles.dropdownTextStyle}
+        dropdownTextHighlightStyle={styles.dropdownTextHighlightStyle}
       />
       <View style={styles.iconView}>
         <Ionicons name="chevron-down" size={18} />
@@ -106,6 +109,7 @@ const styles = StyleSheet.create({
   selectStyle: {
     borderColor: 'black',
     borderRadius: 5,
+    borderRadius: 5,
     borderWidth: 1,
     borderStyle: 'solid',
     marginVertical: 10,
@@ -122,20 +126,26 @@ const styles = StyleSheet.create({
   },
   dropdownStyle: {
     borderColor: 'black',
-    borderRadius: 5,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    borderTopWidth: 1,
     borderBottomWidth: 1,
     borderRightWidth: 1,
     borderLeftWidth: 1,
     borderStyle: 'solid',
-    display: 'flex',
     marginLeft: -21,
-    marginTop: 15,
+    marginTop: 13,
     height: 'auto',
-    padding: 10,
+    paddingBottom: 2,
   },
   dropdownTextStyle: {
     fontSize: 18,
     fontFamily: 'Avenir Next',
     color: 'black',
+    paddingHorizontal: 20,
+  },
+  dropdownTextHighlightStyle: {
+    backgroundColor: colors.green,
+    color: colors.white,
   },
 })

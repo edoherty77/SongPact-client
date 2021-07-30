@@ -20,7 +20,7 @@ const Tab = createBottomTabNavigator()
 
 export default function BottomTabs({ updateAuthState, logout }) {
   const getNumber = async () => {
-    await console.log('friendReq', currentUser.friendRequests)
+    // await console.log('friendReq', currentUser.friendRequests)
   }
 
   useEffect(() => {
