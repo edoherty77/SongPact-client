@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   FlatList,
+  KeyboardAvoidingView,
 } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import moment from 'moment'
@@ -91,51 +92,56 @@ const ChatRoom = ({ navigation, route }) => {
   }, [])
 
   return (
-    <Screen>
-      <View style={styles.mainView}>
-        <View style={styles.messagesView}>
-          <View style={styles.date}>
-            <AppText fontSize={20}>Today</AppText>
-          </View>
-          <View style={styles.messages}>
-            <FlatList
-              data={messages}
-              keyExtractor={(message) => message._id}
-              renderItem={({ item }) =>
-                item.user === currentUser.email ? (
-                  <OwnMessage item={item} />
-                ) : (
-                  <FriendMessage item={item} />
-                )
-              }
-            />
+    <KeyboardAvoidingView style={styles.container} behavior="height">
+      <Screen>
+        <View style={styles.mainView}>
+          <View style={styles.messagesView}>
+            <View style={styles.date}>
+              <AppText fontSize={20}>Today</AppText>
+            </View>
+            <View style={styles.messages}>
+              <FlatList
+                data={messages}
+                keyExtractor={(message) => message._id}
+                renderItem={({ item }) =>
+                  item.user === currentUser.email ? (
+                    <OwnMessage item={item} />
+                  ) : (
+                    <FriendMessage item={item} />
+                  )
+                }
+              />
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.sendView}>
-        <MaterialCommunityIcons name="paperclip" size={24} color="black" />
-        <TextInput
-          style={styles.input}
-          placeholder="Type something..."
-          value={message}
-          onChangeText={(text) => setMessage(text)}
-        />
-        <TouchableOpacity>
-          <MaterialCommunityIcons
-            name="send-outline"
-            size={24}
-            color="black"
-            onPress={handleMessage}
+        <View style={styles.sendView}>
+          <MaterialCommunityIcons name="paperclip" size={24} color="black" />
+          <TextInput
+            style={styles.input}
+            placeholder="Type something..."
+            value={message}
+            onChangeText={(text) => setMessage(text)}
           />
-        </TouchableOpacity>
-      </View>
-    </Screen>
+          <TouchableOpacity>
+            <MaterialCommunityIcons
+              name="send-outline"
+              size={24}
+              color="black"
+              onPress={handleMessage}
+            />
+          </TouchableOpacity>
+        </View>
+      </Screen>
+    </KeyboardAvoidingView>
   )
 }
 
 export default ChatRoom
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   mainView: {
     flex: 1,
     marginHorizontal: 30,
@@ -156,7 +162,7 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 50,
+    marginBottom: 100,
   },
   input: {
     height: 40,
