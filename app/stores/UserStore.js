@@ -13,7 +13,7 @@ class UserStore {
   email = ''
   pacts = []
   friends = ''
-  friendRequests = ''
+  friendRequests = []
   googlePhotoUrl = ''
   accessToken = ''
   chatRooms = []
@@ -36,7 +36,7 @@ class UserStore {
     this.pacts = values.pacts
     this.friends = values.friends
     this.phoneNumber = values.phoneNumber
-    this.friendRequests = values.friendRequests
+    // this.friendRequests = values.friendRequests
     this.googlePhotoUrl = values.googlePhotoUrl
     this.chatRooms = values.chatRooms
     this.notifications = values.notifications
