@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, FlatList, View } from 'react-native'
 import { Select } from 'native-base'
 import { Ionicons } from '@expo/vector-icons'
-import ModalDropdown from 'react-native-modal-dropdown'
+import ModalDropdown from 'react-native-modal-dropdown-v2'
 
 // FORM
 import { useFormikContext } from 'formik'
@@ -16,7 +16,7 @@ const AppFormSelect = ({ data, setItem, item, isDisabled, defaultValue }) => {
   let names = data.map((user) => {
     return user.name
   })
-  console.log('data', data)
+
   return (
     // <View
     //   style={[
@@ -64,17 +64,28 @@ const AppFormSelect = ({ data, setItem, item, isDisabled, defaultValue }) => {
     //     })}
     //   </Select>
     // </View>
-    <View>
+    <View style={styles.mainView}>
       <ModalDropdown
         options={names}
         defaultValue={
           defaultValue !== undefined ? defaultValue : 'Choose Producer'
         }
         onSelect={(itemIndex, itemValue) => {
-          // console.log('itemValue', value)
           setFieldValue('producer', itemValue), setItem(itemValue)
         }}
+        style={[
+          styles.selectStyle,
+          isDisabled === true
+            ? { backgroundColor: '#E0E0E0' }
+            : { backgroundColor: 'white' },
+        ]}
+        textStyle={styles.textStyle}
+        dropdownStyle={styles.dropdownStyle}
+        dropdownTextStyle={styles.dropdownTextStyle}
       />
+      <View style={styles.iconView}>
+        <Ionicons name="chevron-down" size={18} />
+      </View>
     </View>
   )
 }
@@ -82,15 +93,49 @@ const AppFormSelect = ({ data, setItem, item, isDisabled, defaultValue }) => {
 export default AppFormSelect
 
 const styles = StyleSheet.create({
-  selectView: {
+  mainView: {
+    width: '100%',
+    position: 'relative',
+  },
+  iconView: {
+    position: 'absolute',
+    zIndex: 2,
+    top: 25,
+    right: 20,
+  },
+  selectStyle: {
     borderColor: 'black',
     borderRadius: 5,
     borderWidth: 1,
     borderStyle: 'solid',
     marginVertical: 10,
     height: 50,
+    display: 'flex',
+    justifyContent: 'center',
+    paddingLeft: 20,
+    position: 'relative',
   },
-  select: {
-    height: 47,
+  textStyle: {
+    color: 'black',
+    fontSize: 18,
+    fontFamily: 'Avenir Next',
+  },
+  dropdownStyle: {
+    borderColor: 'black',
+    borderRadius: 5,
+    borderBottomWidth: 1,
+    borderRightWidth: 1,
+    borderLeftWidth: 1,
+    borderStyle: 'solid',
+    display: 'flex',
+    marginLeft: -21,
+    marginTop: 15,
+    height: 'auto',
+    padding: 10,
+  },
+  dropdownTextStyle: {
+    fontSize: 18,
+    fontFamily: 'Avenir Next',
+    color: 'black',
   },
 })

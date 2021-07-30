@@ -35,7 +35,6 @@ export default function GratInfo({ navigation }) {
   const [producer, setProducer] = React.useState('')
 
   function nextScreen(values) {
-    console.log('values', values)
     currentPact.setProducer(values)
     currentPact.setProducerInfo(values)
     navigation.navigate('GratInfoCont')
@@ -64,11 +63,13 @@ export default function GratInfo({ navigation }) {
             <AppText style={styles.text}>
               Who is the producer for this record?
             </AppText>
-            <AppFormSelect
-              data={currentPact.users}
-              setItem={setProducer}
-              item={producer}
-            />
+            <View style={{ width: '100%' }}>
+              <AppFormSelect
+                data={currentPact.users}
+                setItem={setProducer}
+                item={producer}
+              />
+            </View>
             <AppFormPercent
               icon
               name="advancePercent"
@@ -124,6 +125,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     marginHorizontal: 30,
+    position: 'relative',
   },
   sectionHeader: {
     marginVertical: 15,
