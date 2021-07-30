@@ -9,7 +9,6 @@ import AppText from '../AppText'
 import colors from '../../config/colors'
 
 const FriendRequest = ({ item, viewProfile }) => {
-  console.log('item', item)
   return (
     <View style={styles.notificationButton}>
       <View style={styles.textView}>
@@ -57,6 +56,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
+    width: '90%',
   },
   name: {
     fontWeight: 'bold',

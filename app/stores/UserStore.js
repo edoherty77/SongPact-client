@@ -13,7 +13,7 @@ class UserStore {
   email = ''
   pacts = []
   friends = ''
-  friendRequests = ''
+  friendRequests = []
   googlePhotoUrl = ''
   accessToken = ''
   chatRooms = []
@@ -35,10 +35,21 @@ class UserStore {
     this.email = values.email
     this.pacts = values.pacts
     this.friends = values.friends
-    this.friendRequests = values.friendRequests
+    this.phoneNumber = values.phoneNumber
+    // this.friendRequests = values.friendRequests
     this.googlePhotoUrl = values.googlePhotoUrl
     this.chatRooms = values.chatRooms
     this.notifications = values.notifications
+  }
+
+  setOnboarding(values) {
+    this.artistName = values.artistName
+    this.companyName = values.companyName
+    this.address = values.address
+    this.city = values.city
+    this.state = values.state
+    this.zipCode = values.zipCode
+    this.phoneNumber = values.phoneNumber
   }
 
   setChats(values) {

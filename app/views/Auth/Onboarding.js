@@ -39,18 +39,8 @@ const Onboarding = ({ navigation, route }) => {
   }
 
   const updateUser = async (values) => {
-    let friends
-    if (currentUser.friends.length > 0) {
-      friends = currentUser.friends
-    }
     try {
       let address
-      let googlePhotoUrl
-      if (user.googlePhotoUrl) {
-        googlePhotoUrl = user.googlePhotoUrl
-      } else {
-        googlePhotoUrl = ''
-      }
       if (values.apartment !== '') {
         address = values.address.concat(' ', values.apartment)
       }
@@ -64,17 +54,12 @@ const Onboarding = ({ navigation, route }) => {
         zipCode: parseInt(values.zipCode),
         companyName: values.companyName,
         phoneNumber: parseInt(values.phoneNumber),
-        googlePhotoUrl: googlePhotoUrl,
-        friends: friends,
       }
       await UserModel.update(obj)
       if (status === 'signing up') {
-        // await AsyncStorage.setItem('email', user.email)
-        // await AsyncStorage.setItem('userId', user.email)
-        // await currentUser.setUser(obj)
         navigation.navigate('SignIn')
       } else {
-        await currentUser.setUser(obj)
+        await currentUser.setOnboarding(obj)
         navigation.navigate('New')
       }
     } catch (error) {

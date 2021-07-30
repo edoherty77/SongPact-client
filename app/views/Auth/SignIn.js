@@ -67,6 +67,7 @@ const SignIn = ({ navigation }) => {
           obj['friendRequestId'] = request._id
           obj['requesterInfo'] = requesterInfo
           arr.push(obj)
+          console.log('arr', arr)
           await currentUser.setFriendRequests([...arr])
         })
       } else {
@@ -107,12 +108,12 @@ const SignIn = ({ navigation }) => {
       const dbUser = await UserModel.show(email)
       const foundUser = await AuthModel.login(userData)
       if (foundUser) {
-        await currentUser.setUser(dbUser.user)
+        await fetchRequests()
+        await checkForFriends()
+        await sortPacts(email)
         await AsyncStorage.setItem('email', foundUser.user.email)
         await AsyncStorage.setItem('userId', foundUser.user._id)
-        await checkForFriends()
-        await fetchRequests()
-        await sortPacts(email)
+        await currentUser.setUser(dbUser.user)
       }
     } catch (err) {
       console.log('Error signing in...', err)

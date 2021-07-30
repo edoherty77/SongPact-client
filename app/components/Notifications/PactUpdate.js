@@ -9,7 +9,6 @@ import AppText from '../AppText'
 import colors from '../../config/colors'
 
 const PactUpdate = ({ item, viewPact }) => {
-  console.log('item', item)
   return (
     <View style={styles.notificationButton}>
       <View style={styles.textView}>
