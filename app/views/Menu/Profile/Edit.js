@@ -8,46 +8,48 @@ import {
   Platform,
   Keyboard,
 } from 'react-native'
-import AppText from '../../../components/AppText'
-import UserModel from '../../../api/users'
-import * as Yup from 'yup'
-import AppButton from '../../../components/AppButton'
-import { AppForm, AppFormField, SubmitButton } from '../../../components/forms'
-import ButtonIcon from '../../../components/ButtonIcon'
 
-import Header from '../../../components/Header'
+// COMPONENTS
+import AppText from '../../../components/AppText'
 import Screen from '../../../components/Screen'
+import AppButton from '../../../components/AppButton'
+import ButtonIcon from '../../../components/ButtonIcon'
 import ButtonText from '../../../components/ButtonText'
-import colors from '../../../config/colors'
 import Separator from '../../../components/Separator'
-import store from '../../../stores/UserStore'
+
+// MODELS
+import UserModel from '../../../api/users'
+
+// FORM
+import { AppForm, AppFormField, SubmitButton } from '../../../components/forms'
+import * as Yup from 'yup'
+
+// STORE
+import currentUser from '../../../stores/UserStore'
+
+// CONFIG
+import colors from '../../../config/colors'
 
 const validationSchema = Yup.object().shape({
   artistName: Yup.string().required().label('Artist name'),
 })
 
-const zip = store.zipCode.toString()
+const zip = currentUser.zipCode.toString()
 
 const Edit = ({ navigation }) => {
   //Submit function to update item
   const handleEdit = async (values) => {
     parseInt(values.zipCode)
-    values.id = store._id
-    values.firstName = store.firstName
-    values.lastName = store.lastName
-    values.email = store.email
-    store.setUser(values)
+    values.id = currentUser._id
+    values.firstName = currentUser.firstName
+    values.lastName = currentUser.lastName
+    values.email = currentUser.email
+    currentUser.setUser(values)
     await UserModel.update(values)
     navigation.navigate('Profile')
   }
   return (
     <Screen>
-      <Header
-        icon="arrow-left-bold"
-        // noIcon
-        title="Edit"
-        back={() => navigation.navigate('Profile')}
-      />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <KeyboardAvoidingView
@@ -57,12 +59,12 @@ const Edit = ({ navigation }) => {
             <View style={styles.registerView}>
               <AppForm
                 initialValues={{
-                  address: store.address,
-                  city: store.city,
-                  state: store.state,
-                  zipCode: store.zipCode,
-                  artistName: store.artistName,
-                  companyName: store.companyName,
+                  address: currentUser.address,
+                  city: currentUser.city,
+                  state: currentUser.state,
+                  zipCode: currentUser.zipCode,
+                  artistName: currentUser.artistName,
+                  companyName: currentUser.companyName,
                 }}
                 onSubmit={(values) => handleEdit(values)}
                 validationSchema={validationSchema}
@@ -72,8 +74,8 @@ const Edit = ({ navigation }) => {
                   style={styles.input}
                   name="address"
                   label="Address"
-                  placeholder={store.address}
-                  // data={store.address}
+                  placeholder={currentUser.address}
+                  // data={currentUser.address}
                   autoCorrect={false}
                   textContentType="fullStreetAddress"
                 />
@@ -81,8 +83,8 @@ const Edit = ({ navigation }) => {
                 <AppFormField
                   style={styles.input}
                   name="city"
-                  placeholder={store.city}
-                  // data={store.city}
+                  placeholder={currentUser.city}
+                  // data={currentUser.city}
                   autoCorrect={false}
                   // width={"120%"}
                   textContentType="addressCity"
@@ -90,10 +92,10 @@ const Edit = ({ navigation }) => {
                 <AppText style={styles.label}>State</AppText>
                 <AppFormField
                   style={styles.input}
-                  // data={store.state}
+                  // data={currentUser.state}
                   name="state"
                   autoCorrect={false}
-                  placeholder={store.state}
+                  placeholder={currentUser.state}
                   // width={"90%"}
                   textContentType="addressState"
                 />
@@ -101,7 +103,7 @@ const Edit = ({ navigation }) => {
                 <AppFormField
                   style={styles.input}
                   name="zipCode"
-                  // data={store.zipCode}
+                  // data={currentUser.zipCode}
                   placeholder={zip}
                   autoCorrect={false}
                   // textContentType="postalCode"
@@ -111,16 +113,16 @@ const Edit = ({ navigation }) => {
                 <AppFormField
                   style={styles.input}
                   name="artistName"
-                  placeholder={store.artistName}
-                  // data={store.artistName}
+                  placeholder={currentUser.artistName}
+                  // data={currentUser.artistName}
                   autoCorrect={false}
                 />
                 <AppText style={styles.label}>Company Name</AppText>
                 <AppFormField
                   style={styles.input}
                   name="companyName"
-                  placeholder={store.companyName}
-                  // data={store.companyName}
+                  placeholder={currentUser.companyName}
+                  // data={currentUser.companyName}
                   autoCorrect={false}
                 />
                 <SubmitButton

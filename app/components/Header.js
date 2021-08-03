@@ -12,6 +12,7 @@ const Header = ({
   subTitle,
   noIcon,
   back,
+  edit,
   icon,
   noBack,
   navigation,
@@ -23,6 +24,10 @@ const Header = ({
 }) => {
   const goToMenu = () => {
     navigation.navigate('Menu')
+  }
+
+  const goToEdit = () => {
+    navigation.navigate('Edit')
   }
   const goBack = () => {
     navigation.goBack()
@@ -41,7 +46,17 @@ const Header = ({
         <View style={styles.titleContainer}>
           <AppText style={styles.screenName}>{title}</AppText>
         </View>
-
+        {edit && (
+          <ButtonIcon
+            onPress={goToEdit}
+            style={styles.messageBtn}
+            iconColor={colors.black}
+            size={45}
+            name="pencil-box-multiple"
+            backgroundColor="transparent"
+            {...otherProps}
+          />
+        )}
         {!noIcon && (
           <ButtonIcon
             onPress={goToMenu}

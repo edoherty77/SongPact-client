@@ -3,14 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 // Screens
 import ArtistProfile from '../views/FindArtist/ArtistProfile'
-import {
-  Main,
-  Profile,
-  Edit,
-  HowItWorks,
-  Help,
-  Preferences,
-} from '../views/Menu/index'
+import { Main, Edit, HowItWorks, Help, Preferences } from '../views/Menu/index'
 
 // COMPONENTS
 import Header from '../components/Header'
@@ -40,12 +33,16 @@ const MenuStack = (props) => {
         name="Profile"
         component={ArtistProfile}
         options={({ navigation, route }) => ({
-          header: (props) => (
-            <Header {...props} title="Profile" rightIcon="menu" />
-          ),
+          header: (props) => <Header {...props} title="Profile" noIcon edit />,
         })}
       />
-      <Stack.Screen name="Edit" component={Edit} />
+      <Stack.Screen
+        name="Edit"
+        component={Edit}
+        options={({ navigation, route }) => ({
+          header: (props) => <Header {...props} />,
+        })}
+      />
       <Stack.Screen name="HowItWorks" component={HowItWorks} />
       <Stack.Screen name="Help" component={Help} />
       <Stack.Screen name="Preferences" component={Preferences} />
