@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { View, StyleSheet, Image } from 'react-native'
 
 // COMPONENTS
@@ -9,13 +9,7 @@ import UserIcon from '../UserIcon'
 // CONFIG
 import colors from '../../config/colors'
 
-// STORE
-import currentUser from '../../stores/UserStore'
-
 const ChatRoomButton = ({ lastMessage, members, noIcon, viewChatRoom }) => {
-  // console.log('iteem', members)
-  console.log('lastMessage', lastMessage)
-
   return (
     <View style={styles.chatButton}>
       <View style={styles.contactView}>
@@ -38,7 +32,7 @@ const ChatRoomButton = ({ lastMessage, members, noIcon, viewChatRoom }) => {
         <View style={styles.infoContainer}>
           <AppText style={styles.name}>{members[0].name}</AppText>
           {lastMessage !== undefined && (
-            <AppText style={styles.email}>{lastMessage.message}</AppText>
+            <AppText style={styles.message}>{lastMessage.message}</AppText>
           )}
           <View style={styles.infoButtonContainer}></View>
         </View>
@@ -95,7 +89,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 3,
   },
-  email: {
+  message: {
     color: '#222222',
     opacity: 0.5,
     marginBottom: 2,

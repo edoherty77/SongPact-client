@@ -31,20 +31,19 @@ import MessagesModel from '../../api/messages'
 const socket = io('http://192.168.1.8:4000')
 
 const ChatRoom = ({ navigation, route }) => {
-  const { chatRoom } = route.params
+  const { chatRoom, members } = route.params
   const [messages, setMessages] = useState([])
   const [message, setMessage] = useState('')
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: (props) => (
-        <ChatHeader title="shit" {...props} rightIcon="phone" />
+        <ChatHeader title={members[0].name} {...props} rightIcon="phone" />
       ),
     })
   }, [navigation])
 
   const handleMessage = async () => {
-    // console.log('yooo')
     try {
       let messageInfo = {
         user: currentUser.email,

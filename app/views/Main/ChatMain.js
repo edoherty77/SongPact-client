@@ -29,8 +29,12 @@ const ChatMain = ({ navigation }) => {
   }, [])
 
   const viewChatRoom = (item) => {
+    const members = item.members.filter((member) => {
+      return currentUser.email !== member.user
+    })
     navigation.navigate('Chat Room', {
       chatRoom: item,
+      members: members,
     })
   }
 
