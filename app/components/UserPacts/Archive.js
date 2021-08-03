@@ -10,6 +10,7 @@ import AppSearchInput from '../AppSearchInput'
 const Archive = ({ navigation }) => {
   const reviewPact = (pact) => {
     pactStore.setPact(pact)
+    pactStore.setSigned()
     navigation.navigate('ReviewData')
   }
 

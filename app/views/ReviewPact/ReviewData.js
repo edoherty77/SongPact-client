@@ -1,14 +1,21 @@
 import React from 'react'
 import { StyleSheet, View, FlatList, ScrollView } from 'react-native'
 
+// CONFIG
 import colors from '../../config/colors'
+
+// COMPONENTS
 import Screen from '../../components/Screen'
 import AppText from '../../components/AppText'
 import Header from '../../components/Header'
 import Separator from '../../components/Separator'
-import AppProgressBar from '../../components/AppProgressBar'
 import AppButton from '../../components/AppButton'
+
+// MODELS
 import PactModel from '../../api/pacts'
+
+// STORE
+import currentUser from '../../stores/UserStore'
 import currentPact from '../../stores/CreatePactStore'
 
 // FORM
@@ -21,46 +28,7 @@ import {
 } from '../../components/forms'
 
 export default function ReviewData({ navigation }) {
-  const createPact = async () => {
-    let performArr = []
-    let usersArr = [currentPact.producer.user]
-    try {
-      currentPact.performers.map((performer) => {
-        let obj = {}
-        obj['user'] = performer._id
-        obj['publisherPercent'] = parseInt(performer.publisherPercent)
-        obj['name'] = performer.name
-        obj['companyName'] = performer.companyName
-        obj['artistName'] = performer.artistName
-        obj['address'] = performer.address
-        obj['city'] = performer.city
-        obj['state'] = performer.state
-        obj['zipCode'] = performer.zipCode
-        obj['email'] = performer.email
-        performArr.push(obj)
-        usersArr.push(performer._id)
-      })
-      let obj = {
-        status: 1,
-        users: usersArr,
-        producer: currentPact.producer,
-        type: currentPact.type,
-        sample: currentPact.sample,
-        recordLabel: currentPact.recordLabel,
-        labelName: currentPact.labelName,
-        recordTitle: currentPact.recordTitle,
-        initBy: currentPact.initBy,
-        collaborators: currentPact.collaborators,
-        performers: performArr,
-      }
-      await PactModel.create(obj)
-      currentPact.resetPact()
-      navigation.navigate('New')
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
+  console.log('currentPactttt', currentPact)
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: (props) => <Header title={currentPact.recordTitle} {...props} />,
@@ -73,12 +41,6 @@ export default function ReviewData({ navigation }) {
 
   return (
     <Screen>
-      {/* <Header
-        back={() => navigation.navigate('Dashboard')}
-        icon="arrow-back"
-        title={currentPact.recordTitle}
-        subTitle="Accept/Counter/Decline"
-      /> */}
       <Separator />
       <Formik
         initialValues={{}}
@@ -91,12 +53,22 @@ export default function ReviewData({ navigation }) {
             showsVerticalScrollIndicator={false}
           >
             <View style={styles.btnView}>
-              <AppButton
-                textColor="white"
-                title="Accept"
-                style={styles.button}
-                onPress={handleSubmit}
-              />
+              {currentPact.signed === false ? (
+                <AppButton
+                  textColor="white"
+                  title="Accept"
+                  style={styles.button}
+                  onPress={handleSubmit}
+                />
+              ) : (
+                <AppButton
+                  textColor="white"
+                  title="View Contract"
+                  style={[styles.button, { width: 120, marginLeft: 20 }]}
+                  onPress={handleSubmit}
+                />
+              )}
+
               {/* <AppButton
                 textColor="white"
                 title="Counter"
@@ -282,6 +254,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 45,
     backgroundColor: colors.green,
+    width: '30%',
+  },
+  disabledButton: {
+    marginTop: 20,
+    borderRadius: 5,
+    height: 45,
+    backgroundColor: colors.gray,
     width: '30%',
   },
 })

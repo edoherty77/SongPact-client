@@ -35,7 +35,7 @@ export default function DashboardStack({ updateAuthState, logout }) {
         name="ViewContract"
         component={ReviewContract}
         options={({ navigation, route }) => ({
-          header: (props) => <Header {...props} title="Sign" />,
+          header: (props) => <Header {...props} title="" />,
         })}
       />
       <Stack.Screen name="Menu" options={{ headerShown: false }}>
