@@ -5,20 +5,36 @@ import { StyleSheet, Text, View } from 'react-native'
 import ButtonIcon from '../ButtonIcon'
 import AppText from '../AppText'
 
+// STORE
+import currentUser from '../../stores/UserStore'
+
 // CONFIG
 import colors from '../../config/colors'
 
-const PactUpdate = ({ item, viewPact }) => {
+// MODELS
+import NotificationsModel from '../../api/notifications'
+
+const PactUpdate = ({ item, viewPact, deleteNotification }) => {
   return (
     <View style={styles.notificationButton}>
       <View style={styles.textView}>
-        <AppText style={styles.text}>
-          <AppText style={styles.name}>{item.initBy}</AppText>
-          {item.text}
-          <AppText style={styles.title} onPress={viewPact}>
-            {item.recordTitle}
+        {item.pactStatus === 1 ? (
+          <AppText style={styles.text}>
+            <AppText style={styles.name}>{item.initBy}</AppText>
+            {item.text}
+            <AppText style={styles.title} onPress={viewPact}>
+              {item.recordTitle}
+            </AppText>
           </AppText>
-        </AppText>
+        ) : (
+          <AppText style={styles.text}>
+            {item.text}
+            <AppText style={styles.title} onPress={viewPact}>
+              {item.recordTitle}
+            </AppText>
+            <AppText style={{ fontWeight: 'normal' }}> is complete</AppText>
+          </AppText>
+        )}
       </View>
       <View style={styles.timeView}>
         <AppText style={styles.timeText}>July 26th, 2021 9:16PM</AppText>
@@ -29,6 +45,7 @@ const PactUpdate = ({ item, viewPact }) => {
           backgroundColor={'transparent'}
           size={30}
           iconColor="rgba(34, 34, 34, 0.8)"
+          onPress={() => deleteNotification(item)}
         />
       </View>
     </View>
