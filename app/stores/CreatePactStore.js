@@ -57,13 +57,15 @@ class CreatePactStore {
         return (user['signatureImg'] = sig), (user['userStatus'] = 2)
       }
     })
-    this.users.every((user) => {
-      if (user.userStatus === 2) {
-        return (this.status = 2)
-      } else {
-        return (this.status = 1)
-      }
+    const status = this.users.every((user) => {
+      return user.userStatus === 2
     })
+    if (status === true) {
+      this.status = 2
+    } else {
+      this.status = 1
+    }
+    console.log('status', status)
   }
 
   setSigned() {
