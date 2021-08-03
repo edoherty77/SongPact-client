@@ -40,7 +40,7 @@ const NotificationsStack = ({ updateAuthState, logout }) => {
           header: (props) => <Header {...props} title="Sign" />,
         })}
       />
-      <Stack.Screen name="Menu">
+      <Stack.Screen name="Menu" options={{ headerShown: false }}>
         {(screenProps) => (
           <MenuStack
             {...screenProps}

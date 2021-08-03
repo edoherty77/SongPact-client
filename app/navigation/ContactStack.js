@@ -32,7 +32,7 @@ const ContactsStack = ({ updateAuthState, logout }) => {
           header: (props) => <Header title="" {...props} />,
         })}
       />
-      <Stack.Screen name="Menu">
+      <Stack.Screen name="Menu" options={{ headerShown: false }}>
         {(screenProps) => (
           <MenuStack
             {...screenProps}
