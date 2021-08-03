@@ -32,6 +32,7 @@ const socket = io('http://192.168.1.8:4000')
 
 const ChatRoom = ({ navigation, route }) => {
   const { chatRoom, members } = route.params
+  console.log('members', members)
   const [messages, setMessages] = useState([])
   const [message, setMessage] = useState('')
 

@@ -1,6 +1,5 @@
 import { StatusBar } from 'expo-status-bar'
 import React, { useEffect, useState } from 'react'
-import { ActivityIndicator, View } from 'react-native'
 import { NativeBaseProvider } from 'native-base'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
@@ -12,6 +11,7 @@ import * as Google from 'expo-google-app-auth'
 // NAV
 import AuthNavigator from './app/navigation/AuthNavigator'
 import Main from './app/navigation/main'
+
 // DATA FLOW
 import currentUser from './app/stores/UserStore'
 import currentPact from './app/stores/CreatePactStore'
@@ -30,14 +30,6 @@ import UserModel from './app/api/users'
 
 // Create a client
 const queryClient = new QueryClient()
-
-const Initializing = () => {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <ActivityIndicator size="large" color="tomato" />
-    </View>
-  )
-}
 
 const App = observer(() => {
   const [user, setUser] = useState({
@@ -93,11 +85,9 @@ const App = observer(() => {
     <QueryClientProvider client={queryClient}>
       <NativeBaseProvider>
         <SafeAreaProvider>
-          {user.email === 'initializing' && <Initializing />}
           {currentUser.email !== '' ? (
             <Main logout={logout} />
           ) : (
-            // <Home />
             <AuthNavigator />
           )}
         </SafeAreaProvider>
