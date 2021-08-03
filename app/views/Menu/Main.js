@@ -41,16 +41,6 @@ const menuItems = [
 ]
 
 export default function Main({ updateAuthState, navigation, logout }) {
-  // const signOut = async () => {
-  //   try {
-  //     await Auth.signOut()
-  //     store.resetUser()
-  //     updateAuthState('loggedOut')
-  //   } catch (error) {
-  //     console.log('error signing out: ', error)
-  //   }
-  // }
-
   return (
     <Screen>
       <View style={styles.menuContainer}>

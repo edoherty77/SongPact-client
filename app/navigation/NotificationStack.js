@@ -25,7 +25,13 @@ const NotificationsStack = ({ updateAuthState, logout }) => {
           header: (props) => <Header title="Notifications" noBack {...props} />,
         })}
       />
-      <Stack.Screen name="ReqArtistProfile" component={ArtistProfile} />
+      <Stack.Screen
+        name="ReqArtistProfile"
+        component={ArtistProfile}
+        options={({ navigation, route }) => ({
+          header: (props) => <Header {...props} />,
+        })}
+      />
       <Stack.Screen
         name="ReviewData"
         component={ReviewData}

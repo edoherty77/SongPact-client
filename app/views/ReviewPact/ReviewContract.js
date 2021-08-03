@@ -802,7 +802,7 @@ export default function ReviewContract({ navigation }) {
         signatureImg: signature,
         user: currentUser._id,
         name: currentUser.name,
-        status: 2,
+        status: currentPact.status,
         otherUsers: otherUsers,
         recordTitle: currentPact.recordTitle,
         type: currentPact.type,
@@ -846,6 +846,8 @@ export default function ReviewContract({ navigation }) {
 
   const confirmSignature = (signature) => {
     currentPact.setSignature(signature, currentUser)
+    console.log('currentPact', currentPact)
+
     setSigned(true)
     setVisible(false)
   }
