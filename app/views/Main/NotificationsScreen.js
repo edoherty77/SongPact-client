@@ -4,15 +4,11 @@ import { View, StyleSheet, FlatList } from 'react-native'
 
 // COMPONENTS
 import AppText from '../../components/AppText'
-import AppTextInput from '../../components/AppTextInput'
 import Screen from '../../components/Screen'
-import Separator from '../../components/Separator'
-import ContactButton from '../../components/ContactButton'
 import FriendRequest from '../../components/Notifications/FriendRequest'
 import PactUpdate from '../../components/Notifications/PactUpdate'
 
 // MODELS
-import UserModel from '../../api/users'
 import NotificationsModel from '../../api/notifications'
 import PactModel from '../../api/pacts'
 
@@ -21,7 +17,7 @@ import colors from '../../config/colors'
 
 // STORE
 import currentUser from '../../stores/UserStore'
-import pactStore from '../../stores/CreatePactStore'
+import currentPact from '../../stores/CreatePactStore'
 
 const NotificationsScreen = observer(({ navigation }) => {
   const viewProfile = (item) => {
@@ -31,7 +27,15 @@ const NotificationsScreen = observer(({ navigation }) => {
   }
   const reviewPact = async (pactId) => {
     const pact = await PactModel.show(pactId)
-    pactStore.setPact(pact)
+    currentPact.setPact(pact)
+    pact.users.find((user) => {
+      if (user.user === currentUser._id) {
+        if (user.userStatus === 2) {
+          currentPact.setSigned()
+        }
+      }
+    })
+
     navigation.navigate('ReviewData')
   }
 

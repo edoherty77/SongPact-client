@@ -14,6 +14,7 @@ import colors from '../../config/colors'
 const Pending = ({ navigation }) => {
   const reviewPact = (pact) => {
     pactStore.setPact(pact)
+    pactStore.setSigned()
     navigation.navigate('ReviewData')
   }
 

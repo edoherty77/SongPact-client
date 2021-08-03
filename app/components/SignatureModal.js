@@ -46,7 +46,7 @@ export default function SignatureModal({
               style={styles.input}
               value={sig}
               onChangeText={(text) => setSig(text)}
-              autoCapitalize
+              autoCapitalize="words"
             />
           </View>
           <AppText style={styles.agreement} fontSize={12}>

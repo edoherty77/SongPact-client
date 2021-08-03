@@ -846,8 +846,6 @@ export default function ReviewContract({ navigation }) {
 
   const confirmSignature = (signature) => {
     currentPact.setSignature(signature, currentUser)
-    console.log('currentPact', currentPact)
-
     setSigned(true)
     setVisible(false)
   }
@@ -866,21 +864,22 @@ export default function ReviewContract({ navigation }) {
             style={styles.btnSecondary}
             // onPress={nextScreen}
           />
-          {isSigned === false ? (
-            <AppButton
-              textColor="white"
-              title="Sign Pact"
-              style={styles.btnPrimary}
-              onPress={() => setVisible(true)}
-            />
-          ) : (
-            <AppButton
-              textColor="white"
-              title="Send Pact"
-              style={styles.btnPrimary}
-              onPress={() => acceptPact(sig)}
-            />
-          )}
+          {currentPact.signed === false &&
+            (isSigned === false ? (
+              <AppButton
+                textColor="white"
+                title="Sign Pact"
+                style={styles.btnPrimary}
+                onPress={() => setVisible(true)}
+              />
+            ) : (
+              <AppButton
+                textColor="white"
+                title="Send Pact"
+                style={styles.btnPrimary}
+                onPress={() => acceptPact(sig)}
+              />
+            ))}
         </View>
         <WebView
           style={styles.contract}

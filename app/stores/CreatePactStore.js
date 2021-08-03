@@ -5,6 +5,7 @@ class CreatePactStore {
   pactId = ''
   sample = false
   recordLabel = false
+  signed = false
   labelName = ''
   collaborators = []
   users = []
@@ -63,6 +64,10 @@ class CreatePactStore {
         return (this.status = 1)
       }
     })
+  }
+
+  setSigned() {
+    this.signed = true
   }
 
   setCollabInfo(values, foundUser) {
@@ -171,9 +176,10 @@ class CreatePactStore {
       zipCode: '',
       email: '',
     }
-    sample = false
-    recordLabel = false
-    labelName = ''
+    this.sample = false
+    this.recordLabel = false
+    this.labelName = ''
+    this.signed = false
   }
 }
 
