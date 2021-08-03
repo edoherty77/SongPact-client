@@ -18,6 +18,7 @@ const ChatMain = ({ navigation }) => {
   const getChatRooms = async () => {
     const response = await ChatRoomModel.all(currentUser.chatRooms)
     const chatRooms = response.foundChatRooms
+    console.log('chatroom', chatRooms)
     setChatRooms(chatRooms)
   }
 
@@ -32,7 +33,6 @@ const ChatMain = ({ navigation }) => {
       chatRoom: item,
     })
   }
-  console.log('chatroom', chatRooms)
 
   return (
     <Screen>
@@ -44,7 +44,10 @@ const ChatMain = ({ navigation }) => {
             keyExtractor={(chatroom) => chatroom._id}
             renderItem={({ item }) => (
               <ChatRoomButton
-                item={item.members}
+                members={item.members.filter((member) => {
+                  return currentUser.email !== member.user
+                })}
+                lastMessage={item.messages[item.messages.length - 1]}
                 viewChatRoom={() => viewChatRoom(item)}
               />
             )}

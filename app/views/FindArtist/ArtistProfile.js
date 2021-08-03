@@ -171,7 +171,7 @@ const FindArtist = observer(({ route, navigation }) => {
           <View style={styles.infoHeaderContainer}>
             <View style={styles.infoHeaderContent}>
               <AppText style={styles.infoHeaderText}>Contact Info</AppText>
-              {isFriend === false && (
+              {isFriend === false && currentUser.email !== item.email && (
                 <AppButton
                   item={item}
                   onPress={() => friendBtnLogic(item._id)}

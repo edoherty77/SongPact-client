@@ -11,7 +11,7 @@ import ChatRoom from '../views/Chat/ChatRoom'
 import NewMessage from '../views/Chat/NewMessage'
 
 // COMPONENTS
-import ChatHeader from '../components/ChatHeader'
+import ChatHeader from '../components/Chat/ChatHeader'
 
 const Stack = createStackNavigator()
 

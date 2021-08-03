@@ -1,12 +1,18 @@
 import React from 'react'
 import { StyleSheet, FlatList, View, TouchableOpacity } from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+
+// COMPONENTS
 import AppText from '../../components/AppText'
 import Screen from '../../components/Screen'
-import CurrentUser from '../../stores/UserStore'
 import MenuButton from '../../components/Menu/MenuButton'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+
+// CONFIG
 import colors from '../../config/colors'
-import ChatHeader from '../../components/ChatHeader'
+
+// STORE
+import CurrentUser from '../../stores/UserStore'
+
 const menuItems = [
   {
     title: 'Profile',

@@ -12,7 +12,7 @@ import moment from 'moment'
 import io from 'socket.io-client'
 
 // COMPONENTS
-import ChatHeader from '../../components/ChatHeader'
+import ChatHeader from '../../components/Chat/ChatHeader'
 import Screen from '../../components/Screen'
 import Separator from '../../components/Separator'
 import AppText from '../../components/AppText'
@@ -38,7 +38,7 @@ const ChatRoom = ({ navigation, route }) => {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: (props) => (
-        <ChatHeader title="fuck" {...props} rightIcon="phone" />
+        <ChatHeader title="shit" {...props} rightIcon="phone" />
       ),
     })
   }, [navigation])
