@@ -1,6 +1,8 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
+// Screens
+import ArtistProfile from '../views/FindArtist/ArtistProfile'
 import {
   Main,
   Profile,
@@ -11,7 +13,7 @@ import {
 } from '../views/Menu/index'
 
 // COMPONENTS
-import ChatHeader from '../components/ChatHeader'
+import Header from '../components/Header'
 
 const Stack = createStackNavigator()
 
@@ -21,7 +23,9 @@ const MenuStack = (props) => {
       <Stack.Screen
         name="Main"
         options={({ navigation, route }) => ({
-          header: (props) => <ChatHeader {...props} rightIcon="menu" />,
+          header: (props) => (
+            <Header title="Menu" {...props} rightIcon="menu" />
+          ),
         })}
       >
         {(screenprops) => (
@@ -34,10 +38,10 @@ const MenuStack = (props) => {
       </Stack.Screen>
       <Stack.Screen
         name="Profile"
-        component={Profile}
+        component={ArtistProfile}
         options={({ navigation, route }) => ({
           header: (props) => (
-            <ChatHeader {...props} title="Profile" rightIcon="menu" />
+            <Header {...props} title="Profile" rightIcon="menu" />
           ),
         })}
       />

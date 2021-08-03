@@ -1,33 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, View } from 'react-native'
 import AppText from '../../../components/AppText'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import Header from '../../../components/Header'
 import Screen from '../../../components/Screen'
 import colors from '../../../config/colors'
-import Separator from '../../../components/Separator'
 import store from '../../../stores/UserStore'
-// import { API, graphqlOperation } from 'aws-amplify'
-// import { onUpdateUser } from '../../../../src/graphql/subscriptions'
 
 const Profile = ({ navigation }) => {
   const [isUser, setUser] = useState('')
-
-  // useEffect(() => {
-  //   const updateUserListener = API.graphql(
-  //     graphqlOperation(onUpdateUser),
-  //   ).subscribe({
-  //     next: (userData) => {
-  //       const updateUser = userData.value.data.onUpdateUser
-  //       setUser(updateUser)
-  //     },
-  //   })
-
-  //   return () => {
-  //     // Unsubscribe for the focus Listener
-  //     updateUserListener.unsubscribe()
-  //   }
-  // }, [navigation])
 
   return (
     <Screen style={styles.container}>

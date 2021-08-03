@@ -1,14 +1,11 @@
 import React from 'react'
 import { StyleSheet, FlatList, View, TouchableOpacity } from 'react-native'
-import Header from '../../components/Header'
 import AppText from '../../components/AppText'
 import Screen from '../../components/Screen'
 import CurrentUser from '../../stores/UserStore'
 import MenuButton from '../../components/Menu/MenuButton'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import colors from '../../config/colors'
-import AsyncStorage from '@react-native-community/async-storage'
-import AuthModel from '../../api/auth'
 import ChatHeader from '../../components/ChatHeader'
 const menuItems = [
   {
@@ -48,14 +45,6 @@ export default function Main({ updateAuthState, navigation, logout }) {
   //   }
   // }
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      header: (props) => (
-        <ChatHeader title="Menu" {...props} rightIcon="menu" />
-      ),
-    })
-  }, [navigation])
-
   return (
     <Screen>
       <View style={styles.menuContainer}>
@@ -68,7 +57,11 @@ export default function Main({ updateAuthState, navigation, logout }) {
               title={item.title}
               iconName={item.iconName}
               nav={item.nav}
-              onPress={() => navigation.navigate(item.nav)}
+              onPress={() =>
+                navigation.navigate(item.nav, {
+                  item: CurrentUser,
+                })
+              }
             />
           )}
         />
