@@ -68,6 +68,14 @@ class UserStore {
     this.accessToken = token
   }
 
+  removeNotification(item) {
+    for (let i = 0; i <= this.notifications.length; i++) {
+      if (this.notifications[i]._id === item._id) {
+        this.notifications.splice(i, 1)
+      }
+    }
+  }
+
   resetUser() {
     this._id = ''
     this.name = ''

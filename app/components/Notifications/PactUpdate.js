@@ -5,11 +5,16 @@ import { StyleSheet, Text, View } from 'react-native'
 import ButtonIcon from '../ButtonIcon'
 import AppText from '../AppText'
 
+// STORE
+import currentUser from '../../stores/UserStore'
+
 // CONFIG
 import colors from '../../config/colors'
 
-const PactUpdate = ({ item, viewPact }) => {
-  console.log('item', item)
+// MODELS
+import NotificationsModel from '../../api/notifications'
+
+const PactUpdate = ({ item, viewPact, deleteNotification }) => {
   return (
     <View style={styles.notificationButton}>
       <View style={styles.textView}>
@@ -40,6 +45,7 @@ const PactUpdate = ({ item, viewPact }) => {
           backgroundColor={'transparent'}
           size={30}
           iconColor="rgba(34, 34, 34, 0.8)"
+          onPress={() => deleteNotification(item)}
         />
       </View>
     </View>

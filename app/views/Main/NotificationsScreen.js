@@ -35,6 +35,15 @@ const NotificationsScreen = observer(({ navigation }) => {
     navigation.navigate('ReviewData')
   }
 
+  const deleteNotification = async (item) => {
+    const data = {
+      notificationId: item._id,
+      userId: currentUser._id,
+    }
+    currentUser.removeNotification(item)
+    await NotificationsModel.delete(data)
+  }
+
   return (
     <Screen>
       <View style={styles.mainView}>
@@ -68,6 +77,7 @@ const NotificationsScreen = observer(({ navigation }) => {
               renderItem={({ item, index }) => (
                 <PactUpdate
                   item={item}
+                  deleteNotification={deleteNotification}
                   viewPact={() => {
                     reviewPact(item.pactId)
                   }}
