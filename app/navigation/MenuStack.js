@@ -10,12 +10,20 @@ import {
   Preferences,
 } from '../views/Menu/index'
 
+// COMPONENTS
+import ChatHeader from '../components/ChatHeader'
+
 const Stack = createStackNavigator()
 
 const MenuStack = (props) => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} headerMode="screen">
-      <Stack.Screen name="Main">
+    <Stack.Navigator headerMode="screen">
+      <Stack.Screen
+        name="Main"
+        options={({ navigation, route }) => ({
+          header: (props) => <ChatHeader {...props} rightIcon="menu" />,
+        })}
+      >
         {(screenprops) => (
           <Main
             {...screenprops}
@@ -24,7 +32,15 @@ const MenuStack = (props) => {
           />
         )}
       </Stack.Screen>
-      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={({ navigation, route }) => ({
+          header: (props) => (
+            <ChatHeader {...props} title="Profile" rightIcon="menu" />
+          ),
+        })}
+      />
       <Stack.Screen name="Edit" component={Edit} />
       <Stack.Screen name="HowItWorks" component={HowItWorks} />
       <Stack.Screen name="Help" component={Help} />

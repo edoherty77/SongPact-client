@@ -19,6 +19,7 @@ import currentPact from '../../stores/CreatePactStore'
 import currentUser from '../../stores/UserStore'
 
 function ChooseCollabs({ navigation }) {
+  console.log('current friends', currentUser.friends)
   const nextScreen = (values) => {
     currentPact.setCollabInfo(values, currentUser)
     navigation.navigate('GratInfo')
@@ -85,11 +86,12 @@ function ChooseCollabs({ navigation }) {
                       renderItem={({ item }) => (
                         <ContactCheckBox
                           photo={item.googlePhotoUrl}
-                          name={`collabs.${item.id}`}
+                          name={`collabs.${item._id}`}
                           title={`${item.name}`}
                           onPress={(checked) => {
+                            console.log('item', item)
                             const index = values.collabs.findIndex(
-                              (person) => person.id === item.id,
+                              (person) => person._id === item._id,
                             )
                             if (checked === true) {
                               push(item)

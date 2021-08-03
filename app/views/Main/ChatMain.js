@@ -32,6 +32,7 @@ const ChatMain = ({ navigation }) => {
       chatRoom: item,
     })
   }
+  console.log('chatroom', chatRooms)
 
   return (
     <Screen>

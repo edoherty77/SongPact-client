@@ -9,6 +9,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import colors from '../../config/colors'
 import AsyncStorage from '@react-native-community/async-storage'
 import AuthModel from '../../api/auth'
+import ChatHeader from '../../components/ChatHeader'
 const menuItems = [
   {
     title: 'Profile',
@@ -47,13 +48,16 @@ export default function Main({ updateAuthState, navigation, logout }) {
   //   }
   // }
 
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      header: (props) => (
+        <ChatHeader title="Menu" {...props} rightIcon="menu" />
+      ),
+    })
+  }, [navigation])
+
   return (
     <Screen>
-      <Header
-        title="Menu"
-        icon="arrow-back"
-        back={() => navigation.navigate('Dashboard')}
-      />
       <View style={styles.menuContainer}>
         <FlatList
           data={menuItems}

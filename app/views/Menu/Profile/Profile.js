@@ -31,13 +31,6 @@ const Profile = ({ navigation }) => {
 
   return (
     <Screen style={styles.container}>
-      <Header
-        title="Profile"
-        icon="arrow-left-bold"
-        back={() => navigation.navigate('Main')}
-        name="comment-edit"
-        iconPress={() => navigation.navigate('Edit')}
-      />
       {/* <ScrollView> */}
       <View style={styles.main}>
         <View style={styles.nameContainer}>

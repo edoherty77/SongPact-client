@@ -1,6 +1,5 @@
 import React from 'react'
 import { View, StyleSheet, FlatList, Image } from 'react-native'
-import { Header, Item, Icon, Input } from 'native-base'
 
 // FORM
 import { SubmitButton } from '../../components/forms'

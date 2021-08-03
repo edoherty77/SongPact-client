@@ -90,7 +90,7 @@ class CreatePactStore {
 
   setProducer(values) {
     //Find the one producer and add to object
-    let foundProducer = this.users.find((x) => x.user === values.producer)
+    let foundProducer = this.users.find((x) => x.name === values.producer)
     this.producer.user = foundProducer.user
     this.producer.artistName = foundProducer.artistName
     this.producer.name = foundProducer.name

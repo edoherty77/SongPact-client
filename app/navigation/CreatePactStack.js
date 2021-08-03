@@ -119,7 +119,7 @@ const CreatePactStack = ({ updateAuthState, logout }) => {
           ),
         })}
       />
-      <Stack.Screen name="Menu">
+      <Stack.Screen name="Menu" options={{ headerShown: false }}>
         {(screenProps) => (
           <MenuStack
             {...screenProps}
