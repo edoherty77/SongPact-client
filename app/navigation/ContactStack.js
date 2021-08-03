@@ -29,7 +29,7 @@ const ContactsStack = ({ updateAuthState, logout }) => {
         name="ArtistProfile"
         component={ArtistProfile}
         options={({ navigation, route }) => ({
-          header: (props) => <Header title="Artist Profile" {...props} />,
+          header: (props) => <Header title="" {...props} />,
         })}
       />
       <Stack.Screen name="Menu">
