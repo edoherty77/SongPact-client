@@ -105,14 +105,15 @@ const SignIn = ({ navigation }) => {
     try {
       const userData = { email: email, password: password }
       const dbUser = await UserModel.show(email)
+      console.log('dbUser', dbUser)
       const foundUser = await AuthModel.login(userData)
       if (foundUser) {
-        await fetchRequests()
-        await checkForFriends()
-        await sortPacts(email)
         await AsyncStorage.setItem('email', foundUser.user.email)
         await AsyncStorage.setItem('userId', foundUser.user._id)
         await currentUser.setUser(dbUser.user)
+        await fetchRequests()
+        await checkForFriends()
+        await sortPacts(email)
       }
     } catch (err) {
       console.log('Error signing in...', err)

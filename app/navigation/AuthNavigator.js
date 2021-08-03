@@ -11,7 +11,7 @@ import SplashScreen from '../views/Main/SplashScreen'
 function splashScreen({ navigation }) {
   setTimeout(() => {
     navigation.replace('SignIn')
-  }, 3000)
+  }, 500)
   return <SplashScreen />
 }
 

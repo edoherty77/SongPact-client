@@ -7,7 +7,7 @@ export default class NotificationsModel {
     try {
       const response = await axios.get(`${url}/notification/${id}`)
       // const foundNotifications = response.data
-      console.log('response', response)
+
       // return foundNotifications
     } catch (error) {
       console.log(error)

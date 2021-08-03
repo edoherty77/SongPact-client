@@ -11,7 +11,6 @@ class CreatePactStore {
   recordTitle = ''
   initBy = {
     user: '',
-    status: 1,
     name: '',
   }
   performers = []
@@ -54,7 +53,14 @@ class CreatePactStore {
   setSignature(sig, currentUser) {
     this.users.find((user) => {
       if (user.user === currentUser._id) {
-        return (user['signatureImg'] = sig)
+        return (user['signatureImg'] = sig), (user['userStatus'] = 2)
+      }
+    })
+    this.users.every((user) => {
+      if (user.userStatus === 2) {
+        return (this.status = 2)
+      } else {
+        return (this.status = 1)
       }
     })
   }
@@ -65,7 +71,7 @@ class CreatePactStore {
     this.initBy.name = foundUser.name
     this.users.push({
       user: foundUser._id,
-      userStatus: 2,
+      // userStatus: 2,
       name: foundUser.name,
     })
 
@@ -73,7 +79,6 @@ class CreatePactStore {
     const collabsArr = values.collabs
     collabsArr.map((collab) => {
       let obj = {}
-      obj['status'] = 1
       obj['user'] = collab._id
       obj['name'] = collab.name
       obj['artistName'] = collab.artistName

@@ -7,20 +7,15 @@ const SplashScreen = ({ navigation }) => {
   return (
     <View style={styles.mainView}>
       <View style={styles.content}>
-        <AppText fontSize={150} color={colors.white} style={styles.title}>
+        <AppText fontSize={150} color={colors.white}>
           SP
         </AppText>
         <AppText fontSize={30} color={colors.white} style={styles.tagline}>
-          Some sort of tagline for SongPact
+          Manage your contracts.
         </AppText>
-        <View style={styles.footerView}>
-          <AppText fontSize={25} style={styles.footerText}>
-            Manage your contracts.
-          </AppText>
-          <AppText fontSize={25} style={styles.footerText}>
-            Seamlessly.
-          </AppText>
-        </View>
+        <AppText fontSize={25} color={colors.white} style={styles.tagline}>
+          Seamlessly.
+        </AppText>
       </View>
     </View>
   )
@@ -36,11 +31,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.green,
     flex: 1,
   },
-  title: {},
   content: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 250,
+    marginBottom: 180,
     padding: 30,
   },
   tagline: {
@@ -48,13 +42,5 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     textAlign: 'center',
     marginBottom: 15,
-  },
-  footerView: {
-    paddingLeft: 40,
-    paddingRight: 40,
-  },
-  footerText: {
-    textAlign: 'center',
-    color: 'rgba(238, 238, 238, 0.8)',
   },
 })

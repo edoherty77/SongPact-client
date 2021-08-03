@@ -6,7 +6,6 @@ import MenuStack from './MenuStack'
 
 // SCREENS
 import Contacts from '../views/Main/ContactsScreen'
-import Find from '../views/FindArtist/FindArtistScreen'
 import ArtistProfile from '../views/FindArtist/ArtistProfile'
 
 // COMPONENTS
@@ -24,7 +23,6 @@ const ContactsStack = ({ updateAuthState, logout }) => {
           header: (props) => <Header title="Contacts" noBack {...props} />,
         })}
       />
-      <Stack.Screen name="Find" component={Find} />
       <Stack.Screen
         name="ArtistProfile"
         component={ArtistProfile}
