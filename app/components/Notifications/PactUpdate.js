@@ -9,16 +9,27 @@ import AppText from '../AppText'
 import colors from '../../config/colors'
 
 const PactUpdate = ({ item, viewPact }) => {
+  console.log('item', item)
   return (
     <View style={styles.notificationButton}>
       <View style={styles.textView}>
-        <AppText style={styles.text}>
-          <AppText style={styles.name}>{item.initBy}</AppText>
-          {item.text}
-          <AppText style={styles.title} onPress={viewPact}>
-            {item.recordTitle}
+        {item.pactStatus === 1 ? (
+          <AppText style={styles.text}>
+            <AppText style={styles.name}>{item.initBy}</AppText>
+            {item.text}
+            <AppText style={styles.title} onPress={viewPact}>
+              {item.recordTitle}
+            </AppText>
           </AppText>
-        </AppText>
+        ) : (
+          <AppText style={styles.text}>
+            {item.text}
+            <AppText style={styles.title} onPress={viewPact}>
+              {item.recordTitle}
+            </AppText>
+            <AppText style={{ fontWeight: 'normal' }}> is complete</AppText>
+          </AppText>
+        )}
       </View>
       <View style={styles.timeView}>
         <AppText style={styles.timeText}>July 26th, 2021 9:16PM</AppText>
