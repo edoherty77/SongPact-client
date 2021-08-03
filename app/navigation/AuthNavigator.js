@@ -6,13 +6,25 @@ import { NavigationContainer } from '@react-navigation/native'
 import SignIn from '../views/Auth/SignIn'
 import SignUp from '../views/Auth/SignUp'
 import Onboarding from '../views/Auth/Onboarding'
+import SplashScreen from '../views/Main/SplashScreen'
+
+function splashScreen({ navigation }) {
+  setTimeout(() => {
+    navigation.replace('SignIn')
+  }, 3000)
+  return <SplashScreen />
+}
 
 const Stack = createStackNavigator()
 
 const AuthNavigator = (props) => {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="SplashScreen"
+      >
+        <Stack.Screen name="SpashScreen" component={splashScreen} />
         <Stack.Screen name="SignIn">
           {(screenProps) => (
             <SignIn {...screenProps} updateAuthState={props.updateAuthState} />

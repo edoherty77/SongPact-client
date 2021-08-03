@@ -12,7 +12,7 @@ import moment from 'moment'
 import io from 'socket.io-client'
 
 // COMPONENTS
-import ChatHeader from '../../components/ChatHeader'
+import ChatHeader from '../../components/Chat/ChatHeader'
 import Screen from '../../components/Screen'
 import Separator from '../../components/Separator'
 import AppText from '../../components/AppText'
@@ -31,20 +31,20 @@ import MessagesModel from '../../api/messages'
 const socket = io('http://192.168.1.8:4000')
 
 const ChatRoom = ({ navigation, route }) => {
-  const { chatRoom } = route.params
+  const { chatRoom, members } = route.params
+  console.log('members', members)
   const [messages, setMessages] = useState([])
   const [message, setMessage] = useState('')
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: (props) => (
-        <ChatHeader title="fuck" {...props} rightIcon="phone" />
+        <ChatHeader title={members[0].name} {...props} rightIcon="phone" />
       ),
     })
   }, [navigation])
 
   const handleMessage = async () => {
-    // console.log('yooo')
     try {
       let messageInfo = {
         user: currentUser.email,

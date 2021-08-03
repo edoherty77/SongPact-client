@@ -1,10 +1,10 @@
 import React from 'react'
 import { StyleSheet, View, SafeAreaView } from 'react-native'
 
-import ButtonIcon from './ButtonIcon'
+import ButtonIcon from '../ButtonIcon'
 import { Ionicons } from '@expo/vector-icons'
-import AppText from './AppText'
-import colors from '../config/colors'
+import AppText from '../AppText'
+import colors from '../../config/colors'
 
 const ChatHeader = ({
   onPress,

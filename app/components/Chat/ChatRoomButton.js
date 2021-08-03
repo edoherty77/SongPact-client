@@ -1,28 +1,27 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { View, StyleSheet, Image } from 'react-native'
+
+// COMPONENTS
 import AppText from '../AppText'
-import colors from '../../config/colors'
 import ButtonIcon from '../ButtonIcon'
 import UserIcon from '../UserIcon'
 
-const ChatRoomButton = ({ onPress, item, noIcon, viewChatRoom }) => {
-  // console.log('iteem', item)
-  let initials
-  if (item.name !== undefined) {
-    initials =
-      item.name.split(' ')[0].split('')[0] +
-      item.name.split(' ')[1].split('')[0]
-  }
+// CONFIG
+import colors from '../../config/colors'
 
+const ChatRoomButton = ({ lastMessage, members, noIcon, viewChatRoom }) => {
   return (
     <View style={styles.chatButton}>
       <View style={styles.contactView}>
         <View style={styles.picContainer}>
-          {item.googlePhotoUrl ? (
-            <Image source={{ uri: item.googlePhotoUrl }} style={styles.image} />
+          {members[0].googlePhotoUrl ? (
+            <Image
+              source={{ uri: members[0].googlePhotoUrl }}
+              style={styles.image}
+            />
           ) : (
             <UserIcon
-              title={item.name}
+              title={members[0].name}
               style={styles.image}
               fontSize={20}
               color={colors.white}
@@ -31,8 +30,10 @@ const ChatRoomButton = ({ onPress, item, noIcon, viewChatRoom }) => {
           )}
         </View>
         <View style={styles.infoContainer}>
-          <AppText style={styles.name}>{item.name}</AppText>
-          <AppText style={styles.email}>{item.email}</AppText>
+          <AppText style={styles.name}>{members[0].name}</AppText>
+          {lastMessage !== undefined && (
+            <AppText style={styles.message}>{lastMessage.message}</AppText>
+          )}
           <View style={styles.infoButtonContainer}></View>
         </View>
       </View>
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 3,
   },
-  email: {
+  message: {
     color: '#222222',
     opacity: 0.5,
     marginBottom: 2,

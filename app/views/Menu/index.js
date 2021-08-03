@@ -1,5 +1,4 @@
 export { default as Main } from './Main'
-export { default as Profile } from './Profile/Profile'
 export { default as Edit } from './Profile/Edit'
 export { default as HowItWorks } from './HowItWorks'
 export { default as Help } from './Help'

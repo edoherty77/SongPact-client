@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native'
 import AppText from '../../components/AppText'
 import colors from '../../config/colors'
 
-const HomeScreen = () => {
+const SplashScreen = ({ navigation }) => {
   return (
     <View style={styles.mainView}>
       <View style={styles.content}>
@@ -26,7 +26,7 @@ const HomeScreen = () => {
   )
 }
 
-export default HomeScreen
+export default SplashScreen
 
 const styles = StyleSheet.create({
   mainView: {

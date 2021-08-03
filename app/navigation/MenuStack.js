@@ -1,17 +1,12 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import {
-  Main,
-  Profile,
-  Edit,
-  HowItWorks,
-  Help,
-  Preferences,
-} from '../views/Menu/index'
+// Screens
+import ArtistProfile from '../views/FindArtist/ArtistProfile'
+import { Main, Edit, HowItWorks, Help, Preferences } from '../views/Menu/index'
 
 // COMPONENTS
-import ChatHeader from '../components/ChatHeader'
+import Header from '../components/Header'
 
 const Stack = createStackNavigator()
 
@@ -21,7 +16,9 @@ const MenuStack = (props) => {
       <Stack.Screen
         name="Main"
         options={({ navigation, route }) => ({
-          header: (props) => <ChatHeader {...props} rightIcon="menu" />,
+          header: (props) => (
+            <Header title="Menu" {...props} rightIcon="menu" />
+          ),
         })}
       >
         {(screenprops) => (
@@ -34,14 +31,18 @@ const MenuStack = (props) => {
       </Stack.Screen>
       <Stack.Screen
         name="Profile"
-        component={Profile}
+        component={ArtistProfile}
         options={({ navigation, route }) => ({
-          header: (props) => (
-            <ChatHeader {...props} title="Profile" rightIcon="menu" />
-          ),
+          header: (props) => <Header {...props} title="Profile" noIcon edit />,
         })}
       />
-      <Stack.Screen name="Edit" component={Edit} />
+      <Stack.Screen
+        name="Edit"
+        component={Edit}
+        options={({ navigation, route }) => ({
+          header: (props) => <Header {...props} />,
+        })}
+      />
       <Stack.Screen name="HowItWorks" component={HowItWorks} />
       <Stack.Screen name="Help" component={Help} />
       <Stack.Screen name="Preferences" component={Preferences} />

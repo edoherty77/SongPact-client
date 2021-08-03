@@ -22,11 +22,13 @@ import ChatRoomModel from '../../api/chatRoom'
 
 function NewMessage({ navigation }) {
   const createChatRoom = async (values) => {
+    let membersArr = []
     let arr = [{ user: currentUser._id, name: currentUser.name }]
     values.collabs.map((user) => {
       let obj = {}
       obj['user'] = user._id
       obj['name'] = user.name
+      membersArr.push(obj)
       arr.push(obj)
     })
     try {
@@ -34,6 +36,7 @@ function NewMessage({ navigation }) {
       const chatRoom = response.data
       await navigation.navigate('Chat Room', {
         chatRoom: chatRoom.chatRoom,
+        members: membersArr,
       })
     } catch (error) {
       console.log(error)
