@@ -4,6 +4,7 @@ import { View, StyleSheet, FlatList } from 'react-native'
 
 // COMPONENTS
 import AppText from '../../components/AppText'
+import AppButton from '../../components/AppButton'
 import Screen from '../../components/Screen'
 import FriendRequest from '../../components/Notifications/FriendRequest'
 import PactUpdate from '../../components/Notifications/PactUpdate'
@@ -25,6 +26,7 @@ const NotificationsScreen = observer(({ navigation }) => {
       item: item.requesterInfo,
     })
   }
+
   const reviewPact = async (pactId) => {
     const pact = await PactModel.show(pactId)
     currentPact.setPact(pact)
@@ -35,7 +37,6 @@ const NotificationsScreen = observer(({ navigation }) => {
         }
       }
     })
-
     navigation.navigate('ReviewData')
   }
 
@@ -53,29 +54,21 @@ const NotificationsScreen = observer(({ navigation }) => {
     <Screen>
       <View style={styles.mainView}>
         {currentUser.friendRequests.length > 0 && (
-          <View style={styles.requestsList}>
-            <AppText style={styles.listHeader}>Friend Requests</AppText>
-
+          <View>
             <FlatList
               data={currentUser.friendRequests}
               keyExtractor={(friendRequests) => friendRequests.friendRequestId}
               renderItem={({ item, index }) => (
                 <FriendRequest
-                  item={item.requesterInfo}
+                  item={item}
                   viewProfile={() => viewProfile(item)}
-                  onPress={() => {
-                    // answerRequest(item.friendRequestId, item.requesterInfo._id)
-                    // setModalVisible(true)
-                    // setFriendInfo(item)
-                  }}
                 />
               )}
             />
           </View>
         )}
         {currentUser.notifications.length > 0 && (
-          <View style={styles.notificationsList}>
-            <AppText style={styles.listHeader}>Contracts</AppText>
+          <View>
             <FlatList
               showsVerticalScrollIndicator={false}
               data={currentUser.notifications}
@@ -103,20 +96,7 @@ const styles = StyleSheet.create({
   mainView: {
     marginLeft: 25,
     marginRight: 25,
-    marginTop: 25,
+    marginTop: 30,
     flex: 1,
-  },
-  requestsList: {
-    marginBottom: 25,
-    flex: 1,
-  },
-  notificationsList: {
-    marginBottom: 35,
-    flex: 3,
-  },
-  listHeader: {
-    marginBottom: 8,
-    fontSize: 16,
-    // color: colors.gray,
   },
 })

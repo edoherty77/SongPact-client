@@ -66,6 +66,7 @@ const SignIn = ({ navigation }) => {
           let requesterInfo = requester.user
           obj['friendRequestId'] = request._id
           obj['requesterInfo'] = requesterInfo
+          obj['date'] = request.date
           arr.push(obj)
           await currentUser.setFriendRequests([...arr])
           await currentUser.setBadgeNum(arr.length)
