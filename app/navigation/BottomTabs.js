@@ -19,13 +19,12 @@ import colors from '../config/colors'
 const Tab = createBottomTabNavigator()
 
 export default function BottomTabs({ updateAuthState, logout }) {
-  const getNumber = async () => {
-    // await console.log('friendReq', currentUser.friendRequests)
-  }
+  // const [num, setNum] = useState(null)
 
-  useEffect(() => {
-    getNumber()
-  }, [])
+  // useEffect(() => {
+  //   setNum(currentUser.badgeNum)
+  // }, [currentUser.badgeNum])
+
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -126,7 +125,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
       <Tab.Screen
         name="Notifications"
         options={{
-          tabBarBadge: 3,
+          tabBarBadge: currentUser.badgeNum,
           tabBarBadgeStyle: {
             top: 15,
             paddingTop: 1,

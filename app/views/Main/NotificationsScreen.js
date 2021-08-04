@@ -45,6 +45,7 @@ const NotificationsScreen = observer(({ navigation }) => {
       userId: currentUser._id,
     }
     currentUser.removeNotification(item)
+    currentUser.subtractBadgeNum()
     await NotificationsModel.delete(data)
   }
 
@@ -52,7 +53,7 @@ const NotificationsScreen = observer(({ navigation }) => {
     <Screen>
       <View style={styles.mainView}>
         {currentUser.friendRequests.length > 0 && (
-          <View style={styles.list}>
+          <View style={styles.requestsList}>
             <AppText style={styles.listHeader}>Friend Requests</AppText>
 
             <FlatList
@@ -73,9 +74,10 @@ const NotificationsScreen = observer(({ navigation }) => {
           </View>
         )}
         {currentUser.notifications.length > 0 && (
-          <View style={styles.list}>
+          <View style={styles.notificationsList}>
             <AppText style={styles.listHeader}>Contracts</AppText>
             <FlatList
+              showsVerticalScrollIndicator={false}
               data={currentUser.notifications}
               keyExtractor={(notifications) => notifications._id}
               renderItem={({ item, index }) => (
@@ -102,13 +104,18 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginRight: 25,
     marginTop: 25,
-    // flex: 1,
+    flex: 1,
   },
-  list: {
+  requestsList: {
     marginBottom: 25,
+    flex: 1,
+  },
+  notificationsList: {
+    marginBottom: 35,
+    flex: 3,
   },
   listHeader: {
-    marginBottom: 5,
+    marginBottom: 8,
     fontSize: 16,
     // color: colors.gray,
   },

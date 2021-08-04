@@ -104,6 +104,7 @@ const FindArtist = observer(({ route, navigation }) => {
     let data = { requestId, values }
     await FriendRequestModel.update(data)
     await FriendRequestModel.delete(requestId)
+    currentUser.subtractBadgeNum()
   }
 
   return (
