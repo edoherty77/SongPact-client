@@ -8,7 +8,7 @@ import MenuStack from './MenuStack'
 // SCREENS
 import ChatMain from '../views/Main/ChatMain'
 import ChatRoom from '../views/Chat/ChatRoom'
-import NewMessage from '../views/Chat/NewMessage'
+import NewChatRoom from '../views/Chat/NewChatRoom'
 
 // COMPONENTS
 import ChatHeader from '../components/Chat/ChatHeader'
@@ -41,8 +41,8 @@ const ChatStack = ({ navigation, route }) => {
         })}
       />
       <Stack.Screen
-        name="New Message"
-        component={NewMessage}
+        name="New Chat"
+        component={NewChatRoom}
         options={({ navigation, route }) => ({
           header: (props) => (
             <ChatHeader

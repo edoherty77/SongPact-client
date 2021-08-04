@@ -4,9 +4,9 @@ import ButtonIcon from './ButtonIcon'
 import AppText from './AppText'
 import colors from '../config/colors'
 
-const PactButton = ({ type, title, name, status, onPress }) => {
+const PactButton = ({ type, title, name, status, onPress, lastUpdated }) => {
   return (
-    <View style={styles.pactButton} onPress={onPress}>
+    <TouchableOpacity style={styles.pactButton} onPress={onPress}>
       <View style={[styles.status, { backgroundColor: status }]}></View>
       <View>
         <AppText style={styles.title}>{title}</AppText>
@@ -15,19 +15,10 @@ const PactButton = ({ type, title, name, status, onPress }) => {
         </AppText>
         <AppText fontSize={13}>Type: {type}</AppText>
       </View>
-      <View style={styles.topRight}>
-        <ButtonIcon
-          name="chevron-right"
-          backgroundColor={'transparent'}
-          size={45}
-          iconColor={colors.black}
-          onPress={onPress}
-        />
+      <View style={styles.dateView}>
+        <AppText style={styles.updated}>Last updated: {lastUpdated}</AppText>
       </View>
-      <View style={styles.bottomRight}>
-        <AppText style={styles.updated}>Last updated: 05/02/2021</AppText>
-      </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -38,6 +29,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     marginBottom: 15,
     padding: 15,
+    paddingRight: 0,
     borderRadius: 5,
     display: 'flex',
     flexDirection: 'row',
@@ -61,22 +53,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 22,
     marginBottom: 4,
+    width: 130,
   },
   text: {
     fontSize: 14,
     marginBottom: 4,
   },
-  topRight: {
-    display: 'flex',
-    position: 'absolute',
+  dateView: {
+    right: -25,
     top: 5,
-    right: 5,
-  },
-  bottomRight: {
-    display: 'flex',
-    position: 'absolute',
-    bottom: 15,
-    right: 20,
   },
   updated: {
     color: 'rgba(34, 34, 34, 0.8)',

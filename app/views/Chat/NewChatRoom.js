@@ -20,7 +20,7 @@ import currentUser from '../../stores/UserStore'
 // MODELS
 import ChatRoomModel from '../../api/chatRoom'
 
-function NewMessage({ navigation }) {
+function NewChatRoom({ navigation }) {
   const createChatRoom = async (values) => {
     let membersArr = []
     let arr = [{ user: currentUser._id, name: currentUser.name }]
@@ -179,4 +179,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default NewMessage
+export default NewChatRoom

@@ -3,6 +3,8 @@ import { makeAutoObservable } from 'mobx'
 class CreatePactStore {
   type = ''
   pactId = ''
+  dateCreated = ''
+  lastUpdated = ''
   sample = false
   recordLabel = false
   signed = false
@@ -45,6 +47,8 @@ class CreatePactStore {
     this.producer = pact.producer
     this.status = pact.status
     this.users = pact.users
+    this.lastUpdated = pact.lastUpdated
+    this.dateCreated = pact.dateCreated
   }
 
   setType(type) {
@@ -155,6 +159,8 @@ class CreatePactStore {
     this.type = ''
     this.users = []
     this.recordTitle = ''
+    this.dateCreated = ''
+    this.lastUpdated = ''
     this.pactId = ''
     this.initBy = {
       user: '',
