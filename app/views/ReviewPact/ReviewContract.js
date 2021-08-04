@@ -11,6 +11,7 @@ import colors from '../../config/colors'
 // COMPONENTS
 import Screen from '../../components/Screen'
 import AppButton from '../../components/AppButton'
+import Header from '../../components/Header'
 import Separator from '../../components/Separator'
 import AppProgressBar from '../../components/AppProgressBar'
 import SignatureModal from '../../components/SignatureModal'
@@ -23,6 +24,11 @@ import currentPact from '../../stores/CreatePactStore'
 import currentUser from '../../stores/UserStore'
 
 export default function ReviewContract({ navigation }) {
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      header: (props) => <Header title={currentPact.recordTitle} {...props} />,
+    })
+  }, [navigation])
   const htmlObj = {
     date: moment().format('MMMM Do YYYY'),
     perfAddress: [],

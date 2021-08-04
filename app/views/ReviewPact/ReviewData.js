@@ -41,7 +41,6 @@ export default function ReviewData({ navigation }) {
 
   return (
     <Screen>
-      <Separator />
       <Formik
         initialValues={{}}
         enableReinitialize
@@ -52,30 +51,32 @@ export default function ReviewData({ navigation }) {
             style={styles.mainView}
             showsVerticalScrollIndicator={false}
           >
-            <View style={styles.btnView}>
-              {currentPact.signed === false ? (
+            {currentPact.signed === false ? (
+              <View style={styles.btnView}>
+                <AppButton
+                  textColor="white"
+                  title="Counter"
+                  style={styles.counterButton}
+                  // onPress={nextScreen}
+                />
                 <AppButton
                   textColor="white"
                   title="Accept"
-                  style={styles.button}
+                  style={[styles.button, { marginLeft: 10 }]}
                   onPress={handleSubmit}
                 />
-              ) : (
+              </View>
+            ) : (
+              <View style={styles.btnView}>
                 <AppButton
                   textColor="white"
                   title="View Contract"
                   style={[styles.button, { width: 120, marginLeft: 20 }]}
                   onPress={handleSubmit}
                 />
-              )}
+              </View>
+            )}
 
-              {/* <AppButton
-                textColor="white"
-                title="Counter"
-                style={styles.button}
-                onPress={nextScreen}
-              /> */}
-            </View>
             <View style={styles.infoSection}>
               <View style={styles.titleView}>
                 <AppText style={styles.text}>Record Title</AppText>
@@ -261,6 +262,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 45,
     backgroundColor: colors.gray,
+    width: '30%',
+  },
+  counterButton: {
+    marginTop: 20,
+    borderRadius: 5,
+    height: 45,
+    backgroundColor: colors.red,
     width: '30%',
   },
 })

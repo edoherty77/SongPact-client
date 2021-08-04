@@ -88,7 +88,6 @@ function ChooseCollabs({ navigation }) {
                           name={`collabs.${item._id}`}
                           title={`${item.name}`}
                           onPress={(checked) => {
-                            console.log('item', item)
                             const index = values.collabs.findIndex(
                               (person) => person._id === item._id,
                             )

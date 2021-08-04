@@ -18,6 +18,7 @@ class UserStore {
   accessToken = ''
   chatRooms = []
   notifications = ''
+  badgeNum = 0
 
   setID(id) {
     this._id = id
@@ -36,7 +37,6 @@ class UserStore {
     this.pacts = values.pacts
     this.friends = values.friends
     this.phoneNumber = values.phoneNumber
-    // this.friendRequests = values.friendRequests
     this.googlePhotoUrl = values.googlePhotoUrl
     this.chatRooms = values.chatRooms
     this.notifications = values.notifications
@@ -64,8 +64,16 @@ class UserStore {
     this.friendRequests = values
   }
 
+  setBadgeNum(num) {
+    this.badgeNum = this.badgeNum + num
+  }
+
   setAccessToken(token) {
     this.accessToken = token
+  }
+
+  subtractBadgeNum() {
+    this.badgeNum = this.badgeNum - 1
   }
 
   removeNotification(item) {
@@ -93,6 +101,7 @@ class UserStore {
     this.friendRequests = ''
     this.chatRooms = []
     this.notifications = ''
+    this.badgeNum = 0
   }
 
   constructor() {

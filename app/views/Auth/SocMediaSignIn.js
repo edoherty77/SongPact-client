@@ -44,6 +44,9 @@ const SocMediaSignIn = ({
         const foundUser = await UserModel.show(result.user.email)
 
         if (foundUser.user !== null && foundUser.user !== undefined) {
+          if (foundUser.user.notifications.length > 0) {
+            await currentUser.setBadgeNum(foundUser.user.notifications.length)
+          }
           await AsyncStorage.setItem('email', foundUser.user.email)
           await AsyncStorage.setItem('userId', foundUser.user.googleId)
           await currentUser.setUser(foundUser.user)
