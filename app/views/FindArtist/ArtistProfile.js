@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Image } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import moment from 'moment'
 
 // MODELS
 import FriendRequestModel from '../../api/friendRequests'
@@ -83,6 +84,7 @@ const FindArtist = observer(({ route, navigation }) => {
       requester: currentUser._id,
       recipient: contactId,
       status: 1,
+      date: moment().format('MMMM Do YYYY hh:mm A'),
     }
     await FriendRequestModel.create(obj)
     // store.addFriend(friendInfo)

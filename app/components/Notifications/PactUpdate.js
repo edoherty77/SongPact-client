@@ -37,7 +37,7 @@ const PactUpdate = ({ item, viewPact, deleteNotification }) => {
         )}
       </View>
       <View style={styles.timeView}>
-        <AppText style={styles.timeText}>July 26th, 2021 9:16PM</AppText>
+        <AppText style={styles.timeText}>{item.date}</AppText>
       </View>
       <View style={styles.iconView}>
         <ButtonIcon
