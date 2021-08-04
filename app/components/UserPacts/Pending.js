@@ -32,6 +32,7 @@ const Pending = ({ navigation }) => {
             type={item.type}
             title={item.recordTitle}
             name={item.initBy.name}
+            lastUpdated={item.lastUpdated}
             status={colors.pending}
           />
         )}

@@ -22,7 +22,7 @@ const ChatHeader = ({
   ...otherProps
 }) => {
   const goToMenu = () => {
-    navigation.navigate('New Message')
+    navigation.navigate('New Chat')
   }
   const goBack = () => {
     navigation.navigate('Chat Main')

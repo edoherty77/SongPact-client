@@ -9,6 +9,7 @@ import AppSearchInput from '../AppSearchInput'
 
 const Action = ({ navigation }) => {
   const reviewPact = (pact) => {
+    pactStore.resetPact()
     pactStore.setPact(pact)
     navigation.navigate('ReviewData')
   }
@@ -29,6 +30,7 @@ const Action = ({ navigation }) => {
             type={item.type}
             title={item.recordTitle}
             name={item.initBy.name}
+            lastUpdated={item.lastUpdated}
             status={colors.action}
           />
         )}
