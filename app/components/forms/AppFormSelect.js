@@ -13,7 +13,15 @@ import currentUser from '../../stores/UserStore'
 // CONFIG
 import colors from '../../config/colors'
 
-const AppFormSelect = ({ data, setItem, item, isDisabled, defaultValue }) => {
+const AppFormSelect = ({
+  data,
+  setItem,
+  item,
+  isDisabled,
+  defaultValue,
+  name,
+  placeHolder,
+}) => {
   const { setFieldValue } = useFormikContext()
   let names = data.map((user) => {
     return user.name
@@ -69,11 +77,9 @@ const AppFormSelect = ({ data, setItem, item, isDisabled, defaultValue }) => {
     <View style={styles.mainView}>
       <ModalDropdown
         options={names}
-        defaultValue={
-          defaultValue !== undefined ? defaultValue : 'Choose Producer'
-        }
+        defaultValue={defaultValue !== undefined ? defaultValue : placeHolder}
         onSelect={(itemIndex, itemValue) => {
-          setFieldValue('producer', itemValue), setItem(itemValue)
+          setFieldValue(name, itemValue), setItem(itemValue)
         }}
         style={[
           styles.selectStyle,
