@@ -33,6 +33,7 @@ import currentPact from '../../stores/CreatePactStore'
 
 export default function GratInfo({ navigation }) {
   const [producer, setProducer] = React.useState('')
+  const [credit, setCredit] = React.useState('')
 
   function nextScreen(values) {
     currentPact.setProducer(values)
@@ -68,6 +69,8 @@ export default function GratInfo({ navigation }) {
                 data={currentPact.users}
                 setItem={setProducer}
                 item={producer}
+                placeHolder="Choose Producer"
+                name="producer"
               />
             </View>
             <AppFormPercent
@@ -94,7 +97,7 @@ export default function GratInfo({ navigation }) {
                 style={styles.icon}
               />
             </View>
-            <View style={styles.credInput}>
+            {/* <View style={styles.credInput}>
               <AppFormField
                 name="credit"
                 height={50}
@@ -103,6 +106,15 @@ export default function GratInfo({ navigation }) {
                 autoCapitalize="none"
                 autoCorrect={false}
                 placeholderTextColor={colors.black}
+              />
+            </View> */}
+            <View style={{ width: '100%' }}>
+              <AppFormSelect
+                data={currentPact.users}
+                setItem={setCredit}
+                item={credit}
+                placeHolder="Choose Person"
+                name="credit"
               />
             </View>
             <View style={styles.footer}>
@@ -151,9 +163,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '50%',
     marginTop: 10,
-  },
-  credInput: {
-    marginBottom: 0,
   },
   icon: {
     position: 'absolute',
