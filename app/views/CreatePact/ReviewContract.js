@@ -824,7 +824,7 @@ export default function ReviewContract({ navigation }) {
         user: currentUser._id,
         status: 1,
         dateCreated: moment().format('MMMM Do YYYY'),
-        lastUpdated: moment().format('MM/DD/YY'),
+        lastUpdated: moment().format('MMMM Do YYYY hh:mm A'),
       }
       await PactModel.create(obj)
       await sortedPacts.setPending(obj)

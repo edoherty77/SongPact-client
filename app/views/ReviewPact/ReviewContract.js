@@ -22,6 +22,7 @@ import PactModel from '../../api/pacts'
 // STORE
 import currentPact from '../../stores/CreatePactStore'
 import currentUser from '../../stores/UserStore'
+import sortedPacts from '../../stores/SortedPactStore'
 
 export default function ReviewContract({ navigation }) {
   React.useLayoutEffect(() => {
@@ -804,7 +805,7 @@ export default function ReviewContract({ navigation }) {
       })
       currentPact.setSignature(signature, currentUser)
       const obj = {
-        id: currentPact.pactId,
+        _id: currentPact._id,
         signatureImg: signature,
         user: currentUser._id,
         name: currentUser.name,
@@ -812,9 +813,37 @@ export default function ReviewContract({ navigation }) {
         otherUsers: otherUsers,
         recordTitle: currentPact.recordTitle,
         type: currentPact.type,
+        initBy: currentPact.initBy,
+        lastUpdated: moment().format('MMMM Do YYYY hh:mm A'),
       }
       await PactModel.update(obj)
       await generateEmail(signature)
+      await sortPacts()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function sortPacts() {
+    sortedPacts.resetPacts()
+    try {
+      const data = await PactModel.all(currentUser._id)
+      const pacts = data.pact
+      pacts.map((pact) => {
+        pact.users.find((user) => {
+          if (user.user === currentUser._id) {
+            if (pact.status === 1 && user.userStatus === 1) {
+              sortedPacts.setAction(pact)
+            } else if (pact.status === 1 && user.userStatus === 2) {
+              sortedPacts.setPending(pact)
+            } else if (pact.status === 2) {
+              sortedPacts.setArchive(pact)
+            } else if (pact.status === 0) {
+              sortedPacts.setDrafts(pact)
+            }
+          }
+        })
+      })
     } catch (error) {
       console.log(error)
     }

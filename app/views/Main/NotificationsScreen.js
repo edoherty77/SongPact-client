@@ -68,7 +68,7 @@ const NotificationsScreen = observer(({ navigation }) => {
           </View>
         )}
         {currentUser.notifications.length > 0 && (
-          <View>
+          <View style={styles.notifications}>
             <FlatList
               showsVerticalScrollIndicator={false}
               data={currentUser.notifications}
@@ -78,7 +78,7 @@ const NotificationsScreen = observer(({ navigation }) => {
                   item={item}
                   deleteNotification={deleteNotification}
                   viewPact={() => {
-                    reviewPact(item.pactId)
+                    reviewPact(item._id)
                   }}
                 />
               )}
@@ -98,5 +98,9 @@ const styles = StyleSheet.create({
     marginRight: 25,
     marginTop: 30,
     flex: 1,
+  },
+  notifications: {
+    flex: 1,
+    marginBottom: 35,
   },
 })

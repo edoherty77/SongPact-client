@@ -3,6 +3,7 @@ const axios = require('axios')
 const url = 'http://192.168.1.8:4000/api/v1'
 // queensroom
 // const url = 'http://192.168.1.203:4000/api/v1'
+// import { URL } from 'react-native-dotenv'
 
 export default class UserModel {
   static all = async (name) => {
