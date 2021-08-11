@@ -13,13 +13,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 // MODEL
 import UserModel from '../../api/users'
 
-// STORAGE
-import AsyncStorage from '@react-native-async-storage/async-storage'
-
 // COMPONENTS
 import Screen from '../../components/Screen'
-import AppTextInput from '../../components/AppTextInput'
-import AppButton from '../../components/AppButton'
 import AppText from '../../components/AppText'
 
 // CONFIG

@@ -2,7 +2,7 @@ import { makeAutoObservable } from 'mobx'
 
 class CreatePactStore {
   type = ''
-  pactId = ''
+  _id = ''
   dateCreated = ''
   lastUpdated = ''
   sample = false
@@ -37,7 +37,7 @@ class CreatePactStore {
 
   setPact(pact) {
     this.type = pact.type
-    this.pactId = pact._id
+    this._id = pact._id
     this.labelName = pact.labelName
     this.recordLabel = pact.recordLabel
     this.sample = pact.sample
@@ -152,7 +152,7 @@ class CreatePactStore {
   }
 
   setPactId(id) {
-    this.pactId = id
+    this._id = id
   }
 
   resetPact() {
@@ -161,7 +161,7 @@ class CreatePactStore {
     this.recordTitle = ''
     this.dateCreated = ''
     this.lastUpdated = ''
-    this.pactId = ''
+    this._id = ''
     this.initBy = {
       user: '',
       status: 1,

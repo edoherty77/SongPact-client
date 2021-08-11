@@ -18,6 +18,7 @@ const Archive = ({ navigation }) => {
     <View style={styles.mainView}>
       <FlatList
         contentContainerStyle={{
+          flex: 1,
           marginTop: 82,
         }}
         data={sortedPacts.archive}
@@ -40,7 +41,8 @@ const styles = StyleSheet.create({
   mainView: {
     // display: 'flex',
     // padding: 20,
-    // flex: 1,
+    flex: 1,
+    marginBottom: 35,
     marginHorizontal: 20,
     backgroundColor: colors.background,
   },
