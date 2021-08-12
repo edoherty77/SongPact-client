@@ -63,133 +63,135 @@ const Onboarding = ({ navigation, route }) => {
   }
   return (
     <Screen>
-      <ScrollView
-        style={styles.mainContainer}
-        showsVerticalScrollIndicator={false}
-      >
-        {status === 'signing up' ? (
-          <View style={styles.messageContainer}>
-            <AppText style={styles.messageTitle}>Welcome to SongPact</AppText>
-            <AppText style={styles.message}>
-              First thing's first, we need a bit more information before you
-              begin creating your first pact
-            </AppText>
-            <View style={styles.doLater}>
-              <AppText color="rgba(34, 34, 34, 0.4)" onPress={toLogin}>
-                I'll do this later
-              </AppText>
-              <MaterialCommunityIcons
-                name="arrow-right"
-                size={18}
-                color="rgba(34, 34, 34, 0.4)"
-                style={{ paddingLeft: 5 }}
-              />
-            </View>
-          </View>
-        ) : (
-          <View style={styles.signedInContainer}>
-            <AppText style={styles.messageTitle}>Hi {user.name}</AppText>
-            <AppText style={styles.message}>
-              We need a bit more information before you begin creating your
-              first pact.
-            </AppText>
-          </View>
-        )}
-        <AppForm
-          initialValues={{
-            artistName: '',
-            address: '',
-            apartment: '',
-            city: '',
-            state: '',
-            zipCode: '',
-            companyName: '',
-            phoneNumber: '',
-          }}
-          onSubmit={(values) => updateUser(values)}
+      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+        <ScrollView
+          style={styles.mainContainer}
+          showsVerticalScrollIndicator={false}
         >
-          <AppText style={styles.inputTitle}>Artist Name</AppText>
-          <AppFormField
-            style={styles.input}
-            name="artistName"
-            autoCapitalize="words"
-            textContentType="password"
-            autoCorrect={false}
-            returnKeyType="done"
-          />
-          <AppText style={styles.inputTitle}>Company Name (optional)</AppText>
-          <AppFormField
-            style={styles.input}
-            name="companyName"
-            textContentType="password"
-            autoCorrect={false}
-            autoCapitalize="words"
-            returnKeyType="done"
-          />
-          <AppText style={styles.inputTitle}>Address</AppText>
-          <AppFormField
-            style={styles.input}
-            name="address"
-            autoCapitalize="words"
-            textContentType="password"
-            autoCorrect={false}
-            returnKeyType="done"
-          />
-          <AppText style={styles.inputTitle}>
-            Apartment, suite, etc. (optional)
-          </AppText>
-          <AppFormField
-            style={styles.input}
-            name="apartment"
-            autoCapitalize="words"
-            textContentType="password"
-            autoCorrect={false}
-            returnKeyType="done"
-          />
-          <AppText style={styles.inputTitle}>City</AppText>
-          <AppFormField
-            style={styles.input}
-            name="city"
-            autoCapitalize="words"
-            textContentType="password"
-            autoCorrect={false}
-            returnKeyType="done"
-          />
-          <AppText style={styles.inputTitle}>State</AppText>
-          <AppFormField
-            style={styles.input}
-            name="state"
-            autoCapitalize="words"
-            textContentType="password"
-            autoCorrect={false}
-            returnKeyType="done"
-          />
-          <AppText style={styles.inputTitle}>Zip Code</AppText>
-          <AppFormField
-            style={styles.input}
-            name="zipCode"
-            autoCapitalize="words"
-            textContentType="password"
-            autoCorrect={false}
-            keyboardType="number-pad"
-            returnKeyType="done"
-          />
-          <AppText style={styles.inputTitle}>Phone Number</AppText>
-          <AppFormField
-            style={styles.input}
-            name="phoneNumber"
-            autoCapitalize="words"
-            textContentType="password"
-            keyboardType="number-pad"
-            returnKeyType="done"
-          />
-          <SubmitButton
-            title="Next"
-            textColor={colors.white}
-            style={styles.submitButton}
-          />
-        </AppForm>
-      </ScrollView>
+          {status === 'signing up' ? (
+            <View style={styles.messageContainer}>
+              <AppText style={styles.messageTitle}>Welcome to SongPact</AppText>
+              <AppText style={styles.message}>
+                First thing's first, we need a bit more information before you
+                begin creating your first pact
+              </AppText>
+              <View style={styles.doLater}>
+                <AppText color="rgba(34, 34, 34, 0.4)" onPress={toLogin}>
+                  I'll do this later
+                </AppText>
+                <MaterialCommunityIcons
+                  name="arrow-right"
+                  size={18}
+                  color="rgba(34, 34, 34, 0.4)"
+                  style={{ paddingLeft: 5 }}
+                />
+              </View>
+            </View>
+          ) : (
+            <View style={styles.signedInContainer}>
+              <AppText style={styles.messageTitle}>Hi {user.name}</AppText>
+              <AppText style={styles.message}>
+                We need a bit more information before you begin creating your
+                first pact.
+              </AppText>
+            </View>
+          )}
+          <AppForm
+            initialValues={{
+              artistName: '',
+              address: '',
+              apartment: '',
+              city: '',
+              state: '',
+              zipCode: '',
+              companyName: '',
+              phoneNumber: '',
+            }}
+            onSubmit={(values) => updateUser(values)}
+          >
+            <AppText style={styles.inputTitle}>Artist Name</AppText>
+            <AppFormField
+              style={styles.input}
+              name="artistName"
+              autoCapitalize="words"
+              textContentType="password"
+              autoCorrect={false}
+              returnKeyType="done"
+            />
+            <AppText style={styles.inputTitle}>Company Name (optional)</AppText>
+            <AppFormField
+              style={styles.input}
+              name="companyName"
+              textContentType="password"
+              autoCorrect={false}
+              autoCapitalize="words"
+              returnKeyType="done"
+            />
+            <AppText style={styles.inputTitle}>Address</AppText>
+            <AppFormField
+              style={styles.input}
+              name="address"
+              autoCapitalize="words"
+              textContentType="password"
+              autoCorrect={false}
+              returnKeyType="done"
+            />
+            <AppText style={styles.inputTitle}>
+              Apartment, suite, etc. (optional)
+            </AppText>
+            <AppFormField
+              style={styles.input}
+              name="apartment"
+              autoCapitalize="words"
+              textContentType="password"
+              autoCorrect={false}
+              returnKeyType="done"
+            />
+            <AppText style={styles.inputTitle}>City</AppText>
+            <AppFormField
+              style={styles.input}
+              name="city"
+              autoCapitalize="words"
+              textContentType="password"
+              autoCorrect={false}
+              returnKeyType="done"
+            />
+            <AppText style={styles.inputTitle}>State</AppText>
+            <AppFormField
+              style={styles.input}
+              name="state"
+              autoCapitalize="words"
+              textContentType="password"
+              autoCorrect={false}
+              returnKeyType="done"
+            />
+            <AppText style={styles.inputTitle}>Zip Code</AppText>
+            <AppFormField
+              style={styles.input}
+              name="zipCode"
+              autoCapitalize="words"
+              textContentType="password"
+              autoCorrect={false}
+              keyboardType="number-pad"
+              returnKeyType="done"
+            />
+            <AppText style={styles.inputTitle}>Phone Number</AppText>
+            <AppFormField
+              style={styles.input}
+              name="phoneNumber"
+              autoCapitalize="words"
+              textContentType="password"
+              keyboardType="number-pad"
+              returnKeyType="done"
+            />
+            <SubmitButton
+              title="Next"
+              textColor={colors.white}
+              style={styles.submitButton}
+            />
+          </AppForm>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Screen>
   )
 }

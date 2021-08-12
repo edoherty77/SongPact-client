@@ -8,7 +8,6 @@ import colors from '../../config/colors'
 //COMPONENTTS
 import Screen from '../../components/Screen'
 import AppText from '../../components/AppText'
-import Header from '../../components/Header'
 import Separator from '../../components/Separator'
 import AppProgressBar from '../../components/AppProgressBar'
 
