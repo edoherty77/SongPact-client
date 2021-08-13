@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: 'black',
     borderWidth: 1,
+    height: 100,
   },
   status: {
     top: 5,

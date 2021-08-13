@@ -226,14 +226,6 @@ const Onboarding = ({ navigation, route }) => {
               returnKeyType="done"
             />
             <AppText style={styles.inputTitle}>State</AppText>
-            {/* <AppFormField
-              style={styles.input}
-              name="state"
-              autoCapitalize="words"
-              textContentType="password"
-              autoCorrect={false}
-              returnKeyType="done"
-            /> */}
             <AppFormSelect
               data={states}
               setItem={setState}

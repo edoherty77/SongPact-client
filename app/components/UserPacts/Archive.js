@@ -17,8 +17,9 @@ const Archive = ({ navigation }) => {
   return (
     <View style={styles.mainView}>
       <FlatList
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          flex: 1,
+          height: sortedPacts.archive.length * 140,
           marginTop: 82,
         }}
         data={sortedPacts.archive}
@@ -30,6 +31,7 @@ const Archive = ({ navigation }) => {
             title={item.recordTitle}
             name={item.initBy.name}
             status={colors.archive}
+            lastUpdated={item.lastUpdated}
           />
         )}
       />
@@ -39,12 +41,10 @@ const Archive = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   mainView: {
-    // display: 'flex',
-    // padding: 20,
     flex: 1,
+    // flexGrow: 1,
     marginBottom: 35,
     marginHorizontal: 20,
-    backgroundColor: colors.background,
   },
 })
 
