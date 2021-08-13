@@ -61,6 +61,15 @@ class CreatePactStore {
         return (user['signatureImg'] = sig), (user['userStatus'] = 2)
       }
     })
+    this.performers.find((performer) => {
+      if (performer.email === currentUser._id) {
+        return (performer['signatureImg'] = sig)
+      }
+    })
+    console.log('performer', this.performers)
+    if (this.producer.email === currentUser._id) {
+      this.producer['signatureImg'] = sig
+    }
     const status = this.users.every((user) => {
       return user.userStatus === 2
     })
@@ -189,6 +198,7 @@ class CreatePactStore {
       state: '',
       zipCode: '',
       email: '',
+      signatureImg: '',
     }
     this.sample = false
     this.recordLabel = false

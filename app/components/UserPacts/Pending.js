@@ -21,8 +21,10 @@ const Pending = ({ navigation }) => {
   return (
     <View style={styles.mainView}>
       <FlatList
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           marginTop: 82,
+          height: sortedPacts.pending.length * 140,
         }}
         data={sortedPacts.pending}
         keyExtractor={(item) => item._id}

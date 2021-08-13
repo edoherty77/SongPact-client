@@ -25,6 +25,9 @@ import currentUser from '../../stores/UserStore'
 import sortedPacts from '../../stores/SortedPactStore'
 
 export default function ReviewContract({ navigation }) {
+  const [isVisible, setVisible] = useState(false)
+  const [isSigned, setSigned] = useState(false)
+  const [sig, setSig] = useState('')
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: (props) => <Header title={currentPact.recordTitle} {...props} />,
@@ -42,20 +45,6 @@ export default function ReviewContract({ navigation }) {
   }
 
   currentPact.performers.map((performer) => {
-    currentPact.users.find((user) => {
-      if (performer.email === user.user) {
-        if (user.signatureImg) {
-          return (performer['signatureImg'] = user.signatureImg)
-        }
-      } else if (currentPact.producer.user === user.user) {
-        if (user.signatureImg) {
-          return (currentPact.producer['signatureImg'] = user.signatureImg)
-        }
-      }
-    })
-    console.log('perrformerr', performer)
-    console.log('prroducderr', currentPact.producer)
-    // console.log('shit', currentPact.users)
     let performerAddress = /*html*/ `
       <div>${performer.companyName} f/s/o</div>
       <div>${performer.name} p/k/a ${performer.artistName}</div>
@@ -71,11 +60,9 @@ export default function ReviewContract({ navigation }) {
     let performerCompany = /*html*/ `
         <span>${performer.companyName}</span>
       `
-
     let perfName = /*html*/ `
         <div class="legal-name">${performer.name}</div>
       `
-
     let perfSigHeader = /*html*/ `
       <div class='flex' style='flex-direction:column'>
         <div>${performer.companyName} f/s/o</div>
@@ -83,13 +70,6 @@ export default function ReviewContract({ navigation }) {
         <div>“${performer.artistName}”</div>
       </div>
       `
-    // let perfSig = /*html*/ `
-    // <p class='signature-img'>${performer.signatureImg}</p>
-    // `
-
-    // let prodSig = /*html*/ `
-    // <p class='signature-img'>${currentPact.producer.signatureImg}</p>
-    // `
     let perfSig
     if (performer.signatureImg !== undefined) {
       perfSig = /*html*/ `
@@ -100,7 +80,6 @@ export default function ReviewContract({ navigation }) {
         <p class='signature-img'>_______</p>
       `
     }
-
     let prodSig
     if (currentPact.producer.signatureImg !== undefined) {
       prodSig = /*html*/ `
@@ -111,7 +90,6 @@ export default function ReviewContract({ navigation }) {
           <p class='signature-img'>_______</p>
       `
     }
-
     htmlObj.perfAddress.push(performerAddress)
     htmlObj.perfInfoSpan.push(performerInfo)
     htmlObj.perfCompany.push(performerCompany)
@@ -846,6 +824,8 @@ export default function ReviewContract({ navigation }) {
         recordTitle: currentPact.recordTitle,
         type: currentPact.type,
         initBy: currentPact.initBy,
+        producer: currentPact.producer,
+        performers: currentPact.performers,
         lastUpdated: moment().format('MM/DD/YY hh:mm A'),
       }
       await PactModel.update(obj)
@@ -883,15 +863,13 @@ export default function ReviewContract({ navigation }) {
 
   const generateEmail = async (signature) => {
     if (currentUser._id === currentPact.producer.user) {
-      htmlObj.prodSignature.length = 0
       let newProd = /*html*/ `
         <p class='signature-img'>${signature}</p>
       `
       htmlObj.prodSignature = newProd
     } else {
-      htmlObj.perfSignature.length = 0
       let newPerf = /*html*/ `
-        <p class='signature-img'>${signature}></p>
+        <p class='signature-img'>${signature}</p>
       `
       htmlObj.perfSignature.push(newPerf)
     }
@@ -916,10 +894,6 @@ export default function ReviewContract({ navigation }) {
     setSigned(true)
     setVisible(false)
   }
-
-  const [isVisible, setVisible] = useState(false)
-  const [isSigned, setSigned] = useState(false)
-  const [sig, setSig] = useState('')
 
   return (
     <Screen>
