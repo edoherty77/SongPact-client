@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     marginLeft: -21,
     marginTop: 13,
-    // height: 'auto',
     paddingBottom: 2,
   },
   dropdownTextStyle: {

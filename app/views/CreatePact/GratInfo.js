@@ -77,6 +77,25 @@ export default function GratInfo({ navigation }) {
                 height={names.length * 42}
               />
             </View>
+            <View style={styles.credText}>
+              <AppText style={styles.text}>Producer Credit</AppText>
+              <AntDesign
+                name="questioncircle"
+                size={14}
+                color="black"
+                style={styles.icon}
+              />
+            </View>
+            <View style={{ width: '100%' }}>
+              <AppFormSelect
+                data={names}
+                setItem={setCredit}
+                item={credit}
+                placeHolder="Choose Person"
+                name="credit"
+                height={names.length * 42}
+              />
+            </View>
             <AppFormPercent
               icon
               name="advancePercent"
@@ -92,36 +111,6 @@ export default function GratInfo({ navigation }) {
               name="publisherPercent"
               title="Producer Publish"
             />
-            <View style={styles.credText}>
-              <AppText style={styles.text}>Producer Credit</AppText>
-              <AntDesign
-                name="questioncircle"
-                size={14}
-                color="black"
-                style={styles.icon}
-              />
-            </View>
-            {/* <View style={styles.credInput}>
-              <AppFormField
-                name="credit"
-                height={50}
-                style={styles.input}
-                // placeholder="Producer Credit"
-                autoCapitalize="none"
-                autoCorrect={false}
-                placeholderTextColor={colors.black}
-              />
-            </View> */}
-            <View style={{ width: '100%' }}>
-              <AppFormSelect
-                data={names}
-                setItem={setCredit}
-                item={credit}
-                placeHolder="Choose Person"
-                name="credit"
-                height={names.length * 42}
-              />
-            </View>
             <View style={styles.footer}>
               <SubmitButton
                 // disabled={values.collabs.length === 0 ? true : false}
