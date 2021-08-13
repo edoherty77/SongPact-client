@@ -20,6 +20,7 @@ const Action = ({ navigation }) => {
       <FlatList
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
+          height: sortedPacts.action.length * 140,
           marginTop: 82,
         }}
         data={sortedPacts.action}

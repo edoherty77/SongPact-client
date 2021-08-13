@@ -1,5 +1,6 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 
 // STACKS
 import MenuStack from './MenuStack'
@@ -24,7 +25,14 @@ import currentUser from '../stores/UserStore'
 
 const Stack = createStackNavigator()
 
-const CreatePactStack = ({ updateAuthState, logout }) => {
+const CreatePactStack = ({ updateAuthState, logout, route, navigation }) => {
+  React.useLayoutEffect(() => {
+    if (getFocusedRouteNameFromRoute(route) == 'ReviewContract') {
+      navigation.setOptions({ tabBarVisible: false })
+    } else {
+      navigation.setOptions({ tabBarVisible: true })
+    }
+  }, [getFocusedRouteNameFromRoute(route)])
   return (
     <Stack.Navigator
       headerMode="screen"

@@ -1,5 +1,6 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 
 // SCREENS
 import ReviewData from '../views/ReviewPact/ReviewData'
@@ -14,7 +15,19 @@ import Header from '../components/Header'
 
 const Stack = createStackNavigator()
 
-export default function DashboardStack({ updateAuthState, logout }) {
+export default function DashboardStack({
+  updateAuthState,
+  logout,
+  route,
+  navigation,
+}) {
+  React.useLayoutEffect(() => {
+    if (getFocusedRouteNameFromRoute(route) == 'ViewContract') {
+      navigation.setOptions({ tabBarVisible: false })
+    } else {
+      navigation.setOptions({ tabBarVisible: true })
+    }
+  }, [getFocusedRouteNameFromRoute(route)])
   return (
     <Stack.Navigator headerMode="screen">
       <Stack.Screen
