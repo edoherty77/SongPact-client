@@ -28,138 +28,145 @@ export default function ReviewData({ navigation }) {
     <Screen>
       <AppProgressBar value={80} />
       <Separator />
-      <Formik
-        initialValues={{}}
-        enableReinitialize
-        onSubmit={(values) => nextScreen(values)}
-      >
-        {() => (
-          <ScrollView
-            style={styles.mainView}
-            showsVerticalScrollIndicator={false}
-          >
-            <View style={styles.infoSection}>
-              <View style={styles.titleView}>
-                <AppText style={styles.text}>Record Title</AppText>
-                <AppFormField
-                  editable={false}
-                  selectTextOnFocus={false}
-                  name="recordTitle"
-                  style={styles.input}
-                  placeholder={currentPact.recordTitle}
-                  autoCorrect={false}
-                  height={50}
-                  placeholderTextColor="#18181b"
-                />
-              </View>
-              <View style={styles.recordInfo}>
-                <View>
-                  <AppText style={styles.text}>Is this a sample?</AppText>
-                  {currentPact.sample ? (
-                    <AppText style={styles.answer}>Yes</AppText>
-                  ) : (
-                    <AppText style={styles.answer}>No</AppText>
+      <View style={styles.mainView}>
+        <Formik
+          initialValues={{}}
+          enableReinitialize
+          onSubmit={(values) => nextScreen(values)}
+        >
+          {() => (
+            <FieldArray name="performers">
+              {() => (
+                <FlatList
+                  ListHeaderComponent={
+                    <>
+                      <View style={styles.infoSection}>
+                        <View style={styles.titleView}>
+                          <AppText style={styles.text}>Record Title</AppText>
+                          <AppFormField
+                            editable={false}
+                            selectTextOnFocus={false}
+                            name="recordTitle"
+                            style={styles.input}
+                            placeholder={currentPact.recordTitle}
+                            autoCorrect={false}
+                            height={50}
+                            placeholderTextColor="#18181b"
+                          />
+                        </View>
+                        <View style={styles.recordInfo}>
+                          <View>
+                            <AppText style={styles.text}>
+                              Is this a sample?
+                            </AppText>
+                            {currentPact.sample ? (
+                              <AppText style={styles.answer}>Yes</AppText>
+                            ) : (
+                              <AppText style={styles.answer}>No</AppText>
+                            )}
+                          </View>
+                          <View>
+                            <AppText style={styles.text}>Label Name</AppText>
+                            {currentPact.labelName ? (
+                              <AppText style={styles.answer}>
+                                {currentPact.labelName}
+                              </AppText>
+                            ) : (
+                              <AppText style={styles.answer}>-</AppText>
+                            )}
+                          </View>
+                        </View>
+                      </View>
+                      <Separator />
+                      <View style={styles.infoSection}>
+                        <AppText fontWeight="bold" style={styles.sectionHeader}>
+                          Producer Info
+                        </AppText>
+                        <AppText style={styles.text}>
+                          Who is the producer for this pact?
+                        </AppText>
+                        <AppFormSelect
+                          defaultValue={currentPact.producer.name}
+                          isDisabled={true}
+                          data={currentPact.users}
+                          item={currentPact.producer.name}
+                        />
+                        <AppFormPercent
+                          editable={false}
+                          selectTextOnFocus={false}
+                          name="advancePercent"
+                          title="Producer Advance"
+                          placeholder={currentPact.producer.advancePercent}
+                        />
+                        <AppFormPercent
+                          editable={false}
+                          selectTextOnFocus={false}
+                          name="royaltyPercent"
+                          title="Producer Royalty"
+                          placeholder={currentPact.producer.royaltyPercent}
+                        />
+                        <AppFormPercent
+                          editable={false}
+                          selectTextOnFocus={false}
+                          name="publisherPercent"
+                          title="Producer Publish"
+                          placeholder={currentPact.producer.publisherPercent}
+                        />
+                        <View style={styles.credText}>
+                          <AppText style={styles.text}>Producer Credit</AppText>
+                        </View>
+                        <View style={styles.credInput}>
+                          <AppFormField
+                            editable={false}
+                            selectTextOnFocus={false}
+                            name="credit"
+                            height={50}
+                            style={styles.input}
+                            placeholder={currentPact.producer.credit}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            placeholderTextColor={colors.black}
+                          />
+                        </View>
+                      </View>
+                      <Separator />
+                      <View style={styles.infoSection}>
+                        <AppText fontWeight="bold" style={styles.sectionHeader}>
+                          Performer Info
+                        </AppText>
+                      </View>
+                    </>
+                  }
+                  data={currentPact.performers}
+                  showsVerticalScrollIndicator={false}
+                  keyExtractor={(performer) => performer.user}
+                  renderItem={({ item, index }) => (
+                    <AppFormPercent
+                      editable={false}
+                      selectTextOnFocus={false}
+                      name={`${index}.publisherPercent`}
+                      title={item.name}
+                      placeholder={item.publisherPercent}
+                    />
                   )}
-                </View>
-                <View>
-                  <AppText style={styles.text}>Label Name</AppText>
-                  {currentPact.labelName ? (
-                    <AppText style={styles.answer}>
-                      {currentPact.labelName}
-                    </AppText>
-                  ) : (
-                    <AppText style={styles.answer}>-</AppText>
-                  )}
-                </View>
-              </View>
-            </View>
-            <Separator />
-            <View style={styles.infoSection}>
-              <AppText fontWeight="bold" style={styles.sectionHeader}>
-                Producer Info
-              </AppText>
-              <AppText style={styles.text}>
-                Who is the producer for this pact?
-              </AppText>
-              <AppFormSelect
-                defaultValue={currentPact.producer.name}
-                isDisabled={true}
-                data={currentPact.users}
-                item={currentPact.producer.name}
-              />
-              <AppFormPercent
-                editable={false}
-                selectTextOnFocus={false}
-                name="advancePercent"
-                title="Producer Advance"
-                placeholder={currentPact.producer.advancePercent}
-              />
-              <AppFormPercent
-                editable={false}
-                selectTextOnFocus={false}
-                name="royaltyPercent"
-                title="Producer Royalty"
-                placeholder={currentPact.producer.royaltyPercent}
-              />
-              <AppFormPercent
-                editable={false}
-                selectTextOnFocus={false}
-                name="publisherPercent"
-                title="Producer Publish"
-                placeholder={currentPact.producer.publisherPercent}
-              />
-              <View style={styles.credText}>
-                <AppText style={styles.text}>Producer Credit</AppText>
-              </View>
-              <View style={styles.credInput}>
-                <AppFormField
-                  editable={false}
-                  selectTextOnFocus={false}
-                  name="credit"
-                  height={50}
-                  style={styles.input}
-                  placeholder={currentPact.producer.credit}
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  placeholderTextColor={colors.black}
+                  ListFooterComponent={
+                    <>
+                      <View style={styles.footer}>
+                        <AppButton
+                          textColor="white"
+                          title="Create Pact"
+                          style={styles.button}
+                          onPress={nextScreen}
+                        />
+                      </View>
+                    </>
+                  }
                 />
-              </View>
-            </View>
-            <Separator />
-            <View style={styles.infoSection}>
-              <AppText fontWeight="bold" style={styles.sectionHeader}>
-                Performer Info
-              </AppText>
-
-              <FieldArray name="performers">
-                {() => (
-                  <FlatList
-                    data={currentPact.performers}
-                    keyExtractor={(performer) => performer._id}
-                    renderItem={({ item, index }) => (
-                      <AppFormPercent
-                        editable={false}
-                        selectTextOnFocus={false}
-                        name={`${index}.publisherPercent`}
-                        title={item.name}
-                        placeholder={item.publisherPercent}
-                      />
-                    )}
-                  />
-                )}
-              </FieldArray>
-            </View>
-            <View style={styles.footer}>
-              <AppButton
-                textColor="white"
-                title="Create Pact"
-                style={styles.button}
-                onPress={nextScreen}
-              />
-            </View>
-          </ScrollView>
-        )}
-      </Formik>
+              )}
+            </FieldArray>
+          )}
+        </Formik>
+      </View>
     </Screen>
   )
 }
