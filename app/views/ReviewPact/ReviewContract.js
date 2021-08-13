@@ -38,10 +38,24 @@ export default function ReviewContract({ navigation }) {
     perfNameDiv: [],
     perfSignDiv: [],
     perfSignature: [],
-    prodSignature: [],
+    prodSignature: '',
   }
 
   currentPact.performers.map((performer) => {
+    currentPact.users.find((user) => {
+      if (performer.email === user.user) {
+        if (user.signatureImg) {
+          return (performer['signatureImg'] = user.signatureImg)
+        }
+      } else if (currentPact.producer.user === user.user) {
+        if (user.signatureImg) {
+          return (currentPact.producer['signatureImg'] = user.signatureImg)
+        }
+      }
+    })
+    console.log('perrformerr', performer)
+    console.log('prroducderr', currentPact.producer)
+    // console.log('shit', currentPact.users)
     let performerAddress = /*html*/ `
       <div>${performer.companyName} f/s/o</div>
       <div>${performer.name} p/k/a ${performer.artistName}</div>
@@ -69,13 +83,34 @@ export default function ReviewContract({ navigation }) {
         <div>“${performer.artistName}”</div>
       </div>
       `
-    let perfSig = /*html*/ `
-      <img class='signature-img' src="${performer.signatureImg}"/>
-    `
+    // let perfSig = /*html*/ `
+    // <p class='signature-img'>${performer.signatureImg}</p>
+    // `
 
-    let prodSig = /*html*/ `
-      <img class='signature-img' src="${currentPact.producer.signatureImg}"/>
-    `
+    // let prodSig = /*html*/ `
+    // <p class='signature-img'>${currentPact.producer.signatureImg}</p>
+    // `
+    let perfSig
+    if (performer.signatureImg !== undefined) {
+      perfSig = /*html*/ `
+        <p class='signature-img'>${performer.signatureImg}</p>
+      `
+    } else {
+      perfSig = /*html*/ `
+        <p class='signature-img'>_______</p>
+      `
+    }
+
+    let prodSig
+    if (currentPact.producer.signatureImg !== undefined) {
+      prodSig = /*html*/ `
+        <p class='signature-img'>${currentPact.producer.signatureImg}</p>
+      `
+    } else {
+      prodSig = /*html*/ `
+          <p class='signature-img'>_______</p>
+      `
+    }
 
     htmlObj.perfAddress.push(performerAddress)
     htmlObj.perfInfoSpan.push(performerInfo)
@@ -83,7 +118,7 @@ export default function ReviewContract({ navigation }) {
     htmlObj.perfNameDiv.push(perfName)
     htmlObj.perfSignDiv.push(perfSigHeader)
     htmlObj.perfSignature.push(perfSig)
-    htmlObj.prodSignature.push(prodSig)
+    htmlObj.prodSignature = prodSig
   })
 
   const generateHTML = (htmlObj) => {
@@ -160,13 +195,10 @@ export default function ReviewContract({ navigation }) {
           }
   
           .signature-img {
-            display: flex;
-            width: 130px;
-            height: 50px;
-            /* border: none; */
-            outline: none;
-            text-decoration: none;
-            border-bottom: 1px black solid
+            padding: 0;
+            margin: 0;
+            margin-left: 5;
+            font-family: 'Baskerville-SemiBoldItalic'
           }
 
           .div {
@@ -853,13 +885,13 @@ export default function ReviewContract({ navigation }) {
     if (currentUser._id === currentPact.producer.user) {
       htmlObj.prodSignature.length = 0
       let newProd = /*html*/ `
-        <img class='signature-img' src="${signature}"/>
+        <p class='signature-img'>${signature}</p>
       `
-      htmlObj.prodSignature.push(newProd)
+      htmlObj.prodSignature = newProd
     } else {
       htmlObj.perfSignature.length = 0
       let newPerf = /*html*/ `
-        <img class='signature-img' src="${signature}"/>
+        <p class='signature-img'>${signature}></p>
       `
       htmlObj.perfSignature.push(newPerf)
     }

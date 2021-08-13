@@ -24,6 +24,10 @@ import currentUser from '../../stores/UserStore'
 import sortedPacts from '../../stores/SortedPactStore'
 
 export default function ReviewContract({ navigation }) {
+  const [isVisible, setVisible] = useState(false)
+  const [isSigned, setSigned] = useState(false)
+  const [sig, setSig] = useState('')
+
   const htmlObj = {
     date: moment().format('MMMM Do YYYY'),
     perfAddress: [],
@@ -32,7 +36,7 @@ export default function ReviewContract({ navigation }) {
     perfNameDiv: [],
     perfSignDiv: [],
     perfSignature: [],
-    prodSignature: [],
+    prodSignature: '',
   }
 
   pact.performers.map((performer) => {
@@ -69,14 +73,27 @@ export default function ReviewContract({ navigation }) {
         <div>“${performer.artistName}”</div>
       </div>
       `
+    let perfSig
+    if (performer.signatureImg !== undefined) {
+      perfSig = /*html*/ `
+        <p class='signature-img'>${performer.signatureImg}</p>
+      `
+    } else {
+      perfSig = /*html*/ `
+        <p class='signature-img'>_______</p>
+      `
+    }
 
-    let perfSig = /*html*/ `
-      <p class='signature-img'>${performer.signatureImg}</p>
-    `
-
-    let prodSig = /*html*/ `
-      <p class='signature-img'>${pact.producer.signatureImg}</p>
-    `
+    let prodSig
+    if (pact.producer.signatureImg !== undefined) {
+      prodSig = /*html*/ `
+        <p class='signature-img'>${pact.producer.signatureImg}</p>
+      `
+    } else {
+      prodSig = /*html*/ `
+          <p class='signature-img'>_______</p>
+      `
+    }
 
     htmlObj.perfAddress.push(performerAddress)
     htmlObj.perfInfoSpan.push(performerInfo)
@@ -84,7 +101,7 @@ export default function ReviewContract({ navigation }) {
     htmlObj.perfNameDiv.push(perfName)
     htmlObj.perfSignDiv.push(perfSigHeader)
     htmlObj.perfSignature.push(perfSig)
-    htmlObj.prodSignature.push(prodSig)
+    htmlObj.prodSignature = prodSig
   })
 
   const generateHTML = (htmlObj) => {
@@ -786,7 +803,7 @@ export default function ReviewContract({ navigation }) {
           </div>
           <div class="flex-center">
             <div>
-              The undersigned: (a) agrees and accepts the above terms andconditions for a producer agreement with ${htmlObj.perfInfoSpan}. (b) assents to the execution of the agreement and agrees to be bound by all of the terms and conditions thereof, and (c) represents and warrants that ${pact.producer.companyName} is in a position to offer the services of the undersigned.
+              The undersigned: (a) agrees and accepts the above terms and conditions for a producer agreement with ${htmlObj.perfInfoSpan}. (b) assents to the execution of the agreement and agrees to be bound by all of the terms and conditions thereof, and (c) represents and warrants that ${pact.producer.companyName} is in a position to offer the services of the undersigned.
             </div>
           </div>
           <div class="legal-name">${pact.producer.name}</div>
@@ -847,7 +864,7 @@ export default function ReviewContract({ navigation }) {
       let newProd = /*html*/ `
         <p class='signature-img'>${signature}</p>
       `
-      htmlObj.prodSignature.push(newProd)
+      htmlObj.prodSignature = newProd
     } else {
       htmlObj.perfSignature.length = 0
       let newPerf = /*html*/ `
@@ -876,10 +893,6 @@ export default function ReviewContract({ navigation }) {
     setSigned(true)
     setVisible(false)
   }
-
-  const [isVisible, setVisible] = useState(false)
-  const [isSigned, setSigned] = useState(false)
-  const [sig, setSig] = useState('')
 
   return (
     <Screen>

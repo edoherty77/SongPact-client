@@ -3,9 +3,6 @@ import {
   StyleSheet,
   View,
   KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Platform,
-  Keyboard,
   ScrollView,
 } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
