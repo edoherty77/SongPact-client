@@ -51,10 +51,10 @@ export default function GratInfo({ navigation }) {
       <Formik
         enableReinitialize
         initialValues={{
-          producer: '',
+          producer: producer,
           advancePercent: '',
           publisherPercent: '',
-          credit: '',
+          credit: credit,
           royaltyPercent: '',
         }}
         onSubmit={(values) => nextScreen(values)}
@@ -74,7 +74,7 @@ export default function GratInfo({ navigation }) {
                 item={producer}
                 placeHolder="Choose Producer"
                 name="producer"
-                height={names.length * 45}
+                height={names.length * 42}
               />
             </View>
             <AppFormPercent
@@ -119,7 +119,7 @@ export default function GratInfo({ navigation }) {
                 item={credit}
                 placeHolder="Choose Person"
                 name="credit"
-                height={names.length * 45}
+                height={names.length * 42}
               />
             </View>
             <View style={styles.footer}>
