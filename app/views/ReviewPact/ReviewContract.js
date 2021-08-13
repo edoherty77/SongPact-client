@@ -829,7 +829,7 @@ export default function ReviewContract({ navigation }) {
         lastUpdated: moment().format('MM/DD/YY hh:mm A'),
       }
       await PactModel.update(obj)
-      await generateEmail(signature)
+      await generateEmail()
       await sortPacts()
     } catch (error) {
       console.log(error)
@@ -861,19 +861,7 @@ export default function ReviewContract({ navigation }) {
     }
   }
 
-  const generateEmail = async (signature) => {
-    if (currentUser._id === currentPact.producer.user) {
-      let newProd = /*html*/ `
-        <p class='signature-img'>${signature}</p>
-      `
-      htmlObj.prodSignature = newProd
-    } else {
-      let newPerf = /*html*/ `
-        <p class='signature-img'>${signature}</p>
-      `
-      htmlObj.perfSignature.push(newPerf)
-    }
-
+  const generateEmail = async () => {
     try {
       const { uri } = await Print.printToFileAsync({
         html: generateHTML(htmlObj),
