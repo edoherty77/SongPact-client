@@ -18,7 +18,6 @@ const ChatMain = ({ navigation }) => {
   const getChatRooms = async () => {
     const response = await ChatRoomModel.all(currentUser.chatRooms)
     const chatRooms = response.foundChatRooms
-    console.log('chatroom', chatRooms)
     setChatRooms(chatRooms)
   }
 

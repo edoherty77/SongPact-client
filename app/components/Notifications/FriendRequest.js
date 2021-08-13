@@ -10,7 +10,6 @@ import AppButton from '../AppButton'
 import colors from '../../config/colors'
 
 const FriendRequest = ({ item, viewProfile }) => {
-  console.log('item', item)
   return (
     <View style={styles.notificationButton}>
       <View style={styles.left}>

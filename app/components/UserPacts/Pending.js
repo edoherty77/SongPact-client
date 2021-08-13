@@ -17,7 +17,6 @@ const Pending = ({ navigation }) => {
     pactStore.setSigned()
     navigation.navigate('ReviewData')
   }
-  console.log('pending shit', sortedPacts.pending)
   return (
     <View style={styles.mainView}>
       <FlatList
@@ -28,7 +27,7 @@ const Pending = ({ navigation }) => {
         }}
         data={sortedPacts.pending}
         keyExtractor={(item) => item._id}
-        renderItem={({ item, index }) => (
+        renderItem={({ item }) => (
           <PactButton
             onPress={() => reviewPact(item)}
             type={item.type}
