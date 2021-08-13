@@ -24,10 +24,78 @@ import colors from '../../config/colors'
 import currentUser from '../../stores/UserStore'
 
 // FORMS
-import { AppForm, AppFormField, SubmitButton } from '../../components/forms'
+import {
+  AppForm,
+  AppFormField,
+  SubmitButton,
+  AppFormSelect,
+} from '../../components/forms'
+
+const states = [
+  'Alabama',
+  'Alaska',
+  'American Samoa',
+  'Arizona',
+  'Arkansas',
+  'California',
+  'Colorado',
+  'Connecticut',
+  'Delaware',
+  'District of Columbia',
+  'Federated States of Micronesia',
+  'Florida',
+  'Georgia',
+  'Guam',
+  'Hawaii',
+  'Idaho',
+  'Illinois',
+  'Indiana',
+  'Iowa',
+  'Kansas',
+  'Kentucky',
+  'Louisiana',
+  'Maine',
+  'Marshall Islands',
+  'Maryland',
+  'Massachusetts',
+  'Michigan',
+  'Minnesota',
+  'Mississippi',
+  'Missouri',
+  'Montana',
+  'Nebraska',
+  'Nevada',
+  'New Hampshire',
+  'New Jersey',
+  'New Mexico',
+  'New York',
+  'North Carolina',
+  'North Dakota',
+  'Northern Mariana Islands',
+  'Ohio',
+  'Oklahoma',
+  'Oregon',
+  'Palau',
+  'Pennsylvania',
+  'Puerto Rico',
+  'Rhode Island',
+  'South Carolina',
+  'South Dakota',
+  'Tennessee',
+  'Texas',
+  'Utah',
+  'Vermont',
+  'Virgin Island',
+  'Virginia',
+  'Washington',
+  'West Virginia',
+  'Wisconsin',
+  'Wyoming',
+]
 
 const Onboarding = ({ navigation, route }) => {
   const { user, status } = route.params
+  const [state, setState] = useState('')
 
   const toLogin = () => {
     navigation.navigate('SignIn')
@@ -45,11 +113,12 @@ const Onboarding = ({ navigation, route }) => {
         artistName: values.artistName,
         address: address,
         city: values.city,
-        state: values.state,
+        state: state,
         zipCode: parseInt(values.zipCode),
         companyName: values.companyName,
         phoneNumber: parseInt(values.phoneNumber),
       }
+      console.log('obj', obj)
       await UserModel.update(obj)
       if (status === 'signing up') {
         navigation.navigate('SignIn')
@@ -157,13 +226,21 @@ const Onboarding = ({ navigation, route }) => {
               returnKeyType="done"
             />
             <AppText style={styles.inputTitle}>State</AppText>
-            <AppFormField
+            {/* <AppFormField
               style={styles.input}
               name="state"
               autoCapitalize="words"
               textContentType="password"
               autoCorrect={false}
               returnKeyType="done"
+            /> */}
+            <AppFormSelect
+              data={states}
+              setItem={setState}
+              item={state}
+              placeHolder="Choose State"
+              name="state"
+              height={300}
             />
             <AppText style={styles.inputTitle}>Zip Code</AppText>
             <AppFormField
