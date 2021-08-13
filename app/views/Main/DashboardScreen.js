@@ -104,11 +104,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     zIndex: 1,
   },
-  tabView: {
-    // display: 'flex',
-    // flex: 1,
-    // flexGrow: 1,
-  },
 })
 
 export default DashboardScreen

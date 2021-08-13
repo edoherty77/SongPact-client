@@ -813,6 +813,13 @@ export default function ReviewContract({ navigation }) {
   `
   }
 
+  const setRandomPactId = async (obj) => {
+    const num = await Math.floor(Math.random() * 1000)
+    const id = await num.toString()
+    obj['_id'] = id
+    await sortedPacts.setPending(obj)
+  }
+
   const createPact = async (signature) => {
     let performArr = []
     try {
@@ -850,7 +857,7 @@ export default function ReviewContract({ navigation }) {
         lastUpdated: moment().format('MM/DD/YY hh:mm A'),
       }
       await PactModel.create(obj)
-      await sortedPacts.setPending(obj)
+      await setRandomPactId(obj)
       await pact.setPact(obj)
       await generateEmail(signature)
     } catch (error) {

@@ -17,7 +17,7 @@ const Pending = ({ navigation }) => {
     pactStore.setSigned()
     navigation.navigate('ReviewData')
   }
-
+  console.log('pending shit', sortedPacts.pending)
   return (
     <View style={styles.mainView}>
       <FlatList
@@ -45,11 +45,7 @@ const Pending = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   mainView: {
-    // display: 'flex',
-    // padding: 20,
-    // flex: 1,
     marginHorizontal: 20,
-    backgroundColor: colors.background,
   },
 })
 
