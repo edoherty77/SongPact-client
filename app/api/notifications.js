@@ -47,7 +47,6 @@ export default class NotificationsModel {
   // }
 
   static delete = async (data) => {
-    console.log('data', data)
     try {
       const deletedNotification = await axios.delete(
         `${url}/notification/${data.notificationId}`,

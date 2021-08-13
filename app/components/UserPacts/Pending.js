@@ -17,7 +17,6 @@ const Pending = ({ navigation }) => {
     pactStore.setSigned()
     navigation.navigate('ReviewData')
   }
-
   return (
     <View style={styles.mainView}>
       <FlatList
@@ -28,7 +27,7 @@ const Pending = ({ navigation }) => {
         }}
         data={sortedPacts.pending}
         keyExtractor={(item) => item._id}
-        renderItem={({ item, index }) => (
+        renderItem={({ item }) => (
           <PactButton
             onPress={() => reviewPact(item)}
             type={item.type}
@@ -45,11 +44,7 @@ const Pending = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   mainView: {
-    // display: 'flex',
-    // padding: 20,
-    // flex: 1,
     marginHorizontal: 20,
-    backgroundColor: colors.background,
   },
 })
 

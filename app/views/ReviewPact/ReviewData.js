@@ -28,7 +28,6 @@ import {
 } from '../../components/forms'
 
 export default function ReviewData({ navigation }) {
-  console.log('currentPactttt', currentPact)
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: (props) => <Header title={currentPact.recordTitle} {...props} />,

@@ -66,7 +66,6 @@ class CreatePactStore {
         return (performer['signatureImg'] = sig)
       }
     })
-    console.log('performer', this.performers)
     if (this.producer.email === currentUser._id) {
       this.producer['signatureImg'] = sig
     }
