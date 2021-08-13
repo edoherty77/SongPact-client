@@ -16,10 +16,9 @@ import colors from '../../config/colors'
 const AppFormSelect = ({
   data,
   setItem,
-  item,
+  height,
   isDisabled,
   defaultValue,
-  name,
   placeHolder,
 }) => {
   const { setFieldValue } = useFormikContext()
@@ -76,10 +75,10 @@ const AppFormSelect = ({
     // </View>
     <View style={styles.mainView}>
       <ModalDropdown
-        options={names}
+        options={data}
         defaultValue={defaultValue !== undefined ? defaultValue : placeHolder}
         onSelect={(itemIndex, itemValue) => {
-          setFieldValue(name, itemValue), setItem(itemValue)
+          setFieldValue(data, itemValue), setItem(itemValue)
         }}
         style={[
           styles.selectStyle,
@@ -88,7 +87,7 @@ const AppFormSelect = ({
             : { backgroundColor: 'white' },
         ]}
         textStyle={styles.textStyle}
-        dropdownStyle={styles.dropdownStyle}
+        dropdownStyle={[styles.dropdownStyle, { height: height }]}
         dropdownTextStyle={styles.dropdownTextStyle}
         dropdownTextHighlightStyle={styles.dropdownTextHighlightStyle}
       />
@@ -141,7 +140,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     marginLeft: -21,
     marginTop: 13,
-    height: 'auto',
+    // height: 'auto',
     paddingBottom: 2,
   },
   dropdownTextStyle: {

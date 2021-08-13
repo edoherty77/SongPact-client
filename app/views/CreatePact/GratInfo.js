@@ -8,7 +8,6 @@ import colors from '../../config/colors'
 //COMPONENTTS
 import Screen from '../../components/Screen'
 import AppText from '../../components/AppText'
-import Header from '../../components/Header'
 import Separator from '../../components/Separator'
 import AppProgressBar from '../../components/AppProgressBar'
 
@@ -34,6 +33,10 @@ import currentPact from '../../stores/CreatePactStore'
 export default function GratInfo({ navigation }) {
   const [producer, setProducer] = React.useState('')
   const [credit, setCredit] = React.useState('')
+
+  let names = currentPact.users.map((user) => {
+    return user.name
+  })
 
   function nextScreen(values) {
     currentPact.setProducer(values)
@@ -66,11 +69,12 @@ export default function GratInfo({ navigation }) {
             </AppText>
             <View style={{ width: '100%' }}>
               <AppFormSelect
-                data={currentPact.users}
+                data={names}
                 setItem={setProducer}
                 item={producer}
                 placeHolder="Choose Producer"
                 name="producer"
+                height={names.length * 45}
               />
             </View>
             <AppFormPercent
@@ -110,11 +114,12 @@ export default function GratInfo({ navigation }) {
             </View> */}
             <View style={{ width: '100%' }}>
               <AppFormSelect
-                data={currentPact.users}
+                data={names}
                 setItem={setCredit}
                 item={credit}
                 placeHolder="Choose Person"
                 name="credit"
+                height={names.length * 45}
               />
             </View>
             <View style={styles.footer}>
