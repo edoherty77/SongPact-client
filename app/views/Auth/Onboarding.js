@@ -106,6 +106,8 @@ const Onboarding = ({ navigation, route }) => {
       let address
       if (values.apartment !== '') {
         address = values.address.concat(' ', values.apartment)
+      } else {
+        address = values.address
       }
       const obj = {
         name: user.name,
@@ -118,7 +120,6 @@ const Onboarding = ({ navigation, route }) => {
         companyName: values.companyName,
         phoneNumber: parseInt(values.phoneNumber),
       }
-      console.log('obj', obj)
       await UserModel.update(obj)
       if (status === 'signing up') {
         navigation.navigate('SignIn')
@@ -226,14 +227,6 @@ const Onboarding = ({ navigation, route }) => {
               returnKeyType="done"
             />
             <AppText style={styles.inputTitle}>State</AppText>
-            {/* <AppFormField
-              style={styles.input}
-              name="state"
-              autoCapitalize="words"
-              textContentType="password"
-              autoCorrect={false}
-              returnKeyType="done"
-            /> */}
             <AppFormSelect
               data={states}
               setItem={setState}

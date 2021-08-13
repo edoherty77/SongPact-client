@@ -85,7 +85,8 @@ const DashboardScreen = observer(({ navigation }) => {
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={setIndex}
-        initialLayout={{ width: layout.width }}
+        initialLayout={{ width: layout.width, height: 0 }}
+        // sceneContainerStyle={{ flex: 3, backgroundColor: 'blue' }}
       />
     </Screen>
   )
@@ -102,6 +103,11 @@ const styles = StyleSheet.create({
     top: 100,
     marginHorizontal: 20,
     zIndex: 1,
+  },
+  tabView: {
+    // display: 'flex',
+    // flex: 1,
+    // flexGrow: 1,
   },
 })
 

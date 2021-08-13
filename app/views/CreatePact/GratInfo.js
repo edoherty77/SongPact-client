@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, FlatList } from 'react-native'
+import React from 'react'
+import { StyleSheet, View, KeyboardAvoidingView } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 
 // CONFIG

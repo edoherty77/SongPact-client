@@ -814,7 +814,7 @@ export default function ReviewContract({ navigation }) {
         recordTitle: currentPact.recordTitle,
         type: currentPact.type,
         initBy: currentPact.initBy,
-        lastUpdated: moment().format('MMMM Do YYYY hh:mm A'),
+        lastUpdated: moment().format('MM/DD/YY hh:mm A'),
       }
       await PactModel.update(obj)
       await generateEmail(signature)

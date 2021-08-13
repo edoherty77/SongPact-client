@@ -69,7 +69,6 @@ class CreatePactStore {
     } else {
       this.status = 1
     }
-    console.log('status', status)
   }
 
   setSigned() {
@@ -82,8 +81,14 @@ class CreatePactStore {
     this.initBy.name = foundUser.name
     this.users.push({
       user: foundUser._id,
-      // userStatus: 2,
       name: foundUser.name,
+      artistName: foundUser.artistName,
+      companyName: foundUser.companyName,
+      address: foundUser.address,
+      city: foundUser.city,
+      state: foundUser.state,
+      zipCode: foundUser.zipCode,
+      email: foundUser.email,
     })
 
     //Find everyone else involved in agreement and push in to collaborator array
@@ -99,8 +104,9 @@ class CreatePactStore {
       obj['state'] = collab.state
       obj['zipCode'] = collab.zipCode
       obj['email'] = collab.email
+      obj['userStatus'] = 1
       this.collaborators.push(obj)
-      this.users.push({ user: collab._id, userStatus: 1, name: collab.name })
+      this.users.push(obj)
     })
   }
 

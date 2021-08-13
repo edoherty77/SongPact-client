@@ -53,27 +53,26 @@ const NotificationsScreen = observer(({ navigation }) => {
   return (
     <Screen>
       <View style={styles.mainView}>
-        {currentUser.notifications.length > 0 && (
+        {(currentUser.notifications.length > 0 ||
+          currentUser.friendRequests.length > 0) && (
           <View style={styles.notifications}>
             <FlatList
               ListHeaderComponent={
                 <>
-                  {currentUser.friendRequests.length > 0 && (
-                    <View>
-                      <FlatList
-                        data={currentUser.friendRequests}
-                        keyExtractor={(friendRequests) =>
-                          friendRequests.friendRequestId
-                        }
-                        renderItem={({ item, index }) => (
-                          <FriendRequest
-                            item={item}
-                            viewProfile={() => viewProfile(item)}
-                          />
-                        )}
-                      />
-                    </View>
-                  )}
+                  <View>
+                    <FlatList
+                      data={currentUser.friendRequests}
+                      keyExtractor={(friendRequests) =>
+                        friendRequests.friendRequestId
+                      }
+                      renderItem={({ item, index }) => (
+                        <FriendRequest
+                          item={item}
+                          viewProfile={() => viewProfile(item)}
+                        />
+                      )}
+                    />
+                  </View>
                 </>
               }
               showsVerticalScrollIndicator={false}
