@@ -16,7 +16,8 @@ const PactButton = ({ type, title, name, status, onPress, lastUpdated }) => {
         <AppText fontSize={13}>Type: {type}</AppText>
       </View>
       <View style={styles.dateView}>
-        <AppText style={styles.updated}>Last updated: {lastUpdated}</AppText>
+        <AppText style={styles.updated}>Last updated</AppText>
+        <AppText style={styles.updated}>{lastUpdated}</AppText>
       </View>
     </TouchableOpacity>
   )
@@ -61,11 +62,11 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   dateView: {
-    right: -25,
+    right: -35,
     top: 5,
   },
   updated: {
-    color: 'rgba(34, 34, 34, 0.8)',
     fontSize: 12,
+    color: 'rgba(34, 34, 34, 0.8)',
   },
 })

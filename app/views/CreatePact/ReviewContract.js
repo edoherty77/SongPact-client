@@ -36,8 +36,14 @@ export default function ReviewContract({ navigation }) {
   }
 
   pact.performers.map((performer) => {
+    let companyName
+    if (performer.companyName !== '') {
+      companyName = performer.companyName
+    } else {
+      companyName = 'No Co. Name'
+    }
     let performerAddress = /*html*/ `
-      <div>${performer.companyName} f/s/o</div>
+      <div>${companyName} f/s/o</div>
       <div>${performer.name} p/k/a ${performer.artistName}</div>
       <div>${performer.address}</div>
       <div>${performer.city}, ${performer.state} ${performer.zipCode}</div>
@@ -824,7 +830,7 @@ export default function ReviewContract({ navigation }) {
         user: currentUser._id,
         status: 1,
         dateCreated: moment().format('MMMM Do YYYY'),
-        lastUpdated: moment().format('MMMM Do YYYY hh:mm A'),
+        lastUpdated: moment().format('MM/DD/YY hh:mm A'),
       }
       await PactModel.create(obj)
       await sortedPacts.setPending(obj)
