@@ -19,12 +19,6 @@ import colors from '../config/colors'
 const Tab = createBottomTabNavigator()
 
 export default function BottomTabs({ updateAuthState, logout }) {
-  // const [num, setNum] = useState(null)
-
-  // useEffect(() => {
-  //   setNum(currentUser.badgeNum)
-  // }, [currentUser.badgeNum])
-
   return (
     <Tab.Navigator
       tabBarOptions={{

@@ -45,8 +45,8 @@ const NotificationsScreen = observer(({ navigation }) => {
       notificationId: item._id,
       userId: currentUser._id,
     }
-    currentUser.removeNotification(item)
-    currentUser.subtractBadgeNum()
+    await currentUser.removeNotification(item)
+    await currentUser.subtractBadgeNum()
     await NotificationsModel.delete(data)
   }
 

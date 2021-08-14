@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, useWindowDimensions } from 'react-native'
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view'
+import { useQuery } from 'react-query'
 
 // CONFIG
 import colors from '../../config/colors'
@@ -15,9 +16,35 @@ import AppSearchInput from '../../components/AppSearchInput'
 
 // STORE
 import { observer } from 'mobx-react'
+import currentUser from '../../stores/UserStore'
+import PactModel from '../../api/pacts'
 
 const DashboardScreen = observer(({ navigation }) => {
   const layout = useWindowDimensions()
+
+  // async function sortPacts(id) {
+  //   try {
+  //     const data = await PactModel.all(id)
+  //     const pacts = data.pact
+  //     pacts.map((pact) => {
+  //       pact.users.find((user) => {
+  //         if (user.user === currentUser._id) {
+  //           if (pact.status === 1 && user.userStatus === 1) {
+  //             sortedPacts.setAction(pact)
+  //           } else if (pact.status === 1 && user.userStatus === 2) {
+  //             sortedPacts.setPending(pact)
+  //           } else if (pact.status === 2) {
+  //             sortedPacts.setArchive(pact)
+  //           } else if (pact.status === 0) {
+  //             sortedPacts.setDrafts(pact)
+  //           }
+  //         }
+  //       })
+  //     })
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   const [index, setIndex] = useState(0)
   const [routes] = useState([
