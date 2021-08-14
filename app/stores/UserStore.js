@@ -76,7 +76,12 @@ class UserStore {
     this.badgeNum = this.badgeNum - 1
   }
 
-  removeFriendRequest(item) {}
+  removeFriendRequest(requestId) {
+    // console.log('reqId', requestId)
+    this.friendRequests = this.friendRequests.filter(
+      (friendRequest) => friendRequest.friendRequestId !== requestId,
+    )
+  }
 
   removeNotification(item) {
     this.notifications = this.notifications.filter(
