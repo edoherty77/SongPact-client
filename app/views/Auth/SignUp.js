@@ -161,12 +161,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   input: {
-    width: '100%',
-    // height: 50,
-    backgroundColor: colors.white,
-    borderColor: colors.black,
-    borderWidth: 1,
-    fontSize: 18,
     paddingLeft: 20,
     borderRadius: 7,
     marginBottom: 5,

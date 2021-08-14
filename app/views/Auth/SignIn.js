@@ -220,11 +220,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   input: {
-    width: '100%',
-    backgroundColor: colors.white,
-    borderColor: colors.black,
-    borderWidth: 1,
-    fontSize: 18,
     height: 50,
     paddingLeft: 20,
     borderRadius: 7,

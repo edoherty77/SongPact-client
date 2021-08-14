@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, TextInput, View } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import defaultStyles from '../config/styles'
+
+// CONFIG
+import colors from '../config/colors'
 
 const AppTextInput = ({
   placeholderTextColor,
@@ -10,6 +13,22 @@ const AppTextInput = ({
   width,
   ...otherProps
 }) => {
+  const [borderColor, setBorderColor] = useState({ borderColor: 'black' })
+
+  const setFocusStyle = () => {
+    return {
+      borderColor: colors.green,
+      shadowColor: colors.green,
+      shadowOffset: {
+        width: 0,
+        height: 4,
+      },
+      shadowOpacity: 0.32,
+      shadowRadius: 5.46,
+
+      elevation: 9,
+    }
+  }
   return (
     <View style={[styles.container, { width: width }]}>
       {icon && (
@@ -21,8 +40,10 @@ const AppTextInput = ({
         />
       )}
       <TextInput
+        onFocus={() => setBorderColor(setFocusStyle)}
+        onBlur={() => setBorderColor({ borderColor: 'black' })}
         placeholderTextColor={placeholderTextColor}
-        style={[styles.input, style]}
+        style={[styles.input, style, borderColor]}
         {...otherProps}
       />
     </View>
@@ -41,5 +62,11 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 10,
+  },
+  input: {
+    borderWidth: 1,
+    fontSize: 18,
+    width: '100%',
+    backgroundColor: colors.white,
   },
 })
