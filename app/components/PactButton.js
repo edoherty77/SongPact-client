@@ -13,7 +13,7 @@ const PactButton = ({ type, title, name, status, onPress, lastUpdated }) => {
         <AppText style={styles.text}>
           Created By: <AppText style={styles.name}>{name}</AppText>
         </AppText>
-        <AppText fontSize={13}>Type: {type}</AppText>
+        <AppText fontSize={14}>Type: {type}</AppText>
       </View>
       <View style={styles.dateView}>
         <AppText style={styles.updated}>Last updated</AppText>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderColor: 'black',
     borderWidth: 1,
-    height: 100,
+    // height: 100,
   },
   status: {
     top: 5,
@@ -53,17 +53,21 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: 'bold',
-    fontSize: 22,
+    fontSize: 20,
     marginBottom: 4,
-    width: 130,
+    // width: 130,
   },
   text: {
     fontSize: 14,
-    marginBottom: 4,
+    // marginTop: 4,
   },
   dateView: {
-    right: -35,
-    top: 5,
+    display: 'flex',
+    position: 'absolute',
+    justifyContent: 'flex-end',
+    right: 25,
+    bottom: 16,
+    // backgroundColor: 'red',
   },
   updated: {
     fontSize: 12,
