@@ -1,18 +1,21 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createDrawerNavigator } from '@react-navigation/drawer'
+import { useQuery } from 'react-query'
 
-import DashboardStack from './DashboardStack'
 import BottomTabs from './BottomTabs'
+
+import currentUser from '../stores/UserStore'
+import PactModel from '../api/pacts'
 
 const Drawer = createDrawerNavigator()
 
 export const RootNavigator = ({ updateAuthState, logout }) => {
+  // const { data } = useQuery('pacts', () => PactModel.all(currentUser.email))
+  // console.log('data', data)
   return (
     <NavigationContainer>
-      {/* <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}> */}
       <Drawer.Navigator>
-        {/* <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}> */}
         <Drawer.Screen name="Home">
           {(screenProps) => (
             <BottomTabs
@@ -22,7 +25,6 @@ export const RootNavigator = ({ updateAuthState, logout }) => {
             />
           )}
         </Drawer.Screen>
-        {/* component={DashboardStack} /> */}
       </Drawer.Navigator>
     </NavigationContainer>
   )

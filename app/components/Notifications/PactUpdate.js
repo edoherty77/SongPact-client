@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     // flexWrap: 'wrap'
   },
   text: {
-    fontSize: 20,
+    fontSize: 18,
     lineHeight: 30,
   },
   name: {

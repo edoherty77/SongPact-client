@@ -17,16 +17,9 @@ import currentUser from './app/stores/UserStore'
 import currentPact from './app/stores/CreatePactStore'
 import sortedPacts from './app/stores/SortedPactStore'
 import { observer } from 'mobx-react'
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from 'react-query'
-
+import { QueryClient, QueryClientProvider } from 'react-query'
 // MODELS
-import UserModel from './app/api/users'
+import PactModel from './app/api/pacts'
 
 // Create a client
 const queryClient = new QueryClient()

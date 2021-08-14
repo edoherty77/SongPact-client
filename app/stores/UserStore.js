@@ -76,12 +76,17 @@ class UserStore {
     this.badgeNum = this.badgeNum - 1
   }
 
+  removeFriendRequest(requestId, friend) {
+    this.friendRequests = this.friendRequests.filter(
+      (friendRequest) => friendRequest.friendRequestId !== requestId,
+    )
+    this.friends.push(friend)
+  }
+
   removeNotification(item) {
-    for (let i = 0; i <= this.notifications.length; i++) {
-      if (this.notifications[i]._id === item._id) {
-        this.notifications.splice(i, 1)
-      }
-    }
+    this.notifications = this.notifications.filter(
+      (notification) => notification._id !== item._id,
+    )
   }
 
   resetUser() {
