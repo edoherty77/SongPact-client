@@ -119,7 +119,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
       <Tab.Screen
         name="Notifications"
         options={{
-          tabBarBadge: currentUser.badgeNum,
+          tabBarBadge: currentUser.badgeNum > 0 ? currentUser.badgeNum : null,
           tabBarBadgeStyle: {
             top: 15,
             paddingTop: 1,
