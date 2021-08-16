@@ -25,7 +25,6 @@ const AppTextInput = ({
       },
       shadowOpacity: 0.32,
       shadowRadius: 5.46,
-
       elevation: 9,
     }
   }

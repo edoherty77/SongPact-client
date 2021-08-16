@@ -1,12 +1,5 @@
 import React, { useState } from 'react'
-import {
-  StyleSheet,
-  View,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Platform,
-  Keyboard,
-} from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 
 // MODELS/STORAGE
@@ -136,63 +129,56 @@ const SignIn = ({ navigation }) => {
             place.
           </AppText>
         </View>
-        <KeyboardAvoidingView
-          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-          style={styles.container}
-        >
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.signInContainer}>
-              <AppText style={styles.inputTitle}>Email</AppText>
-              <AppTextInput
-                style={styles.input}
-                value={email}
-                onChangeText={(text) => setEmail(text)}
-                autoCapitalize="none"
-                keyboardType="email-address"
-                textContentType="username"
-                autoCorrect={false}
-              />
-              <AppText style={styles.inputTitle}>Password</AppText>
-              <AppTextInput
-                style={styles.input}
-                value={password}
-                onChangeText={(text) => setPassword(text)}
-                autoCapitalize="none"
-                textContentType="password"
-                autoCorrect={false}
-                secureTextEntry={true}
-              />
-              <AppText style={styles.forgot}>Forgot password?</AppText>
-              <AppButton
-                title="Sign In"
-                onPress={signIn}
-                textColor={colors.white}
-                style={styles.loginButton}
-              />
-              <View style={styles.socialContainer}>
-                <AppText style={styles.socialText}>
-                  or sign in with your social account
-                </AppText>
-                <SocMediaSignIn
-                  checkForFriends={checkForFriends}
-                  fetchRequests={fetchRequests}
-                  sortPacts={sortPacts}
-                  toOnboarding={toOnboarding}
-                />
-              </View>
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-        <View style={styles.footer}>
-          <AppText style={styles.footertext}>
-            Don't have an accout?{' '}
-            <AppText
-              style={styles.textBtn}
-              onPress={() => navigation.navigate('SignUp')}
-            >
-              Sign Up
+        <View style={styles.signInContainer}>
+          <AppText style={styles.inputTitle}>Email</AppText>
+          <AppTextInput
+            style={styles.input}
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            textContentType="username"
+            autoCorrect={false}
+          />
+          <AppText style={styles.inputTitle}>Password</AppText>
+          <AppTextInput
+            style={styles.input}
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+            autoCapitalize="none"
+            textContentType="password"
+            autoCorrect={false}
+            secureTextEntry={true}
+          />
+          <AppText style={styles.forgot}>Forgot password?</AppText>
+          <AppButton
+            title="Sign In"
+            onPress={signIn}
+            textColor={colors.white}
+            style={styles.loginButton}
+          />
+          <View style={styles.socialContainer}>
+            <AppText style={styles.socialText}>
+              or sign in with your social account
             </AppText>
-          </AppText>
+            <SocMediaSignIn
+              checkForFriends={checkForFriends}
+              fetchRequests={fetchRequests}
+              sortPacts={sortPacts}
+              toOnboarding={toOnboarding}
+            />
+          </View>
+          <View style={styles.footer}>
+            <AppText style={styles.footertext}>
+              Don't have an accout?{' '}
+              <AppText
+                style={styles.textBtn}
+                onPress={() => navigation.navigate('SignUp')}
+              >
+                Sign Up
+              </AppText>
+            </AppText>
+          </View>
         </View>
       </View>
     </Screen>
@@ -255,9 +241,8 @@ const styles = StyleSheet.create({
   footer: {
     display: 'flex',
     justifyContent: 'flex-end',
-    marginBottom: 40,
+    marginTop: 30,
     alignItems: 'center',
-    flex: 1,
   },
   footertext: {
     fontSize: 16,

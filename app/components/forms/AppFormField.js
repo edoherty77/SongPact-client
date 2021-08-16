@@ -13,7 +13,7 @@ const AppFormField = ({
   selectTextOnFocus,
   ...otherProps
 }) => {
-  const { setFieldTouched, handleChange, errors, touched } = useFormikContext()
+  const { handleChange, errors, touched } = useFormikContext()
 
   return (
     <>
@@ -30,7 +30,6 @@ const AppFormField = ({
         width={width}
         height={height}
         {...otherProps}
-        onBlur={() => setFieldTouched(name)}
       />
       <ErrorMessage error={errors[name]} visible={touched[name]} />
     </>
