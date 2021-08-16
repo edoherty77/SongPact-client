@@ -4,6 +4,7 @@ import {
   View,
   KeyboardAvoidingView,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
@@ -142,8 +143,8 @@ const Onboarding = ({ navigation, route }) => {
                 First thing's first, we need a bit more information before you
                 begin creating your first pact
               </AppText>
-              <View style={styles.doLater}>
-                <AppText color="rgba(34, 34, 34, 0.4)" onPress={toLogin}>
+              <TouchableOpacity style={styles.doLater} onPress={toLogin}>
+                <AppText color="rgba(34, 34, 34, 0.4)">
                   I'll do this later
                 </AppText>
                 <MaterialCommunityIcons
@@ -152,7 +153,7 @@ const Onboarding = ({ navigation, route }) => {
                   color="rgba(34, 34, 34, 0.4)"
                   style={{ paddingLeft: 5 }}
                 />
-              </View>
+              </TouchableOpacity>
             </View>
           ) : (
             <View style={styles.signedInContainer}>
@@ -297,11 +298,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    width: '100%',
-    backgroundColor: colors.white,
-    borderColor: colors.black,
-    borderWidth: 1,
-    fontSize: 18,
     paddingLeft: 20,
     borderRadius: 7,
     marginBottom: 5,
