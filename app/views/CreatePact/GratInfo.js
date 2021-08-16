@@ -10,14 +10,11 @@ import Screen from '../../components/Screen'
 import AppText from '../../components/AppText'
 import Separator from '../../components/Separator'
 import AppProgressBar from '../../components/AppProgressBar'
+import FooterNext from '../../components/FooterNext'
 
 // FORM
 import { Formik } from 'formik'
-import {
-  SubmitButton,
-  AppFormSelect,
-  AppFormPercent,
-} from '../../components/forms'
+import { AppFormSelect, AppFormPercent } from '../../components/forms'
 import * as Yup from 'yup'
 
 // STORE
@@ -110,13 +107,7 @@ export default function GratInfo({ navigation }) {
               name="publisherPercent"
               title="Producer Publish"
             />
-            <View style={styles.footer}>
-              <SubmitButton
-                // disabled={values.collabs.length === 0 ? true : false}
-                style={styles.nextButton}
-                title="Continue"
-              />
-            </View>
+            <FooterNext />
           </View>
         )}
       </Formik>
@@ -160,15 +151,5 @@ const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
     right: 0,
-  },
-  footer: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    flex: 1,
-  },
-  nextButton: {
-    marginBottom: 40,
   },
 })

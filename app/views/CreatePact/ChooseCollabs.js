@@ -2,7 +2,6 @@ import React from 'react'
 import { View, StyleSheet, FlatList, Image } from 'react-native'
 
 // FORM
-import { SubmitButton } from '../../components/forms'
 import { Formik, FieldArray } from 'formik'
 
 // COMPONENTS
@@ -13,6 +12,7 @@ import UserIcon from '../../components/UserIcon'
 import Separator from '../../components/Separator'
 import AppSearchInput from '../../components/AppSearchInput'
 import AppProgressBar from '../../components/AppProgressBar'
+import FooterNext from '../../components/FooterNext'
 
 // STORE
 import currentPact from '../../stores/CreatePactStore'
@@ -103,13 +103,7 @@ function ChooseCollabs({ navigation }) {
                   )}
                 </FieldArray>
               </View>
-              <View style={styles.footer}>
-                <SubmitButton
-                  disabled={values.collabs.length === 0 ? true : false}
-                  style={styles.nextButton}
-                  title="Continue"
-                />
-              </View>
+              <FooterNext />
             </View>
           )}
         </Formik>
@@ -153,12 +147,6 @@ const styles = StyleSheet.create({
   contactsView: {
     marginTop: 15,
     flex: 1,
-  },
-  footer: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
   },
 })
 
