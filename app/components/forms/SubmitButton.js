@@ -7,12 +7,10 @@ import colors from '../../config/colors'
 const SubmitButton = ({
   title,
   style,
-  width,
-  dismissKey,
-  mode,
-  onPress,
   disabled,
-  props,
+  nextIcon,
+  width,
+  fontWeight,
 }) => {
   const { handleSubmit, values } = useFormikContext()
 
@@ -20,9 +18,16 @@ const SubmitButton = ({
     <AppButton
       title={title}
       onPress={handleSubmit}
-      style={[style, styles.button]}
+      style={[
+        style,
+        styles.button,
+        { backgroundColor: disabled ? colors.gray : colors.green },
+      ]}
       disabled={disabled}
-      textColor="white"
+      textColor={disabled ? 'black' : 'white'}
+      nextIcon={nextIcon}
+      width={width}
+      fontWeight={fontWeight}
     />
   )
 }
@@ -32,8 +37,6 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     borderRadius: 5,
     height: 45,
-    backgroundColor: colors.green,
-    // width: '100%',
   },
 })
 

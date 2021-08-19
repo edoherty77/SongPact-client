@@ -78,6 +78,7 @@ const CreatePactStack = ({ updateAuthState, logout, route, navigation }) => {
             <Header
               title="Create New Pact"
               subTitle="Gratuity Info"
+              clearCollabs
               {...props}
             />
           ),

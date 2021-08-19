@@ -9,18 +9,14 @@ import Screen from '../../components/Screen'
 import Separator from '../../components/Separator'
 import AppProgressBar from '../../components/AppProgressBar'
 import AppText from '../../components/AppText'
-import Header from '../../components/Header'
+import FooterNext from '../../components/FooterNext'
 
 // STORE
 import currentPactStore from '../../stores/CreatePactStore'
 
 // FORM
 import { Formik } from 'formik'
-import {
-  AppFormField,
-  SubmitButton,
-  AppFormSwitch,
-} from '../../components/forms'
+import { AppFormField, AppFormSwitch } from '../../components/forms'
 import * as Yup from 'yup'
 
 const validationSchema = Yup.object().shape({
@@ -101,9 +97,7 @@ export default function RecordInfo({ navigation }) {
             ) : (
               <View style={styles.noLabelView}></View>
             )}
-            <View style={styles.footer}>
-              <SubmitButton title="Continue" />
-            </View>
+            <FooterNext />
           </View>
         )}
       </Formik>
@@ -140,13 +134,5 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     borderRadius: 7,
     marginBottom: 5,
-  },
-  footer: {
-    flex: 2,
-    justifyContent: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    marginBottom: -10,
   },
 })

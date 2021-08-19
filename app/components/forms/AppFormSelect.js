@@ -22,9 +22,6 @@ const AppFormSelect = ({
   placeHolder,
 }) => {
   const { setFieldValue } = useFormikContext()
-  let names = data.map((user) => {
-    return user.name
-  })
 
   return (
     // <View
@@ -113,8 +110,7 @@ const styles = StyleSheet.create({
   },
   selectStyle: {
     borderColor: 'black',
-    borderRadius: 5,
-    borderRadius: 5,
+    borderRadius: 7,
     borderWidth: 1,
     borderStyle: 'solid',
     marginVertical: 10,

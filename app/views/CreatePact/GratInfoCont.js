@@ -4,13 +4,13 @@ import { StyleSheet, View, FlatList } from 'react-native'
 //COMPONENTTS
 import Screen from '../../components/Screen'
 import AppText from '../../components/AppText'
-import Header from '../../components/Header'
 import Separator from '../../components/Separator'
 import AppProgressBar from '../../components/AppProgressBar'
+import FooterNext from '../../components/FooterNext'
 
 // FORM
 import { Formik, FieldArray } from 'formik'
-import { SubmitButton, AppFormPercent } from '../../components/forms'
+import { AppFormPercent } from '../../components/forms'
 import * as Yup from 'yup'
 
 // STORE
@@ -60,12 +60,7 @@ export default function GratInfoCont({ navigation }) {
                 )}
               </FieldArray>
             </View>
-            <View style={styles.footer}>
-              <SubmitButton
-                // disabled={values.collabs.length === 0 ? true : false}
-                title="Continue"
-              />
-            </View>
+            <FooterNext />
           </View>
         )}
       </Formik>
@@ -83,11 +78,5 @@ const styles = StyleSheet.create({
   sectionHeader: {
     marginVertical: 15,
     fontSize: 20,
-  },
-  footer: {
-    marginHorizontal: 15,
-    position: 'absolute',
-    width: '100%',
-    bottom: 40,
   },
 })

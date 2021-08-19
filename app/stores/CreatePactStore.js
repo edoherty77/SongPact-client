@@ -85,6 +85,8 @@ class CreatePactStore {
 
   setCollabInfo(values, foundUser) {
     //Set initBy value with foundUser
+    // this.collaborators = []
+    // this.users = []
     this.initBy.user = foundUser._id
     this.initBy.name = foundUser.name
     this.users.push({

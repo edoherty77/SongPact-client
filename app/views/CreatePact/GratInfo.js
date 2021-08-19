@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, KeyboardAvoidingView } from 'react-native'
+import { StyleSheet, View, ScrollView } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 
 // CONFIG
@@ -10,13 +10,14 @@ import Screen from '../../components/Screen'
 import AppText from '../../components/AppText'
 import Separator from '../../components/Separator'
 import AppProgressBar from '../../components/AppProgressBar'
+import FooterNext from '../../components/FooterNext'
 
 // FORM
 import { Formik } from 'formik'
 import {
-  SubmitButton,
   AppFormSelect,
   AppFormPercent,
+  AppFormField,
 } from '../../components/forms'
 import * as Yup from 'yup'
 
@@ -33,11 +34,17 @@ export default function GratInfo({ navigation }) {
   const [producer, setProducer] = React.useState('')
   const [credit, setCredit] = React.useState('')
 
-  let names = currentPact.users.map((user) => {
+  let producers = currentPact.users.map((user) => {
+    return user.name
+  })
+  let credits = currentPact.users.map((user) => {
     return user.name
   })
 
+  credits.push('Other')
+
   function nextScreen(values) {
+    console.log('values', values)
     currentPact.setProducer(values)
     currentPact.setProducerInfo(values)
     navigation.navigate('GratInfoCont')
@@ -47,79 +54,82 @@ export default function GratInfo({ navigation }) {
     <Screen>
       <AppProgressBar value={20} />
       <Separator />
-      <Formik
-        enableReinitialize
-        initialValues={{
-          producer: producer,
-          advancePercent: '',
-          publisherPercent: '',
-          credit: credit,
-          royaltyPercent: '',
-        }}
-        onSubmit={(values) => nextScreen(values)}
-      >
-        {() => (
-          <View style={styles.mainView}>
-            <AppText fontWeight="bold" style={styles.sectionHeader}>
-              Producer Info
-            </AppText>
-            <AppText style={styles.text}>
-              Who is the producer for this record?
-            </AppText>
-            <View style={{ width: '100%' }}>
-              <AppFormSelect
-                data={names}
-                setItem={setProducer}
-                item={producer}
-                placeHolder="Choose Producer"
-                name="producer"
-                height={names.length * 42}
+      <ScrollView>
+        <Formik
+          enableReinitialize
+          initialValues={{
+            producer: producer,
+            advancePercent: '',
+            publisherPercent: '',
+            credit: credit,
+            royaltyPercent: '',
+          }}
+          onSubmit={(values) => nextScreen(values)}
+        >
+          {() => (
+            <View style={styles.mainView}>
+              <AppText fontWeight="bold" style={styles.sectionHeader}>
+                Producer Info
+              </AppText>
+              <AppText style={styles.text}>
+                Who is the producer for this record?
+              </AppText>
+              <View style={{ width: '100%' }}>
+                <AppFormSelect
+                  data={producers}
+                  setItem={setProducer}
+                  item={producer}
+                  placeHolder="Choose Producer"
+                  name="producer"
+                  height={producers.length * 42}
+                />
+              </View>
+              <View style={styles.credText}>
+                <AppText style={styles.text}>Producer Credit</AppText>
+                <AntDesign
+                  name="questioncircle"
+                  size={14}
+                  color="black"
+                  style={styles.icon}
+                />
+              </View>
+              <View style={{ width: '100%' }}>
+                <AppFormSelect
+                  data={credits}
+                  setItem={setCredit}
+                  item={credit}
+                  placeHolder="Choose Person"
+                  name="credit"
+                  height={credits.length * 42}
+                />
+                {credit === 'Other' && (
+                  <AppFormField
+                    name="credit"
+                    height={50}
+                    placeholder="Other Producer"
+                  />
+                )}
+              </View>
+              <AppFormPercent
+                icon
+                name="advancePercent"
+                title="Producer Advance"
               />
-            </View>
-            <View style={styles.credText}>
-              <AppText style={styles.text}>Producer Credit</AppText>
-              <AntDesign
-                name="questioncircle"
-                size={14}
-                color="black"
-                style={styles.icon}
+              <AppFormPercent
+                icon
+                name="royaltyPercent"
+                title="Producer Royalty"
               />
-            </View>
-            <View style={{ width: '100%' }}>
-              <AppFormSelect
-                data={names}
-                setItem={setCredit}
-                item={credit}
-                placeHolder="Choose Person"
-                name="credit"
-                height={names.length * 42}
+              <AppFormPercent
+                icon
+                name="publisherPercent"
+                title="Producer Publish"
               />
+              <FooterNext />
             </View>
-            <AppFormPercent
-              icon
-              name="advancePercent"
-              title="Producer Advance"
-            />
-            <AppFormPercent
-              icon
-              name="royaltyPercent"
-              title="Producer Royalty"
-            />
-            <AppFormPercent
-              icon
-              name="publisherPercent"
-              title="Producer Publish"
-            />
-            <View style={styles.footer}>
-              <SubmitButton
-                // disabled={values.collabs.length === 0 ? true : false}
-                style={styles.nextButton}
-                title="Continue"
-              />
-            </View>
-          </View>
-        )}
-      </Formik>
+          )}
+        </Formik>
+      </ScrollView>
     </Screen>
   )
 }
@@ -160,15 +170,5 @@ const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
     right: 0,
-  },
-  footer: {
-    justifyContent: 'center',
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
-    flex: 1,
-  },
-  nextButton: {
-    marginBottom: 40,
   },
 })

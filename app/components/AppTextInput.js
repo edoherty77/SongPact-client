@@ -67,5 +67,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     width: '100%',
     backgroundColor: colors.white,
+    borderRadius: 7,
+    paddingLeft: 20,
   },
 })
