@@ -2,7 +2,6 @@ import React from 'react'
 import {
   StyleSheet,
   View,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native'
@@ -58,10 +57,6 @@ const SignUp = ({ navigation }) => {
             </AppText>
           </AppText>
         </View>
-        {/* <KeyboardAvoidingView
-          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-          style={styles.mainView}
-        > */}
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View>
             <AppForm
@@ -116,7 +111,6 @@ const SignUp = ({ navigation }) => {
             </View>
           </View>
         </TouchableWithoutFeedback>
-        {/* </KeyboardAvoidingView> */}
         <View style={styles.footer}>
           <AppText style={styles.footertext}>
             By clicking "Create Account" you agree to our{' '}
