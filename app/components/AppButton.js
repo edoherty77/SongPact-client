@@ -2,6 +2,8 @@ import React from 'react'
 import { Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
+import colors from '../config/colors'
+
 export default function AppButton({
   title,
   onPress,
@@ -37,7 +39,7 @@ export default function AppButton({
         <MaterialCommunityIcons
           name="arrow-right-bold"
           size={24}
-          color="white"
+          color={disabled ? colors.black : colors.white}
           style={{ marginLeft: 10, marginRight: -10 }}
         />
       )}

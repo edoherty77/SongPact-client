@@ -3,16 +3,16 @@ import { StyleSheet, Text, View } from 'react-native'
 
 import { SubmitButton } from './forms'
 
-const FooterNext = () => {
+const FooterNext = ({ disabled }) => {
   return (
     <View style={styles.footer}>
       <SubmitButton
-        // disabled={values.collabs.length === 0 ? true : false}
         style={styles.nextButton}
         width="30%"
         title="Next"
         nextIcon
         fontWeight="800"
+        disabled={disabled}
       />
     </View>
   )

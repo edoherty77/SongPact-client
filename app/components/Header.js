@@ -1,10 +1,16 @@
 import React from 'react'
 import { StyleSheet, View, SafeAreaView } from 'react-native'
-
-import ButtonIcon from './ButtonIcon'
 import { Ionicons } from '@expo/vector-icons'
+
+// COMPONENTS
+import ButtonIcon from './ButtonIcon'
 import AppText from '../components/AppText'
+
+//CONFIG
 import colors from '../config/colors'
+
+// STORE
+import currentPact from '../stores/CreatePactStore'
 
 const Header = ({
   onPress,
@@ -16,6 +22,7 @@ const Header = ({
   icon,
   noBack,
   navigation,
+  clearCollabs,
   name = 'message-text',
   iconPress,
   borderBottomColor,

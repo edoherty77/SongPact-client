@@ -13,7 +13,7 @@ const AppFormField = ({
   selectTextOnFocus,
   ...otherProps
 }) => {
-  const { handleChange, errors, touched } = useFormikContext()
+  const { handleChange, errors, touched, setFieldValue } = useFormikContext()
 
   return (
     <>
@@ -27,6 +27,7 @@ const AppFormField = ({
             : { backgroundColor: 'white' },
         ]}
         onChangeText={handleChange(name)}
+        setFieldValue={name}
         width={width}
         height={height}
         {...otherProps}

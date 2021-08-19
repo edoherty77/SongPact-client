@@ -103,7 +103,7 @@ function ChooseCollabs({ navigation }) {
                   )}
                 </FieldArray>
               </View>
-              <FooterNext />
+              <FooterNext disabled={values.collabs.length > 0 ? false : true} />
             </View>
           )}
         </Formik>
