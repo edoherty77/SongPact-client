@@ -16,7 +16,7 @@ import * as Facebook from 'expo-facebook'
 const SocMediaSignIn = ({
   checkForFriends,
   fetchRequests,
-  sortPacts,
+  // sortPacts,
   toOnboarding,
 }) => {
   const googleSignIn = async () => {
@@ -52,7 +52,7 @@ const SocMediaSignIn = ({
           await currentUser.setUser(foundUser.user)
           await checkForFriends()
           await fetchRequests()
-          await sortPacts(foundUser.user.email)
+          // await sortPacts(foundUser.user.email)
         } else {
           const newUser = await UserModel.create(user)
           await toOnboarding(newUser.data.user)

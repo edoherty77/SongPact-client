@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 
@@ -73,29 +73,29 @@ const SignIn = ({ navigation }) => {
     }
   }
 
-  async function sortPacts(id) {
-    try {
-      const data = await PactModel.all(id)
-      const pacts = data.pact
-      pacts.map((pact) => {
-        pact.users.find((user) => {
-          if (user.user === currentUser._id) {
-            if (pact.status === 1 && user.userStatus === 1) {
-              sortedPacts.setAction(pact)
-            } else if (pact.status === 1 && user.userStatus === 2) {
-              sortedPacts.setPending(pact)
-            } else if (pact.status === 2) {
-              sortedPacts.setArchive(pact)
-            } else if (pact.status === 0) {
-              sortedPacts.setDrafts(pact)
-            }
-          }
-        })
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // async function sortPacts(id) {
+  //   try {
+  //     const data = await PactModel.all(id)
+  //     const pacts = data.pact
+  //     pacts.map((pact) => {
+  //       pact.users.find((user) => {
+  //         if (user.user === currentUser._id) {
+  //           if (pact.status === 1 && user.userStatus === 1) {
+  //             sortedPacts.setAction(pact)
+  //           } else if (pact.status === 1 && user.userStatus === 2) {
+  //             sortedPacts.setPending(pact)
+  //           } else if (pact.status === 2) {
+  //             sortedPacts.setArchive(pact)
+  //           } else if (pact.status === 0) {
+  //             sortedPacts.setDrafts(pact)
+  //           }
+  //         }
+  //       })
+  //     })
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   async function signIn() {
     try {
@@ -111,7 +111,7 @@ const SignIn = ({ navigation }) => {
         await currentUser.setUser(dbUser.user)
         await fetchRequests()
         await checkForFriends()
-        await sortPacts(email)
+        // await sortPacts(email)
       }
     } catch (err) {
       console.log('Error signing in...', err)
@@ -164,7 +164,7 @@ const SignIn = ({ navigation }) => {
             <SocMediaSignIn
               checkForFriends={checkForFriends}
               fetchRequests={fetchRequests}
-              sortPacts={sortPacts}
+              // sortPacts={sortPacts}
               toOnboarding={toOnboarding}
             />
           </View>
