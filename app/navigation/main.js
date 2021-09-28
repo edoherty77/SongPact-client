@@ -14,7 +14,7 @@ export default function Main({ updateAuthState, logout }) {
 
   useQuery(['userPacts'], async () => {
     const userPacts = await PactModel.all(currentUser.email)
-    console.log('userPacts', userPacts.pact)
+    console.log('userPact', userPacts.pact)
     userPacts.pact.map((pact) => {
       pact.users.find((user) => {
         if (user.user === currentUser._id) {
