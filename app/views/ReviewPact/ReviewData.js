@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { StyleSheet, View, FlatList, ScrollView } from 'react-native'
 
 // CONFIG
@@ -28,6 +28,8 @@ import {
 } from '../../components/forms'
 
 export default function ReviewData({ navigation }) {
+  const [isEditable, setEditable] = useState(false)
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       header: (props) => <Header title={currentPact.recordTitle} {...props} />,
@@ -36,6 +38,14 @@ export default function ReviewData({ navigation }) {
 
   async function nextScreen() {
     navigation.navigate('ViewContract')
+  }
+
+  const handleEditable = () => {
+    setEditable(!isEditable)
+  }
+
+  const handleCounter = () => {
+    console.log('counter')
   }
 
   return (
@@ -50,19 +60,32 @@ export default function ReviewData({ navigation }) {
             style={styles.mainView}
             showsVerticalScrollIndicator={false}
           >
-            {currentPact.signed === false ? (
+            {currentPact.signed === false ? (isEditable === false ? 
               <View style={styles.btnView}>
                 <AppButton
                   textColor="white"
                   title="Counter"
                   style={styles.counterButton}
-                  // onPress={nextScreen}
+                  onPress={handleEditable}
                 />
                 <AppButton
                   textColor="white"
                   title="Accept"
                   style={[styles.button, { marginLeft: 10 }]}
                   onPress={handleSubmit}
+                />
+              </View> : <View style={styles.btnView}>
+                <AppButton
+                  textColor="white"
+                  title="Cancel"
+                  style={styles.counterButton}
+                  onPress={handleEditable}
+                />
+                <AppButton
+                  textColor="white"
+                  title="Submit"
+                  style={[styles.button, { marginLeft: 10 }]}
+                  onPress={handleCounter}
                 />
               </View>
             ) : (
@@ -80,7 +103,7 @@ export default function ReviewData({ navigation }) {
               <View style={styles.titleView}>
                 <AppText style={styles.text}>Record Title</AppText>
                 <AppFormField
-                  editable={false}
+                  editable={isEditable}
                   selectTextOnFocus={false}
                   name="recordTitle"
                   style={styles.input}
@@ -121,26 +144,26 @@ export default function ReviewData({ navigation }) {
               </AppText>
               <AppFormSelect
                 defaultValue={currentPact.producer.name}
-                isDisabled={true}
+                isDisabled={!isEditable}
                 data={currentPact.users}
                 item={currentPact.producer.name}
               />
               <AppFormPercent
-                editable={false}
+                editable={isEditable}
                 selectTextOnFocus={false}
                 name="advancePercent"
                 title="Producer Advance"
                 placeholder={currentPact.producer.advancePercent}
               />
               <AppFormPercent
-                editable={false}
+                editable={isEditable}
                 selectTextOnFocus={false}
                 name="royaltyPercent"
                 title="Producer Royalty"
                 placeholder={currentPact.producer.royaltyPercent}
               />
               <AppFormPercent
-                editable={false}
+                editable={isEditable}
                 selectTextOnFocus={false}
                 name="publisherPercent"
                 title="Producer Publish"
@@ -151,7 +174,7 @@ export default function ReviewData({ navigation }) {
               </View>
               <View style={styles.credInput}>
                 <AppFormField
-                  editable={false}
+                  editable={isEditable}
                   selectTextOnFocus={false}
                   name="credit"
                   height={50}
@@ -176,7 +199,7 @@ export default function ReviewData({ navigation }) {
                     keyExtractor={(performer) => performer._id}
                     renderItem={({ item, index }) => (
                       <AppFormPercent
-                        editable={false}
+                        editable={isEditable}
                         selectTextOnFocus={false}
                         name={`${index}.publisherPercent`}
                         title={item.name}
