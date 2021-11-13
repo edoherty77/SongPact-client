@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   pactButton: {
     backgroundColor: '#FFFFFF',
     marginBottom: 15,
-    padding: 15,
+    padding: 10,
     paddingRight: 0,
     borderRadius: 5,
     display: 'flex',
@@ -45,17 +45,18 @@ const styles = StyleSheet.create({
     height: 10,
     width: 10,
     borderRadius: 20,
-    marginRight: 15,
+    marginRight: 10,
+    backgroundColor: 'red',
   },
   name: {
-    fontWeight: 'bold',
+    fontWeight: 'normal',
     fontSize: 14,
   },
   title: {
     fontWeight: 'bold',
     fontSize: 20,
     marginBottom: 4,
-    // width: 130,
+    maxWidth: 200,
   },
   text: {
     fontSize: 14,
@@ -65,12 +66,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     position: 'absolute',
     justifyContent: 'flex-end',
-    right: 25,
-    bottom: 16,
-    // backgroundColor: 'red',
+    right: 10,
+    top: 10,
   },
   updated: {
-    fontSize: 12,
+    alignSelf: 'flex-end',
+    fontSize: 10,
     color: 'rgba(34, 34, 34, 0.8)',
   },
 })

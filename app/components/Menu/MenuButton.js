@@ -12,7 +12,7 @@ const MenuButton = ({ iconName, title, onPress }) => {
         <MaterialCommunityIcons
           size={20}
           name={iconName}
-          color={colors.primary}
+          color={colors.black}
         />
       </View>
       <AppText style={styles.menuItem}>{title}</AppText>

@@ -75,23 +75,24 @@ export default function Main({ updateAuthState, navigation, logout }) {
 const styles = StyleSheet.create({
   menuContainer: {
     // display: 'flex',
-    flex: 1,
+    // flex: 1,
     marginVertical: 30,
     marginHorizontal: 30,
     // backgroundColor: 'red',
   },
   signoutContainer: {
-    alignSelf: 'center',
+    // alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 100,
-    height: 40,
-    backgroundColor: colors.red,
-    width: 200,
+    // borderRadius: 100,
+    // height: 50,
+    // backgroundColor: colors.red,
+    // width: 300,
+    // marginBottom: 30,
   },
   iconContainer: {
     position: 'absolute',
-    left: 10,
+    left: 20,
   },
   menuItem: {
     fontSize: 30,
