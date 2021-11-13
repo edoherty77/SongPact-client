@@ -5,6 +5,11 @@ import moment from 'moment'
 import * as Print from 'expo-print'
 import * as MailComposer from 'expo-mail-composer'
 
+import {
+  queryClient,
+  useMutation,
+} from 'react-query'
+
 // CONFIG
 import colors from '../../config/colors'
 
@@ -26,6 +31,7 @@ import sortedPacts from '../../stores/SortedPactStore'
 export default function ReviewContract({ navigation }) {
   const [isVisible, setVisible] = useState(false)
   const [isSigned, setSigned] = useState(false)
+  const [pactInfo, setPactInfo] = useState('')
   const [sig, setSig] = useState('')
 
   const htmlObj = {
@@ -820,7 +826,91 @@ export default function ReviewContract({ navigation }) {
     await sortedPacts.setPending(obj)
   }
 
-  const createPact = async (signature) => {
+  // const createPact = async () => {
+  //   console.log('pactInfo', pactInfo)
+    // let performArr = []
+    // try {
+    //   pact.performers.map((performer) => {
+    //     let obj = {}
+    //     obj['user'] = performer._id
+    //     obj['publisherPercent'] = parseInt(performer.publisherPercent)
+    //     obj['name'] = performer.name
+    //     obj['companyName'] = performer.companyName
+    //     obj['artistName'] = performer.artistName
+    //     obj['address'] = performer.address
+    //     obj['city'] = performer.city
+    //     obj['state'] = performer.state
+    //     obj['zipCode'] = performer.zipCode
+    //     obj['email'] = performer.email
+    //     if (performer.signatureImg) {
+    //       obj['signatureImg'] = performer.signatureImg
+    //     }
+    //     performArr.push(obj)
+    //   })
+    //   const obj = {
+    //     users: pact.users,
+    //     producer: pact.producer,
+    //     type: pact.type,
+    //     sample: pact.sample,
+    //     recordLabel: pact.recordLabel,
+    //     labelName: pact.labelName,
+    //     recordTitle: pact.recordTitle,
+    //     initBy: pact.initBy,
+    //     collaborators: pact.collaborators,
+    //     performers: performArr,
+    //     user: currentUser._id,
+    //     status: 1,
+    //     dateCreated: moment().format('MMMM Do YYYY'),
+    //     lastUpdated: moment().format('MM/DD/YY hh:mm A'),
+    //   }
+    //   await PactModel.create(obj)
+    //   await setRandomPactId(obj)
+    //   await pact.setPact(obj)
+    //   await generateEmail(signature)
+    // } catch (error) {
+    //   console.log(error)
+    // }
+  // }
+
+  const createPact = useMutation(pactInfo => PactModel.create(pactInfo), {
+    onSuccess: () => {
+      pact.resetPact(),
+      navigation.navigate('Dashboard')
+    }
+  })
+
+  const generateEmail = async (signature) => {
+    if (currentUser._id === pact.producer.user) {
+      htmlObj.prodSignature.length = 0
+      let newProd = /*html*/ `
+        <p class='signature-img'>${signature}</p>
+      `
+      htmlObj.prodSignature = newProd
+    } else {
+      htmlObj.perfSignature.length = 0
+      let newPerf = /*html*/ `
+        <p class='signature-img'>${signature}</p>
+      `
+      htmlObj.perfSignature.push(newPerf)
+    }
+
+    try {
+      const { uri } = await Print.printToFileAsync({
+        html: generateHTML(htmlObj),
+      })
+      await MailComposer.composeAsync({
+        attachments: [uri],
+        recipients: ['evan.doherty.ny@gmail.com'],
+      })
+      await pact.resetPact()
+      await navigation.navigate('Dashboard')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const confirmSignature = async (signature) => {
+    pact.setSignature(signature, currentUser)
     let performArr = []
     try {
       pact.performers.map((performer) => {
@@ -856,49 +946,13 @@ export default function ReviewContract({ navigation }) {
         dateCreated: moment().format('MMMM Do YYYY'),
         lastUpdated: moment().format('MM/DD/YY hh:mm A'),
       }
-      await PactModel.create(obj)
-      await setRandomPactId(obj)
-      await pact.setPact(obj)
-      await generateEmail(signature)
+      // await setRandomPactId(pactInfo)
+      setPactInfo(obj)
+      setSigned(true)
+      setVisible(false)
     } catch (error) {
       console.log(error)
     }
-  }
-
-  const generateEmail = async (signature) => {
-    if (currentUser._id === pact.producer.user) {
-      htmlObj.prodSignature.length = 0
-      let newProd = /*html*/ `
-        <p class='signature-img'>${signature}</p>
-      `
-      htmlObj.prodSignature = newProd
-    } else {
-      htmlObj.perfSignature.length = 0
-      let newPerf = /*html*/ `
-        <p class='signature-img'>${signature}</p>
-      `
-      htmlObj.perfSignature.push(newPerf)
-    }
-
-    try {
-      const { uri } = await Print.printToFileAsync({
-        html: generateHTML(htmlObj),
-      })
-      await MailComposer.composeAsync({
-        attachments: [uri],
-        recipients: ['evan.doherty.ny@gmail.com'],
-      })
-      await pact.resetPact()
-      await navigation.navigate('Dashboard')
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const confirmSignature = (signature) => {
-    pact.setSignature(signature, currentUser)
-    setSigned(true)
-    setVisible(false)
   }
 
   return (
@@ -925,7 +979,11 @@ export default function ReviewContract({ navigation }) {
               textColor="white"
               title="Send Pact"
               style={styles.btnPrimary}
-              onPress={() => createPact(sig)}
+              onPress={() => createPact.mutate(pactInfo, {
+                onSuccess: () => {
+                  console.log('yo')
+                }
+              })}
             />
           )}
         </View>

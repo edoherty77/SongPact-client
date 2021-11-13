@@ -115,14 +115,6 @@ const FindArtist = observer(({ route, navigation }) => {
       <View style={styles.mainView}>
         <View style={styles.container}>
           <View style={styles.topContainer}>
-            <View style={styles.iconView}>
-              <ButtonIcon
-                name="send-outline"
-                backgroundColor={'transparent'}
-                size={35}
-                iconColor={colors.black}
-              />
-            </View>
             <View style={styles.picContainer}>
               {item.googlePhotoUrl ? (
                 <Image
@@ -144,33 +136,13 @@ const FindArtist = observer(({ route, navigation }) => {
             </View>
             {item.artistName !== undefined && (
               <View style={styles.textView}>
-                <AppText style={[styles.text, { textTransform: 'uppercase' }]}>
+                <AppText style={styles.artistName}>
                   {item.artistName}
                 </AppText>
               </View>
             )}
           </View>
         </View>
-        {/* <View style={styles.contactView}>
-          <View style={styles.infoHeaderContainer}>
-            <View style={styles.infoHeaderContent}>
-              <AppText style={styles.infoHeaderText}>Pacts</AppText>
-              <ButtonIcon
-                name="plus"
-                backgroundColor={colors.green}
-                style={{
-                  borderRadius: 5,
-                  borderColor: 'black',
-                  borderWidth: 1,
-                  borderStyle: 'solid',
-                }}
-                size={35}
-                iconColor={colors.background}
-              />
-            </View>
-          </View>
-          <View style={styles.infoBodyContainer}></View>
-        </View> */}
         <View style={styles.container}>
           <View style={styles.infoHeaderContainer}>
             <View style={styles.infoHeaderContent}>
@@ -226,9 +198,7 @@ const FindArtist = observer(({ route, navigation }) => {
                   style={{ marginRight: 7 }}
                 />
                 <View style={styles.locationContent}>
-                  <AppText style={styles.text}>{item.city}, </AppText>
-
-                  <AppText style={styles.text}>{item.state}</AppText>
+                  <AppText style={styles.text}>{item.city}, {item.state}</AppText>
                 </View>
               </View>
             )}
@@ -241,7 +211,7 @@ const FindArtist = observer(({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   mainView: {
-    marginTop: 20,
+    marginTop: 30,
     marginLeft: 30,
     marginRight: 30,
   },
@@ -265,7 +235,8 @@ const styles = StyleSheet.create({
   },
   iconView: {
     position: 'absolute',
-    top: 10,
+    top: 15,
+    zIndex: 2,
     right: 10,
   },
   picContainer: {
@@ -289,13 +260,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
     color: colors.green,
-    // height: 30,
+    borderWidth: 0,
+  },
+  artistName: {
+    color: '#222222',
+    width: '90%',
+    borderWidth: 0,
+    paddingLeft: 7,
   },
   textView: {
     marginTop: -30,
   },
   text: {
     color: '#222222',
+    width: '90%',
+    borderWidth: 0,
   },
   infoHeaderContainer: {
     borderBottomColor: 'black',
@@ -311,6 +290,7 @@ const styles = StyleSheet.create({
   infoHeaderText: {
     fontWeight: 'bold',
     fontSize: 20,
+    borderWidth: 0,
   },
   infoBodyContainer: {
     padding: 20,
@@ -318,14 +298,13 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: -10,
     height: 30,
     marginBottom: 10,
   },
   locationContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    // backgroundColor: 'blue',
+    justifyContent: 'flex-start',
     height: 30,
   },
   location: {
