@@ -53,6 +53,7 @@ export default function Main({ updateAuthState, navigation, logout }) {
               title={item.title}
               iconName={item.iconName}
               nav={item.nav}
+              arrow
               onPress={() =>
                 navigation.navigate(item.nav, {
                   item: CurrentUser,
@@ -61,12 +62,7 @@ export default function Main({ updateAuthState, navigation, logout }) {
             />
           )}
         />
-        <TouchableOpacity style={styles.signoutContainer} onPress={logout}>
-          <View style={styles.iconContainer}>
-            <MaterialCommunityIcons size={20} name="logout-variant" />
-          </View>
-          <AppText style={styles.signoutText}>Sign Out</AppText>
-        </TouchableOpacity>
+        <MenuButton title="Sign Out" onPress={logout} iconName="logout-variant"/>
       </View>
     </Screen>
   )
@@ -74,31 +70,7 @@ export default function Main({ updateAuthState, navigation, logout }) {
 
 const styles = StyleSheet.create({
   menuContainer: {
-    // display: 'flex',
-    // flex: 1,
     marginVertical: 30,
     marginHorizontal: 30,
-    // backgroundColor: 'red',
-  },
-  signoutContainer: {
-    // alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // borderRadius: 100,
-    // height: 50,
-    // backgroundColor: colors.red,
-    // width: 300,
-    // marginBottom: 30,
-  },
-  iconContainer: {
-    position: 'absolute',
-    left: 20,
-  },
-  menuItem: {
-    fontSize: 30,
-    marginLeft: 35,
-  },
-  signoutText: {
-    fontSize: 30,
-  },
+  }
 })
