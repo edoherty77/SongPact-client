@@ -5,7 +5,7 @@ import colors from '../../config/colors'
 
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-const MenuButton = ({ iconName, title, onPress }) => {
+const MenuButton = ({ iconName, title, onPress, arrow }) => {
   return (
     <TouchableOpacity style={styles.optionContainer} onPress={onPress}>
       <View style={styles.iconContainer}>
@@ -16,13 +16,14 @@ const MenuButton = ({ iconName, title, onPress }) => {
         />
       </View>
       <AppText style={styles.menuItem}>{title}</AppText>
-      <MaterialCommunityIcons
-        style={{ position: 'absolute', right: 0 }}
-        // onPress={back}
-        name="chevron-right"
-        size={35}
-        color={colors.black}
-      />
+      {arrow && 
+        <MaterialCommunityIcons
+          style={{ position: 'absolute', right: 0 }}
+          name="chevron-right"
+          size={35}
+          color={colors.black}
+        />
+      }
     </TouchableOpacity>
   )
 }
