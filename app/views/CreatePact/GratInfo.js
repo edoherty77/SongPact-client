@@ -30,7 +30,7 @@ import * as Yup from 'yup'
 import currentPact from '../../stores/CreatePactStore'
 
 const percentageSchema = Yup.object().shape({
-  advancePercent: Yup.string().required("Required")
+  advancePercent: Yup.string().required().label("Required")
 })
 
 export default function GratInfo({ navigation }) {
@@ -47,7 +47,6 @@ export default function GratInfo({ navigation }) {
   credits.push('Other')
 
   function nextScreen(values) {
-    console.log('values', values)
     currentPact.setProducer(values)
     currentPact.setProducerInfo(values)
     navigation.navigate('GratInfoCont')
@@ -115,8 +114,6 @@ export default function GratInfo({ navigation }) {
                     />
                   )}
                 </View>
-                
-
                 <AppFormPercent
                   icon
                   name="advancePercent"
@@ -132,7 +129,6 @@ export default function GratInfo({ navigation }) {
                   name="publisherPercent"
                   title="Producer Publish"
                 />
-         
                 <FooterNext />
               </View>
             )}

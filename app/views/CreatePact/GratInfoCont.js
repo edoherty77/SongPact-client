@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { StyleSheet, View, FlatList } from 'react-native'
 
 //COMPONENTTS
@@ -16,19 +16,12 @@ import * as Yup from 'yup'
 // STORE
 import currentPact from '../../stores/CreatePactStore'
 
-// const validationSchema = Yup.object().shape({
-//   recordTitle: Yup.string().required().label('Record Title'),
-//   role: Yup.string().required().label('role'),
-
-// })
-
 export default function GratInfoCont({ navigation }) {
   function nextScreen(values) {
     currentPact.setPerformerInfo(values)
     navigation.navigate('RecordInfo')
   }
 
-  useEffect(() => {}, [])
   return (
     <Screen>
       <AppProgressBar value={40} />
