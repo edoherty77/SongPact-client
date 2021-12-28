@@ -83,7 +83,7 @@ const NotificationsScreen = observer(({ navigation }) => {
                   item={item}
                   deleteNotification={deleteNotification}
                   viewPact={() => {
-                    reviewPact(item._id)
+                    reviewPact(item.pactId)
                   }}
                 />
               )}
