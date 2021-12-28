@@ -146,7 +146,6 @@ class CreatePactStore {
 	}
 
 	setProducerInfo(values) {
-		console.log("prod val", values);
 		this.percentage = 0;
 		this.producer.advancePercent = parseInt(values.advancePercent);
 		this.producer.royaltyPercent = parseInt(values.royaltyPercent);
@@ -155,13 +154,13 @@ class CreatePactStore {
 	}
 
 	setPerformerInfo(values) {
-		console.log("perf val", values);
 		this.percentage =
 			this.producer.publisherPercent +
 			this.producer.royaltyPercent +
 			this.producer.advancePercent;
 		this.performers = [];
 		for (let i = 0; i < values.length; i++) {
+			values[i].publisherPercent = parseInt(values[i].publisherPercent);
 			this.performers.push(values[i]);
 			this.percentage += parseInt(values[i].publisherPercent);
 		}
@@ -218,6 +217,10 @@ class CreatePactStore {
 		this.labelName = "";
 		this.signed = false;
 		this.percentage = 0;
+	}
+
+	constructor() {
+		makeAutoObservable(this);
 	}
 }
 

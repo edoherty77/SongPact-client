@@ -17,6 +17,7 @@ import PactModel from "../../api/pacts";
 // STORE
 import currentUser from "../../stores/UserStore";
 import currentPact from "../../stores/CreatePactStore";
+import sortedPacts from "../../stores/SortedPactStore";
 
 // FORM
 import { Formik, FieldArray } from "formik";
@@ -37,7 +38,6 @@ export default function ReviewData({ navigation }) {
 	}, [navigation]);
 
 	async function nextScreen() {
-		console.log("currentPact", currentPact);
 		navigation.navigate("ViewContract");
 	}
 
@@ -46,7 +46,6 @@ export default function ReviewData({ navigation }) {
 	};
 
 	const handleCounter = (values) => {
-		console.log("counter", values);
 		currentPact.setProducerInfo(values.producer);
 		currentPact.setPerformerInfo(values.performers);
 		navigation.navigate("ViewContract");
@@ -63,7 +62,7 @@ export default function ReviewData({ navigation }) {
 					producer: currentPact.producer,
 					performers: currentPact.performers,
 				}}
-				enableReinitialize
+				// enableReinitialize
 				onSubmit={(values) => handleCounter(values)}
 			>
 				{({ handleSubmit }) => (
@@ -223,7 +222,7 @@ export default function ReviewData({ navigation }) {
 							<AppText fontWeight="bold" style={styles.sectionHeader}>
 								Performer Info
 							</AppText>
-							<FieldArray name="performers">
+							<FieldArray>
 								{() => (
 									<FlatList
 										data={currentPact.performers}

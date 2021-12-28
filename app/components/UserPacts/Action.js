@@ -9,6 +9,7 @@ import AppSearchInput from "../AppSearchInput";
 
 const Action = ({ navigation }) => {
 	const reviewPact = (pact) => {
+		// console.log("pact", pact);
 		pactStore.resetPact();
 		pactStore.setPact(pact);
 		navigation.navigate("ReviewData");

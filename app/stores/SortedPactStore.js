@@ -16,7 +16,7 @@ class SortedPactStore {
 	}
 
 	setAction(pact) {
-		if (this.actionlength === 0) {
+		if (this.action.length === 0) {
 			this.action.push(pact);
 		} else {
 			const found = this.action.some((el) => el._id === pact._id);
@@ -49,9 +49,9 @@ class SortedPactStore {
 		this.archive = [];
 	}
 
-	constructor() {
-		makeAutoObservable(this);
-	}
+	// constructor() {
+	// 	makeAutoObservable(this);
+	// }
 }
 
 const store = new SortedPactStore();
