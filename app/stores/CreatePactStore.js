@@ -35,6 +35,7 @@ class CreatePactStore {
 	};
 	status = "";
 	percentage = 0;
+	countering = false;
 
 	setPact(pact) {
 		this.type = pact.type;
@@ -55,6 +56,22 @@ class CreatePactStore {
 
 	setType(type) {
 		this.type = type;
+	}
+
+	setCounter() {
+		this.countering = true;
+		this.users.map((user) => {
+			console.log("user", user);
+			return (user["signatureImg"] = ""), (user["userStatus"] = 1);
+		});
+
+		this.performers.map((performer) => {
+			return (performer["signatureImg"] = "");
+		});
+
+		this.producer["signatureImg"] = "";
+		console.log("users", this.users);
+		console.log("producer", this.producer);
 	}
 
 	setSignature(sig, currentUser) {
@@ -217,6 +234,7 @@ class CreatePactStore {
 		this.labelName = "";
 		this.signed = false;
 		this.percentage = 0;
+		this.countering = false;
 	}
 
 	constructor() {

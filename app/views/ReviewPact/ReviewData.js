@@ -30,6 +30,8 @@ import {
 
 export default function ReviewData({ navigation }) {
 	const [isEditable, setEditable] = useState(false);
+	const [producer, setProducer] = useState(currentPact.producer);
+	const [performers, setPerformers] = useState(currentPact.performers);
 
 	React.useLayoutEffect(() => {
 		navigation.setOptions({
@@ -37,17 +39,24 @@ export default function ReviewData({ navigation }) {
 		});
 	}, [navigation]);
 
-	async function nextScreen() {
+	const handleAccept = () => {
 		navigation.navigate("ViewContract");
-	}
+	};
 
 	const handleEditable = () => {
 		setEditable(!isEditable);
 	};
 
+	const handleCancel = (values) => {
+		setEditable(!isEditable);
+		console.log("values", values);
+	};
+
 	const handleCounter = (values) => {
+		// console.log("values", values);
 		currentPact.setProducerInfo(values.producer);
 		currentPact.setPerformerInfo(values.performers);
+		currentPact.setCounter();
 		navigation.navigate("ViewContract");
 	};
 
@@ -62,10 +71,10 @@ export default function ReviewData({ navigation }) {
 					producer: currentPact.producer,
 					performers: currentPact.performers,
 				}}
-				// enableReinitialize
-				onSubmit={(values) => handleCounter(values)}
+				enableReinitialize
+				onSubmit={(values) => handleAccept(values)}
 			>
-				{({ handleSubmit }) => (
+				{({ handleSubmit, values }) => (
 					<ScrollView
 						style={styles.mainView}
 						showsVerticalScrollIndicator={false}
@@ -89,7 +98,7 @@ export default function ReviewData({ navigation }) {
 										textColor="white"
 										title="Accept"
 										style={styles.button}
-										onPress={nextScreen}
+										onPress={handleSubmit}
 									/>
 								</View>
 							) : (
@@ -98,13 +107,13 @@ export default function ReviewData({ navigation }) {
 										textColor="white"
 										title="Cancel"
 										style={styles.counterButton}
-										onPress={handleEditable}
+										// onPress={console.log("fuck")}
 									/>
 									<AppButton
 										textColor="white"
 										title="Submit"
 										style={[styles.button, { marginLeft: 10 }]}
-										onPress={handleSubmit}
+										onPress={() => handleCounter(values)}
 									/>
 								</View>
 							)
@@ -162,12 +171,6 @@ export default function ReviewData({ navigation }) {
 							<AppText style={styles.text}>
 								Who is the producer for this pact?
 							</AppText>
-							{/* <AppFormSelect
-								defaultValue={currentPact.producer.name}
-								isDisabled
-								data={currentPact.users}
-								item={currentPact.producer.name}
-							/> */}
 							<AppFormField
 								editable={false}
 								selectTextOnFocus={false}
@@ -225,7 +228,7 @@ export default function ReviewData({ navigation }) {
 							<FieldArray>
 								{() => (
 									<FlatList
-										data={currentPact.performers}
+										data={performers}
 										keyExtractor={(performer) => performer._id}
 										renderItem={({ item, index }) => (
 											<AppFormPercent
