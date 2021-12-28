@@ -37,6 +37,7 @@ export default function ReviewData({ navigation }) {
 	}, [navigation]);
 
 	async function nextScreen() {
+		console.log("currentPact", currentPact);
 		navigation.navigate("ViewContract");
 	}
 
@@ -44,8 +45,11 @@ export default function ReviewData({ navigation }) {
 		setEditable(!isEditable);
 	};
 
-	const handleCounter = () => {
-		console.log("counter");
+	const handleCounter = (values) => {
+		console.log("counter", values);
+		currentPact.setProducerInfo(values.producer);
+		currentPact.setPerformerInfo(values.performers);
+		navigation.navigate("ViewContract");
 	};
 
 	const handleReject = () => {
@@ -55,9 +59,12 @@ export default function ReviewData({ navigation }) {
 	return (
 		<Screen>
 			<Formik
-				initialValues={{}}
+				initialValues={{
+					producer: currentPact.producer,
+					performers: currentPact.performers,
+				}}
 				enableReinitialize
-				onSubmit={(values) => nextScreen(values)}
+				onSubmit={(values) => handleCounter(values)}
 			>
 				{({ handleSubmit }) => (
 					<ScrollView
@@ -83,7 +90,7 @@ export default function ReviewData({ navigation }) {
 										textColor="white"
 										title="Accept"
 										style={styles.button}
-										onPress={handleSubmit}
+										onPress={nextScreen}
 									/>
 								</View>
 							) : (
@@ -98,7 +105,7 @@ export default function ReviewData({ navigation }) {
 										textColor="white"
 										title="Submit"
 										style={[styles.button, { marginLeft: 10 }]}
-										onPress={handleCounter}
+										onPress={handleSubmit}
 									/>
 								</View>
 							)
@@ -117,7 +124,7 @@ export default function ReviewData({ navigation }) {
 							<View style={styles.titleView}>
 								<AppText style={styles.text}>Record Title</AppText>
 								<AppFormField
-									editable={isEditable}
+									editable={false}
 									selectTextOnFocus={false}
 									name="recordTitle"
 									style={styles.input}
@@ -156,39 +163,29 @@ export default function ReviewData({ navigation }) {
 							<AppText style={styles.text}>
 								Who is the producer for this pact?
 							</AppText>
-							<AppFormSelect
+							{/* <AppFormSelect
 								defaultValue={currentPact.producer.name}
-								isDisabled={!isEditable}
+								isDisabled
 								data={currentPact.users}
 								item={currentPact.producer.name}
-							/>
-							<AppFormPercent
-								editable={isEditable}
+							/> */}
+							<AppFormField
+								editable={false}
 								selectTextOnFocus={false}
-								name="advancePercent"
-								title="Producer Advance"
-								placeholder={currentPact.producer.advancePercent}
-							/>
-							<AppFormPercent
-								editable={isEditable}
-								selectTextOnFocus={false}
-								name="royaltyPercent"
-								title="Producer Royalty"
-								placeholder={currentPact.producer.royaltyPercent}
-							/>
-							<AppFormPercent
-								editable={isEditable}
-								selectTextOnFocus={false}
-								name="publisherPercent"
-								title="Producer Publish"
-								placeholder={currentPact.producer.publisherPercent}
+								name="producer"
+								height={50}
+								style={styles.input}
+								placeholder={currentPact.producer.name}
+								autoCapitalize="none"
+								autoCorrect={false}
+								placeholderTextColor={colors.black}
 							/>
 							<View style={styles.credText}>
 								<AppText style={styles.text}>Producer Credit</AppText>
 							</View>
 							<View style={styles.credInput}>
 								<AppFormField
-									editable={isEditable}
+									editable={false}
 									selectTextOnFocus={false}
 									name="credit"
 									height={50}
@@ -199,13 +196,33 @@ export default function ReviewData({ navigation }) {
 									placeholderTextColor={colors.black}
 								/>
 							</View>
+							<AppFormPercent
+								editable={isEditable}
+								selectTextOnFocus={false}
+								name="producer.advancePercent"
+								title="Producer Advance"
+								placeholder={currentPact.producer.advancePercent}
+							/>
+							<AppFormPercent
+								editable={isEditable}
+								// selectTextOnFocus={false}
+								name="producer.royaltyPercent"
+								title="Producer Royalty"
+								placeholder={currentPact.producer.royaltyPercent}
+							/>
+							<AppFormPercent
+								editable={isEditable}
+								selectTextOnFocus={false}
+								name="producer.publisherPercent"
+								title="Producer Publish"
+								placeholder={currentPact.producer.publisherPercent}
+							/>
 						</View>
 						<Separator />
 						<View style={styles.infoSection}>
 							<AppText fontWeight="bold" style={styles.sectionHeader}>
 								Performer Info
 							</AppText>
-
 							<FieldArray name="performers">
 								{() => (
 									<FlatList
@@ -215,7 +232,7 @@ export default function ReviewData({ navigation }) {
 											<AppFormPercent
 												editable={isEditable}
 												selectTextOnFocus={false}
-												name={`${index}.publisherPercent`}
+												name={`performers.${index}.publisherPercent`}
 												title={item.name}
 												placeholder={item.publisherPercent}
 											/>

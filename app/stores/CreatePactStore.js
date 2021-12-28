@@ -50,6 +50,7 @@ class CreatePactStore {
 		this.users = pact.users;
 		this.lastUpdated = pact.lastUpdated;
 		this.dateCreated = pact.dateCreated;
+		this.collaborators = pact.collaborators;
 	}
 
 	setType(type) {
@@ -145,6 +146,7 @@ class CreatePactStore {
 	}
 
 	setProducerInfo(values) {
+		console.log("prod val", values);
 		this.percentage = 0;
 		this.producer.advancePercent = parseInt(values.advancePercent);
 		this.producer.royaltyPercent = parseInt(values.royaltyPercent);
@@ -153,6 +155,7 @@ class CreatePactStore {
 	}
 
 	setPerformerInfo(values) {
+		console.log("perf val", values);
 		this.percentage =
 			this.producer.publisherPercent +
 			this.producer.royaltyPercent +
