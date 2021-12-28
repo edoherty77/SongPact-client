@@ -24,11 +24,12 @@ export default function BottomTabs({ updateAuthState, logout }) {
       tabBarOptions={{
         showLabel: false,
         style: {
-          height: 110,
+          height: 90,
           marginTop: 0,
           borderTopColor: 'black',
           display: 'flex',
           backgroundColor: colors.black,
+          paddingBottom: 20,
         },
         activeTintColor: colors.green,
         inactiveTintColor: colors.white,
@@ -36,7 +37,7 @@ export default function BottomTabs({ updateAuthState, logout }) {
           display: 'flex',
           fontSize: 10,
           fontWeight: 'bold',
-          paddingBottom: 45,
+          paddingBottom: 4,
           fontFamily: 'Futura',
         },
       }}

@@ -34,6 +34,7 @@ class CreatePactStore {
     email: '',
   }
   status = ''
+  percentage = 0
 
   setPact(pact) {
     this.type = pact.type
@@ -84,9 +85,9 @@ class CreatePactStore {
   }
 
   setCollabInfo(values, foundUser) {
+    this.collaborators = []
+    this.users = []
     //Set initBy value with foundUser
-    // this.collaborators = []
-    // this.users = []
     this.initBy.user = foundUser._id
     this.initBy.name = foundUser.name
     this.users.push({
@@ -205,6 +206,7 @@ class CreatePactStore {
     this.recordLabel = false
     this.labelName = ''
     this.signed = false
+    this.percentage = 0
   }
 }
 

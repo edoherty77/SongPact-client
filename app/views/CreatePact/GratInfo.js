@@ -29,11 +29,9 @@ import * as Yup from 'yup'
 // STORE
 import currentPact from '../../stores/CreatePactStore'
 
-// const validationSchema = Yup.object().shape({
-//   recordTitle: Yup.string().required().label('Record Title'),
-//   role: Yup.string().required().label('role'),
-
-// })
+const percentageSchema = Yup.object().shape({
+  advancePercent: Yup.string().required("Required")
+})
 
 export default function GratInfo({ navigation }) {
   const [producer, setProducer] = React.useState('')
@@ -57,22 +55,23 @@ export default function GratInfo({ navigation }) {
 
   return (
     <Screen>
-      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
         <AppProgressBar value={20} />
         <Separator />
-        <ScrollView style={styles.scrollView}>
+        <View style={styles.scrollView}>
+          <KeyboardAvoidingView behavior="position" style={{ flex: 1 }}>
           <Formik
             enableReinitialize
             initialValues={{
               producer: producer,
+              credit: credit,
               advancePercent: '',
               publisherPercent: '',
-              credit: credit,
               royaltyPercent: '',
             }}
             onSubmit={(values) => nextScreen(values)}
+            validationSchema={percentageSchema}
           >
-            {() => (
+            {(errors, touched) => (
               <View style={styles.mainView}>
                 <AppText fontWeight="bold" style={styles.sectionHeader}>
                   Producer Info
@@ -116,6 +115,8 @@ export default function GratInfo({ navigation }) {
                     />
                   )}
                 </View>
+                
+
                 <AppFormPercent
                   icon
                   name="advancePercent"
@@ -131,12 +132,13 @@ export default function GratInfo({ navigation }) {
                   name="publisherPercent"
                   title="Producer Publish"
                 />
+         
                 <FooterNext />
               </View>
             )}
           </Formik>
-        </ScrollView>
-      </KeyboardAvoidingView>
+          </KeyboardAvoidingView>
+        </View>
     </Screen>
   )
 }
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
   },
   mainView: {
     display: 'flex',
-    // flex: 1,
+
     padding: 10,
     paddingBottom: 50,
     marginHorizontal: 30,
@@ -176,7 +178,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row',
-    width: '50%',
+    width: '60%',
     marginTop: 10,
   },
   icon: {

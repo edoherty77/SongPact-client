@@ -7,6 +7,7 @@ import BottomTabs from './BottomTabs'
 
 import currentUser from '../stores/UserStore'
 import PactModel from '../api/pacts'
+import sortedPacts from '../stores/SortedPactStore'
 
 const Drawer = createDrawerNavigator()
 
