@@ -22,7 +22,7 @@ import colors from '../../config/colors'
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().required().label('First name'),
-  lastName: Yup.string().required().label('Last name'),
+  name: Yup.string().required().label('Last name'),
   email: Yup.string().required().email().label('Email'),
   password: Yup.string().required().label('Password'),
   password2: Yup.string().oneOf(
@@ -66,7 +66,7 @@ const SignUp = ({ navigation }) => {
                 password: '',
               }}
               onSubmit={(values) => register(values)}
-              // validationSchema={validationSchema}
+              validationSchema={validationSchema}
             >
               <AppText style={styles.inputTitle}>Full Name</AppText>
               <AppFormField

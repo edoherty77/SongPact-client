@@ -4,6 +4,7 @@ import { AntDesign } from '@expo/vector-icons'
 
 // COMPONENTS
 import AppText from '../AppText'
+import ErrorMessage from './ErrorMessage'
 
 // FORM
 import { useFormikContext } from 'formik'
@@ -57,6 +58,7 @@ export default function AppFormPercent({
             returnKeyType="done"
             textAlign="center"
           />
+          <ErrorMessage error={errors[name]} visible={touched[name]} />
         </View>
         <View style={styles.percentView}>
           <AppText fontSize={20} fontWeight="bold">
@@ -65,6 +67,7 @@ export default function AppFormPercent({
         </View>
       </View>
     </View>
+    
   )
 }
 
