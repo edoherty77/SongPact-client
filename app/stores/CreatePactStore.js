@@ -50,6 +50,7 @@ class CreatePactStore {
 		this.users = pact.users;
 		this.lastUpdated = pact.lastUpdated;
 		this.dateCreated = pact.dateCreated;
+		this.collaborators = pact.collaborators;
 	}
 
 	setType(type) {
@@ -159,6 +160,7 @@ class CreatePactStore {
 			this.producer.advancePercent;
 		this.performers = [];
 		for (let i = 0; i < values.length; i++) {
+			values[i].publisherPercent = parseInt(values[i].publisherPercent);
 			this.performers.push(values[i]);
 			this.percentage += parseInt(values[i].publisherPercent);
 		}
@@ -215,6 +217,10 @@ class CreatePactStore {
 		this.labelName = "";
 		this.signed = false;
 		this.percentage = 0;
+	}
+
+	constructor() {
+		makeAutoObservable(this);
 	}
 }
 
