@@ -1,106 +1,106 @@
-import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { WebView } from 'react-native-webview'
-import moment from 'moment'
-import * as Print from 'expo-print'
-import * as MailComposer from 'expo-mail-composer'
+import React, { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { WebView } from "react-native-webview";
+import moment from "moment";
+import * as Print from "expo-print";
+import * as MailComposer from "expo-mail-composer";
 
 // CONFIG
-import colors from '../../config/colors'
+import colors from "../../config/colors";
 
 // COMPONENTS
-import Screen from '../../components/Screen'
-import AppButton from '../../components/AppButton'
-import Header from '../../components/Header'
-import Separator from '../../components/Separator'
-import AppProgressBar from '../../components/AppProgressBar'
-import SignatureModal from '../../components/SignatureModal'
+import Screen from "../../components/Screen";
+import AppButton from "../../components/AppButton";
+import Header from "../../components/Header";
+import Separator from "../../components/Separator";
+import AppProgressBar from "../../components/AppProgressBar";
+import SignatureModal from "../../components/SignatureModal";
 
 // MODELS
-import PactModel from '../../api/pacts'
+import PactModel from "../../api/pacts";
 
 // STORE
-import currentPact from '../../stores/CreatePactStore'
-import currentUser from '../../stores/UserStore'
-import sortedPacts from '../../stores/SortedPactStore'
+import currentPact from "../../stores/CreatePactStore";
+import currentUser from "../../stores/UserStore";
+import sortedPacts from "../../stores/SortedPactStore";
 
 export default function ReviewContract({ navigation }) {
-  const [isVisible, setVisible] = useState(false)
-  const [isSigned, setSigned] = useState(false)
-  const [sig, setSig] = useState('')
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      header: (props) => <Header title={currentPact.recordTitle} {...props} />,
-    })
-  }, [navigation])
-  const htmlObj = {
-    date: moment().format('MMMM Do YYYY'),
-    perfAddress: [],
-    perfInfoSpan: [],
-    perfCompany: [],
-    perfNameDiv: [],
-    perfSignDiv: [],
-    perfSignature: [],
-    prodSignature: '',
-  }
+	const [isVisible, setVisible] = useState(false);
+	const [isSigned, setSigned] = useState(false);
+	const [sig, setSig] = useState("");
+	React.useLayoutEffect(() => {
+		navigation.setOptions({
+			header: (props) => <Header title={currentPact.recordTitle} {...props} />,
+		});
+	}, [navigation]);
+	const htmlObj = {
+		date: moment().format("MMMM Do YYYY"),
+		perfAddress: [],
+		perfInfoSpan: [],
+		perfCompany: [],
+		perfNameDiv: [],
+		perfSignDiv: [],
+		perfSignature: [],
+		prodSignature: "",
+	};
 
-  currentPact.performers.map((performer) => {
-    let performerAddress = /*html*/ `
+	currentPact.performers.map((performer) => {
+		let performerAddress = /*html*/ `
       <div>${performer.companyName} f/s/o</div>
       <div>${performer.name} p/k/a ${performer.artistName}</div>
       <div>${performer.address}</div>
       <div>${performer.city}, ${performer.state} ${performer.zipCode}</div>
-      `
-    let performerInfo = /*html*/ `
+      `;
+		let performerInfo = /*html*/ `
         <span>
           ${performer.companyName} f/s/o ${performer.name} p/k/a
           "${performer.artistName}" /
         </span>
-      `
-    let performerCompany = /*html*/ `
+      `;
+		let performerCompany = /*html*/ `
         <span>${performer.companyName}</span>
-      `
-    let perfName = /*html*/ `
+      `;
+		let perfName = /*html*/ `
         <div class="legal-name">${performer.name}</div>
-      `
-    let perfSigHeader = /*html*/ `
+      `;
+		let perfSigHeader = /*html*/ `
       <div class='flex' style='flex-direction:column'>
         <div>${performer.companyName} f/s/o</div>
         <div>${performer.name} p/k/a</div>
         <div>“${performer.artistName}”</div>
       </div>
-      `
-    let perfSig
-    if (performer.signatureImg !== undefined) {
-      perfSig = /*html*/ `
+      `;
+		let perfSig;
+		if (performer.signatureImg !== undefined) {
+			perfSig = /*html*/ `
         <p class='signature-img'>${performer.signatureImg}</p>
-      `
-    } else {
-      perfSig = /*html*/ `
+      `;
+		} else {
+			perfSig = /*html*/ `
         <p class='signature-img'>_______</p>
-      `
-    }
-    let prodSig
-    if (currentPact.producer.signatureImg !== undefined) {
-      prodSig = /*html*/ `
+      `;
+		}
+		let prodSig;
+		if (currentPact.producer.signatureImg !== undefined) {
+			prodSig = /*html*/ `
         <p class='signature-img'>${currentPact.producer.signatureImg}</p>
-      `
-    } else {
-      prodSig = /*html*/ `
+      `;
+		} else {
+			prodSig = /*html*/ `
           <p class='signature-img'>_______</p>
-      `
-    }
-    htmlObj.perfAddress.push(performerAddress)
-    htmlObj.perfInfoSpan.push(performerInfo)
-    htmlObj.perfCompany.push(performerCompany)
-    htmlObj.perfNameDiv.push(perfName)
-    htmlObj.perfSignDiv.push(perfSigHeader)
-    htmlObj.perfSignature.push(perfSig)
-    htmlObj.prodSignature = prodSig
-  })
+      `;
+		}
+		htmlObj.perfAddress.push(performerAddress);
+		htmlObj.perfInfoSpan.push(performerInfo);
+		htmlObj.perfCompany.push(performerCompany);
+		htmlObj.perfNameDiv.push(perfName);
+		htmlObj.perfSignDiv.push(perfSigHeader);
+		htmlObj.perfSignature.push(perfSig);
+		htmlObj.prodSignature = prodSig;
+	});
 
-  const generateHTML = (htmlObj) => {
-    return /*html*/ `
+	const generateHTML = (htmlObj) => {
+		return /*html*/ `
     <!DOCTYPE html>
     <html lang="en">
       <head>
@@ -805,163 +805,166 @@ export default function ReviewContract({ navigation }) {
         </div>
       </body>
     </html>
-  `
-  }
+  `;
+	};
 
-  const acceptPact = async (signature) => {
-    try {
-      let otherUsers = currentPact.users.filter((user) => {
-        return user.user !== currentUser._id
-      })
-      currentPact.setSignature(signature, currentUser)
-      const obj = {
-        _id: currentPact._id,
-        signatureImg: signature,
-        user: currentUser._id,
-        name: currentUser.name,
-        status: currentPact.status,
-        otherUsers: otherUsers,
-        recordTitle: currentPact.recordTitle,
-        type: currentPact.type,
-        initBy: currentPact.initBy,
-        producer: currentPact.producer,
-        performers: currentPact.performers,
-        lastUpdated: moment().format('MM/DD/YY hh:mm A'),
-      }
-      await PactModel.update(obj)
-      await generateEmail()
-      await sortPacts()
-    } catch (error) {
-      console.log(error)
-    }
-  }
+	const acceptPact = async (signature) => {
+		currentPact.setSignature(signature, currentUser);
+		try {
+			let otherUsers = currentPact.users.filter((user) => {
+				return user.user !== currentUser._id;
+			});
+			const obj = {
+				_id: currentPact._id,
+				signatureImg: signature,
+				user: currentUser._id,
+				users: currentPact.users,
+				name: currentUser.name,
+				status: currentPact.status,
+				otherUsers: otherUsers,
+				recordTitle: currentPact.recordTitle,
+				type: currentPact.type,
+				initBy: currentPact.initBy,
+				producer: currentPact.producer,
+				performers: currentPact.performers,
+				countering: currentPact.countering,
+				lastUpdated: moment().format("MM/DD/YY hh:mm A"),
+			};
+			console.log("obj", obj);
+			await PactModel.update(obj);
+			await generateEmail();
+			await sortPacts();
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
-  async function sortPacts() {
-    sortedPacts.resetPacts()
-    try {
-      const data = await PactModel.all(currentUser._id)
-      const pacts = data.pact
-      pacts.map((pact) => {
-        pact.users.find((user) => {
-          if (user.user === currentUser._id) {
-            if (pact.status === 1 && user.userStatus === 1) {
-              sortedPacts.setAction(pact)
-            } else if (pact.status === 1 && user.userStatus === 2) {
-              sortedPacts.setPending(pact)
-            } else if (pact.status === 2) {
-              sortedPacts.setArchive(pact)
-            } else if (pact.status === 0) {
-              sortedPacts.setDrafts(pact)
-            }
-          }
-        })
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
+	async function sortPacts() {
+		sortedPacts.resetPacts();
+		try {
+			const data = await PactModel.all(currentUser._id);
+			const pacts = data.pact;
+			pacts.map((pact) => {
+				pact.users.find((user) => {
+					if (user.user === currentUser._id) {
+						if (pact.status === 1 && user.userStatus === 1) {
+							sortedPacts.setAction(pact);
+						} else if (pact.status === 1 && user.userStatus === 2) {
+							sortedPacts.setPending(pact);
+						} else if (pact.status === 2) {
+							sortedPacts.setArchive(pact);
+						} else if (pact.status === 0) {
+							sortedPacts.setDrafts(pact);
+						}
+					}
+				});
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
-  const generateEmail = async () => {
-    try {
-      const { uri } = await Print.printToFileAsync({
-        html: generateHTML(htmlObj),
-      })
-      await MailComposer.composeAsync({
-        attachments: [uri],
-        recipients: ['evan.doherty.ny@gmail.com'],
-      })
-      await currentPact.resetPact()
-      await navigation.navigate('Dashboard')
-    } catch (error) {
-      console.log(error)
-    }
-  }
+	const generateEmail = async () => {
+		try {
+			const { uri } = await Print.printToFileAsync({
+				html: generateHTML(htmlObj),
+			});
+			await MailComposer.composeAsync({
+				attachments: [uri],
+				recipients: ["evan.doherty.ny@gmail.com"],
+			});
+			await currentPact.resetPact();
+			await navigation.navigate("Dashboard");
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
-  const confirmSignature = (signature) => {
-    currentPact.setSignature(signature, currentUser)
-    setSigned(true)
-    setVisible(false)
-  }
+	const confirmSignature = (signature) => {
+		currentPact.setSignature(signature, currentUser);
+		setSigned(true);
+		setVisible(false);
+	};
 
-  return (
-    <Screen>
-      <View style={styles.mainView}>
-        <View style={styles.btnView}>
-          <AppButton
-            textColor="white"
-            title="More Options"
-            style={styles.btnSecondary}
-            // onPress={nextScreen}
-          />
-          {currentPact.signed === false &&
-            (isSigned === false ? (
-              <AppButton
-                textColor="white"
-                title="Sign Pact"
-                style={styles.btnPrimary}
-                onPress={() => setVisible(true)}
-              />
-            ) : (
-              <AppButton
-                textColor="white"
-                title="Send Pact"
-                style={styles.btnPrimary}
-                onPress={() => acceptPact(sig)}
-              />
-            ))}
-        </View>
-        <WebView
-          style={styles.contract}
-          originWhitelist={['*']}
-          source={{
-            html: generateHTML(htmlObj),
-          }}
-        />
-        <SignatureModal
-          isVisible={isVisible}
-          setVisible={setVisible}
-          confirmSignature={confirmSignature}
-          name={currentUser.name}
-          email={currentUser.email}
-          sig={sig}
-          setSig={setSig}
-        />
-      </View>
-    </Screen>
-  )
+	return (
+		<Screen>
+			<View style={styles.mainView}>
+				<View style={styles.btnView}>
+					<AppButton
+						textColor="white"
+						title="More Options"
+						style={styles.btnSecondary}
+						// onPress={nextScreen}
+					/>
+					{currentPact.signed === false &&
+						(isSigned === false ? (
+							<AppButton
+								textColor="white"
+								title="Sign Pact"
+								style={styles.btnPrimary}
+								onPress={() => setVisible(true)}
+							/>
+						) : (
+							<AppButton
+								textColor="white"
+								title="Send Pact"
+								style={styles.btnPrimary}
+								onPress={() => acceptPact(sig)}
+							/>
+						))}
+				</View>
+				<WebView
+					style={styles.contract}
+					originWhitelist={["*"]}
+					source={{
+						html: generateHTML(htmlObj),
+					}}
+				/>
+				<SignatureModal
+					isVisible={isVisible}
+					setVisible={setVisible}
+					confirmSignature={confirmSignature}
+					name={currentUser.name}
+					email={currentUser.email}
+					sig={sig}
+					setSig={setSig}
+				/>
+			</View>
+		</Screen>
+	);
 }
 
 const styles = StyleSheet.create({
-  mainView: {
-    flex: 1,
-    marginHorizontal: 20,
-  },
-  btnView: {
-    display: 'flex',
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'flex-end',
-    marginHorizontal: 'auto',
-    marginVertical: 20,
-  },
-  btnSecondary: {
-    borderRadius: 5,
-    height: 45,
-    backgroundColor: 'rgba(73, 78, 107, 0.3)',
-    width: '40%',
-  },
-  btnPrimary: {
-    marginLeft: 15,
-    width: '30%',
-    borderRadius: 5,
-    height: 45,
-    backgroundColor: colors.green,
-  },
-  contract: {
-    borderColor: 'black',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderRadius: 10,
-    flex: 1,
-  },
-})
+	mainView: {
+		flex: 1,
+		marginHorizontal: 20,
+	},
+	btnView: {
+		display: "flex",
+		flexDirection: "row",
+		width: "100%",
+		justifyContent: "flex-end",
+		marginHorizontal: "auto",
+		marginVertical: 20,
+	},
+	btnSecondary: {
+		borderRadius: 5,
+		height: 45,
+		backgroundColor: "rgba(73, 78, 107, 0.3)",
+		width: "40%",
+	},
+	btnPrimary: {
+		marginLeft: 15,
+		width: "30%",
+		borderRadius: 5,
+		height: 45,
+		backgroundColor: colors.green,
+	},
+	contract: {
+		borderColor: "black",
+		borderWidth: 1,
+		borderStyle: "solid",
+		borderRadius: 10,
+		flex: 1,
+	},
+});
