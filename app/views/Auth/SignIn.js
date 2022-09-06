@@ -1,27 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 
 // MODELS/STORAGE
 import UserModel from "../../api/users";
-import PactModel from "../../api/pacts";
 import AuthModel from "../../api/auth";
 import FriendRequestModel from "../../api/friendRequests";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import currentUser from "../../stores/UserStore";
-import sortedPacts from "../../stores/SortedPactStore";
+
+// FORM
+import AuthForm from "./AuthForm";
 
 // COMPONENTS
 import Screen from "../../components/Screen";
-import AppTextInput from "../../components/AppTextInput";
-import AppButton from "../../components/AppButton";
 import AppText from "../../components/AppText";
-import colors from "../../config/colors";
-import SocMediaSignIn from "./SocMediaSignIn";
 
 const SignIn = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [signup, setSignup] = useState(false);
+  const initialValues = { email: "", password: "" };
 
   async function toOnboarding(user) {
     navigation.navigate("Onboarding", {
@@ -72,35 +73,10 @@ const SignIn = ({ navigation }) => {
     }
   }
 
-  // async function sortPacts(id) {
-  //   try {
-  //     const data = await PactModel.all(id)
-  //     const pacts = data.pact
-  //     pacts.map((pact) => {
-  //       pact.users.find((user) => {
-  //         if (user.user === currentUser._id) {
-  //           if (pact.status === 1 && user.userStatus === 1) {
-  //             sortedPacts.setAction(pact)
-  //           } else if (pact.status === 1 && user.userStatus === 2) {
-  //             sortedPacts.setPending(pact)
-  //           } else if (pact.status === 2) {
-  //             sortedPacts.setArchive(pact)
-  //           } else if (pact.status === 0) {
-  //             sortedPacts.setDrafts(pact)
-  //           }
-  //         }
-  //       })
-  //     })
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
-  async function signIn() {
+  async function signIn(values) {
     try {
-      const userData = { email: email, password: password };
-      const dbUser = await UserModel.show(email);
-      const foundUser = await AuthModel.login(userData);
+      const dbUser = await UserModel.show(values.email);
+      const foundUser = await AuthModel.login(values);
       if (foundUser) {
         if (foundUser.user.notifications.length > 0) {
           await currentUser.setBadgeNum(foundUser.user.notifications.length);
@@ -110,7 +86,6 @@ const SignIn = ({ navigation }) => {
         await currentUser.setUser(dbUser.user);
         await fetchRequests();
         await checkForFriends();
-        // await sortPacts(email)
       }
     } catch (err) {
       console.log("Error signing in...", err);
@@ -127,56 +102,26 @@ const SignIn = ({ navigation }) => {
             place.
           </AppText>
         </View>
-        <View style={styles.signInContainer}>
-          <AppText style={styles.inputTitle}>Email</AppText>
-          <AppTextInput
-            style={styles.input}
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            textContentType="username"
-            autoCorrect={false}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <AuthForm
+            initialValues={initialValues}
+            submit={signIn}
+            isSignup={signup}
+            checkForFriends={checkForFriends}
+            fetchRequests={fetchRequests}
+            toOnboarding={toOnboarding}
           />
-          <AppText style={styles.inputTitle}>Password</AppText>
-          <AppTextInput
-            style={styles.input}
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            autoCapitalize="none"
-            textContentType="password"
-            autoCorrect={false}
-            secureTextEntry={true}
-          />
-          <AppText style={styles.forgot}>Forgot password?</AppText>
-          <AppButton
-            title="Sign In"
-            onPress={signIn}
-            textColor={colors.white}
-            style={styles.loginButton}
-          />
-          <View style={styles.socialContainer}>
-            <AppText style={styles.socialText}>
-              or sign in with your social account
+        </TouchableWithoutFeedback>
+        <View style={styles.footer}>
+          <AppText style={styles.footertext}>
+            Don't have an accout?{" "}
+            <AppText
+              style={styles.textBtn}
+              onPress={() => navigation.navigate("SignUp")}
+            >
+              Sign Up
             </AppText>
-            <SocMediaSignIn
-              checkForFriends={checkForFriends}
-              fetchRequests={fetchRequests}
-              // sortPacts={sortPacts}
-              toOnboarding={toOnboarding}
-            />
-          </View>
-          <View style={styles.footer}>
-            <AppText style={styles.footertext}>
-              Don't have an accout?{" "}
-              <AppText
-                style={styles.textBtn}
-                onPress={() => navigation.navigate("SignUp")}
-              >
-                Sign Up
-              </AppText>
-            </AppText>
-          </View>
+          </AppText>
         </View>
       </View>
     </Screen>
@@ -202,39 +147,6 @@ const styles = StyleSheet.create({
   },
   message: {
     fontSize: 20,
-  },
-  input: {
-    height: 50,
-    paddingLeft: 20,
-    borderRadius: 7,
-    marginBottom: 5,
-  },
-  forgot: {
-    color: "rgba(0, 0, 0, 0.54)",
-  },
-  loginButton: {
-    marginTop: 40,
-    borderRadius: 7,
-    height: 50,
-    color: "white",
-    backgroundColor: colors.green,
-    width: "100%",
-  },
-  socialContainer: {
-    display: "flex",
-    alignItems: "center",
-    width: "100%",
-  },
-  socialText: {
-    marginTop: 40,
-    marginBottom: 20,
-    fontSize: 18,
-  },
-  socialBtns: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
   },
   footer: {
     display: "flex",

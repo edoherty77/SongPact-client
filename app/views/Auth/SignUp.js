@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -7,8 +7,7 @@ import {
 } from "react-native";
 
 // FORMS
-import { AppForm, AppFormField, SubmitButton } from "../../components/forms";
-import * as Yup from "yup";
+import AuthForm from "./AuthForm";
 
 // AUTH
 import AuthModel from "../../api/auth";
@@ -16,21 +15,19 @@ import AuthModel from "../../api/auth";
 // COMPONENTS
 import Screen from "../../components/Screen";
 import AppText from "../../components/AppText";
-import SocMediaSignIn from "./SocMediaSignIn";
 import colors from "../../config/colors";
 
-const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required().label("First name"),
-  name: Yup.string().required().label("Last name"),
-  email: Yup.string().required().email().label("Email"),
-  password: Yup.string().required().label("Password"),
-  password2: Yup.string().oneOf(
-    [Yup.ref("password"), null],
-    "Passwords must match"
-  ),
-});
-
 const SignUp = ({ navigation }) => {
+  const [signup, setSignup] = useState(true);
+  const initialValues = { name: "", email: "", password: "" };
+
+  async function toOnboarding(user) {
+    navigation.navigate("Onboarding", {
+      user: user,
+      status: "signing up",
+    });
+  }
+
   const register = async (values) => {
     try {
       await AuthModel.register(values);
@@ -56,58 +53,12 @@ const SignUp = ({ navigation }) => {
           </AppText>
         </View>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View>
-            <AppForm
-              initialValues={{
-                name: "",
-                email: "",
-                password: "",
-              }}
-              onSubmit={(values) => register(values)}
-              // validationSchema={validationSchema}
-            >
-              <AppText style={styles.inputTitle}>Full Name</AppText>
-              <AppFormField
-                style={styles.input}
-                name="name"
-                height={50}
-                autoCorrect={false}
-                autoCapitalize="words"
-                textContentType="givenName"
-              />
-              <AppText style={styles.inputTitle}>Email</AppText>
-              <AppFormField
-                style={styles.input}
-                name="email"
-                height={50}
-                autoCapitalize="none"
-                autoCorrect={false}
-                textContentType="emailAddress"
-                keyboardType="email-address"
-              />
-              <AppText style={styles.inputTitle}>Password</AppText>
-              <AppFormField
-                style={styles.input}
-                name="password"
-                height={50}
-                autoCapitalize="none"
-                autoCorrect={false}
-                // textContentType="password" // TODO uncomment!!!
-                // secureTextEntry // TODO uncomment!!!
-              />
-              <SubmitButton
-                title="Create Account"
-                textColor={colors.white}
-                style={styles.loginButton}
-              />
-            </AppForm>
-            <View style={styles.socialContainer}>
-              <AppText style={styles.socialText}>
-                or sign up with your social account
-              </AppText>
-              <SocMediaSignIn />
-            </View>
-          </View>
+          <AuthForm
+            initialValues={initialValues}
+            submit={register}
+            isSignup={signup}
+            toOnboarding={toOnboarding}
+          />
         </TouchableWithoutFeedback>
         <View style={styles.footer}>
           <AppText style={styles.footertext}>

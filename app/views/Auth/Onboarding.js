@@ -1,25 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
   KeyboardAvoidingView,
   ScrollView,
   TouchableOpacity,
-} from 'react-native'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 // MODEL
-import UserModel from '../../api/users'
+import UserModel from "../../api/users";
 
 // COMPONENTS
-import Screen from '../../components/Screen'
-import AppText from '../../components/AppText'
+import Screen from "../../components/Screen";
+import AppText from "../../components/AppText";
 
 // CONFIG
-import colors from '../../config/colors'
+import colors from "../../config/colors";
 
 // STORE
-import currentUser from '../../stores/UserStore'
+import currentUser from "../../stores/UserStore";
 
 // FORMS
 import {
@@ -27,85 +27,85 @@ import {
   AppFormField,
   SubmitButton,
   AppFormSelect,
-} from '../../components/forms'
+} from "../../components/forms";
 
 const states = [
-  'Alabama',
-  'Alaska',
-  'American Samoa',
-  'Arizona',
-  'Arkansas',
-  'California',
-  'Colorado',
-  'Connecticut',
-  'Delaware',
-  'District of Columbia',
-  'Federated States of Micronesia',
-  'Florida',
-  'Georgia',
-  'Guam',
-  'Hawaii',
-  'Idaho',
-  'Illinois',
-  'Indiana',
-  'Iowa',
-  'Kansas',
-  'Kentucky',
-  'Louisiana',
-  'Maine',
-  'Marshall Islands',
-  'Maryland',
-  'Massachusetts',
-  'Michigan',
-  'Minnesota',
-  'Mississippi',
-  'Missouri',
-  'Montana',
-  'Nebraska',
-  'Nevada',
-  'New Hampshire',
-  'New Jersey',
-  'New Mexico',
-  'New York',
-  'North Carolina',
-  'North Dakota',
-  'Northern Mariana Islands',
-  'Ohio',
-  'Oklahoma',
-  'Oregon',
-  'Palau',
-  'Pennsylvania',
-  'Puerto Rico',
-  'Rhode Island',
-  'South Carolina',
-  'South Dakota',
-  'Tennessee',
-  'Texas',
-  'Utah',
-  'Vermont',
-  'Virgin Island',
-  'Virginia',
-  'Washington',
-  'West Virginia',
-  'Wisconsin',
-  'Wyoming',
-]
+  "Alabama",
+  "Alaska",
+  "American Samoa",
+  "Arizona",
+  "Arkansas",
+  "California",
+  "Colorado",
+  "Connecticut",
+  "Delaware",
+  "District of Columbia",
+  "Federated States of Micronesia",
+  "Florida",
+  "Georgia",
+  "Guam",
+  "Hawaii",
+  "Idaho",
+  "Illinois",
+  "Indiana",
+  "Iowa",
+  "Kansas",
+  "Kentucky",
+  "Louisiana",
+  "Maine",
+  "Marshall Islands",
+  "Maryland",
+  "Massachusetts",
+  "Michigan",
+  "Minnesota",
+  "Mississippi",
+  "Missouri",
+  "Montana",
+  "Nebraska",
+  "Nevada",
+  "New Hampshire",
+  "New Jersey",
+  "New Mexico",
+  "New York",
+  "North Carolina",
+  "North Dakota",
+  "Northern Mariana Islands",
+  "Ohio",
+  "Oklahoma",
+  "Oregon",
+  "Palau",
+  "Pennsylvania",
+  "Puerto Rico",
+  "Rhode Island",
+  "South Carolina",
+  "South Dakota",
+  "Tennessee",
+  "Texas",
+  "Utah",
+  "Vermont",
+  "Virgin Island",
+  "Virginia",
+  "Washington",
+  "West Virginia",
+  "Wisconsin",
+  "Wyoming",
+];
 
 const Onboarding = ({ navigation, route }) => {
-  const { user, status } = route.params
-  const [state, setState] = useState('')
+  const { user, status } = route.params;
+  const [state, setState] = useState("");
 
   const toLogin = () => {
-    navigation.navigate('SignIn')
-  }
+    navigation.navigate("SignIn");
+  };
 
   const updateUser = async (values) => {
     try {
-      let address
-      if (values.apartment !== '') {
-        address = values.address.concat(' ', values.apartment)
+      let address;
+      if (values.apartment !== "") {
+        address = values.address.concat(" ", values.apartment);
       } else {
-        address = values.address
+        address = values.address;
       }
       const obj = {
         name: user.name,
@@ -117,18 +117,18 @@ const Onboarding = ({ navigation, route }) => {
         zipCode: parseInt(values.zipCode),
         companyName: values.companyName,
         phoneNumber: parseInt(values.phoneNumber),
-      }
-      await UserModel.update(obj)
-      if (status === 'signing up') {
-        navigation.navigate('SignIn')
+      };
+      await UserModel.update(obj);
+      if (status === "signing up") {
+        navigation.navigate("SignIn");
       } else {
-        await currentUser.setOnboarding(obj)
-        navigation.navigate('New')
+        await currentUser.setOnboarding(obj);
+        navigation.navigate("New");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   return (
     <Screen>
       <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
@@ -136,7 +136,7 @@ const Onboarding = ({ navigation, route }) => {
           style={styles.mainContainer}
           showsVerticalScrollIndicator={false}
         >
-          {status === 'signing up' ? (
+          {status === "signing up" ? (
             <View style={styles.messageContainer}>
               <AppText style={styles.messageTitle}>Welcome to SongPact</AppText>
               <AppText style={styles.message}>
@@ -166,14 +166,14 @@ const Onboarding = ({ navigation, route }) => {
           )}
           <AppForm
             initialValues={{
-              artistName: '',
-              address: '',
-              apartment: '',
-              city: '',
-              state: '',
-              zipCode: '',
-              companyName: '',
-              phoneNumber: '',
+              artistName: "",
+              address: "",
+              apartment: "",
+              city: "",
+              state: "",
+              zipCode: "",
+              companyName: "",
+              phoneNumber: "",
             }}
             onSubmit={(values) => updateUser(values)}
           >
@@ -261,41 +261,41 @@ const Onboarding = ({ navigation, route }) => {
         </ScrollView>
       </KeyboardAvoidingView>
     </Screen>
-  )
-}
+  );
+};
 
-export default Onboarding
+export default Onboarding;
 
 const styles = StyleSheet.create({
   mainContainer: {
     padding: 30,
     flex: 1,
-    display: 'flex',
+    display: "flex",
   },
   messageContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 30,
     marginTop: 20,
   },
   signedInContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 30,
   },
   messageTitle: {
     fontSize: 25,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
   },
   message: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 18,
-    width: '100%',
+    width: "100%",
     marginBottom: 10,
   },
   doLater: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
   input: {
     paddingLeft: 20,
@@ -303,19 +303,19 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   forgot: {
-    color: 'rgba(0, 0, 0, 0.54)',
+    color: "rgba(0, 0, 0, 0.54)",
   },
   submitButton: {
     marginTop: 20,
     marginBottom: 50,
     borderRadius: 7,
     height: 50,
-    color: 'white',
+    color: "white",
     backgroundColor: colors.green,
-    width: '30%',
-    alignSelf: 'flex-end',
+    width: "30%",
+    alignSelf: "flex-end",
   },
   textBtn: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
-})
+});
