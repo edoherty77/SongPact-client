@@ -1,8 +1,8 @@
-import React from 'react'
-import { useFormikContext } from 'formik'
+import React from "react";
+import { useFormikContext } from "formik";
 
-import AppTextInput from '../AppTextInput'
-import ErrorMessage from './ErrorMessage'
+import AppTextInput from "../AppTextInput";
+import ErrorMessage from "./ErrorMessage";
 
 const AppFormField = ({
   name,
@@ -13,7 +13,7 @@ const AppFormField = ({
   selectTextOnFocus,
   ...otherProps
 }) => {
-  const { handleChange, errors, touched, setFieldValue } = useFormikContext()
+  const { handleChange, errors, touched } = useFormikContext();
 
   return (
     <>
@@ -23,8 +23,8 @@ const AppFormField = ({
         style={[
           style,
           editable === false
-            ? { backgroundColor: '#E0E0E0' }
-            : { backgroundColor: 'white' },
+            ? { backgroundColor: "#E0E0E0" }
+            : { backgroundColor: "white" },
         ]}
         onChangeText={handleChange(name)}
         setFieldValue={name}
@@ -34,7 +34,7 @@ const AppFormField = ({
       />
       <ErrorMessage error={errors[name]} visible={touched[name]} />
     </>
-  )
-}
+  );
+};
 
-export default AppFormField
+export default AppFormField;

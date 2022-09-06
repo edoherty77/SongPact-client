@@ -8,6 +8,7 @@ import {
 
 // FORMS
 import AuthForm from "./AuthForm";
+import * as Yup from "yup";
 
 // AUTH
 import AuthModel from "../../api/auth";
@@ -17,8 +18,15 @@ import Screen from "../../components/Screen";
 import AppText from "../../components/AppText";
 import colors from "../../config/colors";
 
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required("* Required"),
+  email: Yup.string().email("Invalid email address").required("* Required"),
+  password: Yup.string().required("* Required"),
+});
+
 const SignUp = ({ navigation }) => {
   const [signup, setSignup] = useState(true);
+  const [failedAuth, setFailedAuth] = useState(false);
   const initialValues = { name: "", email: "", password: "" };
 
   async function toOnboarding(user) {
@@ -33,7 +41,7 @@ const SignUp = ({ navigation }) => {
       await AuthModel.register(values);
       navigation.navigate("Onboarding", { user: values, status: "signing up" });
     } catch (error) {
-      console.log("❌ Error signing up...", error);
+      setFailedAuth(true);
     }
   };
 
@@ -58,6 +66,8 @@ const SignUp = ({ navigation }) => {
             submit={register}
             isSignup={signup}
             toOnboarding={toOnboarding}
+            validationSchema={validationSchema}
+            failedAuth={failedAuth}
           />
         </TouchableWithoutFeedback>
         <View style={styles.footer}>
@@ -106,9 +116,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     borderRadius: 7,
     marginBottom: 5,
-  },
-  forgot: {
-    color: "rgba(0, 0, 0, 0.54)",
   },
   loginButton: {
     marginTop: 30,

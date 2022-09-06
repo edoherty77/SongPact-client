@@ -3,23 +3,11 @@ import { StyleSheet, View } from "react-native";
 
 // FORMS
 import { AppForm, AppFormField, SubmitButton } from "../../components/forms";
-import * as Yup from "yup";
 
 // COMPONENTS
 import AppText from "../../components/AppText";
 import SocMediaSignIn from "./SocMediaSignIn";
 import colors from "../../config/colors";
-
-const validationSchema = Yup.object().shape({
-  firstName: Yup.string().required().label("First name"),
-  name: Yup.string().required().label("Last name"),
-  email: Yup.string().required().email().label("Email"),
-  password: Yup.string().required().label("Password"),
-  password2: Yup.string().oneOf(
-    [Yup.ref("password"), null],
-    "Passwords must match"
-  ),
-});
 
 const AuthForm = ({
   submit,
@@ -28,13 +16,15 @@ const AuthForm = ({
   checkForFriends,
   fetchRequests,
   toOnboarding,
+  validationSchema,
+  failedAuth,
 }) => {
   return (
     <View>
       <AppForm
         initialValues={initialValues}
         onSubmit={(values) => submit(values)}
-        // validationSchema={validationSchema}
+        validationSchema={validationSchema}
       >
         {isSignup ? (
           <>
@@ -69,6 +59,9 @@ const AuthForm = ({
           // textContentType="password" // TODO uncomment!!!
           // secureTextEntry // TODO uncomment!!!
         />
+        {failedAuth ? (
+          <AppText style={styles.failMessage}>Invalid credentials</AppText>
+        ) : null}
         <SubmitButton
           title="Create Account"
           textColor={colors.white}
@@ -107,6 +100,10 @@ const styles = StyleSheet.create({
     color: "white",
     backgroundColor: colors.green,
     width: "100%",
+  },
+  failMessage: {
+    color: "red",
+    marginLeft: 4,
   },
   socialContainer: {
     display: "flex",

@@ -15,13 +15,20 @@ import currentUser from "../../stores/UserStore";
 
 // FORM
 import AuthForm from "./AuthForm";
+import * as Yup from "yup";
 
 // COMPONENTS
 import Screen from "../../components/Screen";
 import AppText from "../../components/AppText";
 
+const validationSchema = Yup.object().shape({
+  email: Yup.string().email("Invalid email address").required("* Required"),
+  password: Yup.string().required("* Required"),
+});
+
 const SignIn = ({ navigation }) => {
   const [signup, setSignup] = useState(false);
+  const [failedAuth, setFailedAuth] = useState(false);
   const initialValues = { email: "", password: "" };
 
   async function toOnboarding(user) {
@@ -88,7 +95,7 @@ const SignIn = ({ navigation }) => {
         await checkForFriends();
       }
     } catch (err) {
-      console.log("Error signing in...", err);
+      setFailedAuth(true);
     }
   }
 
@@ -110,6 +117,8 @@ const SignIn = ({ navigation }) => {
             checkForFriends={checkForFriends}
             fetchRequests={fetchRequests}
             toOnboarding={toOnboarding}
+            validationSchema={validationSchema}
+            failedAuth={failedAuth}
           />
         </TouchableWithoutFeedback>
         <View style={styles.footer}>
@@ -121,6 +130,12 @@ const SignIn = ({ navigation }) => {
             >
               Sign Up
             </AppText>
+          </AppText>
+          <AppText
+            style={styles.textBtnForgot}
+            // onPress={() => navigation.navigate("SignUp")}
+          >
+            Forget password?
           </AppText>
         </View>
       </View>
@@ -159,5 +174,9 @@ const styles = StyleSheet.create({
   },
   textBtn: {
     fontWeight: "bold",
+  },
+  textBtnForgot: {
+    fontWeight: "bold",
+    marginTop: 8,
   },
 });
