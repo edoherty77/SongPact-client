@@ -28,6 +28,7 @@ import {
   SubmitButton,
   AppFormSelect,
 } from "../../components/forms";
+import * as Yup from "yup";
 
 const states = [
   "Alabama",
@@ -91,6 +92,14 @@ const states = [
   "Wyoming",
 ];
 
+const validationSchema = Yup.object().shape({
+  artistName: Yup.string().required("* Required"),
+  address: Yup.string().required("* Required"),
+  city: Yup.string().required("* Required"),
+  // state: Yup.string().required("* Required"),
+  zipCode: Yup.number().required("* Required"),
+});
+
 const Onboarding = ({ navigation, route }) => {
   const { user, status } = route.params;
   const [state, setState] = useState("");
@@ -117,6 +126,7 @@ const Onboarding = ({ navigation, route }) => {
         zipCode: parseInt(values.zipCode),
         companyName: values.companyName,
         phoneNumber: parseInt(values.phoneNumber),
+        profileComplete: true,
       };
       await UserModel.update(obj);
       if (status === "signing up") {
@@ -176,55 +186,49 @@ const Onboarding = ({ navigation, route }) => {
               phoneNumber: "",
             }}
             onSubmit={(values) => updateUser(values)}
+            validationSchema={validationSchema}
           >
-            <AppText style={styles.inputTitle}>Artist Name</AppText>
+            <AppText style={styles.inputTitle}>Artist Name *</AppText>
             <AppFormField
               style={styles.input}
               name="artistName"
               autoCapitalize="words"
-              textContentType="password"
               autoCorrect={false}
               returnKeyType="done"
             />
-            <AppText style={styles.inputTitle}>Company Name (optional)</AppText>
+            <AppText style={styles.inputTitle}>Company Name</AppText>
             <AppFormField
               style={styles.input}
               name="companyName"
-              textContentType="password"
               autoCorrect={false}
               autoCapitalize="words"
               returnKeyType="done"
             />
-            <AppText style={styles.inputTitle}>Address</AppText>
+            <AppText style={styles.inputTitle}>Address *</AppText>
             <AppFormField
               style={styles.input}
               name="address"
               autoCapitalize="words"
-              textContentType="password"
               autoCorrect={false}
               returnKeyType="done"
             />
-            <AppText style={styles.inputTitle}>
-              Apartment, suite, etc. (optional)
-            </AppText>
+            <AppText style={styles.inputTitle}>Apartment, suite, etc.</AppText>
             <AppFormField
               style={styles.input}
               name="apartment"
               autoCapitalize="words"
-              textContentType="password"
               autoCorrect={false}
               returnKeyType="done"
             />
-            <AppText style={styles.inputTitle}>City</AppText>
+            <AppText style={styles.inputTitle}>City *</AppText>
             <AppFormField
               style={styles.input}
               name="city"
               autoCapitalize="words"
-              textContentType="password"
               autoCorrect={false}
               returnKeyType="done"
             />
-            <AppText style={styles.inputTitle}>State</AppText>
+            <AppText style={styles.inputTitle}>State *</AppText>
             <AppFormSelect
               data={states}
               setItem={setState}
@@ -233,12 +237,11 @@ const Onboarding = ({ navigation, route }) => {
               name="state"
               height={300}
             />
-            <AppText style={styles.inputTitle}>Zip Code</AppText>
+            <AppText style={styles.inputTitle}>Zip Code *</AppText>
             <AppFormField
               style={styles.input}
               name="zipCode"
               autoCapitalize="words"
-              textContentType="password"
               autoCorrect={false}
               keyboardType="number-pad"
               returnKeyType="done"
@@ -248,7 +251,6 @@ const Onboarding = ({ navigation, route }) => {
               style={styles.input}
               name="phoneNumber"
               autoCapitalize="words"
-              textContentType="password"
               keyboardType="number-pad"
               returnKeyType="done"
             />

@@ -1,4 +1,5 @@
 import React from "react";
+import { View, StyleSheet } from "react-native";
 import { useFormikContext } from "formik";
 
 import AppTextInput from "../AppTextInput";
@@ -16,7 +17,7 @@ const AppFormField = ({
   const { handleChange, errors, touched } = useFormikContext();
 
   return (
-    <>
+    <View style={styles.inputContainer}>
       <AppTextInput
         editable={editable}
         selectTextOnFocus={selectTextOnFocus}
@@ -33,8 +34,15 @@ const AppFormField = ({
         {...otherProps}
       />
       <ErrorMessage error={errors[name]} visible={touched[name]} />
-    </>
+    </View>
   );
 };
 
 export default AppFormField;
+
+const styles = StyleSheet.create({
+  inputContainer: {
+    position: "relative",
+    marginBottom: 15,
+  },
+});

@@ -54,10 +54,10 @@ const AuthForm = ({
           style={styles.input}
           name="password"
           height={50}
-          autoCapitalize="none"
+          autoCapitalize="words"
           autoCorrect={false}
-          // textContentType="password" // TODO uncomment!!!
-          // secureTextEntry // TODO uncomment!!!
+          textContentType="password"
+          secureTextEntry={true}
         />
         {failedAuth ? (
           <AppText style={styles.failMessage}>Invalid credentials</AppText>
@@ -70,7 +70,7 @@ const AuthForm = ({
       </AppForm>
       <View style={styles.socialContainer}>
         <AppText style={styles.socialText}>
-          or sign up with your social account
+          Or sign in with your social account
         </AppText>
         <SocMediaSignIn
           checkForFriends={checkForFriends}
@@ -88,10 +88,9 @@ const styles = StyleSheet.create({
   input: {
     paddingLeft: 20,
     borderRadius: 7,
-    marginBottom: 5,
   },
-  forgot: {
-    color: "rgba(0, 0, 0, 0.54)",
+  inputTitle: {
+    marginBottom: -10,
   },
   loginButton: {
     marginTop: 30,

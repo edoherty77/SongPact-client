@@ -14,6 +14,7 @@ class UserStore {
   pacts = [];
   friends = "";
   friendRequests = [];
+  profileComplete = false;
   socialAuthId = "";
   photoUrl = "";
   accessToken = "";
@@ -39,6 +40,8 @@ class UserStore {
     this.friends = values.friends;
     this.phoneNumber = values.phoneNumber;
     this.photoUrl = values.photoUrl;
+    this.profileComplete = values.profileComplete;
+    this.socialAuthId = values.socialAuthId;
     this.chatRooms = values.chatRooms;
     this.notifications = values.notifications;
   }
@@ -103,6 +106,7 @@ class UserStore {
     this.pacts = [];
     this.friends = "";
     this.photoUrl = "";
+    this.profileComplete = false;
     this.socialAuthId = "";
     this.accessToken = "";
     this.friendRequests = "";

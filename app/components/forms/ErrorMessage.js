@@ -13,7 +13,7 @@ export default ErrorMessage;
 const styles = StyleSheet.create({
   error: {
     color: "red",
-    marginBottom: 5,
-    marginTop: -8,
+    position: "absolute",
+    bottom: -10,
   },
 });

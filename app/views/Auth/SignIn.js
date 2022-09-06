@@ -4,6 +4,8 @@ import {
   View,
   Keyboard,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 
 // MODELS/STORAGE
@@ -101,15 +103,16 @@ const SignIn = ({ navigation }) => {
 
   return (
     <Screen>
-      <View style={styles.mainContainer}>
-        <View style={styles.messageContainer}>
-          <AppText style={styles.messageTitle}>Welcome Back!</AppText>
-          <AppText style={styles.message}>
-            Sign in to start organizing your contracts, safely and all in one
-            place.
-          </AppText>
-        </View>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+        <View style={styles.mainContainer}>
+          <View style={styles.messageContainer}>
+            <AppText style={styles.messageTitle}>Welcome Back!</AppText>
+            <AppText style={styles.message}>
+              Sign in to start organizing your contracts, safely and all in one
+              place.
+            </AppText>
+          </View>
+          {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
           <AuthForm
             initialValues={initialValues}
             submit={signIn}
@@ -120,25 +123,26 @@ const SignIn = ({ navigation }) => {
             validationSchema={validationSchema}
             failedAuth={failedAuth}
           />
-        </TouchableWithoutFeedback>
-        <View style={styles.footer}>
-          <AppText style={styles.footertext}>
-            Don't have an accout?{" "}
-            <AppText
-              style={styles.textBtn}
-              onPress={() => navigation.navigate("SignUp")}
-            >
-              Sign Up
+          {/* </TouchableWithoutFeedback> */}
+          <View style={styles.footer}>
+            <AppText style={styles.footertext}>
+              Don't have an accout?{" "}
+              <AppText
+                style={styles.textBtn}
+                onPress={() => navigation.navigate("SignUp")}
+              >
+                Sign Up
+              </AppText>
             </AppText>
-          </AppText>
-          <AppText
-            style={styles.textBtnForgot}
-            // onPress={() => navigation.navigate("SignUp")}
-          >
-            Forget password?
-          </AppText>
+            <AppText
+              style={styles.textBtnForgot}
+              // onPress={() => navigation.navigate("SignUp")}
+            >
+              Forget password?
+            </AppText>
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Screen>
   );
 };
