@@ -1,17 +1,21 @@
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View } from "react-native";
 
 // COMPONENT
-import SocialMediaBtn from '../../components/SocialMediaBtn'
+import SocialMediaBtn from "../../components/SocialMediaBtn";
 
 // STORE
-import currentUser from '../../stores/UserStore'
+import currentUser from "../../stores/UserStore";
 
 // AUTH
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import UserModel from '../../api/users'
-import * as Google from 'expo-google-app-auth'
-import * as Facebook from 'expo-facebook'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import UserModel from "../../api/users";
+import * as Google from "expo-auth-session/providers/google";
+import * as AuthSession from "expo-auth-session";
+import * as Facebook from "expo-auth-session/providers/facebook";
+import * as WebBrowser from "expo-web-browser";
+
+WebBrowser.maybeCompleteAuthSession();
 
 const SocMediaSignIn = ({
   checkForFriends,
@@ -19,100 +23,92 @@ const SocMediaSignIn = ({
   // sortPacts,
   toOnboarding,
 }) => {
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId:
+      "350040199389-gjbgtaas95ofd5hd9ojotcfht73gj407.apps.googleusercontent.com",
+    iosClientId:
+      "350040199389-e8iqt2rlahdmgeslat7eq51944dcbb7c.apps.googleusercontent.com",
+    expoClientId:
+      "350040199389-m3ffgmsglfhsi2rg6ru6c4f1jquunk2p.apps.googleusercontent.com",
+    scopes: ["profile", "email"],
+  });
+  const [, responseFB, promptAsyncFB] = Facebook.useAuthRequest(
+    {
+      expoClientId: "976030243163813",
+      redirectUri: AuthSession.makeRedirectUri({ useProxy: true }),
+    },
+    { useProxy: true }
+  );
+
   const googleSignIn = async () => {
-    const googleConfig = {
-      androidClientId:
-        '350040199389-gjbgtaas95ofd5hd9ojotcfht73gj407.apps.googleusercontent.com',
-      iosClientId:
-        '350040199389-e8iqt2rlahdmgeslat7eq51944dcbb7c.apps.googleusercontent.com',
-      scopes: ['profile', 'email'],
-    }
     try {
-      const result = await Google.logInAsync(googleConfig)
-
-      if (result.type === 'success') {
-        currentUser.setAccessToken(result.accessToken)
+      let proxy = await promptAsync({ useProxy: true });
+      if (proxy) {
+        let result = await fetch("https://www.googleapis.com/userinfo/v2/me", {
+          headers: {
+            Authorization: `Bearer ${proxy.authentication.accessToken}`,
+          },
+        });
+        let data = await result.json();
+        await currentUser.setAccessToken(data.accessToken);
+        await AsyncStorage.setItem("authType", "google");
         const user = {
-          _id: result.user.email,
-          name: result.user.name,
-          email: result.user.email,
-          googleId: result.user.id,
-          googlePhotoUrl: result.user.photoUrl,
-          password: result.idToken,
-        }
-
-        const foundUser = await UserModel.show(result.user.email)
-
-        if (foundUser.user !== null && foundUser.user !== undefined) {
-          if (foundUser.user.notifications.length > 0) {
-            await currentUser.setBadgeNum(foundUser.user.notifications.length)
-          }
-          await AsyncStorage.setItem('email', foundUser.user.email)
-          await AsyncStorage.setItem('userId', foundUser.user.googleId)
-          await currentUser.setUser(foundUser.user)
-          await checkForFriends()
-          await fetchRequests()
-          // await sortPacts(foundUser.user.email)
-        } else {
-          const newUser = await UserModel.create(user)
-          await toOnboarding(newUser.data.user)
-        }
-      } else {
-        return { cancelled: true }
+          _id: data.email,
+          name: data.name,
+          email: data.email,
+          socialAuthId: data.id,
+          photoUrl: data.picture,
+          password: data.id,
+        };
+        setUser(user);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const facebookSignIn = async () => {
     try {
-      await Facebook.initializeAsync({
-        appId: '976030243163813',
-      })
-      const {
-        type,
-        token,
-        expirationDate,
-        permissions,
-        declinedPermissions,
-      } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ['public_profile', 'email'],
-      })
-
-      if (type === 'success') {
-        // Get the user's name using Facebook's Graph API
-        const response = await fetch(
-          `https://graph.facebook.com/me?fields=id,name,email&access_token=${token}`,
-        )
-        const result = await response.json()
+      let proxy = await promptAsyncFB();
+      if (proxy) {
+        let result = await fetch(
+          `https://graph.facebook.com/me?fields=id,picture.type(large),name,email&access_token=${proxy.authentication.accessToken}`
+        );
+        let data = await result.json();
+        await currentUser.setAccessToken(proxy.authentication.accessToken);
+        await AsyncStorage.setItem("authType", "facebook");
         const user = {
-          _id: result.email,
-          name: result.name,
-          email: result.email,
-          facebookId: result.id,
-        }
-
-        const foundUser = await UserModel.show(result.email)
-        if (foundUser.user !== null && foundUser.user !== undefined) {
-          await AsyncStorage.setItem('email', foundUser.user.email)
-          await AsyncStorage.setItem('userId', foundUser.user.facebookId)
-          await currentUser.setUser(foundUser.user)
-          await checkForFriends()
-          await fetchRequests()
-        } else {
-          const newUser = await UserModel.create(user)
-          await AsyncStorage.setItem('email', newUser.data.user.email)
-          await AsyncStorage.setItem('userId', newUser.data.user._id)
-          await currentUser.setUser(newUser.data.user)
-        }
-      } else {
-        // type === 'cancel'
+          _id: data.email,
+          name: data.name,
+          email: data.email,
+          socialAuthId: data.id,
+          photoUrl: data.picture.data.url,
+          password: data.id,
+        };
+        setUser(user);
       }
     } catch ({ message }) {
-      alert(`Facebook Login Error: ${message}`)
+      alert(`Facebook Login Error: ${message}`);
     }
-  }
+  };
+
+  const setUser = async (user) => {
+    const foundUser = await UserModel.show(user.email);
+    if (foundUser.user !== null && foundUser.user !== undefined) {
+      if (foundUser.user.notifications.length > 0) {
+        await currentUser.setBadgeNum(foundUser.user.notifications.length);
+      }
+      await AsyncStorage.setItem("email", foundUser.user.email);
+      await AsyncStorage.setItem("userId", foundUser.user.socialAuthId);
+      await currentUser.setUser(foundUser.user);
+      await checkForFriends();
+      await fetchRequests();
+    } else {
+      const newUser = await UserModel.create(user);
+      await toOnboarding(newUser.data.user);
+    }
+  };
+
   return (
     <View style={styles.socialBtns}>
       <SocialMediaBtn
@@ -130,16 +126,16 @@ const SocMediaSignIn = ({
         onPress={facebookSignIn}
       />
     </View>
-  )
-}
+  );
+};
 
-export default SocMediaSignIn
+export default SocMediaSignIn;
 
 const styles = StyleSheet.create({
   socialBtns: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
   },
-})
+});

@@ -1,75 +1,74 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { useQuery, useMutation, useQueryClient } from 'react-query'
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View } from "react-native";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 // MODELS/STORAGE
-import UserModel from '../../api/users'
-import PactModel from '../../api/pacts'
-import AuthModel from '../../api/auth'
-import FriendRequestModel from '../../api/friendRequests'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import currentUser from '../../stores/UserStore'
-import sortedPacts from '../../stores/SortedPactStore'
+import UserModel from "../../api/users";
+import PactModel from "../../api/pacts";
+import AuthModel from "../../api/auth";
+import FriendRequestModel from "../../api/friendRequests";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import currentUser from "../../stores/UserStore";
+import sortedPacts from "../../stores/SortedPactStore";
 
 // COMPONENTS
-import Screen from '../../components/Screen'
-import AppTextInput from '../../components/AppTextInput'
-import AppButton from '../../components/AppButton'
-import AppText from '../../components/AppText'
-import Header from '../../components/Header'
-import colors from '../../config/colors'
-import SocMediaSignIn from './SocMediaSignIn'
+import Screen from "../../components/Screen";
+import AppTextInput from "../../components/AppTextInput";
+import AppButton from "../../components/AppButton";
+import AppText from "../../components/AppText";
+import colors from "../../config/colors";
+import SocMediaSignIn from "./SocMediaSignIn";
 
 const SignIn = ({ navigation }) => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   async function toOnboarding(user) {
-    navigation.navigate('Onboarding', {
+    navigation.navigate("Onboarding", {
       user: user,
-      status: 'signing up',
-    })
+      status: "signing up",
+    });
   }
 
   async function checkForFriends() {
-    let friends = currentUser.friends
-    let arr = []
+    let friends = currentUser.friends;
+    let arr = [];
     try {
       if (friends) {
         friends.map(async (friend) => {
-          let response = await UserModel.show(friend)
-          let friendInfo = response.user
-          arr.push(friendInfo)
-          await currentUser.setFriends([...arr])
-        })
+          let response = await UserModel.show(friend);
+          let friendInfo = response.user;
+          arr.push(friendInfo);
+          await currentUser.setFriends([...arr]);
+        });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
   async function fetchRequests() {
-    let arr = []
+    let arr = [];
     try {
-      const response = await FriendRequestModel.all(currentUser._id)
-      const requests = await response.data.friendRequests
+      const response = await FriendRequestModel.all(currentUser._id);
+      const requests = await response.data.friendRequests;
       if (requests) {
         requests.map(async (request) => {
-          let obj = {}
-          let requester = await UserModel.show(request.requester)
-          let requesterInfo = requester.user
-          obj['friendRequestId'] = request._id
-          obj['requesterInfo'] = requesterInfo
-          obj['date'] = request.date
-          arr.push(obj)
-          await currentUser.setFriendRequests([...arr])
-          await currentUser.setBadgeNum(arr.length)
-        })
+          let obj = {};
+          let requester = await UserModel.show(request.requester);
+          let requesterInfo = requester.user;
+          obj["friendRequestId"] = request._id;
+          obj["requesterInfo"] = requesterInfo;
+          obj["date"] = request.date;
+          arr.push(obj);
+          await currentUser.setFriendRequests([...arr]);
+          await currentUser.setBadgeNum(arr.length);
+        });
       } else {
-        await currentUser.setFriendRequests('')
+        await currentUser.setFriendRequests("");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -99,28 +98,27 @@ const SignIn = ({ navigation }) => {
 
   async function signIn() {
     try {
-      const userData = { email: email, password: password }
-      const dbUser = await UserModel.show(email)
-      const foundUser = await AuthModel.login(userData)
+      const userData = { email: email, password: password };
+      const dbUser = await UserModel.show(email);
+      const foundUser = await AuthModel.login(userData);
       if (foundUser) {
         if (foundUser.user.notifications.length > 0) {
-          await currentUser.setBadgeNum(foundUser.user.notifications.length)
+          await currentUser.setBadgeNum(foundUser.user.notifications.length);
         }
-        await AsyncStorage.setItem('email', foundUser.user.email)
-        await AsyncStorage.setItem('userId', foundUser.user._id)
-        await currentUser.setUser(dbUser.user)
-        await fetchRequests()
-        await checkForFriends()
+        await AsyncStorage.setItem("email", foundUser.user.email);
+        await AsyncStorage.setItem("userId", foundUser.user._id);
+        await currentUser.setUser(dbUser.user);
+        await fetchRequests();
+        await checkForFriends();
         // await sortPacts(email)
       }
     } catch (err) {
-      console.log('Error signing in...', err)
+      console.log("Error signing in...", err);
     }
   }
 
   return (
     <Screen>
-      <Header icon="chevron-back" noIcon />
       <View style={styles.mainContainer}>
         <View style={styles.messageContainer}>
           <AppText style={styles.messageTitle}>Welcome Back!</AppText>
@@ -170,10 +168,10 @@ const SignIn = ({ navigation }) => {
           </View>
           <View style={styles.footer}>
             <AppText style={styles.footertext}>
-              Don't have an accout?{' '}
+              Don't have an accout?{" "}
               <AppText
                 style={styles.textBtn}
-                onPress={() => navigation.navigate('SignUp')}
+                onPress={() => navigation.navigate("SignUp")}
               >
                 Sign Up
               </AppText>
@@ -182,16 +180,16 @@ const SignIn = ({ navigation }) => {
         </View>
       </View>
     </Screen>
-  )
-}
+  );
+};
 
-export default SignIn
+export default SignIn;
 
 const styles = StyleSheet.create({
   mainContainer: {
     padding: 30,
     flex: 1,
-    display: 'flex',
+    display: "flex",
   },
   messageContainer: {
     marginBottom: 30,
@@ -199,7 +197,7 @@ const styles = StyleSheet.create({
   },
   messageTitle: {
     fontSize: 25,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   message: {
@@ -212,20 +210,20 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   forgot: {
-    color: 'rgba(0, 0, 0, 0.54)',
+    color: "rgba(0, 0, 0, 0.54)",
   },
   loginButton: {
     marginTop: 40,
     borderRadius: 7,
     height: 50,
-    color: 'white',
+    color: "white",
     backgroundColor: colors.green,
-    width: '100%',
+    width: "100%",
   },
   socialContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    width: '100%',
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
   },
   socialText: {
     marginTop: 40,
@@ -233,21 +231,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   socialBtns: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
   },
   footer: {
-    display: 'flex',
-    justifyContent: 'flex-end',
+    display: "flex",
+    justifyContent: "flex-end",
     marginTop: 30,
-    alignItems: 'center',
+    alignItems: "center",
   },
   footertext: {
     fontSize: 16,
   },
   textBtn: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
-})
+});
