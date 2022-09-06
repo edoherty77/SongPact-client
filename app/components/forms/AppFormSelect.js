@@ -1,19 +1,21 @@
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
-import ModalDropdown from 'react-native-modal-dropdown-v2'
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import ModalDropdown from "react-native-modal-dropdown-v2";
 
 // FORM
-import { useFormikContext } from 'formik'
+import { useFormikContext } from "formik";
+import ErrorMessage from "./ErrorMessage";
 
 // STORE
-import currentPact from '../../stores/CreatePactStore'
-import currentUser from '../../stores/UserStore'
+import currentPact from "../../stores/CreatePactStore";
+import currentUser from "../../stores/UserStore";
 
 // CONFIG
-import colors from '../../config/colors'
+import colors from "../../config/colors";
 
 const AppFormSelect = ({
+  name,
   data,
   setItem,
   height,
@@ -21,7 +23,7 @@ const AppFormSelect = ({
   defaultValue,
   placeHolder,
 }) => {
-  const { setFieldValue } = useFormikContext()
+  const { setFieldValue, errors, touched } = useFormikContext();
 
   return (
     // <View
@@ -75,13 +77,13 @@ const AppFormSelect = ({
         options={data}
         defaultValue={defaultValue !== undefined ? defaultValue : placeHolder}
         onSelect={(itemIndex, itemValue) => {
-          setFieldValue(data, itemValue), setItem(itemValue)
+          setFieldValue(data, itemValue), setItem(itemValue);
         }}
         style={[
           styles.selectStyle,
           isDisabled === true
-            ? { backgroundColor: '#E0E0E0' }
-            : { backgroundColor: 'white' },
+            ? { backgroundColor: "#E0E0E0" }
+            : { backgroundColor: "white" },
         ]}
         textStyle={styles.textStyle}
         dropdownStyle={[styles.dropdownStyle, { height: height }]}
@@ -91,61 +93,63 @@ const AppFormSelect = ({
       <View style={styles.iconView}>
         <Ionicons name="chevron-down" size={18} />
       </View>
+      {/* <ErrorMessage error={errors[name]} visible={touched[name]} /> */}
     </View>
-  )
-}
+  );
+};
 
-export default AppFormSelect
+export default AppFormSelect;
 
 const styles = StyleSheet.create({
   mainView: {
-    width: '100%',
-    position: 'relative',
+    width: "100%",
+    position: "relative",
+    marginBottom: 5,
   },
   iconView: {
-    position: 'absolute',
+    position: "absolute",
     zIndex: 2,
     top: 25,
     right: 20,
   },
   selectStyle: {
-    borderColor: 'black',
+    borderColor: "black",
     borderRadius: 7,
     borderWidth: 1,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     marginVertical: 10,
     height: 50,
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
     paddingLeft: 20,
-    position: 'relative',
+    position: "relative",
   },
   textStyle: {
-    color: 'black',
+    color: "black",
     fontSize: 18,
-    fontFamily: 'Avenir Next',
+    fontFamily: "Avenir Next",
   },
   dropdownStyle: {
-    borderColor: 'black',
+    borderColor: "black",
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderRightWidth: 1,
     borderLeftWidth: 1,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     marginLeft: -21,
     marginTop: 13,
     paddingBottom: 2,
   },
   dropdownTextStyle: {
     fontSize: 18,
-    fontFamily: 'Avenir Next',
-    color: 'black',
+    fontFamily: "Avenir Next",
+    color: "black",
     paddingHorizontal: 20,
   },
   dropdownTextHighlightStyle: {
     backgroundColor: colors.green,
     color: colors.white,
   },
-})
+});

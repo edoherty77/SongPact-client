@@ -103,7 +103,9 @@ const SocMediaSignIn = ({
       await currentUser.setUser(foundUser.user);
       await checkForFriends();
       await fetchRequests();
+      console.log("currentUser", currentUser);
     } else {
+      user.profileComplete = false;
       const newUser = await UserModel.create(user);
       await toOnboarding(newUser.data.user);
     }

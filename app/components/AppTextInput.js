@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import { StyleSheet, TextInput, View } from 'react-native'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import defaultStyles from '../config/styles'
+import React, { useState } from "react";
+import { StyleSheet, TextInput, View } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import defaultStyles from "../config/styles";
 
 // CONFIG
-import colors from '../config/colors'
+import colors from "../config/colors";
 
 const AppTextInput = ({
   placeholderTextColor,
@@ -13,7 +13,7 @@ const AppTextInput = ({
   width,
   ...otherProps
 }) => {
-  const [borderColor, setBorderColor] = useState({ borderColor: 'black' })
+  const [borderColor, setBorderColor] = useState({ borderColor: "black" });
 
   const setFocusStyle = () => {
     return {
@@ -26,8 +26,8 @@ const AppTextInput = ({
       shadowOpacity: 0.32,
       shadowRadius: 5.46,
       elevation: 9,
-    }
-  }
+    };
+  };
   return (
     <View style={[styles.container, { width: width }]}>
       {icon && (
@@ -40,24 +40,25 @@ const AppTextInput = ({
       )}
       <TextInput
         onFocus={() => setBorderColor(setFocusStyle)}
-        onBlur={() => setBorderColor({ borderColor: 'black' })}
+        onBlur={() => setBorderColor({ borderColor: "black" })}
         placeholderTextColor={placeholderTextColor}
         style={[styles.input, style, borderColor]}
         {...otherProps}
       />
     </View>
-  )
-}
+  );
+};
 
-export default AppTextInput
+export default AppTextInput;
 
 const styles = StyleSheet.create({
   container: {
     borderRadius: 3,
-    flexDirection: 'row',
+    flexDirection: "row",
     marginVertical: 10,
     height: 50,
-    width: '100%',
+    width: "100%",
+    position: "relative",
   },
   icon: {
     marginRight: 10,
@@ -65,9 +66,9 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     fontSize: 18,
-    width: '100%',
+    width: "100%",
     backgroundColor: colors.white,
     borderRadius: 7,
     paddingLeft: 20,
   },
-})
+});

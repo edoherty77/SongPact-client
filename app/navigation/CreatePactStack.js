@@ -1,16 +1,16 @@
-import React from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
+import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 // STACKS
-import MenuStack from './MenuStack'
+import MenuStack from "./MenuStack";
 
 // COMPONENTS
-import Header from '../components/Header'
+import Header from "../components/Header";
 
 // SCREENS
-import Onboarding from '../views/Auth/Onboarding'
-import New from '../views/Main/NewSongPactScreen'
+import Onboarding from "../views/Auth/Onboarding";
+import New from "../views/Main/NewSongPactScreen";
 import {
   Collabs,
   GratInfo,
@@ -18,27 +18,25 @@ import {
   RecordInfo,
   ReviewData,
   ReviewContract,
-} from '../views/CreatePact/index'
+} from "../views/CreatePact/index";
 
 // STORE
-import currentUser from '../stores/UserStore'
+import currentUser from "../stores/UserStore";
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator();
 
 const CreatePactStack = ({ updateAuthState, logout, route, navigation }) => {
   React.useLayoutEffect(() => {
-    if (getFocusedRouteNameFromRoute(route) == 'ReviewContract') {
-      navigation.setOptions({ tabBarVisible: false })
+    if (getFocusedRouteNameFromRoute(route) == "ReviewContract") {
+      navigation.setOptions({ tabBarVisible: false });
     } else {
-      navigation.setOptions({ tabBarVisible: true })
+      navigation.setOptions({ tabBarVisible: true });
     }
-  }, [getFocusedRouteNameFromRoute(route)])
+  }, [getFocusedRouteNameFromRoute(route)]);
   return (
     <Stack.Navigator
       headerMode="screen"
-      initialRouteName={
-        currentUser.artistName !== undefined ? 'New' : 'Onboarding'
-      }
+      initialRouteName={currentUser.profileComplete ? "New" : "Onboarding"}
     >
       <Stack.Screen
         name="Onboarding"
@@ -46,7 +44,7 @@ const CreatePactStack = ({ updateAuthState, logout, route, navigation }) => {
           header: (props) => <Header title="" noBack {...props} />,
         })}
         component={Onboarding}
-        initialParams={{ user: currentUser, status: 'signed in' }}
+        initialParams={{ user: currentUser, status: "signed in" }}
       />
       <Stack.Screen
         name="New"
@@ -138,7 +136,7 @@ const CreatePactStack = ({ updateAuthState, logout, route, navigation }) => {
         )}
       </Stack.Screen>
     </Stack.Navigator>
-  )
-}
+  );
+};
 
-export default CreatePactStack
+export default CreatePactStack;
