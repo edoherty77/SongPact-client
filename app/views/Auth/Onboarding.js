@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
 // MODEL
 import UserModel from "../../api/users";
 
